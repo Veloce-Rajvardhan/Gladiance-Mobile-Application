@@ -1,0 +1,102 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/SCREEN"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.gladiance.ui.fragment.MyProfile.SetMoodFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="5dp"
+        style="@style/MyButtonStyle"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/_20sdp"
+            android:text="Automation"
+            style="@style/TEXT"
+            android:textSize="@dimen/_17sdp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/scheduling"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/GreyLightButtonStyle"
+            android:text="Scheduling"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_12sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/WhiteButtonStyle"
+            android:text="Set Your Mood"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_12sdp"/>
+
+
+    </LinearLayout>
+
+ <ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/_5sdp"
+     app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_sceneList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_scene" />
+ </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/fragment_scheduling"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/edit_scene"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

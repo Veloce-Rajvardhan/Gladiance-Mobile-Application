@@ -1,0 +1,136 @@
+plugins {
+    id 'com.android.application'
+}
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+def defaultBaseUrl = "https://api.rainmaker.espressif.com"
+def defaultAuthUrl = "https://3pauth.rainmaker.espressif.com"
+def defaultClaimBaseUrl = "https://esp-claiming.rainmaker.espressif.com"
+
+def defaultUserPool = "2"
+
+android {
+    compileSdkVersion 34
+
+    defaultConfig {
+        applicationId "com.gladiance"
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "boolean", "isLocalControlSupported", localProperties.getProperty("isLocalControlSupported", "true")
+
+        def authUrl = localProperties.getProperty("authUrl", defaultAuthUrl)
+        // Alexa App Linking Configurations
+        buildConfigField "String", "ALEXA_CLIENT_ID", '"' + localProperties.getProperty("alexaClientId") + '"'
+        buildConfigField "String", "ALEXA_CLIENT_SECRET", '"' + localProperties.getProperty("alexaClientSecret") + '"'
+        buildConfigField "String", "ALEXA_REDIRECT_URL", '"' + localProperties.getProperty("alexaRedirectUrl") + '"'
+        buildConfigField "String", "ALEXA_RM_CLIENT_ID", '"' + localProperties.getProperty("alexaRMClientId") + '"'
+        buildConfigField "String", "SKILL_ID", '"' + localProperties.getProperty("skillId") + '"'
+        buildConfigField "String", "SKILL_STAGE", '"' + localProperties.getProperty("skillStage") + '"'
+        buildConfigField "String", "ALEXA_ACCESS_TOKEN_URL", '"' + localProperties.getProperty("alexaAccessTokenUrl") + '"'
+        buildConfigField "String", "AUTH_URL", '"' + authUrl + '"'
+        // User pool selection
+        def userPool = localProperties.getProperty("userPool", defaultUserPool)
+        buildConfigField "String", "USER_POOL", '"' + userPool + '"'
+        buildConfigField "String", "CLAIM_BASE_URL", '"' + localProperties.getProperty("claimBaseUrl", defaultClaimBaseUrl) + '"'
+        buildConfigField "String", "BASE_URL", '"' + localProperties.getProperty("baseUrl", defaultBaseUrl) + '"'
+        buildConfigField "boolean", "isNodeGroupingSupported", localProperties.getProperty("isNodeGroupingSupported", "true")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "proof_of_possesion", "abcd1234"
+            resValue "string", "wifi_base_url", "192.168.4.1:80"
+            resValue "string", "wifi_device_name_prefix", "PROV_"
+            resValue "string", "ble_device_name_prefix", "PROV_"
+            buildConfigField "boolean", "isQrCodeSupported", "true"
+            buildConfigField "boolean", "isSettingsAllowed", "true"
+            buildConfigField "boolean", "isFilteringByPrefixAllowed", "true"
+            buildConfigField "boolean", "isNodeGroupingSupported", localProperties.getProperty("isNodeGroupingSupported", "true")
+        }
+        debug {
+            debuggable true
+            resValue "string", "proof_of_possesion", "abcd1234"
+            resValue "string", "wifi_base_url", "192.168.4.1:80"
+            resValue "string", "wifi_device_name_prefix", "PROV_"
+            resValue "string", "ble_device_name_prefix", "PROV_"
+            buildConfigField "boolean", "isQrCodeSupported", "true"
+            buildConfigField "boolean", "isSettingsAllowed", "true"
+            buildConfigField "boolean", "isFilteringByPrefixAllowed", "true"
+        }
+    }
+    namespace 'com.gladiance'
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.preference:preference:1.1.1'
+
+    implementation 'com.google.protobuf:protobuf-javalite:3.18.0'
+    implementation 'com.google.crypto.tink:tink-android:1.6.1'
+    implementation project(path: ':provisioning')
+
+    implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'
+    implementation 'com.github.firdausmaulan:AVLoadingIndicatorView:2.3.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    // Room dependencies
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //Gladiance Dependancy
+    implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+
+    //google signup and login
+    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+
+    //Responsive size image and layout
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    //Responsive text
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    //circular seekbar
+    //implementation 'me.hiennguyen.circleseekbar:circleseekbar:1.0.1'
+
+    //OR Code
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+    //git qr code
+
+    //vlc player
+    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
+    implementation group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+
+    def work_version = "2.7.1"
+    implementation "androidx.work:work-runtime:$work_version"
+
+}
