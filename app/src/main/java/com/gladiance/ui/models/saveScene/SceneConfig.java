@@ -21,6 +21,14 @@ public class SceneConfig {
     @Expose
     private String value;
 
+    public SceneConfig(Long gAAProjectSceneRef, Long gAAProjectSpaceTypePlannedDeviceRef, String nodeConfigDeviceName, String nodeConfigParamName, String value) {
+        this.gAAProjectSceneRef = gAAProjectSceneRef;
+        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+        this.nodeConfigDeviceName = nodeConfigDeviceName;
+        this.nodeConfigParamName = nodeConfigParamName;
+        this.value = value;
+    }
+
     public Long getgAAProjectSceneRef() {
         return gAAProjectSceneRef;
     }

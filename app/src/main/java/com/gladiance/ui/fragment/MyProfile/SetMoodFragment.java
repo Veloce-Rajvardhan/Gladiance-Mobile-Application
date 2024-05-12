@@ -21,9 +21,10 @@ import android.widget.Button;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.adapters.SceneConfigAdapter;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
-import com.gladiance.ui.adapters.SceneAdapter;
+
 import com.gladiance.R;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class SetMoodFragment extends Fragment {
                             arrayList.add(new ObjectTag(objectTag.getRef(),objectTag.getName(),objectTag.getgAAProjectRef(),objectTag.getCode(),objectTag.getIsSystemDefinedScene(),objectTag.getgAAProjectSpaceTypeRef(),objectTag.getgAAProjectSpaceTypeName(),objectTag.getgAAProjectName(),objectTag.getConfigurations()));
                         }
 
-                        SceneAdapter spaceAdapter = new SceneAdapter(arrayList,context);
+                        SceneConfigAdapter spaceAdapter = new SceneConfigAdapter(arrayList);
                         recyclerView.setAdapter(spaceAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);

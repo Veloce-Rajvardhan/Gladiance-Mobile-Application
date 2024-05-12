@@ -126,7 +126,7 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
 
-    @POST("savescene")
+    @POST("mobileapp/savescene")
     Call<SceneResModel> saveScene(@Body SaveSceneRequest saveSceneRequest);
 
     @POST("mobileapp/activatescene/{gaaProjectSceneRef}/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")

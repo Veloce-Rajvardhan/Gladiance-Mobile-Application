@@ -9,7 +9,7 @@ import java.util.List;
 public class SaveSceneRequest {
     @SerializedName("Ref")
     @Expose
-    private BigInteger ref;
+    private Long ref;
     @SerializedName("Name")
     @Expose
     private String name;
@@ -20,11 +20,17 @@ public class SaveSceneRequest {
     @Expose
     private List<SceneConfig> configurations;
 
-    public BigInteger getRef() {
+    public SaveSceneRequest(Long ref, String name, Long gAAProjectSpaceTypeRef, List<SceneConfig> configurations) {
+        this.ref = ref;
+        this.name = name;
+        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
+        this.configurations = configurations;
+    }
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(BigInteger ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 

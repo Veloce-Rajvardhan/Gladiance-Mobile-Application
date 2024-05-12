@@ -16,6 +16,8 @@ package com.gladiance;
 
 import com.gladiance.BuildConfig;
 
+import java.util.ArrayList;
+
 public class AppConstants {
 
     // Keys used to pass data between activities and to store data in SharedPreference.
@@ -393,6 +395,17 @@ public class AppConstants {
 
     public static final String URL_USER_NODE_MAPPING = BuildConfig.BASE_URL + AppConstants.PATH_SEPARATOR
             + AppConstants.CURRENT_VERSION + "/user/nodes/mapping";
+
+    public static String Ref_dyn;
+    public static String Name_dyn;
+    public static String SceneRef;
+    public static String Space_dyn;
+    public static String projectSpaceTypePlannedDeviceName;
+    public static String GaaProjectSpaceTypePlannedDeviceRef;
+    public static String powerState;
+    public static String power;
+
+    public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();
 
 //    private static AppConstants instance;
 //    private String yourString;

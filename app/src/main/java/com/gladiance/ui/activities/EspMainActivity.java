@@ -462,6 +462,11 @@ public class EspMainActivity extends AppCompatActivity {
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
+        Bundle bundle = getIntent().getExtras();
+        AppConstants.powerState = String.valueOf(powerState);
+        AppConstants.power = String.valueOf(power);
+        bundle.putStringArrayList("constantData", AppConstants.MY_CONSTANT_LIST);
+
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
         // Create a RequestModel with the required data
