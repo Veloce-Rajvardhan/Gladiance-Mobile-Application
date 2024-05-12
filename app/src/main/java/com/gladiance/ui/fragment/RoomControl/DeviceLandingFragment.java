@@ -107,8 +107,11 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
 
         fetchInstallerControlsType(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
-        //fetchControls(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
-        //fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+
+        if (gAAProjectSpaceTypeAreaRef == 0)
+        {
+
+        }
 
 
         return view;

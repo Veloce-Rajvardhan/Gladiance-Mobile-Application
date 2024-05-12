@@ -4,13 +4,13 @@
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
             <stroke android:width="@dimen/_3ssp" android:color="#FF9800" />
-            <solid android:color="@android:color/darker_gray" /> <!-- Background color when pressed -->
+            <solid android:color="@color/dark_grey" /> <!-- Background color when pressed -->
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
-            <solid android:color="@android:color/darker_gray" /> <!-- Default background color -->
+            <solid android:color="@color/dark_grey" /> <!-- Default background color -->
         </shape>
     </item>
 </selector>

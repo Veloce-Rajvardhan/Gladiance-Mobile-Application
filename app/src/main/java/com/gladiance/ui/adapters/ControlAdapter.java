@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
@@ -50,8 +51,15 @@ public class ControlAdapter extends RecyclerView.Adapter<ControlAdapter.ViewHold
         holder.deviceNameTextView.setText(control.getControlTypeName());
 
 
-        holder.itemView.setBackgroundResource(selectedPosition == position ? R.drawable.border_highlight : 0);
+        boolean isNightModeEnabled = true;
 
+        if (selectedPosition == position) {
+            holder.deviceNameTextView.setBackgroundResource(isNightModeEnabled ? R.drawable.white_button_bg_round : R.drawable.black_button_bg_round);
+            holder.deviceNameTextView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.color_black : R.color.white));
+        } else {
+            holder.deviceNameTextView.setBackgroundResource(isNightModeEnabled ? R.drawable.black_button_bg_round : R.drawable.white_button_bg_round);
+            holder.deviceNameTextView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.white : R.color.color_black));
+        }
         
 
         holder.deviceNameTextView.setOnClickListener(new View.OnClickListener() {

@@ -19,14 +19,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        a = AnimationUtils.loadAnimation(this,R.anim.top_slide);
+       // a = AnimationUtils.loadAnimation(this,R.anim.top_slide);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.top_slide,0);
+              //  overridePendingTransition(R.anim.top_slide,0);
                 finish();
             }
         }, 1000);

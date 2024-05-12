@@ -71,6 +71,7 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
         arrayList = new ArrayList<>();
         spinner = view.findViewById(R.id.areaSpinner);
 
+
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
@@ -116,6 +117,20 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
                         arrayList.add(new Area(area.getGAAProjectSpaceTypeAreaRef(), area.getGAAProjectSpaceTypeAreaName(), area.getWifiSSID(), area.getWifiPassword(), area.getGuestControls(), area.getInstallerControls()));
 
                         if (areas.size() == 1){
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
+                                    Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
+                                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.container, newFragment);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                            }, 700);
+
+                        }else{
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -123,21 +138,13 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
                                     // Retrieve the selected area reference
                                     String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
                                     // Pass the value to the click listener interface method
-
                                     Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
                                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                                     transaction.replace(R.id.container, newFragment);
                                     transaction.addToBackStack(null);
                                     transaction.commit();
-
-                                    Log.e(TAG, "SpaceGroup 11");
-
-                                    //bottomNavigation.show(3, true);
-
-
                                 }
                             }, 700);
-
                         }
 
                     }
@@ -174,12 +181,12 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
     @Override
     public void onAreaSelected(String selectedAreaRef) {
         // Handle the selected area reference here
-
         Fragment newFragment = DeviceLandingFragment.newInstance(getContext(),Long.valueOf(selectedAreaRef));
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, newFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
         dismissSpinnerDropDown(spinner);
     }
 

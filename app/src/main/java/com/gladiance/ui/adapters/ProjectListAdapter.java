@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,12 +56,13 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView projectNameTextView;
         LinearLayout llProjectName;
+        ImageView imgPN;
         Context mContext;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             projectNameTextView = itemView.findViewById(R.id.projectList);
             llProjectName = itemView.findViewById(R.id.llProjectName);
-
+            imgPN = itemView.findViewById(R.id.imgPN);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,6 +92,15 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                             textColor = context.getResources().getColor(R.color.TextOrangeColor);
                         }
                         projectNameTextView.setTextColor(textColor);
+
+                        // Change image here
+                        if (isNightModeEnabled(context)) {
+                            // Change to night mode image
+                            imgPN.setImageResource(R.drawable.homeorange);
+                        } else {
+                            // Change to day mode image
+                            imgPN.setImageResource(R.drawable.homeorange);
+                        }
 
 
 

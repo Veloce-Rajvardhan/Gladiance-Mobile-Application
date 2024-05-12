@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,11 +53,12 @@ public class ProjectSpaceGroupListAdapter extends RecyclerView.Adapter<ProjectSp
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView spaceGroupNameTextView;
         LinearLayout llSpaceGroupName;
+        ImageView imgSN;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             spaceGroupNameTextView = itemView.findViewById(R.id.projectSpaceGroupList);
             llSpaceGroupName = itemView.findViewById(R.id.llSpaceGroupName);
-
+            imgSN = itemView.findViewById(R.id.imgSN);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -88,6 +90,15 @@ public class ProjectSpaceGroupListAdapter extends RecyclerView.Adapter<ProjectSp
                             textColor = context.getResources().getColor(R.color.TextOrangeColor);
                         }
                         spaceGroupNameTextView.setTextColor(textColor);
+
+                        // Change image here
+                        if (isNightModeEnabled(context)) {
+                            // Change to night mode image
+                            imgSN.setImageResource(R.drawable.homeorange);
+                        } else {
+                            // Change to day mode image
+                            imgSN.setImageResource(R.drawable.homeorange);
+                        }
 
                         // Start the activity
                         Intent intent = new Intent(context, NavBarActivity.class);

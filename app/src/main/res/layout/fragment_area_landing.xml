@@ -37,8 +37,10 @@
         android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_18sdp"
         android:background="@drawable/bg_spinner"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"  />
+
 
     <FrameLayout
         android:id="@+id/container"

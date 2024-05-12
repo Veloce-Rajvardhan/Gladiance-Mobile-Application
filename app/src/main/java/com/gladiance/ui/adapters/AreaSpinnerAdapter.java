@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.gladiance.R;
 import com.gladiance.ui.models.arealandingmodel.Area;
 
 import java.util.List;
