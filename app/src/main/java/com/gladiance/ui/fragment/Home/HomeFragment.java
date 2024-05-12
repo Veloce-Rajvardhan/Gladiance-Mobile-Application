@@ -140,7 +140,7 @@ public class HomeFragment extends Fragment  {
         Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
 
         getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
-        //getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
+        getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
 
         return view;
     }
