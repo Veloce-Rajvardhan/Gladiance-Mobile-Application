@@ -134,10 +134,7 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // the current activity will get finished.
-                                    // Retrieve the selected area reference
                                     String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
-                                    // Pass the value to the click listener interface method
                                     Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
                                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                                     transaction.replace(R.id.container, newFragment);

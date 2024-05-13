@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.ui.activities.EspMainActivity;
+import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
@@ -139,12 +140,33 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             deviceNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+//                    int textColor = context.getResources().getColor(R.color.TextOrangeColor);
+//                    if (isNightModeEnabled(context)) {
+//                        textColor = context.getResources().getColor(R.color.TextOrangeColor);
+//                    }
+//                    deviceNameTextView.setTextColor(textColor);
+//
+//                    Intent intent = new Intent(context, EspMainActivity.class);
+//                    context.startActivity(intent);
                 }
             });
         }
     }
 
-
+//    private boolean isNightModeEnabled(Context context) {
+//        int currentNightMode = context.getResources().getConfiguration().uiMode
+//                & Configuration.UI_MODE_NIGHT_MASK;
+//        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+//    }
+//
+//    private Drawable getDrawableForTheme(Context context, @DrawableRes int drawableResId) {
+//        if (isNightModeEnabled(context)) {
+//            // Load night mode drawable
+//            return ContextCompat.getDrawable(context, R.drawable.new_border_button_background_night);
+//        } else {
+//            // Load day mode drawable
+//            return ContextCompat.getDrawable(context, drawableResId);
+//        }
+//    }
 
 }

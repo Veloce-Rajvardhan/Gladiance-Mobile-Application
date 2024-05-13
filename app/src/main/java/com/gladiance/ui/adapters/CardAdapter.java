@@ -23,6 +23,7 @@ import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
 import com.gladiance.ui.activities.DeviceControls.BellActivity;
 import com.gladiance.ui.activities.DeviceControls.CurtainActivity;
 import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
+import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.models.Devices;
@@ -65,7 +66,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEW_TYPE_FIVE;
         } else if (title.equals("esp.device.bellcontrol")) {
             return VIEW_TYPE_SIX;
-        } else if (title.equals("esp.device.thermostat")) {
+        } else if (title.equals("e.d.ther")) {
             return VIEW_TYPE_SEVEN;
         } else {
             return VIEW_TYPE_FOUR;
@@ -323,7 +324,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.apply();
 
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, AirContiningActivity.class);
+                        Intent intent = new Intent(context, RGBLightActivity.class);
                         context.startActivity(intent);
                     }
                 }

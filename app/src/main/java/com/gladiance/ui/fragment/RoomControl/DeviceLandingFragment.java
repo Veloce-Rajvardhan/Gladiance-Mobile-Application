@@ -87,6 +87,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         DeviceName.setVisibility(View.GONE);
         List<GuestControls> controlsList = new ArrayList<>();
 
+        DeviceName.setTextColor(R.style.TEXT);
+
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "Project Space GUID/LoginDeviceId: " + GUID);
@@ -207,13 +209,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
     @Override
     public void onControlTypeClicked(GuestControls control) {
-        // Filter Controls based on the selected ControlType
-        /*List<Controls> filteredControls = control.getControls();
 
-
-        guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-        DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
-        guestRecyclerView.setAdapter(deviceControlAdapter);*/
     }
 
 
