@@ -114,7 +114,7 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
 
                         //add arraylist code and create space group class
 
-                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList);
+                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getApplicationContext());
                         rVSpaceName.setAdapter(projectSpaceNameAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceLandingActivity.this, 1, GridLayoutManager.VERTICAL, false);
                         rVSpaceName.setLayoutManager(gridLayoutManager1);

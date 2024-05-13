@@ -29,10 +29,13 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
 
     private static List<SpaceLanding> arraylist;
     private int selectedPosition = RecyclerView.NO_POSITION;
+    private Context context;
 
 
-    public ProjectSpaceNameAdapter(List<SpaceLanding> arraylist) {
+    public ProjectSpaceNameAdapter(List<SpaceLanding> arraylist,Context context) {
         this.arraylist = arraylist;
+        this.context = context;
+
     }
 
     @NonNull
@@ -85,13 +88,16 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
 
 
                         spaceNameTextView.setBackground(getDrawableForTheme(view.getContext(), R.drawable.transparent_button_background));
+                        boolean isNightModeEnabled = true;
+                        spaceNameTextView.setBackgroundResource(isNightModeEnabled ? R.drawable.white_button_bg_round : R.drawable.black_button_bg_round);
+                        spaceNameTextView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.color_black : R.color.white));
 
                         // Change text color of clicked text view based on theme
-                        int textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
-                        if (isNightModeEnabled(view.getContext())) {
-                            textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
-                        }
-                        spaceNameTextView.setTextColor(textColor);
+//                        int textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
+//                        if (isNightModeEnabled(view.getContext())) {
+//                            textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
+//                        }
+//                        spaceNameTextView.setTextColor(textColor);
 
 
 

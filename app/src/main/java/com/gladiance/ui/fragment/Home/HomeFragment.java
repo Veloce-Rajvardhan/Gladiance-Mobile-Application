@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment  {
 
                         //add arraylist code and create space group class
 
-                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList);
+                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getContext());
                         recyclerViewSpaceName.setAdapter(projectSpaceNameAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
                         recyclerViewSpaceName.setLayoutManager(gridLayoutManager1);
