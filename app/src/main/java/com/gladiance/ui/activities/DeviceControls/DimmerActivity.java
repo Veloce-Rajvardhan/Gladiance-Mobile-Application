@@ -54,8 +54,10 @@ public class DimmerActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBarDimmer);
         textView = findViewById(R.id.textView);
         lampImg = findViewById(R.id.dimmer1);
-        seekBar.setVisibility(View.GONE);
-        lampImg.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
+
+
+        disableSeekBars();
 
         //Dimmer ON/OFF Code
         dimmerswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -66,13 +68,13 @@ public class DimmerActivity extends AppCompatActivity {
                 dimmerState(isChecked);
                 if (isChecked) {
                     // Switch is ON, so make the seekBar visible and lampImg visible
-                    seekBar.setVisibility(View.VISIBLE);
-                    lampImg.setVisibility(View.VISIBLE);
+                   enableSeekBars();
+
                     textView.setVisibility(View.VISIBLE);
                 } else {
                     // Switch is OFF, so hide the seekBar and lampImg
-                    seekBar.setVisibility(View.GONE);
-                    lampImg.setVisibility(View.GONE);
+                   disableSeekBars();
+
                     textView.setVisibility(View.GONE);
                 }
             }
@@ -268,6 +270,15 @@ public class DimmerActivity extends AppCompatActivity {
 //                Toast.makeText(DimmerActivity.this, "Network error", Toast.LENGTH_SHORT).show();
 //            }
 //        });
+    }
+
+    private void disableSeekBars() {
+        seekBar.setEnabled(false);
+    }
+
+    // Function to enable all SeekBars
+    private void enableSeekBars() {
+        seekBar.setEnabled(true);
     }
 
     private void handleApiResponse(ResponseModel responseModel) {

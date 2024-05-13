@@ -323,7 +323,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.apply();
 
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, AirContiningActivity.RGBLightActivity.class);
+                        Intent intent = new Intent(context, AirContiningActivity.class);
                         context.startActivity(intent);
                     }
                 }

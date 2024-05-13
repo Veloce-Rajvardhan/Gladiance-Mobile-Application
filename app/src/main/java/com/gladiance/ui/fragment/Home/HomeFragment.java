@@ -130,10 +130,7 @@ public class HomeFragment extends Fragment  {
        // textViewProjectName.setText(projectNameOne);
         Log.e(TAG, "Project Ref Name: "+projectNameOne );
 
-        SharedPreferences  sharedPreferences7 = requireContext().getSharedPreferences("MyPrefsPSGR", MODE_PRIVATE);
-        String saveProjectSpaceGroupRef = sharedPreferences7.getString("SPACE_GROUP_REF", "");
-        Log.e(TAG, "Project Space Group Ref: "+saveProjectSpaceGroupRef );
-        String gaaProjectSpaceGroupRef = saveProjectSpaceTypeRef.trim();
+
 
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
         String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");

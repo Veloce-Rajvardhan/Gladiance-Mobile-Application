@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gladiance">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gladiance">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,7 +29,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.activities.DeviceControls.RGBLightActivity"
+            android:exported="true">
 
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name="com.gladiance.ui.activities.AlexaLinking.AlexaAppLinkingActivity"
             android:exported="false"
@@ -127,27 +135,29 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.BellActivity"
+            android:name=".ui.activities.DeviceControls.BellActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.AirContiningActivity"
-            android:exported="false">
+            android:name=".ui.activities.DeviceControls.AirContiningActivity"
+            android:exported="true">
+
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.AirContiningActivity$RGBLightActivity"
+            android:name=".ui.activities.DeviceControls.DimmerActivity"
             android:exported="true">
 
             <meta-data
@@ -155,24 +165,15 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.DimmerActivity"
-            android:exported="true">
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.CurtainActivity"
+            android:name=".ui.activities.DeviceControls.CurtainActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.gladiance.ui.activities.DeviceControls.FanActivity"
+            android:name=".ui.activities.DeviceControls.FanActivity"
             android:exported="true">
-
 
 
             <meta-data
@@ -225,8 +226,6 @@
             android:label="@string/title_activity_pop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
     </application>
 
 </manifest>

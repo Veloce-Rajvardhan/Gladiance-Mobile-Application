@@ -63,6 +63,12 @@ public class FanActivity extends AppCompatActivity {
         espApp = new EspApplication(getApplicationContext());
         fanswitch = findViewById(R.id.switchButtonFan);
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
+        incrementButton = findViewById(R.id.incrementButton);
+        decrementButton = findViewById(R.id.decrementButton);
+
+        disableSeekBars();
+
+
         //Set a listener on the switch button
         fanswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -70,13 +76,16 @@ public class FanActivity extends AppCompatActivity {
                 // Handle switch state change
                 Log.d(TAG, "onCheckedChanged: "+isChecked);
                 sendSwitchState(isChecked);
+                if (isChecked) {
+                    enableSeekBars();
+                } else {
+                    disableSeekBars();
+                }
             }
         });
 
         //Progress Bar Code
         progressBar = findViewById(R.id.progressBar);
-        incrementButton = findViewById(R.id.incrementButton);
-        decrementButton = findViewById(R.id.decrementButton);
         progressTextView = findViewById(R.id.progressTextView);
 
         updateProgressText();
@@ -254,6 +263,19 @@ public class FanActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+    private void disableSeekBars() {
+        incrementButton.setEnabled(false);
+        decrementButton.setEnabled(false);
+
+    }
+
+    private void enableSeekBars() {
+        incrementButton.setEnabled(true);
+        decrementButton.setEnabled(true);
+
+    }
+
 
     private void handleApiResponse(ResponseModel responseModel) {
         // Handle the response as needed

@@ -72,7 +72,7 @@ public class BasicInfoFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
-        Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+        Log.e(TAG, "BaLoginDeviceId: "+ GUID);
         String loginDeviceId = GUID.trim();
 
         SharedPreferences  sharedPreferences2 = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
@@ -202,8 +202,19 @@ public class BasicInfoFragment extends Fragment {
                     if (logoutResponse.isSuccessful()) {
                         Toast.makeText(requireContext(), "Logout successful", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(intent);
+                        SharedPreferences.Editor editor1 = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+                        editor1.clear();
+                        editor1.apply();
+
+                        SharedPreferences.Editor editor2 = getActivity().getSharedPreferences("MyPreferences", MODE_PRIVATE).edit();
+                        editor2.clear();
+                        editor2.apply();
+
+
+//                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                        startActivity(intent);
+                       // getActivity().finish();
+                        getActivity().finishAffinity();
 
                     } else {
                         Toast.makeText(requireContext(), "Logout failed: " + logoutResponse.getMessage(), Toast.LENGTH_SHORT).show();

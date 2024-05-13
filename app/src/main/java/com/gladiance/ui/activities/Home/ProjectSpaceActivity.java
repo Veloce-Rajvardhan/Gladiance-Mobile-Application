@@ -87,7 +87,7 @@ public class ProjectSpaceActivity extends AppCompatActivity {
         String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
         userName.setText(savedUserDeviceName);
         Log.e(TAG, "User Device Name2: "+savedUserDeviceName );
-        String userDeviceName = savedUserDeviceName.trim();
+
 
 
         getProjectName(loginToken,loginDeviceId);
@@ -196,7 +196,7 @@ public class ProjectSpaceActivity extends AppCompatActivity {
     private void navigateToNextActivity(String projectRef,String projectName) {
         storeProjectRef(projectRef);
         storeProjectName(projectName);
-        Intent intent = new Intent(ProjectSpaceActivity.this, NavBarActivity.class);
+        Intent intent = new Intent(ProjectSpaceActivity.this, ProjectSpaceActivity.class);
         startActivity(intent);
        // finish();
 

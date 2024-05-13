@@ -368,8 +368,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
+
     @Override
     public void onBackPressed() {
-        finishAffinity(); // Close the app when back button is pressed
+        // Close the app when the back button is pressed
+        finishAffinity();
     }
 }
