@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
@@ -26,6 +27,8 @@ import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.scene.ObjectScenes;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class DeviceCardFragment extends Fragment {
     String nodeId2;
     NetworkApiManager networkApiManager;
     private EspApplication espApp;
+    private ObjectScenes objectScenes;
 
     private static DeviceCardFragment instance;
 
@@ -149,6 +153,39 @@ public class DeviceCardFragment extends Fragment {
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
+        try {
+            AppConstants.powerState = power;
+            AppConstants.power = String.valueOf(powerState);
+            Log.d("TAG", "PowerState: " + AppConstants.powerState);
+            Log.d("TAG", "Power: " + AppConstants.power);
+
+            Log.e("APPCONSTS",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS",""+ AppConstants.Name_dyn);
+            Log.e("APPCONSTS",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS",""+AppConstants.powerState);
+            Log.e("APPCONSTS",""+AppConstants.power);
+
+
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+
+            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
