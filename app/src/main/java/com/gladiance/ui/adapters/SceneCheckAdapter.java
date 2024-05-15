@@ -17,11 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
 import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
+import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.lnstallerlandingpage.Controls;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.R;
@@ -257,19 +262,51 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
                     //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
 
-                    Intent intent = new Intent(holder.itemView.getContext(), EspMainActivity.class);
 
-                    // Put the long value as an extra in the Intent
-                    intent.putExtra("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
-                    //  Bundle bundle = new Bundle();
-                    //    bundle.putSerializable("myArrayList", mDa);
+                    //edit from here
+                    Fragment fragment = new DeviceCardFragment();
 
-// Put the Bundle into the Intent
-                    intent.putExtras(bundle);
+                 //   Bundle bundle = new Bundle();
+                    // Pass the sceneRef to the next fragment using fragment arguments
+                    //   Bundle bundle = new Bundle();
+//                    bundle.putString("SCENE_REF", sceneRefString);
+//                    fragment.setArguments(bundle);
+
+
+                    //   bundle.putStringArrayList("myArrayList", newList);
+
+                    // Create the destination fragment instance
+                    bundle.putLong("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
+                    Fragment destinationFragment = new DeviceCardFragment();
+                    destinationFragment.setArguments(bundle);
+                    //destinationFragment.
+
+                    FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.DeviceCardScene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
+                            .commit();
+
+                    //to here
+
+                    /////---------///////////////------
+
+//                    Intent intent = new Intent(holder.itemView.getContext(), EspMainActivity.class);
+//
+//                    // Put the long value as an extra in the Intent
+//                    intent.putExtra("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
+//                    //  Bundle bundle = new Bundle();
+//                    //    bundle.putSerializable("myArrayList", mDa);
+//
+//// Put the Bundle into the Intent
+//                    intent.putExtras(bundle);
+
+                   //////// -------///////////////////------
+
                     //intent.putExtra("objScene",objScenes);
                     // Start EspMainActivity with the Intent
-                    holder.itemView.getContext().startActivity(intent);
 
+                    //-----------////////
+                    ///   holder.itemView.getContext().startActivity(intent);
+                /////////-----
                 }
             }
 
