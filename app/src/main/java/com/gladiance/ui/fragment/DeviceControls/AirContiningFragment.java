@@ -1,15 +1,15 @@
-package com.gladiance.ui.activities.DeviceControls;
+package com.gladiance.ui.fragment.DeviceControls;
 
 import static android.content.ContentValues.TAG;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
@@ -18,6 +18,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
@@ -25,47 +29,45 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
 
-public class AirContiningActivity extends AppCompatActivity {
+public class AirContiningFragment extends Fragment {
 
-    Switch switchAirConditioning;
-
-    String nodeId;
+    private Switch switchAirConditioning;
     private ProgressBar progressBar;
     private Button incrementButton, decrementButton;
-    TextView progressTextView;
+    private TextView progressTextView, textView, textViewMood, textViewUnit;
+    private SeekBar seekbarAirCond;
+    private Button buttonCool, buttonHeat, buttonCon, buttonfah;
+
+    private String nodeId;
     private int progress = 64;
-    NetworkApiManager networkApiManager;
 
-
-    TextView textView, textViewMood, textViewUnit;
-    SeekBar seekbarAirCond;
-    private String[] progressStates = {"Off", "Low", "Mid", "High"};
-
-    Button buttonCool, buttonHeat, buttonCon, buttonfah;
-
-    Context context = this;
+    private NetworkApiManager networkApiManager;
+    private Context context;
     private EspApplication espApp;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_air_contining);
+    private final String[] progressStates = {"Off", "Low", "Mid", "High"};
 
-        SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_air_contining, container, false);
+
+        context = getContext();
+        espApp = new EspApplication(context.getApplicationContext());
+        networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
+
+        SharedPreferences preferences2 = context.getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
-        espApp = new EspApplication(getApplicationContext());
-        networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
-
-        incrementButton = findViewById(R.id.incrementButton);
-        decrementButton = findViewById(R.id.decrementButton);
-        seekbarAirCond = findViewById(R.id.seekBarAirCond);
+        incrementButton = view.findViewById(R.id.incrementButton);
+        decrementButton = view.findViewById(R.id.decrementButton);
+        seekbarAirCond = view.findViewById(R.id.seekBarAirCond);
 
         disableSeekBars();
 
         //Set a AirCondition on the switch button
-        switchAirConditioning = findViewById(R.id.switchButtonAirCon);
+        switchAirConditioning = view.findViewById(R.id.switchButtonAirCon);
         switchAirConditioning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,9 +83,9 @@ public class AirContiningActivity extends AppCompatActivity {
         });
 
         //Progress Bar Code
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = view.findViewById(R.id.progressBar);
 
-        progressTextView = findViewById(R.id.progressTextView);
+        progressTextView = view.findViewById(R.id.progressTextView);
 
         updateProgressText();
 
@@ -91,7 +93,6 @@ public class AirContiningActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 incrementProgress();
-
             }
         });
 
@@ -99,38 +100,19 @@ public class AirContiningActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 decrementProgress();
-
             }
         });
 
         //Seek Bar AirCondition
-
-
-        textView = findViewById(R.id.textViewFan);
-
-        // String progress1;
+        textView = view.findViewById(R.id.textViewFan);
 
         seekbarAirCond.setMax(progressStates.length - 1);
         seekbarAirCond.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textView.setText(progressStates[progress]);
-                if (progress == 0) {
-                    String progress1 = "Off";
-                    airConditioningProgress(progress1);
-
-                } else if (progress == 1) {
-                    String progress1 = "Low";
-                    airConditioningProgress(progress1);
-
-                } else if (progress == 2) {
-                    String progress1 = "Mid";
-                    airConditioningProgress(progress1);
-
-                } else {
-                    String progress1 = "High";
-                    airConditioningProgress(progress1);
-                }
+                String progressState = progressStates[progress];
+                airConditioningProgress(progressState);
             }
 
             @Override
@@ -146,16 +128,15 @@ public class AirContiningActivity extends AppCompatActivity {
 
         //Button Cool Heat Code
 
-        buttonCool = findViewById(R.id.buttonCool);
-        buttonHeat = findViewById(R.id.buttonHeat);
-        textViewMood = findViewById(R.id.textMode);
+        buttonCool = view.findViewById(R.id.buttonCool);
+        buttonHeat = view.findViewById(R.id.buttonHeat);
+        textViewMood = view.findViewById(R.id.textMode);
 
         buttonCool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 textViewMood.setText("Cool");
-                String mood = "Cool";
-                sendMood(mood);
+                sendMood("Cool");
             }
         });
 
@@ -163,21 +144,19 @@ public class AirContiningActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 textViewMood.setText("Heat");
-                String mood = "Heat";
-                sendMood(mood);
+                sendMood("Heat");
             }
         });
 
-        textViewUnit = findViewById(R.id.textUnit);
-        buttonfah = findViewById(R.id.buttonFehr);
-        buttonCon = findViewById(R.id.buttonCCent);
+        textViewUnit = view.findViewById(R.id.textUnit);
+        buttonfah = view.findViewById(R.id.buttonFehr);
+        buttonCon = view.findViewById(R.id.buttonCCent);
 
         buttonCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 textViewUnit.setText("Centigrade");
-                String mood = "Centigrade";
-                sendUnit(mood);
+                sendUnit("Centigrade");
             }
         });
 
@@ -185,10 +164,11 @@ public class AirContiningActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 textViewUnit.setText("Fahrenheit");
-                String mood = "Fahrenheit";
-                sendUnit(mood);
+                sendUnit("Fahrenheit");
             }
         });
+
+        return view;
     }
 
     private void incrementProgress() {
@@ -212,54 +192,44 @@ public class AirContiningActivity extends AppCompatActivity {
     }
 
     private void updateProgressText() {
-        progressTextView.setText("" + progress + "");
+        progressTextView.setText(String.valueOf(progress));
     }
 
     //AirCondition Set Mood Method
     private void sendMood(String mood) {
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
-
         String commandBody = "{\"" + name + "\": {\"Mode\":\"" + mood + "\"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
-
-
     }
 
     //AirCondition Unit Method
     private void sendUnit(String unit) {
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
         String commandBody = "{\"" + name + "\": {\"Unit\":\"" + unit + "\"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
-
-
     }
 
-    //Air Condition  Progress
     private void airConditioningProgress(String progress1) {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : " + name);
 
@@ -267,7 +237,7 @@ public class AirContiningActivity extends AppCompatActivity {
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
@@ -276,17 +246,16 @@ public class AirContiningActivity extends AppCompatActivity {
 
     }
 
-    //AirCondition Temp Speed Method
     private void sendTemperature(int fanSpeed) {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Set\": " + fanSpeed + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
@@ -298,7 +267,7 @@ public class AirContiningActivity extends AppCompatActivity {
     private void sendSwitchState(boolean powerState) {
         // Create a RequestModel with the required data
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : " + name);
 
@@ -306,7 +275,7 @@ public class AirContiningActivity extends AppCompatActivity {
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
@@ -337,10 +306,10 @@ public class AirContiningActivity extends AppCompatActivity {
             Log.d(TAG, "handleApiResponse: " + responseModel.getSuccessful());
             Log.d(TAG, "handleApiResponse: " + responseModel.getTag());
 
-            Toast.makeText(this, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Switch state updated successfully", Toast.LENGTH_SHORT).show();
         } else {
             // Handle unsuccessful response
-            Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
 

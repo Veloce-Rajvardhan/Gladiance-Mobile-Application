@@ -1,18 +1,22 @@
-package com.gladiance.ui.activities.DeviceControls;
+package com.gladiance.ui.fragment.DeviceControls;
 
 import static android.content.ContentValues.TAG;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
@@ -26,50 +30,46 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BellActivity extends AppCompatActivity {
+public class BellFragment extends Fragment {
 
-    Switch bellswitch, serviceswitch;
-    Button button;
-    String nodeId;
-    NetworkApiManager networkApiManager;
-
-    Context context = this;
+    private Switch bellswitch, serviceswitch;
+    private Button button;
+    private String nodeId;
+    private NetworkApiManager networkApiManager;
+    private Context context;
     private EspApplication espApp;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bell);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_bell, container, false);
 
-        button = findViewById(R.id.btn_true);
-        bellswitch = findViewById(R.id.btn_switch);
-        serviceswitch = findViewById(R.id.btn_switch2);
-
-        espApp = new EspApplication(getApplicationContext());
+        context = getContext();
+        espApp = new EspApplication(context.getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
-        SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
-        nodeId = preferences2.getString("nodeId", "");
-        Log.d(TAG, "Fannodeee: "+nodeId);
+        button = view.findViewById(R.id.btn_true);
+        bellswitch = view.findViewById(R.id.btn_switch);
+        serviceswitch = view.findViewById(R.id.btn_switch2);
 
+        SharedPreferences preferences2 = context.getSharedPreferences("MyPrefse", Context.MODE_PRIVATE);
+        nodeId = preferences2.getString("nodeId", "");
+        Log.d(TAG, "Fannodeee: " + nodeId);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean powerState = true;
-
                 sendSwitchStateTrue(powerState);
-
             }
         });
 
-
-        //Set a listener on the switch button
+        // Set a listener on the switch button
         bellswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
-                Log.d(TAG, "onCheckedChanged: "+isChecked);
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
                 sendSwitchState(isChecked);
             }
         });
@@ -78,126 +78,95 @@ public class BellActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
-                Log.d(TAG, "onCheckedChanged: "+isChecked);
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
                 sendServiceState(isChecked);
             }
         });
 
-
+        return view;
     }
 
-
     private void sendSwitchStateTrue(boolean powerState) {
-        // Create a RequestModel with the required data
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-        Log.d(TAG, "node id: " +nodeId2);
+        Log.d(TAG, "node id: " + nodeId2);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
 
-        SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
         String primary = sharedPreferences1.getString("Primary", "");
-        Log.e(TAG, "Name : "+primary);
 
         RequestModel requestModel = new RequestModel();
         requestModel.setSenderLoginToken(0);
-        requestModel.setTopic("node/"+ nodeId2 +"/params/remote");
-
+        requestModel.setTopic("node/" + nodeId2 + "/params/remote");
         requestModel.setMessage("{\""+name+"\": {\""+primary+"\": "+powerState+"}}");
-        Log.d(TAG, "sendSwitchState: "+powerState);
-        //  requestModel.setQosLevel(0);
-        // Make the API call
+
         Call<ResponseModel> call = apiService.sendSwitchState(requestModel);
         call.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.isSuccessful()) {
                     ResponseModel responseModel = response.body();
-                    Log.d(TAG, "onResponse: "+responseModel);
                     handleApiResponse(responseModel);
                 } else {
                     // Handle unsuccessful response
-                    Toast.makeText(BellActivity.this, "Failed to make the API call", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to make the API call", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 // Handle failure
-                Toast.makeText(BellActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-
-
     private void sendSwitchState(boolean powerState) {
-        // Create a RequestModel with the required data
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
 
-        SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
         String primary = sharedPreferences1.getString("Primary", "");
-        Log.e(TAG, "Name : "+primary);
 
         String commandBody = "{\""+name+"\": {\""+primary+"\": "+powerState+"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-        String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
+        String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
     }
-
-
-    //service
 
     private void sendServiceState(boolean powerState) {
-        // Create a RequestModel with the required data
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
 
-        SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsPrimary", Context.MODE_PRIVATE);
         String primary = sharedPreferences1.getString("Primary", "");
-        Log.e(TAG, "Name : "+primary);
 
         String commandBody = "{\""+name+"\": {\""+primary+"\": "+powerState+"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-        String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
+        String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
-
     }
-
 
     private void handleApiResponse(ResponseModel responseModel) {
-        // Handle the response as needed
         if (responseModel != null) {
-            // API call was successful
-            // Access other fields from responseModel if needed
-            Log.d(TAG, "handleApiResponse: " +responseModel.getSuccessful());
-            Log.d(TAG, "handleApiResponse: " +responseModel.getTag());
+            Log.d(TAG, "handleApiResponse: " + responseModel.getSuccessful());
+            Log.d(TAG, "handleApiResponse: " + responseModel.getTag());
 
-            Toast.makeText(this, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
         } else {
-            // Handle unsuccessful response
-            Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 }

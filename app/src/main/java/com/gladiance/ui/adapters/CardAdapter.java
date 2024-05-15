@@ -15,8 +15,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
@@ -26,6 +29,13 @@ import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.DeviceControls.FanActivity;
+import com.gladiance.ui.fragment.DeviceControls.AirContiningFragment;
+import com.gladiance.ui.fragment.DeviceControls.BellFragment;
+import com.gladiance.ui.fragment.DeviceControls.CurtainFragment;
+import com.gladiance.ui.fragment.DeviceControls.DimmerFragment;
+import com.gladiance.ui.fragment.DeviceControls.FanFragment;
+import com.gladiance.ui.fragment.DeviceControls.RGBLightFragment;
+import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.R;
 
@@ -172,10 +182,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, FanActivity.class);
+//                        context.startActivity(intent);
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, FanActivity.class);
-                        context.startActivity(intent);
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        FanFragment newFragment = new FanFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });
@@ -191,6 +207,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         CardView cd;
         LinearLayout linearLayout;
         EspMainActivity espMainActivity = EspMainActivity.getInstance();
+        DeviceCardFragment deviceCardFragment = DeviceCardFragment.getInstance();
         // MainActivity mainActivity = MainActivity.getInstance();
         final String[] a = {"1"};
         //boolean a = true;
@@ -227,7 +244,8 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String name = clickedCard.getName();
                         String power = clickedCard.getPrimary();
 
-                        espMainActivity.sendSwitchState(powerState, name, power);
+                        //espMainActivity.sendSwitchState(powerState, name, power);
+                        deviceCardFragment.sendSwitchState(powerState,name,power);
                     }
                 }
             });
@@ -258,9 +276,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, CurtainActivity.class);
-                        context.startActivity(intent);
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, CurtainActivity.class);
+//                        context.startActivity(intent);
+
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        CurtainFragment newFragment = new CurtainFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });
@@ -290,9 +315,15 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, DimmerActivity.class);
-                        context.startActivity(intent);
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, DimmerActivity.class);
+//                        context.startActivity(intent);
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        DimmerFragment newFragment = new DimmerFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });
@@ -323,9 +354,15 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, RGBLightActivity.class);
-                        context.startActivity(intent);
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, RGBLightActivity.class);
+//                        context.startActivity(intent);
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        RGBLightFragment newFragment = new RGBLightFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });
@@ -369,10 +406,15 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor1.putString("Primary", primary);
                         editor1.apply();
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, BellActivity.class);
-                        context.startActivity(intent);
-
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, BellActivity.class);
+//                        context.startActivity(intent);
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        BellFragment newFragment = new BellFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
 
                     }
                 }
@@ -403,9 +445,15 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, AirContiningActivity.class);
-                        context.startActivity(intent);
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, AirContiningActivity.class);
+//                        context.startActivity(intent);
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        AirContiningFragment newFragment = new AirContiningFragment();
+                        transaction.replace(R.id.ControlsContainer, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });

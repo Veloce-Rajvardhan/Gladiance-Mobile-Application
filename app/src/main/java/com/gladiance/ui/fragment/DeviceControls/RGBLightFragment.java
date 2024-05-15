@@ -1,19 +1,25 @@
-package com.gladiance.ui.activities.DeviceControls;
+package com.gladiance.ui.fragment.DeviceControls;
 
 import static android.content.ContentValues.TAG;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.gladiance.NetworkApiManager;
 import com.gladiance.R;
@@ -22,40 +28,42 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.models.ResponseModel;
 
-public class RGBLightActivity extends AppCompatActivity {
+public class RGBLightFragment extends Fragment {
+
+    private static final String TAG = "RGBLightFragment";
 
     Switch rgbLightSwitch;
     String nodeId;
     NetworkApiManager networkApiManager;
     private EspApplication espApp;
-    Context context = this;
-    SeekBar seekBar1,seekBar2,seekBar3,seekBar4,seekBar5;
-    TextView textView1,textView2,textView3,textView4,textView5;
+    Context context;
+    SeekBar seekBar1, seekBar2, seekBar3, seekBar4, seekBar5;
+    TextView textView1, textView2, textView3, textView4, textView5;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rgblight);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_rgblight, container, false);
 
-        espApp = new EspApplication(getApplicationContext());
+        context = getContext();
+        espApp = new EspApplication(context);
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
-        SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
+        SharedPreferences preferences2 = context.getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
-        rgbLightSwitch = findViewById(R.id.switchButtonFan);
-        seekBar1 = findViewById(R.id.seekBarDimmer);
-        seekBar2 = findViewById(R.id.seekBarHue);
-        seekBar3 = findViewById(R.id.seekBarSaturation);
-        seekBar4 = findViewById(R.id.seekBarCCT);
-        seekBar5 = findViewById(R.id.seekBarWhiteBrightness);
+        rgbLightSwitch = view.findViewById(R.id.switchButtonFan);
+        seekBar1 = view.findViewById(R.id.seekBarDimmer);
+        seekBar2 = view.findViewById(R.id.seekBarHue);
+        seekBar3 = view.findViewById(R.id.seekBarSaturation);
+        seekBar4 = view.findViewById(R.id.seekBarCCT);
+        seekBar5 = view.findViewById(R.id.seekBarWhiteBrightness);
 
-
-        textView1 = findViewById(R.id.tv_brightness);
-        textView2= findViewById(R.id.tv_hue);
-        textView3 = findViewById(R.id.tv_saturation);
-        textView4 = findViewById(R.id.tv_CCT);
-        textView5 = findViewById(R.id.tv_Whitebrightness);
+        textView1 = view.findViewById(R.id.tv_brightness);
+        textView2 = view.findViewById(R.id.tv_hue);
+        textView3 = view.findViewById(R.id.tv_saturation);
+        textView4 = view.findViewById(R.id.tv_CCT);
+        textView5 = view.findViewById(R.id.tv_Whitebrightness);
 
         disableSeekBars();
 
@@ -64,18 +72,15 @@ public class RGBLightActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
-                Log.d(TAG, "onCheckedChanged: "+isChecked);
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
                 rgbLightState(isChecked);
                 if (isChecked) {
                     enableSeekBars();
                 } else {
                     disableSeekBars();
                 }
-
-
             }
         });
-
 
         //Seek Bar Brightness
         seekBar1.setMax(99);
@@ -213,20 +218,19 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-
+        return view;
     }
 
-    //RGB ON/OFF
     private void rgbLightState(boolean powerState) {
         // Create a RequestModel with the required data
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Power\": "+powerState+"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
@@ -239,13 +243,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"Brightness\": " + progress + "}}";
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
@@ -256,13 +260,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
     private void rgbHue(int progress){
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Hue\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -272,13 +276,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
     private void rgbSaturation(int progress){
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Saturation\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -287,14 +291,14 @@ public class RGBLightActivity extends AppCompatActivity {
     }
 
     private void rgbCCT(int progress){
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"CCT\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -303,14 +307,14 @@ public class RGBLightActivity extends AppCompatActivity {
     }
 
     private void rgbWhiteBrightness(int progress){
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"White Brightness\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -346,12 +350,10 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.d(TAG, "handleApiResponse: " +responseModel.getSuccessful());
             Log.d(TAG, "handleApiResponse: " +responseModel.getTag());
 
-            Toast.makeText(this, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Switch state updated successfully", Toast.LENGTH_SHORT).show();
         } else {
             // Handle unsuccessful response
-            Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
 }
-
-

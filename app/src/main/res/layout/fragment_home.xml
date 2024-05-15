@@ -89,32 +89,67 @@
         app:layout_constraintTop_toBottomOf="@+id/tvUserName"
         tools:listitem="@layout/item_control_card" />
 
-    <TextView
-        android:id="@+id/mood"
-        style="@style/TEXT"
+<!--    <TextView-->
+<!--        android:id="@+id/mood"-->
+<!--        style="@style/TEXT"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:paddingStart="@dimen/_10sdp"-->
+<!--        android:textSize="@dimen/_15sdp"-->
+<!--        android:text="Mood"-->
+<!--        android:layout_marginTop="@dimen/_8sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/rVProjectSpaceNameHome" />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:paddingStart="@dimen/_10sdp"
-        android:textSize="@dimen/_15sdp"
-        android:text="Mood"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rVProjectSpaceNameHome" />
+        app:layout_constraintTop_toBottomOf="@+id/rVProjectSpaceNameHome" >
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mood"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/WhiteButtonStyle"
+            android:text="Mood"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_12sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/favorite"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/GreyLightButtonStyle"
+            android:text="Favorite"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_12sdp"/>
+    </LinearLayout>
 
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_370sdp"
-        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:layout_marginBottom="@dimen/_90sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mood"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         >
 
         <androidx.recyclerview.widget.RecyclerView
@@ -125,6 +160,18 @@
             tools:listitem="@layout/item_scene" />
 
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/favoriteContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_115sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rVProjectSpaceNameHome">
+
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

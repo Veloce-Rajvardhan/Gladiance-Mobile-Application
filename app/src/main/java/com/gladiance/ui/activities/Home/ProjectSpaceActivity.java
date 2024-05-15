@@ -83,10 +83,11 @@ public class ProjectSpaceActivity extends AppCompatActivity {
         Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
         String loginToken = savedLoginDeviceId.trim();
 
+        //Use Name
         SharedPreferences sharedPreferences3 = getSharedPreferences("MyPreferencesDN", Context.MODE_PRIVATE);
-        String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
-        userName.setText(savedUserDeviceName);
-        Log.e(TAG, "User Device Name2: "+savedUserDeviceName );
+        String savedUserDisplayName = sharedPreferences3.getString("UserDisplayName", "");
+        userName.setText(savedUserDisplayName);
+        Log.e(TAG, "Project Space User Display Name: "+savedUserDisplayName );
 
 
 
@@ -196,7 +197,7 @@ public class ProjectSpaceActivity extends AppCompatActivity {
     private void navigateToNextActivity(String projectRef,String projectName) {
         storeProjectRef(projectRef);
         storeProjectName(projectName);
-        Intent intent = new Intent(ProjectSpaceActivity.this, ProjectSpaceActivity.class);
+        Intent intent = new Intent(ProjectSpaceActivity.this, NavBarActivity.class);
         startActivity(intent);
        // finish();
 
@@ -265,6 +266,7 @@ public class ProjectSpaceActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Close the app when back button is pressed
+        super.onBackPressed();
         finishAffinity();
     }
 }

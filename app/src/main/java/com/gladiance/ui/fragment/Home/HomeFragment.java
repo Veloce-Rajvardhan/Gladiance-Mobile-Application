@@ -34,6 +34,7 @@ import com.gladiance.ui.adapters.ProjectSpaceNameAdapter;
 import com.gladiance.ui.adapters.SceneAdapter;
 import com.gladiance.ui.adapters.SpaceGroupSpinnerAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.fragment.MyProfile.AutomationFragment;
 import com.gladiance.ui.models.ProjectSpaceGroupReqModel;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingReqModel;
@@ -56,7 +57,8 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment  {
 
     TextView textViewProjectName,textViewUserName;
-    TextView mood;
+
+    Button buttonFavorite;
 
     RecyclerView recyclerView,recyclerViewSpaceName;
     private ArrayList<SpaceLanding> arrayList;
@@ -82,9 +84,11 @@ public class HomeFragment extends Fragment  {
 
         textViewProjectName = view.findViewById(R.id.tv_project_name);
         textViewUserName = view.findViewById(R.id.tvUserName);
-        mood = view.findViewById(R.id.mood);
         recyclerView = view.findViewById(R.id.recycler_view_sceneList_home);
         recyclerViewSpaceName = view.findViewById(R.id.rVProjectSpaceNameHome);
+
+        buttonFavorite = view.findViewById(R.id.favorite);
+
         arrayList = new ArrayList<>();
         arrayList1 = new ArrayList<>();
 
@@ -110,31 +114,30 @@ public class HomeFragment extends Fragment  {
         Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
         String loginToken = savedLoginDeviceId.trim();
 
-        SharedPreferences sharedPreferencesProRef = requireActivity().getSharedPreferences("MyPrefsPR", Context.MODE_PRIVATE);
-        String ProjectRef = sharedPreferencesProRef.getString("ProjectRef", "");
-        Log.e(TAG, "ProjectSpaceGroupActivity Project Ref : "+ ProjectRef );
-        String gAAProjectRef = ProjectRef.trim();
-
         SharedPreferences  sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSTR", MODE_PRIVATE);
         String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
         Log.e(TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
-        //For Single Project
-        SharedPreferences  sharedPreferencesProjectRef = requireContext().getSharedPreferences("MyPrefsProjectRefOne", MODE_PRIVATE);
-        String projectRefOne = sharedPreferencesProjectRef.getString("projectRefOne", "");
-        Log.e(TAG, "Project Ref One: "+projectRefOne );
-
-        SharedPreferences  sharedPreferencesProjectName = requireContext().getSharedPreferences("MyPrefsProjectNameOne", MODE_PRIVATE);
-        String projectNameOne = sharedPreferencesProjectName.getString("projectNameOne", "");
-       // textViewProjectName.setText(projectNameOne);
-        Log.e(TAG, "Project Ref Name: "+projectNameOne );
-
-
-
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
         String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");
         Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
+
+        //Change favorite Fragment
+        buttonFavorite = view.findViewById(R.id.favorite);
+        buttonFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FavoriteFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+                        .beginTransaction();
+
+                transaction.replace(R.id.favoriteContainer, fragment).addToBackStack(null)
+                        .commit();
+
+            }
+        });
+
 
         getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);

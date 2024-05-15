@@ -78,16 +78,10 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
         View view = inflater.inflate(R.layout.fragment_device_landing, container, false);
 
-
         recyclerView = view.findViewById(R.id.controlTypeRecyclerView);
         guestRecyclerView = view.findViewById(R.id.guestControlTypeRecyclerView);
 
-        DeviceName = view.findViewById(R.id.device);
-
-        DeviceName.setVisibility(View.GONE);
         List<GuestControls> controlsList = new ArrayList<>();
-
-        DeviceName.setTextColor(R.style.TEXT);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -110,10 +104,6 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
         fetchInstallerControlsType(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
 
-        if (gAAProjectSpaceTypeAreaRef == 0)
-        {
-
-        }
 
 
         return view;
@@ -170,7 +160,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                 allControls.addAll(guestControls.getControls());
                             }
                             // Set up ControlTypeName RecyclerView
-//
+
                             guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                             DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
                             guestRecyclerView.setAdapter(deviceControlAdapter);

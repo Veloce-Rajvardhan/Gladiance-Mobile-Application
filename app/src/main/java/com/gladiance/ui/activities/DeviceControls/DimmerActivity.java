@@ -173,45 +173,6 @@ public class DimmerActivity extends AppCompatActivity {
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
-        ///////////////////////////////////////
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//
-//        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-//        String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-//        Log.d(TAG, "node id: " +nodeId2);
-//
-//        Intent intent = getIntent();
-//        String message = intent.getStringExtra("MESSAGE_KEY");
-//        Log.e(TAG, "curtainAction: "+message );
-//
-//
-//        RequestModel requestModel = new RequestModel();
-//        requestModel.setSenderLoginToken(0);
-//        requestModel.setTopic("node/"+ nodeId2 +"/params/remote");
-//        Log.d(TAG, "sendFanSpeed: "+progress);
-//        requestModel.setMessage("{\""+ message +"\": {\"Intensity\": " + progress + "}}");
-//        Log.e(TAG, "dimmerProgress: "+progress );
-//
-//        //requestModel.setQosLevel(0);
-//        Log.d(TAG, "sendFanSpeed: "+requestModel.getMessage());
-//        Call<ResponseModel> call = apiService.sendSwitchState(requestModel);
-//        call.enqueue(new Callback<ResponseModel>() {
-//            @Override
-//            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-//                if (response.isSuccessful()) {
-//                    ResponseModel responseModel = response.body();
-//                    handleApiResponse(responseModel);
-//                } else {
-//                    // Handle unsuccessful response
-//                    Toast.makeText(DimmerActivity.this, "Failed to make the API call", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ResponseModel> call, Throwable t) {
-//                // Handle failure
-//                Toast.makeText(DimmerActivity.this, "Network error", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void dimmerState(boolean powerState) {
@@ -231,45 +192,6 @@ public class DimmerActivity extends AppCompatActivity {
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
 
-        //////////////////////////////
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//
-//        Intent intent = getIntent();
-//        String message = intent.getStringExtra("MESSAGE_KEY");
-//        Log.e(TAG, "curtainAction: "+message );
-//
-//        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-//        String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-//        Log.d(TAG, "node id: " +nodeId2);
-//
-//        RequestModel requestModel = new RequestModel();
-//        requestModel.setSenderLoginToken(0);
-//        requestModel.setTopic("node/"+ nodeId2 +"/params/remote");
-//
-//        requestModel.setMessage("{\""+ message +"\": {\"Power\": "+powerState+"}}");
-//        Log.d(TAG, "sendSwitchState: "+powerState);
-//        //  requestModel.setQosLevel(0);
-//        // Make the API call
-//        Call<ResponseModel> call = apiService.sendSwitchState(requestModel);
-//        call.enqueue(new Callback<ResponseModel>() {
-//            @Override
-//            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-//                if (response.isSuccessful()) {
-//                    ResponseModel responseModel = response.body();
-//                    Log.d(TAG, "onResponse: "+responseModel);
-//                    handleApiResponse(responseModel);
-//                } else {
-//                    // Handle unsuccessful response
-//                    Toast.makeText(DimmerActivity.this, "Failed to make the API call", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseModel> call, Throwable t) {
-//                // Handle failure
-//                Toast.makeText(DimmerActivity.this, "Network error", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void disableSeekBars() {

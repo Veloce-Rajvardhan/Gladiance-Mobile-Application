@@ -3,6 +3,8 @@ package com.gladiance.ui.activities.Home;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.adapters.ProjectSpaceGroupListAdapter;
 
+import com.gladiance.ui.fragment.RoomControl.DeviceLandingFragment;
 import com.gladiance.ui.models.ProjectSpaceGroupReqModel;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.SpaceGroup;
@@ -64,22 +68,34 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
         Log.e(TAG, "ProjectSpaceGroupActivity Login Token: "+savedLoginToken );
         String loginToken = savedLoginToken.trim();
 
-        //Not Used
+        //Use Name
         SharedPreferences sharedPreferences3 = getSharedPreferences("MyPreferencesDN", Context.MODE_PRIVATE);
-        String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
-        userName.setText(savedUserDeviceName);
-        Log.e(TAG, "ProjectSpaceGroupActivity User Device Name2: "+savedUserDeviceName );
-        String userDeviceName = savedUserDeviceName.trim();
+        String savedUserDisplayName = sharedPreferences3.getString("UserDisplayName", "");
+        userName.setText(savedUserDisplayName);
+        Log.e(TAG, "ProjectSpaceGroupActivity User Display Name: "+savedUserDisplayName );
 
         SharedPreferences sharedPreferences4 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
         String saveProjectName = sharedPreferences4.getString("ProjectName", "");
         projectName.setText(saveProjectName);
-        Log.e(TAG, "ProjectSpaceGroupActivity Project Name : "+savedUserDeviceName );
+        Log.e(TAG, "ProjectSpaceGroupActivity Project Name : "+saveProjectName );
 
         SharedPreferences sharedPreferences5 = getSharedPreferences("MyPrefsPR", Context.MODE_PRIVATE);
         String ProjectRef = sharedPreferences5.getString("ProjectRef", "");
         String gAAProjectRef = ProjectRef.trim();
-        Log.e(TAG, "ProjectSpaceGroupActivity Project Name : "+savedUserDeviceName );
+        Log.e(TAG, "ProjectSpaceGroupActivity Project Ref : "+gAAProjectRef );
+
+        //projectRefOne,projectNameOne Un Used Shared Preferences
+        //For Single Project
+        SharedPreferences  sharedPreferencesProjectRef =getSharedPreferences("MyPrefsProjectRefOne", MODE_PRIVATE);
+        String projectRefOne = sharedPreferencesProjectRef.getString("projectRefOne", "");
+        Log.e(TAG, "Project Ref One: "+projectRefOne );
+
+        SharedPreferences  sharedPreferencesProjectName = getSharedPreferences("MyPrefsProjectNameOne", MODE_PRIVATE);
+        String projectNameOne = sharedPreferencesProjectName.getString("projectNameOne", "");
+        // textViewProjectName.setText(projectNameOne);
+        Log.e(TAG, "Project Ref Name: "+projectNameOne );
+
+
 
 
         getSpaceGroupName(gAAProjectRef,loginToken,loginDeviceId);
@@ -104,11 +120,10 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
                         for(ProjectSpaceGroupReqModel.SpaceGroup spaceGroup1 : spaceGroups){
                             Log.e(TAG, "onResponse SpaceGroupName: " + spaceGroup1.getGAAProjectSpaceGroupName());
                             arrayList.add(new SpaceGroup(spaceGroup1.getGAAProjectSpaceGroupRef(),spaceGroup1.getGAAProjectSpaceGroupName(),spaceGroup1.getDisplayOrder()));
-
-
                         }
-                        //add arraylist code and create space group class
 
+
+                        //add arraylist code and create space group class
                         ProjectSpaceGroupListAdapter projectSpaceGroupListAdapter = new ProjectSpaceGroupListAdapter(arrayList);
                         rvProjectSpaceGroupList.setAdapter(projectSpaceGroupListAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceGroupActivity.this,2, GridLayoutManager.VERTICAL,false);
@@ -136,6 +151,7 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Handle back button press
+        super.onBackPressed();
         Intent intent = new Intent(this, ProjectSpaceActivity.class);
         startActivity(intent);
         // Optionally, finish() the current activity to remove it from the back stack

@@ -18,11 +18,15 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
+import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
@@ -114,7 +118,18 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
                         editor.putString("KEY_USERNAMEs", nodeId);
                         editor.apply();
 
-                        holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
+                        //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        DeviceCardFragment newFragment = new DeviceCardFragment();
+                        transaction.replace(R.id.DeviceCard, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                });
 //                    }
 
             }
