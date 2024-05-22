@@ -1,5 +1,6 @@
 package com.gladiance.ui.fragment.MyProfile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,11 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gladiance.R;
+import com.gladiance.ui.activities.MyProfile.AboutUsActivity;
+import com.gladiance.ui.activities.MyProfile.BasicInfoActivity;
+import com.gladiance.ui.activities.MyProfile.DeviceActivity;
+import com.gladiance.ui.activities.MyProfile.HelpActivity;
+import com.gladiance.ui.activities.MyProfile.IntegrationActivity;
+import com.gladiance.ui.activities.MyProfile.ProjectActivity;
+import com.gladiance.ui.activities.MyProfile.SettingActivity;
+import com.gladiance.ui.activities.MyProfile.SubscriptionActivity;
 
 
 public class MyProfileFragment extends Fragment {
-
-
 
     public MyProfileFragment() {
         // Required empty public constructor
@@ -46,12 +53,8 @@ public class MyProfileFragment extends Fragment {
         tv_view_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new BasicInfoFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), BasicInfoActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -60,12 +63,14 @@ public class MyProfileFragment extends Fragment {
         Project.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new ProjectFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), ProjectActivity.class);
+                startActivity(intent);
+//                Fragment fragment = new ProjectFragment();
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+//                        .beginTransaction();
+//
+//                transaction.replace(R.id.container, fragment).addToBackStack(null)
+//                        .commit();
             }
         });
 
@@ -86,12 +91,8 @@ public class MyProfileFragment extends Fragment {
         AddDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new AddDeviceFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), DeviceActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -99,12 +100,8 @@ public class MyProfileFragment extends Fragment {
         subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new SubscriptionFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), SubscriptionActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -112,12 +109,8 @@ public class MyProfileFragment extends Fragment {
         Integration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new IntegrationFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), IntegrationActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -125,12 +118,8 @@ public class MyProfileFragment extends Fragment {
         Help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new HelpFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), HelpActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -138,12 +127,8 @@ public class MyProfileFragment extends Fragment {
         AboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new AboutUsFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), AboutUsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -151,12 +136,8 @@ public class MyProfileFragment extends Fragment {
         Setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new SettingFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
             }
         });
 

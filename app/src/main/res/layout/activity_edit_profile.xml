@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.MyProfile.EditProfileActivity">
+
+        <TextView
+            android:id="@+id/tv_EditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center|left"
+            android:text="Edit Profile Info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TEXT"
+            android:textSize="@dimen/_17sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_15sdp"
+             />
+
+    <ImageView
+        android:id="@+id/imgprofilepic"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/my_profile"
+        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_EditProfile" />
+
+    <TextView
+        android:id="@+id/tv_ChangeProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center|left"
+        android:text="Change profile picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/TextOrangeColor"
+        android:textSize="@dimen/_17sdp"
+        app:layout_constraintTop_toBottomOf="@+id/imgprofilepic"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/tv_ChangeProfile"
+   >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/oldPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                <TextView
+                    style="@style/TEXT"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center|left"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:text="Name"
+                    android:textSize="@dimen/_13sdp" />
+
+                <EditText
+                    style="@style/MyEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:text="Sushant Desai"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/newPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oldPass">
+
+                <TextView
+                    style="@style/TEXT"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center|left"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:text="Contact Number"
+                    android:textSize="@dimen/_13sdp" />
+
+                <EditText
+                    style="@style/MyEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:text="9120486356"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newPass">
+
+                <TextView
+                    style="@style/TEXT"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center|left"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:text="Email"
+                    android:textSize="@dimen/_13sdp" />
+
+                <EditText
+                    style="@style/MyEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:text="Shushantpatil@gmail.com"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/TEXT"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_marginStart="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_weight="1"
+                android:background="@drawable/orange_button_background"
+                android:fontFamily="@font/roboto_light"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_17sdp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
