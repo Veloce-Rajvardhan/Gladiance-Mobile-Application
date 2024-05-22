@@ -5,10 +5,12 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -25,19 +27,22 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
 
-public class AirContiningActivity extends AppCompatActivity {
+public class AirContiningActivity extends AppCompatActivity implements CircularSeekBar.OnProgressChangeListener{
 
     Switch switchAirConditioning;
 
     String nodeId;
     private ProgressBar progressBar;
     private Button incrementButton, decrementButton;
-    TextView progressTextView;
-    private int progress = 64;
+
+   // private int progress = 64;
     NetworkApiManager networkApiManager;
 
+    private CircularSeekBar circularSeekBar;
+    private int progress = 0;
 
-    TextView textView, textViewMood, textViewUnit;
+
+    TextView textView, textViewDeviceName;
     SeekBar seekbarAirCond;
     private String[] progressStates = {"Off", "Low", "Mid", "High"};
 
@@ -55,11 +60,27 @@ public class AirContiningActivity extends AppCompatActivity {
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
-        incrementButton = findViewById(R.id.incrementButton);
-        decrementButton = findViewById(R.id.decrementButton);
+        circularSeekBar = findViewById(R.id.circularSeekBar);
+
+        // Example: Set progress to 10
+        circularSeekBar.setProgress(0);
+        circularSeekBar.setOnProgressChangeListener(this);
+
+        CircularSeekBar circularSeekBar = findViewById(R.id.circularSeekBar);
+        circularSeekBar.setOnProgressChangeListener(this);
+
+        textViewDeviceName = findViewById(R.id.DeviceName);
+
+        textViewDeviceName.setText(Label);
+
+
         seekbarAirCond = findViewById(R.id.seekBarAirCond);
 
         disableSeekBars();
@@ -80,31 +101,10 @@ public class AirContiningActivity extends AppCompatActivity {
             }
         });
 
-        //Progress Bar Code
-        progressBar = findViewById(R.id.progressBar);
 
-        progressTextView = findViewById(R.id.progressTextView);
 
-        updateProgressText();
-
-        incrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementProgress();
-
-            }
-        });
-
-        decrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementProgress();
-
-            }
-        });
 
         //Seek Bar AirCondition
-
 
         textView = findViewById(R.id.textViewFan);
 
@@ -144,76 +144,12 @@ public class AirContiningActivity extends AppCompatActivity {
             }
         });
 
-        //Button Cool Heat Code
 
-        buttonCool = findViewById(R.id.buttonCool);
-        buttonHeat = findViewById(R.id.buttonHeat);
-        textViewMood = findViewById(R.id.textMode);
-
-        buttonCool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textViewMood.setText("Cool");
-                String mood = "Cool";
-                sendMood(mood);
-            }
-        });
-
-        buttonHeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textViewMood.setText("Heat");
-                String mood = "Heat";
-                sendMood(mood);
-            }
-        });
-
-        textViewUnit = findViewById(R.id.textUnit);
-        buttonfah = findViewById(R.id.buttonFehr);
-        buttonCon = findViewById(R.id.buttonCCent);
-
-        buttonCon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textViewUnit.setText("Centigrade");
-                String mood = "Centigrade";
-                sendUnit(mood);
-            }
-        });
-
-        buttonfah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textViewUnit.setText("Fahrenheit");
-                String mood = "Fahrenheit";
-                sendUnit(mood);
-            }
-        });
     }
 
-    private void incrementProgress() {
-        if (progress < 86) {
-            progress++;
-            progressBar.setProgress(progress);
-            updateProgressText();
-            sendTemperature(progress);
-            Log.e(TAG, "incrementProgress: " + progress);
-        }
-    }
 
-    private void decrementProgress() {
-        if (progress > 64) {
-            progress--;
-            progressBar.setProgress(progress);
-            updateProgressText();
-            sendTemperature(progress);
-            Log.e(TAG, "decrementProgress: " + progress);
-        }
-    }
 
-    private void updateProgressText() {
-        progressTextView.setText("" + progress + "");
-    }
+
 
     //AirCondition Set Mood Method
     private void sendMood(String mood) {
@@ -264,7 +200,7 @@ public class AirContiningActivity extends AppCompatActivity {
         Log.e(TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Speed\":\"" + progress1 + "\"}}";
-
+        Log.e(TAG, "sendTemperature: "+commandBody );
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
         SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
@@ -284,7 +220,7 @@ public class AirContiningActivity extends AppCompatActivity {
         Log.e(TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Set\": " + fanSpeed + "}}";
-
+        Log.e(TAG, "sendTemperature: "+commandBody );
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
@@ -316,15 +252,11 @@ public class AirContiningActivity extends AppCompatActivity {
     }
 
     private void disableSeekBars() {
-        incrementButton.setEnabled(false);
-        decrementButton.setEnabled(false);
         seekbarAirCond.setEnabled(false);
 
     }
 
     private void enableSeekBars() {
-        incrementButton.setEnabled(true);
-        decrementButton.setEnabled(true);
         seekbarAirCond.setEnabled(true);
 
     }
@@ -343,5 +275,31 @@ public class AirContiningActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                // Here, you have the progress value when touch is released
+                Log.d("Progress", "Progress when touch released: " + progress);
+                Toast.makeText(this, "Progress when touch released: " + progress, Toast.LENGTH_SHORT).show();
+                // You can do whatever you want with the progress value here
+                sendTemperature(progress);
+                return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onProgressChanged(String progressText) {
+        // Here you receive the progress text
+        // Parse it to a float and update the progress variable
+        try {
+            progress = (int) Float.parseFloat(progressText);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

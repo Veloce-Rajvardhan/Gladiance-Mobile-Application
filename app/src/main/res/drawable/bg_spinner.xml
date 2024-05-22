@@ -13,9 +13,7 @@
                 </shape>
             </item>
 
-            <item
-                android:drawable="@drawable/ic_baseline_arrow_drop_down_24"
-                android:gravity="end"/>
+
         </layer-list>
 
     </item>

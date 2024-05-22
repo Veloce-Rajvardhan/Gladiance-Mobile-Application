@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gladiance.NetworkApiManager;
@@ -32,7 +33,7 @@ public class BellActivity extends AppCompatActivity {
     Button button;
     String nodeId;
     NetworkApiManager networkApiManager;
-
+    TextView textViewDeviceName;
     Context context = this;
     private EspApplication espApp;
 
@@ -51,6 +52,14 @@ public class BellActivity extends AppCompatActivity {
         SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: "+nodeId);
+
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
+        textViewDeviceName = findViewById(R.id.DeviceName);
+
+        textViewDeviceName.setText(Label);
 
 
         button.setOnClickListener(new View.OnClickListener() {

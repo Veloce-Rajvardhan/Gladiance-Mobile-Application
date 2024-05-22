@@ -47,7 +47,7 @@
             android:id="@+id/scheduling"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
-            style="@style/GreyLightButtonStyle"
+            style="@style/GreyLightButtonLeftCorner"
             android:text="Scheduling"
             android:layout_weight="1"
             android:layout_marginStart="@dimen/_30sdp"
@@ -58,7 +58,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
-            style="@style/WhiteButtonStyle"
+            style="@style/ButtonStyleRightCorners"
             android:text="Set Your Mood"
             android:layout_weight="1"
             android:layout_marginEnd="@dimen/_30sdp"

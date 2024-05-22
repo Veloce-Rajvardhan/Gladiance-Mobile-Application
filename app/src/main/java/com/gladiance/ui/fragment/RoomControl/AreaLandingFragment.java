@@ -8,8 +8,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -20,12 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.adapters.AreaLandingAdapter;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.adapters.ProjectSpaceNameAdapter;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 
@@ -41,16 +46,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener {
+public class AreaLandingFragment extends Fragment  {
 
     private ArrayList<Area> arrayList;
     MeowBottomNavigation bottomNavigation;
 
-    RecyclerView recyclerView,areaNameRecycleView;
+    RecyclerView recyclerView;
 
     SharedPreferences sharedPreferences;
 
-    Spinner spinner;
+    TextView textViewSpaceName;
+
 
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String USER_ID_KEY = "userId";
@@ -69,8 +75,8 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
         View view = inflater.inflate(R.layout.fragment_area_landing, container, false);
 
         arrayList = new ArrayList<>();
-        spinner = view.findViewById(R.id.areaSpinner);
-
+        textViewSpaceName = view.findViewById(R.id.spaceName);
+        recyclerView = view.findViewById(R.id.rVAreaName);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -89,12 +95,15 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
         Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
-
+        SharedPreferences  sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSN", MODE_PRIVATE);
+        String saveProjectSpaceName = sharedPreferences4.getString("Project_Space_Name", "");
+        Log.e(TAG, "Project Space Name: "+saveProjectSpaceName );
+        textViewSpaceName.setText(saveProjectSpaceName);
 
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
-        MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
+        MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
         bottomNavigation.show(2, true);
 
         return view;
@@ -115,57 +124,35 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
                         Log.e(TAG, "onResponse AreaName: " + area.getGAAProjectSpaceTypeAreaName());
                         Log.e(TAG, "onResponse Area Ref: " + area.getGAAProjectSpaceTypeAreaRef());
                         arrayList.add(new Area(area.getGAAProjectSpaceTypeAreaRef(), area.getGAAProjectSpaceTypeAreaName(), area.getWifiSSID(), area.getWifiPassword(), area.getGuestControls(), area.getInstallerControls()));
-
-                        if (areas.size() == 1){
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
-                                    Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
-                                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                                    transaction.replace(R.id.container, newFragment);
-                                    transaction.addToBackStack(null);
-                                    transaction.commit();
-                                }
-                            }, 700);
-
-                        }else{
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
-                                    Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
-                                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                                    transaction.replace(R.id.container, newFragment);
-                                    transaction.addToBackStack(null);
-                                    transaction.commit();
-                                }
-                            }, 700);
-                        }
-
                     }
-                    // Create custom spinner adapter
-                    AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(requireContext(),spinner,areas);
 
-                    // Set the listener for the adapter
-                    adapter.setOnAreaSelectedListener(AreaLandingFragment.this); // Replace YourFragmentClassName with the name of your fragment class
+                    if (areas.size() == 1){
 
-                    spinner.setAdapter(adapter);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
+                                Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
+                                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.container, newFragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
 
-                    // Handle item selection
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            }
+                        }, 700);
 
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parentView) {
+                    }else {
+                        AreaLandingAdapter areaLandingAdapter = new AreaLandingAdapter(arrayList,getContext());
+                        recyclerView.setAdapter(areaLandingAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
+                        recyclerView.setLayoutManager(gridLayoutManager1);
+                    }
 
-                        }
-                    });
-
-                }
+                    AreaLandingAdapter areaLandingAdapter = new AreaLandingAdapter(arrayList,getContext());
+                    recyclerView.setAdapter(areaLandingAdapter);
+                    GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
+                    recyclerView.setLayoutManager(gridLayoutManager1);
+                    }
             }
 
             @Override
@@ -175,27 +162,7 @@ public class AreaLandingFragment extends Fragment implements AreaSpinnerAdapter.
         });
     }
 
-    @Override
-    public void onAreaSelected(String selectedAreaRef) {
-        // Handle the selected area reference here
-        Fragment newFragment = DeviceLandingFragment.newInstance(getContext(),Long.valueOf(selectedAreaRef));
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, newFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
 
-        dismissSpinnerDropDown(spinner);
-    }
-
-    private void dismissSpinnerDropDown(Spinner spinner) {
-        try {
-            Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
-            method.setAccessible(true);
-            method.invoke(spinner);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

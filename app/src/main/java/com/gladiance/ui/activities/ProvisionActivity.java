@@ -27,11 +27,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.ContentLoadingProgressBar;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.provisioning.DeviceConnectionEvent;
 import com.gladiance.R;
 import com.gladiance.provisioning.ESPConstants;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.provisioning.listeners.ProvisionListener;
 
 import org.greenrobot.eventbus.EventBus;

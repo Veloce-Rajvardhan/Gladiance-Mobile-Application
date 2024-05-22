@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -24,7 +25,7 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
 
-public class FanActivity extends AppCompatActivity {
+public class FanActivity extends AppCompatActivity implements CircularSeekBarFan.OnProgressChangeListener{
 
     EspMainActivity espMainActivity;
     private SharedPreferences sharedPreferences;
@@ -33,11 +34,12 @@ public class FanActivity extends AppCompatActivity {
    // String nodeId;
     private ProgressBar progressBar;
     private Button incrementButton, decrementButton;
-    private TextView progressTextView;
+    private TextView progressTextView,textViewDeviceName;
     //String nodeId2;
     private int progress = 0;
     Context context = this;
     private EspApplication espApp;
+    private CircularSeekBarFan circularSeekBar;
 
 
 
@@ -53,11 +55,28 @@ public class FanActivity extends AppCompatActivity {
         String DeviceRef = sharedPreferences.getString("SpaceTypePlannedDeviceRef", "");
         Log.e(TAG, "Space Type Planned DeviceRef : "+DeviceRef);
 
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
+        textViewDeviceName = findViewById(R.id.DeviceName);
+
         espApp = new EspApplication(getApplicationContext());
         fanswitch = findViewById(R.id.switchButtonFan);
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
-        incrementButton = findViewById(R.id.incrementButton);
-        decrementButton = findViewById(R.id.decrementButton);
+
+
+        textViewDeviceName.setText(Label);
+
+
+        circularSeekBar = findViewById(R.id.circularSeekBar);
+
+        // Example: Set progress to 10
+        circularSeekBar.setProgress(0);
+        circularSeekBar.setOnProgressChangeListener(this);
+
+        CircularSeekBarFan circularSeekBar = findViewById(R.id.circularSeekBar);
+        circularSeekBar.setOnProgressChangeListener(this);
 
         disableSeekBars();
 
@@ -77,48 +96,8 @@ public class FanActivity extends AppCompatActivity {
             }
         });
 
-        //Progress Bar Code
-        progressBar = findViewById(R.id.progressBar);
-        progressTextView = findViewById(R.id.progressTextView);
-
-        updateProgressText();
-
-        incrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incrementProgress();
-
-            }
-        });
-
-        decrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrementProgress();
-
-            }
-        });
     }
 
-    private void incrementProgress() {
-        if (progress < 5) {
-            progress++;
-            progressBar.setProgress(progress);
-            updateProgressText();
-            sendFanSpeed(progress);
-            Log.e(TAG, "incrementProgress: "+progress);
-        }
-    }
-
-    private void decrementProgress() {
-        if (progress > 0) {
-            progress--;
-            progressBar.setProgress(progress);
-            updateProgressText();
-            sendFanSpeed(progress);
-            Log.e(TAG, "decrementProgress: "+progress);
-        }
-    }
 
     private void updateProgressText() {
         progressTextView.setText("" + progress + "");
@@ -137,6 +116,7 @@ public class FanActivity extends AppCompatActivity {
 
         String commandBody = "{\""+name+"\": {\"Speed\": " + fanSpeed + "}}";
 
+        Log.e(TAG, "sendFanSpeed2: "+commandBody );
         int shFanSpeed = fanSpeed;
         SharedPreferences sharedPreferencesFanSpeed = getSharedPreferences("MyPreferencesFS", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesFanSpeed.edit();
@@ -176,14 +156,12 @@ public class FanActivity extends AppCompatActivity {
     }
 
     private void disableSeekBars() {
-        incrementButton.setEnabled(false);
-        decrementButton.setEnabled(false);
+
 
     }
 
     private void enableSeekBars() {
-        incrementButton.setEnabled(true);
-        decrementButton.setEnabled(true);
+
 
     }
 
@@ -200,6 +178,32 @@ public class FanActivity extends AppCompatActivity {
         } else {
             // Handle unsuccessful response
             Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                // Here, you have the progress value when touch is released
+                Log.d("Progress", "Progress when touch released: " + progress);
+                Toast.makeText(this, "Progress when touch released: " + progress, Toast.LENGTH_SHORT).show();
+                // You can do whatever you want with the progress value here
+                sendFanSpeed(progress);
+
+                return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onProgressChanged(String progressText) {
+        // Here you receive the progress text
+        // Parse it to a float and update the progress variable
+        try {
+            progress = (int) Float.parseFloat(progressText);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 

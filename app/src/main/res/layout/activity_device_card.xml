@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/SCREEN"
+    tools:context=".ui.activities.RoomControl.DeviceCardActivity">
+
+
+    <Spinner
+        android:id="@+id/areaSpinner"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/bg_spinner"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_18sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/controlTypeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_10sdp"
+        tools:listitem="@layout/item_control_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/areaSpinner">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/controlTypeRecyclerView">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            tools:listitem="@layout/item_scene">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

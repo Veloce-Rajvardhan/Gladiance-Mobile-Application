@@ -20,7 +20,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/mood"
-            style="@style/WhiteButtonStyle"
+            style="@style/ButtonStyleLeftCorners"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_30sdp"
@@ -32,7 +32,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/favorite_mood"
-            style="@style/GreyLightButtonStyle"
+            style="@style/GreyLightButtonRightCorner"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_30sdp"

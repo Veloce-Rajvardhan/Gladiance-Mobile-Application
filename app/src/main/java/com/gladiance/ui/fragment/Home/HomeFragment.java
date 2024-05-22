@@ -44,6 +44,10 @@ import com.gladiance.ui.models.SpaceLanding;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 import com.gladiance.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -62,6 +66,10 @@ public class HomeFragment extends Fragment  {
 
     RecyclerView recyclerView,recyclerViewSpaceName;
     private ArrayList<SpaceLanding> arrayList;
+
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+
 
     private ArrayList<ObjectTag> arrayList1;
     Context context;
@@ -87,7 +95,6 @@ public class HomeFragment extends Fragment  {
         recyclerView = view.findViewById(R.id.recycler_view_sceneList_home);
         recyclerViewSpaceName = view.findViewById(R.id.rVProjectSpaceNameHome);
 
-        buttonFavorite = view.findViewById(R.id.favorite);
 
         arrayList = new ArrayList<>();
         arrayList1 = new ArrayList<>();
@@ -99,7 +106,7 @@ public class HomeFragment extends Fragment  {
 
         SharedPreferences sharedPreferences3 = requireActivity().getSharedPreferences("MyPreferencesDN", Context.MODE_PRIVATE);
         String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
-        textViewUserName.setText("Hello "+savedUserDeviceName);
+        textViewUserName.setText("Hi "+savedUserDeviceName+", you're at");
         Log.e(TAG, "Home Fragment User Name: "+savedUserDeviceName );
 
 
@@ -124,20 +131,29 @@ public class HomeFragment extends Fragment  {
         Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
 
         //Change favorite Fragment
-        buttonFavorite = view.findViewById(R.id.favorite);
-        buttonFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new FavoriteFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
+//        buttonFavorite = view.findViewById(R.id.favorite);
+//        buttonFavorite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Fragment fragment = new FavoriteFragment();
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+//                        .beginTransaction();
+//
+//                transaction.replace(R.id.favoriteContainer, fragment).addToBackStack(null)
+//                        .commit();
+//
+//            }
+//        });
 
-                transaction.replace(R.id.favoriteContainer, fragment).addToBackStack(null)
-                        .commit();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(requireContext(),gso);
 
-            }
-        });
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(requireContext());
+        if(acct!=null){
+            String personName = acct.getDisplayName();
+            textViewUserName.setText("Hello " + personName);
 
+        }
 
         getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
@@ -167,7 +183,7 @@ public class HomeFragment extends Fragment  {
 
                         }
 
-                        //add arraylist code and create space group class
+
 
                         ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getContext());
                         recyclerViewSpaceName.setAdapter(projectSpaceNameAdapter);

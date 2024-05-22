@@ -24,6 +24,10 @@ import com.gladiance.ui.models.ProjectSpaceRequestModel;
 import com.gladiance.ui.models.ProjectSpaceResponseModel;
 import com.gladiance.ui.models.Space;
 import com.gladiance.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,11 @@ public class ProjectSpaceActivity extends AppCompatActivity {
 
     Button btnCamera;
     String loginToken, loginDeviceId;
+
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+
+
 
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String USER_ID_KEY = "userId";
@@ -103,6 +112,16 @@ public class ProjectSpaceActivity extends AppCompatActivity {
 //            }
 //        });
 
+        //Google SingUp
+//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+//        gsc = GoogleSignIn.getClient(this,gso);
+//
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+//        if(acct!=null){
+//            String personName = acct.getDisplayName();
+//            userName.setText(personName);
+//
+//        }
 
     }
 

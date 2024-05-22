@@ -12,12 +12,13 @@
         android:layout_columnWeight="1"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         app:cardBackgroundColor="@color/transparentColor"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             style="@style/MyButtonStyle"
@@ -32,6 +33,35 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tvEmail"
+                    style="@style/TEXT"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center|left"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Project :"
+                    android:textSize="@dimen/_15sdp" />
+                <TextView
+                    android:id="@+id/tvEmailName"
+                    style="@style/TEXT"
+                    android:layout_width="@dimen/_180sdp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center|left"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:text="Gladiance One"
+                    android:textSize="@dimen/_16sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/_10sdp"
                 android:gravity="center">
                 <TextView
                     android:id="@+id/tvProject"
@@ -51,7 +81,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:gravity="center|left"
                     android:paddingStart="@dimen/_5sdp"
-                    android:text="Gladiance One"
+                    android:text="Project"
                     android:textSize="@dimen/_16sdp" />
 
             </LinearLayout>
@@ -63,17 +93,17 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/tvSpace"
+                    android:id="@+id/tvArea"
                     style="@style/TEXT"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center|left"
                     android:paddingStart="@dimen/_10sdp"
-                    android:text="Space :"
+                    android:text="Area :"
                     android:textSize="@dimen/_15sdp" />
                 <TextView
-                    android:id="@+id/tvSpaceName"
+                    android:id="@+id/tvAreaName"
                     style="@style/TEXT"
                     android:layout_width="@dimen/_180sdp"
                     android:layout_height="wrap_content"

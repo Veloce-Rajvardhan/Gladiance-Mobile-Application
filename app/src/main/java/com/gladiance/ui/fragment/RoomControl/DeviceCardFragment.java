@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -22,9 +23,16 @@ import com.gladiance.NetworkApiManager;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
+import com.gladiance.ui.activities.DeviceControls.BellActivity;
+import com.gladiance.ui.activities.DeviceControls.CurtainActivity;
+import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
+import com.gladiance.ui.activities.DeviceControls.FanActivity;
+import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.adapters.CardAdapter;
+import com.gladiance.ui.fragment.DeviceControls.FanFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.saveScene.SceneConfig;
@@ -54,12 +62,13 @@ public class DeviceCardFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_device_card, container, false);
-        recyclerView = view.findViewById(R.id.recycleViewCard);
+        recyclerView = view.findViewById(R.id.recycleViewDeviceCard);
         instance = this;
 
         espApp = new EspApplication(requireContext());
@@ -76,14 +85,21 @@ public class DeviceCardFragment extends Fragment {
         Log.d(TAG, "node id: " +nodeId2);
 
 
+
         getDevice(nodeId);
+
+
 
         return view;
     }
 
+
+
     public static DeviceCardFragment getInstance() {
         return instance;
     }
+
+
 
     private void getDevice(String nodeId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -116,16 +132,66 @@ public class DeviceCardFragment extends Fragment {
                             String uiType = param.getUi_type();
                             Log.e(TAG, "onResponse22222: "+param.getUi_type());
                             Log.e(TAG, "onResponse22222: "+uiType);
-
                         }
                         arrayList.add(new Devices(device.getName(),device.getType(),device.getPrimary()));
                     }
-                    CardAdapter cardAdapter = new CardAdapter(arrayList);
-                    recyclerView.setAdapter(cardAdapter);
-                    GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
-                    recyclerView.setLayoutManager(gridLayoutManager1);
+                    if(arrayList.size() == 1){
+                        if(arrayList.get(0).getType().equals("esp.device.lightbulb")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), RGBLightActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("esp.device.fan")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), FanActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("esp.device.light")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), DimmerActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("esp.device.bellcontrol")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), BellActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("e.d.ther")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), AirContiningActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("e.d.bell")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), BellActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else if(arrayList.get(0).getType().equals("e.d.curt")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
+                            intent.putExtra("extra_name", name);
+                            startActivity(intent);
+                        }else {
+                            CardAdapter cardAdapter = new CardAdapter(arrayList);
+                            recyclerView.setAdapter(cardAdapter);
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
+                            recyclerView.setLayoutManager(gridLayoutManager1);
+                        }
+
+                    }
+                    else {
+                        CardAdapter cardAdapter = new CardAdapter(arrayList);
+                        recyclerView.setAdapter(cardAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
+                        recyclerView.setLayoutManager(gridLayoutManager1);
+                    }
                 } else {
-                    // Handle unsuccessful response
+
                 }
 
             }

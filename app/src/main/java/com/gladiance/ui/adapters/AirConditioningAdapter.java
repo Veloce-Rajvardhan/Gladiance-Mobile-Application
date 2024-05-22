@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gladiance.ui.fragment.RoomControl.AirConditioningControlFragment;
 import com.gladiance.R;
 
 import java.util.List;

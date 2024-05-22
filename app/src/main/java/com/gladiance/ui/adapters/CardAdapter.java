@@ -221,16 +221,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, FanActivity.class);
-//                        context.startActivity(intent);
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, FanActivity.class);
+                        context.startActivity(intent);
 
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        FanFragment newFragment = new FanFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        FanFragment newFragment = new FanFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                     }
                 }
             });
@@ -315,16 +315,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, CurtainActivity.class);
-//                        context.startActivity(intent);
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, CurtainActivity.class);
+                        context.startActivity(intent);
 
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        CurtainFragment newFragment = new CurtainFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        CurtainFragment newFragment = new CurtainFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                     }
                 }
             });
@@ -354,15 +354,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, DimmerActivity.class);
-//                        context.startActivity(intent);
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        DimmerFragment newFragment = new DimmerFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, DimmerActivity.class);
+                        context.startActivity(intent);
+
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        DimmerFragment newFragment = new DimmerFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                     }
                 }
             });
@@ -393,15 +394,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, RGBLightActivity.class);
-//                        context.startActivity(intent);
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        RGBLightFragment newFragment = new RGBLightFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, RGBLightActivity.class);
+                        context.startActivity(intent);
+
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        RGBLightFragment newFragment = new RGBLightFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                     }
                 }
             });
@@ -445,15 +447,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor1.putString("Primary", primary);
                         editor1.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, BellActivity.class);
-//                        context.startActivity(intent);
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        BellFragment newFragment = new BellFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, BellActivity.class);
+                        context.startActivity(intent);
+
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        BellFragment newFragment = new BellFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
 
                     }
                 }
@@ -484,15 +487,16 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         editor.putString("Name", name);
                         editor.apply();
 
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, AirContiningActivity.class);
-//                        context.startActivity(intent);
-                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        AirContiningFragment newFragment = new AirContiningFragment();
-                        transaction.replace(R.id.ControlsContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, AirContiningActivity.class);
+                        context.startActivity(intent);
+
+//                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        AirContiningFragment newFragment = new AirContiningFragment();
+//                        transaction.replace(R.id.ControlsContainer, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                     }
                 }
             });

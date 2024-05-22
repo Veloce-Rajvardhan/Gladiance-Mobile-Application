@@ -22,9 +22,9 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.provisioning.ESPConstants;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.R;
 
 import org.greenrobot.eventbus.EventBus;

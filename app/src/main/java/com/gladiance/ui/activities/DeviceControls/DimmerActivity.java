@@ -28,7 +28,7 @@ public class DimmerActivity extends AppCompatActivity {
 
     Switch dimmerswitch;
     String nodeId;
-    TextView textView;
+    TextView textView,textViewDeviceName;
     SeekBar seekBar;
     NetworkApiManager networkApiManager;
     ImageView lampImg;
@@ -46,16 +46,22 @@ public class DimmerActivity extends AppCompatActivity {
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
 
+        textViewDeviceName = findViewById(R.id.DeviceName);
         dimmerswitch = findViewById(R.id.switchButtonDimmer);
         seekBar = findViewById(R.id.seekBarDimmer);
         textView = findViewById(R.id.textView);
         lampImg = findViewById(R.id.dimmer1);
         textView.setVisibility(View.GONE);
 
+        textViewDeviceName.setText(Label);
 
         disableSeekBars();
 
@@ -67,14 +73,19 @@ public class DimmerActivity extends AppCompatActivity {
                 Log.d(TAG, "onCheckedChanged: "+isChecked);
                 dimmerState(isChecked);
                 if (isChecked) {
-                    // Switch is ON, so make the seekBar visible and lampImg visible
                    enableSeekBars();
-
+                    int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                    boolean isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+                    if (isDarkTheme) {
+                        lampImg.setImageResource(R.drawable.lamp1);
+                    }else {
+                        lampImg.setImageResource(R.drawable.lampblack1);
+                    }
                     textView.setVisibility(View.VISIBLE);
                 } else {
-                    // Switch is OFF, so hide the seekBar and lampImg
-                   disableSeekBars();
 
+                    disableSeekBars();
+                    lampImg.setVisibility(View.GONE);
                     textView.setVisibility(View.GONE);
                 }
             }

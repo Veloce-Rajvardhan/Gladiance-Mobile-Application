@@ -35,10 +35,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.provisioning.DeviceConnectionEvent;
 import com.gladiance.provisioning.ESPConstants;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.provisioning.WiFiAccessPoint;
 import com.gladiance.provisioning.listeners.WiFiScanListener;
 import com.gladiance.ui.adapters.WiFiListAdapter;

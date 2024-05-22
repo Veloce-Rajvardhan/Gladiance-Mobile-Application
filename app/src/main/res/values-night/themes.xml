@@ -81,6 +81,30 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+
+<!--    Mood and Favorite Botton-->
+    <!-- Grey Button Left Corner Theme -->
+    <style name="GreyLightButtonLeftCorner" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/grey_light_button_left</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- Grey Button Right Corner Theme -->
+    <style name="GreyLightButtonRightCorner" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/grey_light_button_right</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--Button Theme -->
+    <style name="ButtonStyleLeftCorners" >
+        <item name="android:background">@drawable/white_button_bg_left</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="ButtonStyleRightCorners" >
+        <item name="android:background">@drawable/white_button_bg_right</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
     <!-- MeowBottomNavigation night Theme -->
     <style name="MeowBottomNavigation">
         <item name="mbn_backgroundBottomColor">#000000</item>

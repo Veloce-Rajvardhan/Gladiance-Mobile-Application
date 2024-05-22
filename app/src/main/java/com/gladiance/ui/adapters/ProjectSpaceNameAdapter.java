@@ -74,6 +74,7 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
                         SpaceLanding clickedCard = arraylist.get(position);
                         String name = clickedCard.getGAAProjectSpaceRef();
                         String typeRef = clickedCard.getGAAProjectSpaceTypeRef();
+                        String spaceName = clickedCard.getGAAProjectSpaceName();
 
                         // Storing data in SharedPreferences
                         SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("MyPrefsPSR", Context.MODE_PRIVATE);
@@ -85,6 +86,11 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
                         SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                         editor1.putString("Project_Space_Type_Ref", typeRef);
                         editor1.apply();
+
+                        SharedPreferences sharedPreferences2 = view.getContext().getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                        editor2.putString("Project_Space_Name", spaceName);
+                        editor2.apply();
 
 
                         spaceNameTextView.setBackground(getDrawableForTheme(view.getContext(), R.drawable.transparent_button_background));
@@ -98,7 +104,6 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
 //                            textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
 //                        }
 //                        spaceNameTextView.setTextColor(textColor);
-
 
 
                         Fragment newFragment = new AreaLandingFragment(); // Replace YourNewFragment with the fragment you want to navigate to
