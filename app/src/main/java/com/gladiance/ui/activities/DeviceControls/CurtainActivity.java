@@ -31,7 +31,7 @@ public class CurtainActivity extends AppCompatActivity {
     NetworkApiManager networkApiManager;
 
     SeekBar seekBar;
-    TextView textView;
+    TextView textView,textViewDeviceName;
     Button setTimeBtn;
 
     Context context = this;
@@ -51,6 +51,7 @@ public class CurtainActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBar);
         textView = findViewById(R.id.textView);
         setTimeBtn = findViewById(R.id.setTimeBtn);
+        textViewDeviceName = findViewById(R.id.DeviceName);
 
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
@@ -60,6 +61,11 @@ public class CurtainActivity extends AppCompatActivity {
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: "+nodeId);
 
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
+        textViewDeviceName.setText(Label);
 
         curtainOpen.setOnClickListener(new View.OnClickListener() {
 

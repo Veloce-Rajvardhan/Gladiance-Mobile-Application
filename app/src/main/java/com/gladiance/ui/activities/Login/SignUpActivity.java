@@ -26,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
+
     TextView name,email;
 
     private boolean passwordShowing = false;

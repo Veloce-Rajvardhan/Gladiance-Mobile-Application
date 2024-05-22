@@ -24,14 +24,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.ui.activities.API.ApiService;
+import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
+import com.gladiance.ui.activities.RoomControl.DeviceCardActivity;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
+import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
 
 import java.util.List;
+
+import retrofit2.Call;
 
 public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdapter.ViewHolder> {
     private List<Controls> controls;
@@ -39,10 +45,10 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
 
 
 
-    public DeviceControlAdapter(List<Controls> controls, Context context ) {
+
+    public DeviceControlAdapter(List<Controls> controls, Context context) {
         this.controls = controls;
         this.context = context;
-
     }
 
 
@@ -64,61 +70,34 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             @Override
             public void onClick(View view) {
 
+                LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
 
-                //                boolean provisionStatus = control.isProvisioned();
-//                SharedPreferences sharedPreferences13 = view.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor2 = sharedPreferences13.edit();
-//                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: "+sharedPreferences13 );
-//                editor2.putBoolean("KEY_USERNAMEw", provisionStatus);
-//                editor2.apply();
-//
-//                    if (!control.isProvisioned()) {
-//                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-//                        Long GaaProjectSpaceTypePlannedDeviceRef = control.getGaaProjectSpaceTypePlannedDeviceRef();
-//                        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: "+GaaProjectSpaceTypePlannedDeviceRef );
-//                        editor.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-//                        editor.apply();
-//
-////                   boolean provisionStatus = control.isProvisioned();
-////
-////                        boolean provisionStatus = control.isProvisioned();
-////                        SharedPreferences sharedPreferences13 = inflater.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
-////                        SharedPreferences.Editor editor2 = sharedPreferences13.edit();
-////                        Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: "+sharedPreferences13 );
-////                        editor2.putBoolean("KEY_USERNAMEw", provisionStatus);
-////                        editor2.apply();
-//
-//
-//
-//
-//
-//                        Toast.makeText(inflater.getContext(), "This is a toast message"+control.getGaaProjectSpaceTypePlannedDeviceName(), Toast.LENGTH_SHORT).show();
-//                        holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), AddDeviceActivity.class));
-//                    } else {
+                Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
+                SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor3 = sharedPreferences.edit();
+                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
+                editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
+                editor3.apply();
 
+                String Label = control.getLabel();
+                SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                Log.e(TAG, "Node Id: " + Label);
+                editor1.putString("KEY_USERNAMEs", Label);
+                editor1.apply();
 
-//
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                String nodeId = control.getNodeId();
+                SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences2.edit();
+                Log.e(TAG, "Node Id: " + nodeId);
+                editor.putString("KEY_USERNAMEs", nodeId);
+                editor.apply();
 
-                        Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor3 = sharedPreferences.edit();
-                        Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: "+GaaProjectSpaceTypePlannedDeviceRef );
-                        editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-                        editor3.apply();
+                // holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), DeviceCardActivity.class));
 
 
 
-                        String nodeId = control.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: "+nodeId );
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
 
-                        //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -130,12 +109,8 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
                         transaction.commit();
                     }
                 });
-//                    }
-
             }
-
         });
-
     }
 
 
@@ -155,33 +130,11 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             deviceNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    int textColor = context.getResources().getColor(R.color.TextOrangeColor);
-//                    if (isNightModeEnabled(context)) {
-//                        textColor = context.getResources().getColor(R.color.TextOrangeColor);
-//                    }
-//                    deviceNameTextView.setTextColor(textColor);
-//
-//                    Intent intent = new Intent(context, EspMainActivity.class);
-//                    context.startActivity(intent);
+
                 }
             });
         }
     }
 
-//    private boolean isNightModeEnabled(Context context) {
-//        int currentNightMode = context.getResources().getConfiguration().uiMode
-//                & Configuration.UI_MODE_NIGHT_MASK;
-//        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
-//    }
-//
-//    private Drawable getDrawableForTheme(Context context, @DrawableRes int drawableResId) {
-//        if (isNightModeEnabled(context)) {
-//            // Load night mode drawable
-//            return ContextCompat.getDrawable(context, R.drawable.new_border_button_background_night);
-//        } else {
-//            // Load day mode drawable
-//            return ContextCompat.getDrawable(context, drawableResId);
-//        }
-//    }
 
 }

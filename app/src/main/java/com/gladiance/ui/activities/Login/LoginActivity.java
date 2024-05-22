@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceActivity;
 import com.gladiance.ui.models.LoginRequestModel;
 import com.gladiance.ui.models.LoginResponseModel;
@@ -243,9 +244,13 @@ public class LoginActivity extends AppCompatActivity {
         // Google Sing in Code
 
         googleImg = findViewById(R.id.googleImg);
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if(acct!=null){
+            navigateToSecondActivity();
+        }
 
         googleImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -365,7 +370,7 @@ public class LoginActivity extends AppCompatActivity {
 
     void navigateToSecondActivity() {
         finish();
-        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+        Intent intent = new Intent(getApplicationContext(), NavBarActivity.class);
         startActivity(intent);
     }
 

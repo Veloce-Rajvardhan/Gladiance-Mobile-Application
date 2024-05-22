@@ -11,8 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-package com.gladiance.provisioning;
+package com.espressif.provisioning;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,6 +34,10 @@ import androidx.annotation.RequiresPermission;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.gladiance.provisioning.CameraSourcePreview;
+import com.gladiance.provisioning.ESPConstants;
+import com.gladiance.provisioning.ESPDevice;
+import com.gladiance.provisioning.WiFiAccessPoint;
 import com.gladiance.provisioning.device_scanner.BleScanner;
 import com.gladiance.provisioning.device_scanner.WiFiScanner;
 import com.gladiance.provisioning.listeners.BleScanListener;

@@ -32,14 +32,14 @@ public class DoNotDisturbFragment extends Fragment {
         textView = view.findViewById(R.id.privacy);
         aSwitch = view.findViewById(R.id.switchButtonDimmer);
 
-        textView.setText(aSwitch.isChecked() ? "Privacy Mode Activated" : "Privacy Mode Deactivated");
+        textView.setText(aSwitch.isChecked() ? "DND ACTIVATED" : "DND DEACTIVATED");
 
         // Listen for switch state changes
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update TextView based on switch state
-                textView.setText(isChecked ? "Privacy Mode Activated" : "Privacy Mode Deactivated");
+                textView.setText(isChecked ? "DND ACTIVATED" : "DND DEACTIVATED");
 
             }
         });

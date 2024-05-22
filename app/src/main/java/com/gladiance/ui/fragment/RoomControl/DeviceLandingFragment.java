@@ -61,15 +61,13 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
     public static DeviceLandingFragment newInstance(Context context, Long selectedAreaRef) {
         DeviceLandingFragment fragment = new DeviceLandingFragment();
 
-        // Store the selectedAreaRef in SharedPreferences
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(ARG_SELECTED_AREA_REF, selectedAreaRef);
-        editor.apply(); // Or use editor.commit() if you want it to be synchronous
+        editor.apply();
 
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,52 +95,20 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
-        Log.e(TAG, "Project Space Ref: " + savedLoginDeviceId);
+        Log.e(TAG, "Project Space Ref: " + saveProjectSpaceRef);
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
-        long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
+        SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSAR", MODE_PRIVATE);
+        String saveProjectSpaceAreRef = sharedPreferences3.getString("Project_Space_Area_Ref", "");
+        Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
+        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef.trim());
 
-        fetchInstallerControlsType(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
-
-
+        fetchInstallerControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
 
         return view;
     }
 
-//    private void fetchInstallerControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-//
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//
-//        Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-//
-//        call.enqueue(new Callback<GuestLandingResModel>() {
-//            @Override
-//            public void onResponse(Call<GuestLandingResModel> call, Response<GuestLandingResModel> response) {
-//                if (response.isSuccessful()) {
-//                    GuestLandingResModel guestLandingResModel = response.body();
-//                    if (guestLandingResModel != null && guestLandingResModel.getSuccessful()) {
-//                        Data data = guestLandingResModel.getData();
-//                        List<GuestControls> guestControls = data.getGuestControls();
-//                        if (!guestControls.isEmpty()) {
-//
-//                           // DeviceName.setText(guestControls.get(0).getControlTypeName())
-//                            GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-//                            recyclerView.setLayoutManager(gridLayoutManager);
-//                            ControlAdapter adapter = new ControlAdapter(data.getGuestControls(),context);
-//                            recyclerView.setAdapter(adapter);
-//
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<GuestLandingResModel> call, Throwable t) {
-//               // DeviceName.setText("Network error: " + t.getMessage());
-//            }
-//        });
-//
-//    }
-//
+
 
     private void fetchInstallerControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -174,7 +140,6 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                     Log.d("ControlAdapter", "Control clicked: " + control.getControlTypeName());
                                     List<Controls> filteredControls = control.getControls();
 
-
                                     guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                                     DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
                                     guestRecyclerView.setAdapter(deviceControlAdapter);
@@ -201,79 +166,6 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
     public void onControlTypeClicked(GuestControls control) {
 
     }
-
-
-//    private void fetchControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//        Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-//        call.enqueue(new Callback<GuestLandingResModel>() {
-//            @Override
-//            public void onResponse(Call<GuestLandingResModel> call, Response<GuestLandingResModel> response) {
-//                if (response.isSuccessful()) {
-//                    GuestLandingResModel responseModel = response.body();
-//                    if (responseModel != null && responseModel.getData() != null) {
-//                        List<GuestControls> controlsList = responseModel.getData().getGuestControls();
-//                        if (controlsList != null && !controlsList.isEmpty()) {
-//                            List<Controls> allControls = new ArrayList<>();
-//                            for (GuestControls guestControls : controlsList) {
-//                                allControls.addAll(guestControls.getControls());
-//                            }
-//                            // Set up InternalDeviceNameRecyclerView with all InternalDeviceNames
-//                            guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-//                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
-//                            guestRecyclerView.setAdapter(deviceControlAdapter);
-//                        }
-//                    }
-//                } else {
-//                    Log.e("API Response", "Unsuccessful response: " + response.code());
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<GuestLandingResModel> call, Throwable t) {
-//                Log.e("API Error", "Error fetching controls: " + t.getMessage());
-//            }
-//        });
-//    }
-
-
-
-//    private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-//
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//
-//        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-//
-//        call.enqueue(new Callback<InstallerLandingResModel>() {
-//            @Override
-//            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
-//                if (response.isSuccessful()) {
-//                    InstallerLandingResModel installerLandingResModel = response.body();
-//                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
-//                        com.gladiance.ui.models.lnstallerlandingpage.Data data = installerLandingResModel.getData();
-//                        List<InstallerControl> installerControls = data.getInstallerControls();
-//                        if (!installerControls.isEmpty()) {
-////                            // Display controlTypeName in TextView
-//                         // DeviceName.setText(installerControls.get(0).getControlTypeName());
-//
-////                           // Display controls in RecyclerView
-//                            GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-//                            guestRecyclerView.setLayoutManager(gridLayoutManager);
-//                            DeviceControlAdapter adapter = new DeviceControlAdapter(data.getInstallerControls().get(0).getControls(),context);
-//                            guestRecyclerView.setAdapter(adapter);
-//
-//                        }
-//                    }
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
-//                DeviceName.setText("Network error: " + t.getMessage());
-//            }
-//        });
-//
-//    }
 
     private long getSelectedAreaRefFromPreferences() {
         // Get an instance of SharedPreferences

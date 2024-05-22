@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/SCREEN"
     tools:context="com.gladiance.ui.fragment.Home.FavoriteFragment">
 
     <LinearLayout
@@ -19,7 +19,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/mood"
-            style="@style/WhiteButtonStyle"
+            style="@style/GreyLightButtonLeftCorner"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_30sdp"
@@ -31,7 +31,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/favorite"
-            style="@style/GreyLightButtonStyle"
+            style="@style/ButtonStyleRightCorners"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_30sdp"

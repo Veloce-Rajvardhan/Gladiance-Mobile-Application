@@ -27,10 +27,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.provisioning.DeviceConnectionEvent;
 import com.gladiance.provisioning.ESPConstants;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.R;
 
 import org.greenrobot.eventbus.EventBus;

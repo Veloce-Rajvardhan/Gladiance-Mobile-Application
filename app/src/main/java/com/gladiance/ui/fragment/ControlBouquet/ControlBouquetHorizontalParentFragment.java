@@ -1,34 +1,38 @@
 package com.gladiance.ui.fragment.ControlBouquet;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gladiance.ui.adapters.ControlBouquetHorizontalAdapter;
-import com.gladiance.ui.fragment.RoomControl.DoorLockFragment;
-import com.gladiance.ui.fragment.RoomControl.MoodsFragment;
+import com.gladiance.ui.activities.ControlBouquet.BillViewActivity;
+import com.gladiance.ui.activities.ControlBouquet.DoorCameraActivity;
+import com.gladiance.ui.activities.ControlBouquet.DoorLockActivity;
+import com.gladiance.ui.activities.ControlBouquet.EmergencyActivity;
+import com.gladiance.ui.activities.ControlBouquet.FeedbackActivity;
+import com.gladiance.ui.activities.ControlBouquet.HotelInfoActivity;
+import com.gladiance.ui.activities.ControlBouquet.HouseKeepingActivity;
+import com.gladiance.ui.activities.ControlBouquet.LaundryActivity;
+import com.gladiance.ui.activities.ControlBouquet.MessagingActivity;
+import com.gladiance.ui.activities.ControlBouquet.PromotionActivity;
+import com.gladiance.ui.activities.ControlBouquet.RoomServiceActivity;
 import com.gladiance.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
+public class ControlBouquetHorizontalParentFragment extends Fragment  {
 
-public class ControlBouquetHorizontalParentFragment extends Fragment implements ControlBouquetHorizontalAdapter.OnItemClickListener {
-
-
+    CardView CVHouseKipping,CVRoomService,CVLaundry,CVBillView,CVFeedback,CVHotelInfo,CVPromotion,CVMessaging,CVDoorLock,
+                CVEmergency,CVDoorCamera;
     public ControlBouquetHorizontalParentFragment() {
         // Required empty public constructor
     }
 
-    private RecyclerView recyclerViewControlBouquetHorizontal;
-    private ControlBouquetHorizontalAdapter controlBouquetHorizontalAdapter;
+
 
 
     @Override
@@ -36,88 +40,114 @@ public class ControlBouquetHorizontalParentFragment extends Fragment implements 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control_bouquet_horizontal_parent, container, false);
-        recyclerViewControlBouquetHorizontal = view.findViewById(R.id.recycleViewControlBouquetHorizontal);
-        recyclerViewControlBouquetHorizontal.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // Initialize your adapter and set it to the RecyclerView
-        controlBouquetHorizontalAdapter = new ControlBouquetHorizontalAdapter(getData(), this);
-        recyclerViewControlBouquetHorizontal.setAdapter(controlBouquetHorizontalAdapter);
+        CVHouseKipping = view.findViewById(R.id.houseKipping);
+        CVRoomService = view.findViewById(R.id.roomService);
+        CVLaundry = view.findViewById(R.id.laundry);
+        CVBillView = view.findViewById(R.id.billView);
+        CVFeedback = view.findViewById(R.id.feedback);
+        CVHotelInfo = view.findViewById(R.id.hotelInfo);
+        CVPromotion = view.findViewById(R.id.promotion);
+        CVMessaging = view.findViewById(R.id.messaging);
+        CVDoorLock = view.findViewById(R.id.doorLock);
+        CVEmergency = view.findViewById(R.id.emergency);
+        CVDoorCamera = view.findViewById(R.id.doorCamera);
 
-        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-        recyclerViewControlBouquetHorizontal.setLayoutManager(gridLayoutManager1);
-        recyclerViewControlBouquetHorizontal.setHasFixedSize(true);
+        CVHouseKipping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HouseKeepingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVRoomService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RoomServiceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVLaundry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LaundryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVBillView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BillViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVHotelInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HotelInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVPromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PromotionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVMessaging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MessagingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVDoorLock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DoorLockActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVEmergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EmergencyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CVDoorCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DoorCameraActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;
     }
 
-    private List<String> getData() {
-        // Replace this with your data source
-        List<String> data = new ArrayList<>();
-        data.add("Housekeeping");
-        data.add("Room Service");
-        data.add("Laundry");
-        data.add("Bill View");
-        data.add("Feedback");
-        data.add("Hotel Info");
-        data.add("Promotion");
-        data.add("Messaging");
-        data.add("Door Lock");
-        data.add("Emergency");
-        data.add("Door Camera");
-        return data;
-    }
 
-    @Override
-    public void onItemClick(int position) {
-        // Handle item click, replace fragment, etc.
-        replaceFragmentBasedOnPosition(position);
-    }
 
-    private void replaceFragmentBasedOnPosition(int position) {
-        Fragment newFragment;
-        switch (position) {
-            case 0:
-                newFragment = new HousekeepingFragment();
-                break;
-            case 1:
-                newFragment = new RoomServiceFragment();
-                break;
-            case 2:
-                newFragment = new LaundryFragment();
-                break;
-            case 3:
-                newFragment = new BillViewFragment();
-                break;
-            case 4:
-                newFragment = new FeedbackFragment();
-                break;
-            case 5:
-                newFragment = new HotelInfoFragment();
-                break;
-            case 6:
-                newFragment = new PromotionFragment();
-                break;
-            case 7:
-                newFragment = new MessagingFragment();
-                break;
-            case 8:
-                newFragment = new DoorLockFragment();
-                break;
-            case 9:
-                newFragment = new EmergencyFragment();
-                break;
-            case 10:
-                newFragment = new DoorCameraFragment();
-                break;
 
-            default:
-                newFragment = new MoodsFragment();
-        }
 
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.FrameLayoutControlBouquet, newFragment)
-                .addToBackStack(null)
-                .commit();
-    }
+
 }

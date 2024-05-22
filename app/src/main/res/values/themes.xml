@@ -128,6 +128,29 @@
         <item name="android:progressDrawable">@drawable/circular_progress_bar</item>
     </style>
 
+    <!-- Grey Button Left Corner Theme -->
+    <style name="GreyLightButtonLeftCorner" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/grey_light_button_left</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+    <!-- Grey Button Right Corner Theme -->
+    <style name="GreyLightButtonRightCorner" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/grey_light_button_right</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <!--Button Theme -->
+    <style name="ButtonStyleLeftCorners" >
+        <item name="android:background">@drawable/black_button_background_left</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonStyleRightCorners" >
+        <item name="android:background">@drawable/black_button_background_right</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
     <!--  MeowBottomNavigation Theme -->
     <style name="MeowBottomNavigation">
         <item name="mbn_backgroundBottomColor">#ffffff</item>

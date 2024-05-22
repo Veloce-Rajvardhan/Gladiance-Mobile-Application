@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class RGBLightActivity extends AppCompatActivity {
     private EspApplication espApp;
     Context context = this;
     SeekBar seekBar1,seekBar2,seekBar3,seekBar4,seekBar5;
-    TextView textView1,textView2,textView3,textView4,textView5;
+    TextView textView1,textView2,textView3,textView4,textView5,textView6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,11 @@ public class RGBLightActivity extends AppCompatActivity {
         SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
+
+        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        String Label = preferences.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "Label : " +Label);
+
 
         rgbLightSwitch = findViewById(R.id.switchButtonFan);
         seekBar1 = findViewById(R.id.seekBarDimmer);
@@ -56,6 +62,9 @@ public class RGBLightActivity extends AppCompatActivity {
         textView3 = findViewById(R.id.tv_saturation);
         textView4 = findViewById(R.id.tv_CCT);
         textView5 = findViewById(R.id.tv_Whitebrightness);
+        textView6 = findViewById(R.id.DeviceName);
+
+        textView6.setText(Label);
 
         disableSeekBars();
 

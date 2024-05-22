@@ -11,73 +11,52 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
+import com.gladiance.ui.models.Project;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.MyViewHolder> {
 
+    private static List<Project> arrayList;
 
-    private static Context context;
-
-    private List<String> tvProject;
-    private List<String> tvProjectName;
-    private List<String> tvSpace;
-    private List<String> tvSpaceName;
-    private List<Integer> imgView;
-    private List<Integer> imgDelete;
-
-    public MyProjectAdapter(Context context, List<String> tvProject, List<String> tvProjectName, List<String> tvSpace, List<String> tvSpaceName, List<Integer> imgView, List<Integer> imgDelete) {
-        this.context = context;
-        this.tvProject = tvProject;
-        this.tvProjectName = tvProjectName;
-        this.tvSpace = tvSpace;
-        this.tvSpaceName = tvSpaceName;
-        this.imgView = imgView;
-        this.imgDelete = imgDelete;
+    public MyProjectAdapter(ArrayList<Project> arrayList) {
+        this.arrayList = arrayList;
     }
 
 
     @NonNull
     @Override
     public MyProjectAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = LayoutInflater.from(context).inflate(R.layout.myproject_recyleview, parent, false);
-        return new MyProjectAdapter.MyViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.myproject_recyleview, parent, false);
+        return new MyProjectAdapter.MyViewHolder(view);
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull MyProjectAdapter.MyViewHolder holder, int position) {
 
-        holder.TextView1.setText(tvProject.get(position));
-        holder.TextView2.setText(tvProjectName.get(position));
-        holder.TextView3.setText(tvSpace.get(position));
-        holder.TextView4.setText(tvSpaceName.get(position));
-        holder.Image1.setImageResource(imgView.get(position));
-        holder.Image2.setImageResource(imgDelete.get(position));
+        Project project = arrayList.get(position);
+        holder.tvProjectName.setText(project.getGAAProjectName());
 
 
     }
 
     @Override
     public int getItemCount() {
-        return tvProject.size();
+        return arrayList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView Image1, Image2;
-        TextView TextView1, TextView2, TextView3, TextView4;
 
+        TextView tvProjectName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvProjectName = itemView.findViewById(R.id.tvProjectName);
 
-            TextView1 = itemView.findViewById(R.id.tvProject);
-            TextView2 = itemView.findViewById(R.id.tvProjectName);
-            TextView3 = itemView.findViewById(R.id.tvSpace);
-            TextView4 = itemView.findViewById(R.id.tvSpaceName);
-            Image1 = itemView.findViewById(R.id.imgView);
-            Image2 = itemView.findViewById(R.id.imgDelete);
 
 
         }

@@ -19,7 +19,8 @@ import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.gladiance.provisioning.ESPProvisionManager;
+import com.espressif.provisioning.ESPProvisionManager;
+
 import com.gladiance.R;
 
 public class Utils {

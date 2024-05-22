@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.JsonDataParser;
 import com.gladiance.cloudapi.ApiManager;
@@ -17,7 +18,6 @@ import com.gladiance.db.EspDatabase;
 import com.gladiance.local_control.EspLocalDevice;
 import com.gladiance.local_control.LocalControlApiManager;
 import com.gladiance.local_control.mDNSManager;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.Action;

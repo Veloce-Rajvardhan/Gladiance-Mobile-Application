@@ -5,23 +5,47 @@
     android:id="@+id/constraint"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_margin="@dimen/_1sdp"
-        style="@style/MyButtonStyle"
-        android:fontFamily="@font/roboto_medium"
-        android:paddingHorizontal="10dp"
-        android:text="Living Room"
-        android:textSize="@dimen/_12sdp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/node_cardView"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"> <!-- Replace with your image resource -->
+
+        <LinearLayout
+            android:id="@+id/llProjectName"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="#222222"
+            android:orientation="vertical">
+            <!-- Image in CardView -->
+            <ImageView
+                android:id="@+id/imgPN"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:padding="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:src="@drawable/homeproject"
+                />
+
+            <TextView
+                android:id="@+id/btnTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                style="@style/TEXT"
+                android:textStyle="bold"
+                android:text="Smart Button"
+                android:textSize="@dimen/_14sdp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,11 +44,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.provisioning.DeviceConnectionEvent;
 import com.gladiance.provisioning.ESPConstants;
 import com.gladiance.provisioning.ESPDevice;
-import com.gladiance.provisioning.ESPProvisionManager;
+
 import com.gladiance.provisioning.listeners.QRCodeScanListener;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
