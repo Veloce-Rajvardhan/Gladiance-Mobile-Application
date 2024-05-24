@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
 import com.gladiance.R;
-import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 
 import java.util.ArrayList;
@@ -92,28 +91,28 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
 
 
                 //write post api here sceneclickapi
-                Long sceneRef = scene.getRef();
-                String sceneRefString = String.valueOf(sceneRef);
-
-                Fragment fragment = new EditSceneFragment();
-
-                Bundle bundle = new Bundle();
-                // Pass the sceneRef to the next fragment using fragment arguments
-                //   Bundle bundle = new Bundle();
-                bundle.putString("SCENE_REF", sceneRefString);
-                fragment.setArguments(bundle);
-
-
-                //   bundle.putStringArrayList("myArrayList", newList);
-
-                // Create the destination fragment instance
-                Fragment destinationFragment = new EditSceneFragment();
-                destinationFragment.setArguments(bundle);
+//                Long sceneRef = scene.getRef();
+//                String sceneRefString = String.valueOf(sceneRef);
+//
+//                Fragment fragment = new EditSceneFragment();
+//
+//                Bundle bundle = new Bundle();
+//                // Pass the sceneRef to the next fragment using fragment arguments
+//                //   Bundle bundle = new Bundle();
+//                bundle.putString("SCENE_REF", sceneRefString);
+//                fragment.setArguments(bundle);
+//
+//
+//                //   bundle.putStringArrayList("myArrayList", newList);
+//
+//                // Create the destination fragment instance
+//                Fragment destinationFragment = new EditSceneFragment();
+//                destinationFragment.setArguments(bundle);
                 //destinationFragment.
 
-                FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.edit_scene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
-                        .commit();
+//                FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.edit_scene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
+//                        .commit();
 
 
             }

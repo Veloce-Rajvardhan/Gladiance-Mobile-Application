@@ -81,7 +81,11 @@
         <item name="colorControlActivated">@color/color_orange</item>
     </style>
 
-
+    <!--  Transperant Bg Theme -->
+    <style name="TransperantBg">
+        <item name="android:background">@drawable/transparent_bg_black</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
 
 
     <!--  Dropdown Theme -->

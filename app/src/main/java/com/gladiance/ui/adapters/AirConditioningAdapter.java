@@ -91,17 +91,17 @@ public class AirConditioningAdapter extends RecyclerView.Adapter<AirConditioning
                 }
             });
 
-            ImageViewAirCon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Handle click for ImageViewMore to open a new Fragment
-                    Fragment newFragment = new AirConditioningControlFragment();
-                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.airConditioning_fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-            });
+//            ImageViewAirCon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // Handle click for ImageViewMore to open a new Fragment
+//                    Fragment newFragment = new AirConditioningControlFragment();
+//                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.airConditioning_fragment_container, newFragment);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
+//                }
+//            });
         }
     }
 }

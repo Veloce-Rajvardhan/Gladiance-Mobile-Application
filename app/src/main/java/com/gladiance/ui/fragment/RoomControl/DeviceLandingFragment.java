@@ -126,11 +126,9 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                 allControls.addAll(guestControls.getControls());
                             }
                             // Set up ControlTypeName RecyclerView
-
                             guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                             DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
                             guestRecyclerView.setAdapter(deviceControlAdapter);
-
 
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager);

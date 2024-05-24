@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gladiance.AppConstants;
 import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
-import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.lnstallerlandingpage.Controls;
 import com.gladiance.ui.models.scene.Configuration;

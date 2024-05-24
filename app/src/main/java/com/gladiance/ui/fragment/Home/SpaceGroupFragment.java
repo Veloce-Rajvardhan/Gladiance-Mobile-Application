@@ -88,7 +88,6 @@ public class SpaceGroupFragment extends BottomSheetDialogFragment {
 
     private void  getSpaceGroupName(String gAAProjectRef2, String loginToken,String loginDeviceId){
 
-
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<ProjectSpaceGroupResModel> call = apiService.getProjectData(gAAProjectRef2,loginToken,loginDeviceId);
 
@@ -103,7 +102,6 @@ public class SpaceGroupFragment extends BottomSheetDialogFragment {
                         for(ProjectSpaceGroupReqModel.SpaceGroup spaceGroup1 : spaceGroups){
                             Log.e(TAG, "onResponse SpaceGroupName: " + spaceGroup1.getGAAProjectSpaceGroupName());
                             arrayList.add(new SpaceGroup(spaceGroup1.getGAAProjectSpaceGroupRef(),spaceGroup1.getGAAProjectSpaceGroupName(),spaceGroup1.getDisplayOrder()));
-
 
                         }
                         //add arraylist code and create space group class

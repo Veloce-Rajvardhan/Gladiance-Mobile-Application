@@ -46,9 +46,6 @@ public class MoodFragment extends Fragment {
     RecyclerView recyclerView;
     private ArrayList<ObjectTag> arrayList1;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +61,6 @@ public class MoodFragment extends Fragment {
         Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
         String loginDeviceId = GUID.trim();
 
-
         SharedPreferences  sharedPreferences2 = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
         Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
@@ -76,7 +72,6 @@ public class MoodFragment extends Fragment {
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
-
 
         buttonMood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +85,6 @@ public class MoodFragment extends Fragment {
 
             }
         });
-
 
         return view;
     }

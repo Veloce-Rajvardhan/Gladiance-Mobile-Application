@@ -21,11 +21,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.espressif.provisioning.ESPProvisionManager;
 import com.gladiance.AppConstants;
 import com.gladiance.BuildConfig;
 import com.gladiance.R;
 import com.gladiance.provisioning.ESPConstants;
-import com.gladiance.provisioning.ESPProvisionManager;
 import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.BLEProvisionLanding;
 import com.gladiance.ui.activities.EspMainActivity;

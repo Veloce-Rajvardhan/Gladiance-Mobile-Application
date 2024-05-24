@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.ui.activities.Home.ProjectSpaceLandingActivity;
 import com.gladiance.ui.models.SpaceGroup;
 import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.R;
@@ -101,7 +102,7 @@ public class ProjectSpaceGroupListAdapter extends RecyclerView.Adapter<ProjectSp
                         }
 
                         // Start the activity
-                        Intent intent = new Intent(context, NavBarActivity.class);
+                        Intent intent = new Intent(context, ProjectSpaceLandingActivity.class);
                         context.startActivity(intent);
 
                     }

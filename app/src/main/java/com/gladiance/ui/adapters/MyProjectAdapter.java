@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
+import com.gladiance.ui.activities.MyProfile.MyProjectActivity;
 import com.gladiance.ui.models.Project;
 
 import java.util.ArrayList;

@@ -8,12 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -42,7 +44,8 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
     private int progress = 0;
 
 
-    TextView textView, textViewDeviceName;
+    TextView textView, textViewDeviceName,tvCel,tvFer;
+    ImageView imgCool,imgHot;
     SeekBar seekbarAirCond;
     private String[] progressStates = {"Off", "Low", "Mid", "High"};
 
@@ -145,7 +148,58 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         });
 
 
+        tvCel = findViewById(R.id.tvCel);
+        tvFer = findViewById(R.id.tvFer);
+
+        tvCel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvCel.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+                String mood = "Centigrade";
+                sendUnit(mood);
+                tvFer.setBackgroundResource(android.R.color.transparent);
+            }
+        });
+
+        tvFer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
+                String mood = "Fahrenheit";
+                sendUnit(mood);
+                tvCel.setBackgroundResource(android.R.color.transparent);
+            }
+        });
+
+        imgHot = findViewById(R.id.imgHot);
+        imgCool = findViewById(R.id.imgCool);
+
+        imgHot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgHot.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+                String mood = "Heat";
+                sendMood(mood);
+                imgCool.setBackgroundResource(android.R.color.transparent);
+            }
+        });
+
+        imgCool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgCool.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
+                String mood = "Cool";
+                sendMood(mood);
+                imgHot.setBackgroundResource(android.R.color.transparent);
+            }
+        });
+
     }
+
+
+
+
+
 
 
 
@@ -253,12 +307,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
     private void disableSeekBars() {
         seekbarAirCond.setEnabled(false);
-
+        circularSeekBar.setEnabled(false);
     }
 
     private void enableSeekBars() {
         seekbarAirCond.setEnabled(true);
-
+        circularSeekBar.setEnabled(true);
     }
 
     private void handleApiResponse(ResponseModel responseModel) {

@@ -1,6 +1,7 @@
 package com.gladiance.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -17,31 +18,31 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.ui.activities.Home.NavBarActivity;
+import com.gladiance.ui.activities.Home.ProjectSpaceLandingActivity;
 import com.gladiance.ui.models.SpaceLanding;
 import com.gladiance.ui.fragment.RoomControl.AreaLandingFragment;
 import com.gladiance.R;
 
 import java.util.List;
 
-public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNameAdapter.ViewHolder> {
+import javax.xml.namespace.NamespaceContext;
 
+public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNameAdapter.ViewHolder> {
 
 
     private static List<SpaceLanding> arraylist;
     private int selectedPosition = RecyclerView.NO_POSITION;
-    private Context context;
 
 
-    public ProjectSpaceNameAdapter(List<SpaceLanding> arraylist,Context context) {
+    public ProjectSpaceNameAdapter(List<SpaceLanding> arraylist) {
         this.arraylist = arraylist;
-        this.context = context;
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_control_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_space_name_recycleview, parent, false);
         return new ViewHolder(view);
     }
 
@@ -64,12 +65,13 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            spaceNameTextView = itemView.findViewById(R.id.btnTitle);
+            spaceNameTextView = itemView.findViewById(R.id.spaceName);
 
-            spaceNameTextView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
+                    Context context = view.getContext();
                     if (position != RecyclerView.NO_POSITION) {
                         SpaceLanding clickedCard = arraylist.get(position);
                         String name = clickedCard.getGAAProjectSpaceRef();
@@ -93,26 +95,8 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
                         editor2.apply();
 
 
-                        spaceNameTextView.setBackground(getDrawableForTheme(view.getContext(), R.drawable.transparent_button_background));
-                        boolean isNightModeEnabled = true;
-                        spaceNameTextView.setBackgroundResource(isNightModeEnabled ? R.drawable.white_button_bg_round : R.drawable.black_button_bg_round);
-                        spaceNameTextView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.color_black : R.color.white));
-
-                        // Change text color of clicked text view based on theme
-//                        int textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
-//                        if (isNightModeEnabled(view.getContext())) {
-//                            textColor = view.getContext().getResources().getColor(R.color.TextOrangeColor);
-//                        }
-//                        spaceNameTextView.setTextColor(textColor);
-
-
-                        Fragment newFragment = new AreaLandingFragment(); // Replace YourNewFragment with the fragment you want to navigate to
-                        FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.framelayout, newFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-
-
+                        Intent intent = new Intent(context, NavBarActivity.class);
+                        context.startActivity(intent);
 
 
                     }
@@ -121,21 +105,4 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
         }
     }
 
-    // Function to check if night mode is enabled
-    private boolean isNightModeEnabled(Context context) {
-        int currentNightMode = context.getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    // Function to get drawable for current theme
-    private Drawable getDrawableForTheme(Context context, @DrawableRes int drawableResId) {
-        if (isNightModeEnabled(context)) {
-            // Load night mode drawable
-            return ContextCompat.getDrawable(context, R.drawable.transparent_button_background);
-        } else {
-            // Load day mode drawable
-            return ContextCompat.getDrawable(context, drawableResId);
-        }
-    }
 }

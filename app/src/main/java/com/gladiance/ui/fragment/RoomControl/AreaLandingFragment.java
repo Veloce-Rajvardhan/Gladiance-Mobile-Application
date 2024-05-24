@@ -3,6 +3,7 @@ package com.gladiance.ui.fragment.RoomControl;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -31,6 +32,7 @@ import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.ProjectSpaceNameAdapter;
+import com.gladiance.ui.fragment.Home.HomeFragment;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 
@@ -100,7 +102,6 @@ public class AreaLandingFragment extends Fragment  {
         Log.e(TAG, "Project Space Name: "+saveProjectSpaceName );
         textViewSpaceName.setText(saveProjectSpaceName);
 
-
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
 
         MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
@@ -158,6 +159,7 @@ public class AreaLandingFragment extends Fragment  {
             @Override
             public void onFailure(Call<ProjectAreaLandingResModel> call, Throwable t) {
                 // Handle API call failure
+
             }
         });
     }
@@ -173,7 +175,7 @@ public class AreaLandingFragment extends Fragment  {
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 // Handle back button press here
-//                Intent intent = new Intent(requireActivity(), ProjectSpaceLandingActivity.class);
+//                Intent intent = new Intent(requireActivity(), HomeFragment.class);
 //                startActivity(intent);
 
                 //ikde lava

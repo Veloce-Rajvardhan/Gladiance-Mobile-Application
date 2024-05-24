@@ -46,7 +46,7 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_project_space_landing);
 
         userName = findViewById(R.id.userName);
-        projectName = findViewById(R.id.projectName);
+        projectName = findViewById(R.id.SLProjectName);
         spaceGroupName = findViewById(R.id.spaceGroupName);
 
         rVSpaceName = findViewById(R.id.rVProjectSpaceName);
@@ -70,12 +70,11 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
         String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
         userName.setText(savedUserDeviceName);
         Log.e(TAG, "ProjectSpaceGroupActivity User Device Name: "+savedUserDeviceName );
-        String userDeviceName = savedUserDeviceName.trim();
 
-        SharedPreferences sharedPreferences4 = getSharedPreferences("MyPreferencesPN", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences4 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
         String saveProjectName = sharedPreferences4.getString("ProjectName", "");
         projectName.setText(saveProjectName);
-        Log.e(TAG, "ProjectSpaceLandingActivity Project Name : "+savedUserDeviceName );
+        Log.e(TAG, "ProjectSpaceGroupActivity Project Name : "+saveProjectName );
 
         SharedPreferences sharedPreferences5 = getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
         String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");
@@ -114,9 +113,9 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
 
                         //add arraylist code and create space group class
 
-                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getApplicationContext());
+                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList);
                         rVSpaceName.setAdapter(projectSpaceNameAdapter);
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceLandingActivity.this, 1, GridLayoutManager.VERTICAL, false);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceLandingActivity.this, 2, GridLayoutManager.VERTICAL, false);
                         rVSpaceName.setLayoutManager(gridLayoutManager1);
                     }
                 }
@@ -130,11 +129,10 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
-        // Handle back button press
+        super.onBackPressed();
         Intent intent = new Intent(this, ProjectSpaceGroupActivity.class);
         startActivity(intent);
-        // Optionally, finish() the current activity to remove it from the back stack
-        // finish();
+
     }
 
 }

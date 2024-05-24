@@ -24,22 +24,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
-import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
-import com.gladiance.ui.adapters.ProjectSpaceNameAdapter;
+import com.gladiance.ui.activities.Home.ProjectSpaceLandingActivity;
 import com.gladiance.ui.adapters.SceneAdapter;
-import com.gladiance.ui.adapters.SpaceGroupSpinnerAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
-import com.gladiance.ui.fragment.MyProfile.AutomationFragment;
-import com.gladiance.ui.models.ProjectSpaceGroupReqModel;
-import com.gladiance.ui.models.ProjectSpaceGroupResModel;
-import com.gladiance.ui.models.ProjectSpaceLandingReqModel;
-import com.gladiance.ui.models.ProjectSpaceLandingResModel;
-import com.gladiance.ui.models.SpaceGroup;
 import com.gladiance.ui.models.SpaceLanding;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
@@ -60,7 +50,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment  {
 
-    TextView textViewProjectName,textViewUserName;
+    TextView textViewProjectName,textViewUserName,textViewSpaceName;
 
     Button buttonFavorite;
 
@@ -91,9 +81,10 @@ public class HomeFragment extends Fragment  {
 
 
         textViewProjectName = view.findViewById(R.id.tv_project_name);
+        textViewSpaceName = view.findViewById(R.id.spaceNameHome);
         textViewUserName = view.findViewById(R.id.tvUserName);
         recyclerView = view.findViewById(R.id.recycler_view_sceneList_home);
-        recyclerViewSpaceName = view.findViewById(R.id.rVProjectSpaceNameHome);
+        //recyclerViewSpaceName = view.findViewById(R.id.rVProjectSpaceNameHome);
 
 
         arrayList = new ArrayList<>();
@@ -108,6 +99,11 @@ public class HomeFragment extends Fragment  {
         String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
         textViewUserName.setText("Hi "+savedUserDeviceName+", you're at");
         Log.e(TAG, "Home Fragment User Name: "+savedUserDeviceName );
+
+        SharedPreferences sharedPreferencesSpaceName = requireActivity().getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+        String savedUserSpaceName = sharedPreferencesSpaceName.getString("Project_Space_Name", "");
+        textViewSpaceName.setText(savedUserSpaceName);
+        Log.e(TAG, "Home Fragment Space Name: "+savedUserDeviceName );
 
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
@@ -126,24 +122,9 @@ public class HomeFragment extends Fragment  {
         Log.e(TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
-        SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
-        String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");
-        Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
-
-        //Change favorite Fragment
-//        buttonFavorite = view.findViewById(R.id.favorite);
-//        buttonFavorite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Fragment fragment = new FavoriteFragment();
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-//                        .beginTransaction();
-//
-//                transaction.replace(R.id.favoriteContainer, fragment).addToBackStack(null)
-//                        .commit();
-//
-//            }
-//        });
+//        SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
+//        String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");
+//        Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(requireContext(),gso);
@@ -155,48 +136,49 @@ public class HomeFragment extends Fragment  {
 
         }
 
-        getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
+       // getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
 
         return view;
     }
 
-    private void  getSpaceName(String ProjectSpaceGroupRef, String loginToken,String loginDeviceId) {
+//    private void  getSpaceName(String ProjectSpaceGroupRef, String loginToken,String loginDeviceId) {
+//
+//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+//        Call<ProjectSpaceLandingResModel> call = apiService.getSpaceNameData(ProjectSpaceGroupRef, loginToken, loginDeviceId);
+//
+//        call.enqueue(new Callback<ProjectSpaceLandingResModel>() {
+//            @Override
+//            public void onResponse(Call<ProjectSpaceLandingResModel> call, Response<ProjectSpaceLandingResModel> response) {
+//                if (response.isSuccessful()) {
+//                    ProjectSpaceLandingResModel projectSpaceLandingResModel = response.body();
+//                    if (projectSpaceLandingResModel != null && projectSpaceLandingResModel.isSuccessful()) {
+//                        List<ProjectSpaceLandingReqModel.Space> space = projectSpaceLandingResModel.getData().getSpaces();
+//
+//                        for (ProjectSpaceLandingReqModel.Space space1 : space) {
+//                            Log.e(TAG, "onResponse SpaceGroupName: " + space1.getGAAProjectSpaceName());
+//                            Log.e(TAG, "onResponse getGAAProjectSpaceRef: "+space1.getGAAProjectSpaceRef());
+//                            Log.e(TAG, "onResponse getGAAProjectSpaceTypeRef: "+space1.getGAAProjectSpaceTypeRef());
+//
+//                            arrayList.add(new SpaceLanding(space1.getGAAProjectSpaceRef(), space1.getGAAProjectSpaceName(),space1.getGAAProjectSpaceTypeRef(),space1.getGAAProjectSpaceTypeName(), space1.getDisplayOrder(), space1.getDescription()));
+//
+//                        }
+//
+//
+//
+//                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getContext());
+//                        recyclerViewSpaceName.setAdapter(projectSpaceNameAdapter);
+//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
+//                        recyclerViewSpaceName.setLayoutManager(gridLayoutManager1);
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ProjectSpaceLandingResModel> call, Throwable t) {
+//            }
+//        });
+//    }
 
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<ProjectSpaceLandingResModel> call = apiService.getSpaceNameData(ProjectSpaceGroupRef, loginToken, loginDeviceId);
-
-        call.enqueue(new Callback<ProjectSpaceLandingResModel>() {
-            @Override
-            public void onResponse(Call<ProjectSpaceLandingResModel> call, Response<ProjectSpaceLandingResModel> response) {
-                if (response.isSuccessful()) {
-                    ProjectSpaceLandingResModel projectSpaceLandingResModel = response.body();
-                    if (projectSpaceLandingResModel != null && projectSpaceLandingResModel.isSuccessful()) {
-                        List<ProjectSpaceLandingReqModel.Space> space = projectSpaceLandingResModel.getData().getSpaces();
-
-                        for (ProjectSpaceLandingReqModel.Space space1 : space) {
-                            Log.e(TAG, "onResponse SpaceGroupName: " + space1.getGAAProjectSpaceName());
-                            Log.e(TAG, "onResponse getGAAProjectSpaceRef: "+space1.getGAAProjectSpaceRef());
-                            Log.e(TAG, "onResponse getGAAProjectSpaceTypeRef: "+space1.getGAAProjectSpaceTypeRef());
-
-                            arrayList.add(new SpaceLanding(space1.getGAAProjectSpaceRef(), space1.getGAAProjectSpaceName(),space1.getGAAProjectSpaceTypeRef(),space1.getGAAProjectSpaceTypeName(), space1.getDisplayOrder(), space1.getDescription()));
-
-                        }
-
-
-
-                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getContext());
-                        recyclerViewSpaceName.setAdapter(projectSpaceNameAdapter);
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-                        recyclerViewSpaceName.setLayoutManager(gridLayoutManager1);
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<ProjectSpaceLandingResModel> call, Throwable t) {
-            }
-        });
-    }
 
     private void getSceneList(String gaaProjectSpaceTypeRef,String loginToken,String loginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -246,7 +228,7 @@ public class HomeFragment extends Fragment  {
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 // Handle back button press here
-                Intent intent = new Intent(requireActivity(), ProjectSpaceGroupActivity.class);
+                Intent intent = new Intent(requireActivity(), ProjectSpaceLandingActivity.class);
                 startActivity(intent);
                 return true; // Consumes the back button press event
             }

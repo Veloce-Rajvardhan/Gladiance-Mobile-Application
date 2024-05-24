@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gladiance.R;
-import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
+//import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
-import com.gladiance.ui.fragment.MyProfile.SetMoodFragment;
+//import com.gladiance.ui.fragment.MyProfile.SetMoodFragment;
 
 public class InviteUserActivity extends AppCompatActivity {
 
@@ -30,18 +30,18 @@ public class InviteUserActivity extends AppCompatActivity {
         invitedUser = findViewById(R.id.invitedUser);
 
 
-        inviteUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Fragment fragment = new InviteUserFragment();
-                FragmentTransaction transaction = getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
-                        .commit();
-            }
-        });
+//        inviteUser.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Fragment fragment = new InviteUserFragment();
+//                FragmentTransaction transaction = getSupportFragmentManager()
+//                        .beginTransaction();
+//
+//                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
+//                        .commit();
+//            }
+//        });
 
         invitedUser.setOnClickListener(new View.OnClickListener() {
             @Override

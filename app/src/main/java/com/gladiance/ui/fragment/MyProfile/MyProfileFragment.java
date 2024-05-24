@@ -22,6 +22,7 @@ import com.gladiance.ui.activities.MyProfile.IntegrationActivity;
 import com.gladiance.ui.activities.MyProfile.ProjectActivity;
 import com.gladiance.ui.activities.MyProfile.SettingActivity;
 import com.gladiance.ui.activities.MyProfile.SubscriptionActivity;
+import com.gladiance.ui.activities.RoomControl.AutomationActivity;
 
 
 public class MyProfileFragment extends Fragment {
@@ -65,12 +66,6 @@ public class MyProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProjectActivity.class);
                 startActivity(intent);
-//                Fragment fragment = new ProjectFragment();
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-//                        .beginTransaction();
-//
-//                transaction.replace(R.id.container, fragment).addToBackStack(null)
-//                        .commit();
             }
         });
 
@@ -78,12 +73,8 @@ public class MyProfileFragment extends Fragment {
         Automation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new AutomationFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), AutomationActivity.class);
+                startActivity(intent);
             }
         });
 

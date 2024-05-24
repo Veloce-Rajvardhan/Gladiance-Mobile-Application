@@ -32,7 +32,6 @@ import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.adapters.CardAdapter;
-import com.gladiance.ui.fragment.DeviceControls.FanFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.saveScene.SceneConfig;

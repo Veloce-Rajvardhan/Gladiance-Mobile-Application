@@ -95,17 +95,17 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.MyViewHolder
                 }
             });
 
-            ImageViewMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Handle click for ImageViewMore to open a new Fragment
-                    Fragment newFragment = new LightControlFragment();
-                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.light_fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-            });
+//            ImageViewMore.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // Handle click for ImageViewMore to open a new Fragment
+//                    Fragment newFragment = new LightControlFragment();
+//                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.light_fragment_container, newFragment);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
+//                }
+//            });
         }
     }
 }

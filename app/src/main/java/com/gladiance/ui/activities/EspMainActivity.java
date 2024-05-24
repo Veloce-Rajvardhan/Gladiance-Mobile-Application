@@ -191,74 +191,76 @@ public class EspMainActivity extends AppCompatActivity {
             //getDevice();
      //   }
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String message = "Are you sure you want to Reset";
-                showCustomDialogBox(message);
-            }
+        //Factory Reset Code
 
-            private void showCustomDialogBox(String message) {
-
-                final Dialog dialog = new Dialog(EspMainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.layout_custom_dailog);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                tvMessage = dialog.findViewById(R.id.tvMessage);
-                btnYes = dialog.findViewById(R.id.btn_Yes);
-                btnNo = dialog.findViewById(R.id.btn_No);
-
-                tvMessage.setText(message);
-
-                btnYes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-                        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-                        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-                        Log.d(TAG, "node id2: " +nodeId3);
-                        // Make API call
-                        Call<ResetResponse> call = apiService.factoryResetNode(nodeId3, userId2);
-                        call.enqueue(new Callback<ResetResponse>() {
-                            @Override
-                            public void onResponse(Call<ResetResponse> call, Response<ResetResponse> response) {
-                                if (response.isSuccessful()) {
-                                    ResetResponse responseModel = response.body();
-                                    if (responseModel != null) {
-                                        boolean success = responseModel.getSuccessful();
-                                        String message = responseModel.getMessage();
-                                        Log.d(TAG, "Success: " + success + ", Message: " + message);
-
-                                        Intent intent = new Intent(EspMainActivity.this, ProjectSpaceLandingActivity.class);
-                                        startActivity(intent);
-
-                                        Toast.makeText(getApplicationContext(), "Device Remove Successfully...", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                } else {
-                                    Log.e(TAG, "API call failed with code: " + response.code());
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ResetResponse> call, Throwable t) {
-                                Log.e(TAG, "API call failed: " + t.getMessage());
-                            }
-                        });
-
-                    }
-                });
-
-                btnNo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        });
+//        resetButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String message = "Are you sure you want to Reset";
+//                showCustomDialogBox(message);
+//            }
+//
+//            private void showCustomDialogBox(String message) {
+//
+//                final Dialog dialog = new Dialog(EspMainActivity.this);
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.setCancelable(false);
+//                dialog.setContentView(R.layout.layout_custom_dailog);
+//                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//                tvMessage = dialog.findViewById(R.id.tvMessage);
+//                btnYes = dialog.findViewById(R.id.btn_Yes);
+//                btnNo = dialog.findViewById(R.id.btn_No);
+//
+//                tvMessage.setText(message);
+//
+//                btnYes.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+//                        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+//                        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+//                        Log.d(TAG, "node id2: " +nodeId3);
+//                        // Make API call
+//                        Call<ResetResponse> call = apiService.factoryResetNode(nodeId3, userId2);
+//                        call.enqueue(new Callback<ResetResponse>() {
+//                            @Override
+//                            public void onResponse(Call<ResetResponse> call, Response<ResetResponse> response) {
+//                                if (response.isSuccessful()) {
+//                                    ResetResponse responseModel = response.body();
+//                                    if (responseModel != null) {
+//                                        boolean success = responseModel.getSuccessful();
+//                                        String message = responseModel.getMessage();
+//                                        Log.d(TAG, "Success: " + success + ", Message: " + message);
+//
+//                                        Intent intent = new Intent(EspMainActivity.this, ProjectSpaceLandingActivity.class);
+//                                        startActivity(intent);
+//
+//                                        Toast.makeText(getApplicationContext(), "Device Remove Successfully...", Toast.LENGTH_SHORT).show();
+//
+//                                    }
+//                                } else {
+//                                    Log.e(TAG, "API call failed with code: " + response.code());
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ResetResponse> call, Throwable t) {
+//                                Log.e(TAG, "API call failed: " + t.getMessage());
+//                            }
+//                        });
+//
+//                    }
+//                });
+//
+//                btnNo.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.show();
+//            }
+//        });
 
 //        if(mac == null || mac == ""){
 //            recyclerView.setVisibility(View.INVISIBLE);

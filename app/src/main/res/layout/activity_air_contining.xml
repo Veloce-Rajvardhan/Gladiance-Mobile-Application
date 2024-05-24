@@ -47,7 +47,7 @@
         android:textOff="OFF"
         android:textOn="ON"
         android:textSize="25dp"
-        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:theme="@style/Theme.AppCompat.Light"
         android:thumb="@drawable/switch_thumb2"
         android:track="@drawable/switch_bg"
@@ -56,6 +56,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DeviceName"
         app:layout_constraintVertical_bias="0.045" />
+
+    <TextView
+        android:id="@+id/tvAmbientTemperature"
+        style="@style/TEXT"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="Ambient Temperature 30°"
+        android:textSize="18dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchButtonAirCon"
+        />
 
     <TextView
         android:id="@+id/textViewTemperature"
@@ -69,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchButtonAirCon"
+        app:layout_constraintTop_toBottomOf="@+id/tvAmbientTemperature"
         />
 
     <com.gladiance.ui.activities.DeviceControls.CircularSeekBar
@@ -196,81 +211,71 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         app:layout_constraintVertical_bias="0.107" />
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/buttonCool"-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:text="Cool"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView6"-->
-<!--        app:layout_constraintVertical_bias="0.439" />-->
+    <LinearLayout
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:orientation="vertical"
+        android:weightSum="2"
+        style="@style/TransperantBg"
+        android:layout_marginTop="@dimen/_200sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--    <TextView-->
-<!--        android:id="@+id/textMode"-->
-<!--        style="@style/TEXT"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginBottom="124dp"-->
-<!--        android:gravity="center"-->
-<!--        android:text=""-->
-<!--        android:textSize="20dp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/buttonHeat"-->
-<!--        app:layout_constraintHorizontal_bias="0.349"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/buttonCool" />-->
+        <ImageView
+            android:id="@+id/imgHot"
+            android:src="@drawable/hot"
+            android:padding="@dimen/_7sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp" />
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/buttonHeat"-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="36dp"-->
-<!--        android:text="Heat"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView9"-->
-<!--        app:layout_constraintVertical_bias="0.439" />-->
+        <ImageView
+            android:id="@+id/imgCool"
+            android:src="@drawable/cool"
+            android:padding="@dimen/_7sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/buttonCCent"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        android:text="Centigrade"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textUnit"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginBottom="44dp"-->
-<!--        android:gravity="center"-->
-<!--        android:text=""-->
-<!--        style="@style/TEXT"-->
-<!--        android:textSize="20dp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/buttonHeat"-->
-<!--        app:layout_constraintHorizontal_bias="0.493"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/buttonCool" />-->
+    <LinearLayout
+        style="@style/TransperantBg"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_200sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/buttonFehr"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="28dp"-->
-<!--        android:layout_marginBottom="36dp"-->
-<!--        android:text="Fahrenheit"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+        <TextView
+            android:id="@+id/tvCel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TEXT"
+            android:text="°C"
+            android:padding="@dimen/_1sdp"
+            android:textSize="@dimen/_18sdp" />
 
+        <TextView
+            android:id="@+id/tvFer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TEXT"
+            android:text="°F"
+            android:padding="@dimen/_1sdp"
+            android:textSize="@dimen/_18sdp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
