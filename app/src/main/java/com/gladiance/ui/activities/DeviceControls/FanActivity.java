@@ -66,7 +66,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
 
-        textViewDeviceName.setText(Label);
+//       textViewDeviceName.setText(Label);
 
 
         circularSeekBar = findViewById(R.id.circularSeekBar);

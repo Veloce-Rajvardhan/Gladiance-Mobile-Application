@@ -196,4 +196,6 @@
     <style name="Lamp9"><item name="android:src">@drawable/lamp9</item></style>
     <style name="Lamp10"><item name="android:src">@drawable/lamp10</item></style>
 
+    <style name="EditPen"><item name="android:src">@drawable/editpenblack</item></style>
+
 </resources>

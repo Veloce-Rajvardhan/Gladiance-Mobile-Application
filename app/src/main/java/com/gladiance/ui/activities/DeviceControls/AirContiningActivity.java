@@ -79,9 +79,9 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         CircularSeekBar circularSeekBar = findViewById(R.id.circularSeekBar);
         circularSeekBar.setOnProgressChangeListener(this);
 
-        textViewDeviceName = findViewById(R.id.DeviceName);
+    //    textViewDeviceName = findViewById(R.id.DeviceName);
 
-        textViewDeviceName.setText(Label);
+//        textViewDeviceName.setText(Label);
 
 
         seekbarAirCond = findViewById(R.id.seekBarAirCond);
