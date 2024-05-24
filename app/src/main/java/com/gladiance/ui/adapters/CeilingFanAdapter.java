@@ -95,11 +95,11 @@ public class CeilingFanAdapter extends RecyclerView.Adapter<CeilingFanAdapter.My
                 @Override
                 public void onClick(View v) {
                     // Handle click for ImageViewMore to open a new Fragment
-                    Fragment newFragment = new CeilingFanControlFragment();
-                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.ceilingFan_fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+//                    Fragment newFragment = new CeilingFanControlFragment();
+//                    FragmentTransaction transaction = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.ceilingFan_fragment_container, newFragment);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
                 }
             });
         }

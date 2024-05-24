@@ -11,22 +11,22 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gladiance.R;
+import com.gladiance.ui.fragment.MyProfile.CreateMoodFragment;
 import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
-import com.gladiance.ui.fragment.MyProfile.JoinedSpacesFragment;
-import com.gladiance.ui.fragment.MyProfile.RequestedSpacesFragment;
+import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
 
-public class JoinUserActivity extends AppCompatActivity {
+public class SetYourMoodActivity extends AppCompatActivity {
 
-    private static final String TAG = "JoinUserActivity";
-
+    private static final String TAG = "SetYourMoodActivity";
     Button inviteUser;
     Button invitedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join_user);
+        setContentView(R.layout.activity_set_your_mood);
+
 
         inviteUser = findViewById(R.id.inviteUser);
         invitedUser = findViewById(R.id.invitedUser);
@@ -36,7 +36,7 @@ public class JoinUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Fragment fragment = new RequestedSpacesFragment();
+                Fragment fragment = new MyMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
 
@@ -48,7 +48,7 @@ public class JoinUserActivity extends AppCompatActivity {
         invitedUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new JoinedSpacesFragment();
+                Fragment fragment = new CreateMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.set_mood, fragment)
                         .addToBackStack(null)
@@ -61,11 +61,12 @@ public class JoinUserActivity extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(JoinUserActivity.this, BasicInfoActivity.class);
+                Intent intent = new Intent(SetYourMoodActivity.this, BasicInfoActivity.class);
                 startActivity(intent);
                 finish(); // Optionally finish this activity
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
 }

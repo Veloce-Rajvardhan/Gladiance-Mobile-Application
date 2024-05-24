@@ -77,8 +77,8 @@ public class MyProjectActivity extends AppCompatActivity {
         imgDelete.add(R.drawable.delete);
 
         // Create and set up your adapter
-        adapter = new MyProjectAdapter(this, tvProject, tvProjectName, tvSpace, tvSpaceName, imgView, imgDelete);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        recyclerView.setAdapter(adapter);
+//        adapter = new MyProjectAdapter(this, tvProject, tvProjectName, tvSpace, tvSpaceName, imgView, imgDelete);
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+//        recyclerView.setAdapter(adapter);
     }
 }

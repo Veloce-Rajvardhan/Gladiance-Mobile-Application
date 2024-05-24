@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.gladiance.R;
 import com.gladiance.ui.activities.MyProfile.AboutUsActivity;
+import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.activities.MyProfile.BasicInfoActivity;
 import com.gladiance.ui.activities.MyProfile.DeviceActivity;
 import com.gladiance.ui.activities.MyProfile.HelpActivity;
@@ -78,12 +79,14 @@ public class MyProfileFragment extends Fragment {
         Automation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new AutomationFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.container, fragment).addToBackStack(null)
-                        .commit();
+                Intent intent = new Intent(getActivity(), AutomationActivity.class);
+                startActivity(intent);
+//                Fragment fragment = new AutomationFragment();
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+//                        .beginTransaction();
+//
+//                transaction.replace(R.id.container, fragment).addToBackStack(null)
+//                        .commit();
             }
         });
 

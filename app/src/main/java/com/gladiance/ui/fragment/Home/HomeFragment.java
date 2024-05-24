@@ -34,7 +34,7 @@ import com.gladiance.ui.adapters.ProjectSpaceNameAdapter;
 import com.gladiance.ui.adapters.SceneAdapter;
 import com.gladiance.ui.adapters.SpaceGroupSpinnerAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
-import com.gladiance.ui.fragment.MyProfile.AutomationFragment;
+//import com.gladiance.ui.fragment.MyProfile.AutomationFragment;
 import com.gladiance.ui.models.ProjectSpaceGroupReqModel;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingReqModel;

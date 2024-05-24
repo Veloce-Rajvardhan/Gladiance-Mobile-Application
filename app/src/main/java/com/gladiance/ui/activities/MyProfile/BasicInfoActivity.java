@@ -34,6 +34,7 @@ public class BasicInfoActivity extends AppCompatActivity {
 
     LinearLayout llChangePassword;
     LinearLayout llInviteUser;
+    LinearLayout llJoinedUser;
     LinearLayout llJoinUser;
     LinearLayout llLogout;
     LinearLayout editProfile;
@@ -76,6 +77,16 @@ public class BasicInfoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        llJoinedUser = findViewById(R.id.llJoinedUser);
+        llJoinedUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BasicInfoActivity.this, JoinedUserActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         llJoinUser = findViewById(R.id.llJoinUser);
         llJoinUser.setOnClickListener(new View.OnClickListener() {

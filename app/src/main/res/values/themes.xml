@@ -179,6 +179,7 @@
     <style name="Privacy"><item name="android:src">@drawable/black_privacy</item></style>
     <style name="Setting"><item name="android:src">@drawable/black_setting</item></style>
     <style name="EditProfile"><item name="android:src">@drawable/black_editprofile</item></style>
+
     <style name="Delete"><item name="android:src">@drawable/black_delete</item></style>
 
     //Image Setting Page
@@ -223,5 +224,8 @@
     <style name="Lamp8"><item name="android:src">@drawable/lampblack8</item></style>
     <style name="Lamp9"><item name="android:src">@drawable/lampblack9</item></style>
     <style name="Lamp10"><item name="android:src">@drawable/lampblack10</item></style>
+
+
+    <style name="EditPen"><item name="android:src">@drawable/editpenblack</item></style>
 
 </resources>

@@ -3,6 +3,7 @@ package com.gladiance.ui.adapters;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
 import com.gladiance.R;
-import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+//import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.ui.activities.MyProfile.EditMoodActivity;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 
 import java.util.ArrayList;
@@ -89,31 +91,44 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
                 Log.e(TAG, "PROJECT_SPACE_TYPE_REF_DYN_KEY: "+Space_dyn );
 
 
-
-
-                //write post api here sceneclickapi
                 Long sceneRef = scene.getRef();
                 String sceneRefString = String.valueOf(sceneRef);
 
-                Fragment fragment = new EditSceneFragment();
+// Create an Intent to launch the EditSceneActivity
+                Intent intent = new Intent(holder.itemView.getContext(), EditMoodActivity.class);
 
-                Bundle bundle = new Bundle();
-                // Pass the sceneRef to the next fragment using fragment arguments
-                //   Bundle bundle = new Bundle();
-                bundle.putString("SCENE_REF", sceneRefString);
-                fragment.setArguments(bundle);
+// Put the sceneRefString as an extra to pass to the activity
+                intent.putExtra("SCENE_REF", sceneRefString);
+
+// Start the EditSceneActivity
+                holder.itemView.getContext().startActivity(intent);
 
 
-                //   bundle.putStringArrayList("myArrayList", newList);
 
-                // Create the destination fragment instance
-                Fragment destinationFragment = new EditSceneFragment();
-                destinationFragment.setArguments(bundle);
-                //destinationFragment.
+                //write post api here sceneclickapi
 
-                FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.edit_scene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
-                        .commit();
+//                Long sceneRef = scene.getRef();
+//                String sceneRefString = String.valueOf(sceneRef);
+//
+//                Fragment fragment = new EditSceneFragment();
+//
+//                Bundle bundle = new Bundle();
+//                // Pass the sceneRef to the next fragment using fragment arguments
+//                //   Bundle bundle = new Bundle();
+//                bundle.putString("SCENE_REF", sceneRefString);
+//                fragment.setArguments(bundle);
+//
+//
+//                //   bundle.putStringArrayList("myArrayList", newList);
+//
+//                // Create the destination fragment instance
+//                Fragment destinationFragment = new EditSceneFragment();
+//                destinationFragment.setArguments(bundle);
+//                //destinationFragment.
+//
+//                FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.edit_scene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
+//                        .commit();
 
 
             }

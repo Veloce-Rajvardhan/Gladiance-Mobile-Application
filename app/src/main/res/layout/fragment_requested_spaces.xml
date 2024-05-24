@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.MyProfile.InvitedUserFragment">
-
+    tools:context=".ui.fragment.MyProfile.RequestedSpacesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/controlTypeRecyclerView"
@@ -16,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_invited_user">
+        tools:listitem="@layout/item_requested_spaces">
 
     </androidx.recyclerview.widget.RecyclerView>
 

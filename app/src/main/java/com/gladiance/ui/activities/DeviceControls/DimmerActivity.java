@@ -61,7 +61,7 @@ public class DimmerActivity extends AppCompatActivity {
         lampImg = findViewById(R.id.dimmer1);
         textView.setVisibility(View.GONE);
 
-        textViewDeviceName.setText(Label);
+//        textViewDeviceName.setText(Label);
 
         disableSeekBars();
 

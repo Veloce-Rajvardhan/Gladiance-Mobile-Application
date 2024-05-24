@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/SCREEN"
-    tools:context=".ui.activities.MyProfile.JoinUserActivity">
+    tools:context=".ui.activities.MyProfile.SetYourMoodActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -28,7 +27,7 @@
             android:fontFamily="@font/roboto_regular"
             android:gravity="center|left"
             android:paddingStart="@dimen/_20sdp"
-            android:text="Join as a User"
+            android:text="Set Your Mood"
             style="@style/TEXT"
             android:textSize="@dimen/_17sdp"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
@@ -51,24 +50,24 @@
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             style="@style/WhiteButtonStyle"
-            android:text="Respected Spaces"
+            android:text="My Mood"
             android:layout_weight="1"
             android:layout_marginStart="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/invitedUser"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
             style="@style/GreyLightButtonStyle"
-            android:text="Joined Spaces"
+            android:text="Create Mood"
             android:layout_weight="1"
             android:layout_marginEnd="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="@dimen/_13sdp"/>
+            android:textSize="@dimen/_14sdp"/>
 
     </LinearLayout>
 
@@ -77,8 +76,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_4sdp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        android:layout_marginTop="@dimen/_6sdp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

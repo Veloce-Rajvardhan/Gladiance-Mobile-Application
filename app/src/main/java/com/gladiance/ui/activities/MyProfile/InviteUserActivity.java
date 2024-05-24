@@ -11,9 +11,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gladiance.R;
+//import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
 import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
-import com.gladiance.ui.fragment.MyProfile.SetMoodFragment;
+//import com.gladiance.ui.fragment.MyProfile.SetMoodFragment;
 
 public class InviteUserActivity extends AppCompatActivity {
 
@@ -47,13 +48,13 @@ public class InviteUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new InvitedUserFragment();
-                FragmentTransaction transaction = getSupportFragmentManager()
-                        .beginTransaction();
-
-                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.set_mood, fragment)
+                        .addToBackStack(null)
                         .commit();
             }
         });
+
 
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {

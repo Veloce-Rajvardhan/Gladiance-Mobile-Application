@@ -24,6 +24,18 @@ public class Controls {
     @Expose
     private boolean isProvisioned;
 
+    @SerializedName("isChecked")
+    @Expose
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public String getNodeId() {
         return nodeId;
     }
