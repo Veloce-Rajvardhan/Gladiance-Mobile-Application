@@ -1,55 +1,19 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/_20sdp"
-    style="@style/SCREEN"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.gladiance.ui.fragment.MyProfile.MyProjectFragment">
+    tools:context=".ui.fragment.MyProfile.MyProjectFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutMyProject"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginTop="5dp"
-        style="@style/MyButtonStyle"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center|left"
-            android:paddingStart="@dimen/_20sdp"
-            android:text="My Project"
-            style="@style/TEXT"
-            android:textSize="@dimen/_17sdp" />
-    </LinearLayout>
-
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_myProfile_myProject"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutMyProject">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        tools:listitem="@layout/myproject_recyleview" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewMyProject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/myproject_recyleview"
-            />
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

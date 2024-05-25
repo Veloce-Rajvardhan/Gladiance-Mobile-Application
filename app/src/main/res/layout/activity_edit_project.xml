@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.MyProfile.CreateProjectFragment">
+    style="@style/SCREEN"
+    tools:context=".ui.activities.MyProfile.EditProjectActivity">
 
+    <TextView
+        android:id="@+id/TextEditProject"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Edit Project"
+        style="@style/TEXT"
+        android:textSize="@dimen/_18sdp"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:id="@+id/projectType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:orientation="vertical"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/TextEditProject">
 
         <TextView
             android:layout_width="match_parent"
@@ -67,9 +80,9 @@
             android:textSize="@dimen/_13sdp" />
 
         <EditText
+            android:id="@+id/edProjectName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:textColor="@color/white"
             android:paddingStart="@dimen/_5sdp"
             android:textSize="@dimen/_12sdp"
             style="@style/MyEditTextStyle"
@@ -120,7 +133,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:textColor="@color/white"
             android:paddingStart="@dimen/_5sdp"
             android:textSize="@dimen/_12sdp"
             style="@style/MyEditTextStyle"
@@ -154,6 +166,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addArea" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

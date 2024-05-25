@@ -312,7 +312,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/doorLock"
+                    android:id="@+id/surveillance"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_110sdp"
                     android:layout_rowWeight="1"
@@ -332,14 +332,14 @@
                                     android:layout_height="@dimen/_70sdp"
                                     android:scaleType="centerCrop"
                                     android:padding="@dimen/_25sdp"
-                                    android:src="@drawable/doorlock" />
+                                    android:src="@drawable/surveillance" />
 
                                 <TextView
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
-                                    android:text="Door Lock"
+                                    android:text="Surveillance"
                                     style="@style/TEXT"
                                     android:textSize="18sp" />
                         </LinearLayout>
@@ -380,7 +380,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/doorCamera"
+                    android:id="@+id/safety"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_110sdp"
                     android:layout_rowWeight="1"
@@ -400,14 +400,48 @@
                                     android:layout_height="@dimen/_70sdp"
                                     android:scaleType="centerCrop"
                                     android:padding="@dimen/_25sdp"
-                                    android:src="@drawable/doorcamera" />
+                                    android:src="@drawable/safety" />
 
                                 <TextView
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
-                                    android:text="Door Camera"
+                                    android:text="Safety"
+                                    style="@style/TEXT"
+                                    android:textSize="18sp" />
+                        </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/security"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/_15sdp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_6sdp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_70sdp"
+                                    android:scaleType="centerCrop"
+                                    android:padding="@dimen/_25sdp"
+                                    android:src="@drawable/security" />
+
+                                <TextView
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:gravity="center"
+                                    android:text="Security"
                                     style="@style/TEXT"
                                     android:textSize="18sp" />
                         </LinearLayout>

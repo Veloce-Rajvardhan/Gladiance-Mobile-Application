@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import com.gladiance.R;
 import com.gladiance.ui.activities.MyProfile.AboutUsActivity;
+import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.activities.MyProfile.BasicInfoActivity;
 import com.gladiance.ui.activities.MyProfile.DeviceActivity;
 import com.gladiance.ui.activities.MyProfile.HelpActivity;
@@ -22,7 +22,6 @@ import com.gladiance.ui.activities.MyProfile.IntegrationActivity;
 import com.gladiance.ui.activities.MyProfile.ProjectActivity;
 import com.gladiance.ui.activities.MyProfile.SettingActivity;
 import com.gladiance.ui.activities.MyProfile.SubscriptionActivity;
-import com.gladiance.ui.activities.RoomControl.AutomationActivity;
 
 
 public class MyProfileFragment extends Fragment {

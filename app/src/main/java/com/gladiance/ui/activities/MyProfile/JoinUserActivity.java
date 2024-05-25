@@ -39,7 +39,6 @@ public class JoinUserActivity extends AppCompatActivity {
                 Fragment fragment = new RequestedSpacesFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
-
                 transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
                         .commit();
             }
@@ -55,7 +54,6 @@ public class JoinUserActivity extends AppCompatActivity {
                         .commit();
             }
         });
-
 
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
