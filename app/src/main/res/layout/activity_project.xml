@@ -14,7 +14,7 @@
         android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_18sdp"
         style="@style/TopButtonStyle"
-        android:text="My Profile"
+        android:text="Projects"
         android:gravity="center"
         android:textAllCaps="false"
         android:fontFamily="@font/roboto_medium"
@@ -23,105 +23,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <GridLayout
+    <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_180sdp"
-        android:columnCount="2"
-        android:columnOrderPreserved="false"
-        android:padding="20dp"
-        android:rowCount="1"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_profile">
+        app:layout_constraintTop_toBottomOf="@+id/btn_profile" >
 
-        <!-- Card 1 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/transparentColor"
-            app:cardElevation="0dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/myProject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/WhiteButtonStyle"
+            android:text="My Projects"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_14sdp" />
 
-            <LinearLayout
-                android:id="@+id/MyProject"
-                style="@style/MyButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="2">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/createProject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/GreyLightButtonStyle"
+            android:text="Create Project"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_14sdp"/>
 
-                <ImageView
-                    style="@style/Project"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_15sdp"
-                    android:paddingStart="@dimen/_80sdp" />
-
-                <TextView
-                    style="@style/TEXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center|left"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:text="My Project"
-                    android:textSize="@dimen/_20sdp" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/transparentColor"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:id="@+id/CreateProject"
-                style="@style/MyButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-                <ImageView
-                    style="@style/Project"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_17sdp"
-                    android:paddingStart="@dimen/_80sdp" />
-
-                <TextView
-                    style="@style/TEXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center|left"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:text="Create Project"
-                    android:textSize="@dimen/_20sdp" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
+    </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/Project_frameLayout"
+        android:id="@+id/project_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

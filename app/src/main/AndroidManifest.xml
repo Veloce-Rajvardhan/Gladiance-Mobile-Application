@@ -30,7 +30,28 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.activities.MyProfile.ScheduleActivity"
+            android:name=".ui.activities.ControlBouquet.SurveillanceCameraActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.MyProfile.EditProjectActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.MyProfile.EditScheduleActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.MyProfile.SetYourMoodActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -44,8 +65,8 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activities.MyProfile.EditScheduleActivity"
-            android:exported="true">
+            android:name=".ui.activities.MyProfile.JoinedUserActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -121,7 +142,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activities.ControlBouquet.DoorLockActivity"
+            android:name=".ui.activities.ControlBouquet.SurveillanceActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -185,13 +206,6 @@
         </activity>
         <activity
             android:name=".ui.activities.MyProfile.CreateProjectActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.activities.MyProfile.MyProjectActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -424,20 +438,6 @@
             android:label="@string/title_activity_wifi_scan_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.activities.MyProfile.JoinedUserActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.activities.MyProfile.SetYourMoodActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name="com.gladiance.ui.activities.ProofOfPossessionActivity"
             android:label="@string/title_activity_pop"

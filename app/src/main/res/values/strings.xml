@@ -182,4 +182,5 @@
 
     <string name="compose_shortcut_short_label0">Project Landing</string>
     <string name="compose_shortcut_short_label1">Space Landing</string>
+    <string name="title_activity_edit_project">EditProjectActivity</string>
 </resources>

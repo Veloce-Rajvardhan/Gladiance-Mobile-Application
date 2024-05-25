@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.gladiance.R;
 
-public class DoorLockActivity extends AppCompatActivity {
+public class SurveillanceCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_door_lock);
+        setContentView(R.layout.activity_surveillance_camera);
     }
 }

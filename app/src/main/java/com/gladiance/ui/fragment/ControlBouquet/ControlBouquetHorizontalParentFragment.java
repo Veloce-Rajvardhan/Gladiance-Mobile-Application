@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.gladiance.ui.activities.ControlBouquet.BillViewActivity;
 import com.gladiance.ui.activities.ControlBouquet.DoorCameraActivity;
-import com.gladiance.ui.activities.ControlBouquet.DoorLockActivity;
+import com.gladiance.ui.activities.ControlBouquet.SurveillanceActivity;
 import com.gladiance.ui.activities.ControlBouquet.EmergencyActivity;
 import com.gladiance.ui.activities.ControlBouquet.FeedbackActivity;
 import com.gladiance.ui.activities.ControlBouquet.HotelInfoActivity;
@@ -26,8 +26,8 @@ import com.gladiance.R;
 
 public class ControlBouquetHorizontalParentFragment extends Fragment  {
 
-    CardView CVHouseKipping,CVRoomService,CVLaundry,CVBillView,CVFeedback,CVHotelInfo,CVPromotion,CVMessaging,CVDoorLock,
-                CVEmergency,CVDoorCamera;
+    CardView CVHouseKipping,CVRoomService,CVLaundry,CVBillView,CVFeedback,CVHotelInfo,CVPromotion,CVMessaging,CVSurveillance,
+                CVEmergency,CVSafety;
     public ControlBouquetHorizontalParentFragment() {
         // Required empty public constructor
     }
@@ -49,9 +49,9 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         CVHotelInfo = view.findViewById(R.id.hotelInfo);
         CVPromotion = view.findViewById(R.id.promotion);
         CVMessaging = view.findViewById(R.id.messaging);
-        CVDoorLock = view.findViewById(R.id.doorLock);
+        CVSurveillance = view.findViewById(R.id.surveillance);
         CVEmergency = view.findViewById(R.id.emergency);
-        CVDoorCamera = view.findViewById(R.id.doorCamera);
+        CVSafety = view.findViewById(R.id.safety);
 
         CVHouseKipping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +117,10 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             }
         });
 
-        CVDoorLock.setOnClickListener(new View.OnClickListener() {
+        CVSurveillance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DoorLockActivity.class);
+                Intent intent = new Intent(getActivity(), SurveillanceActivity.class);
                 startActivity(intent);
             }
         });
@@ -133,10 +133,10 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             }
         });
 
-        CVDoorCamera.setOnClickListener(new View.OnClickListener() {
+        CVSafety.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DoorCameraActivity.class);
+                Intent intent = new Intent(getActivity(), EmergencyActivity.class);
                 startActivity(intent);
             }
         });

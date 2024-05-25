@@ -87,7 +87,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-<!--    Mood and Favorite Botton-->
+    <!--    Mood and Favorite Botton-->
     <!-- Grey Button Left Corner Theme -->
     <style name="GreyLightButtonLeftCorner" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/grey_light_button_left</item>

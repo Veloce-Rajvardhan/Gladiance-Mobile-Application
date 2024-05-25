@@ -110,7 +110,7 @@ public class BasicInfoActivity extends AppCompatActivity {
         llLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "Are you sure you want to log out from gladiance";
+                String message = "Are you sure you want to log out from gladiance ?";
                 showCustomDialogBox(message);
             }
 

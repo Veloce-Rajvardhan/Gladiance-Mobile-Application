@@ -2,45 +2,68 @@ package com.gladiance.ui.activities.MyProfile;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.gladiance.R;
+import com.gladiance.ui.fragment.MyProfile.CreateMoodFragment;
+import com.gladiance.ui.fragment.MyProfile.CreateProjectFragment;
+import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
+import com.gladiance.ui.fragment.MyProfile.MyProjectFragment;
 
 public class ProjectActivity extends AppCompatActivity {
 
     private static final String TAG = "ProjectActivity";
 
-    LinearLayout MyProject;
-    LinearLayout CreateProject;
+    Button myProject;
+    Button createProject;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
-        MyProject = findViewById(R.id.MyProject);
-        CreateProject = findViewById(R.id.CreateProject);
+        myProject = findViewById(R.id.myProject);
+        createProject = findViewById(R.id.createProject);
 
-        MyProject.setOnClickListener(new View.OnClickListener() {
+        // Load the FirstFragment by default
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.project_fragment, new MyProjectFragment())
+                .commit();
+
+
+        myProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProjectActivity.this, MyProjectActivity.class);
-                startActivity(intent);
+
+                Fragment fragment = new MyProjectFragment();
+                FragmentTransaction transaction = getSupportFragmentManager()
+                        .beginTransaction();
+
+                transaction.replace(R.id.project_fragment, fragment).addToBackStack(null)
+                        .commit();
             }
         });
 
-        CreateProject.setOnClickListener(new View.OnClickListener() {
+        createProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProjectActivity.this, CreateProjectActivity.class);
-                startActivity(intent);
+                Fragment fragment = new CreateProjectFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.project_fragment, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
+
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
@@ -52,8 +75,5 @@ public class ProjectActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-//    private void navigateToFragment(Fragment fragment) {
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.Project_frameLayout, fragment).addToBackStack(null).commit();
-//    }
+
 }
