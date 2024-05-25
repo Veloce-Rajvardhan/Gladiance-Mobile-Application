@@ -1,38 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MyProfile.AutomationActivity">
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginTop="15dp"
-        style="@style/MyButtonStyle"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center|left"
-            android:paddingStart="@dimen/_20sdp"
-            android:text="Automation"
-            style="@style/TEXT"
-            android:textSize="@dimen/_17sdp"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            tools:layout_editor_absoluteX="0dp" />
-    </LinearLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.MyProfile.MyScheduleFragment">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -76,12 +48,12 @@
                 <TextView
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:paddingStart="@dimen/_5sdp"
-                    android:text="Set Your Mood"
+                    android:text="Schedule 1"
                     android:textSize="@dimen/_18sdp" />
 
 
@@ -115,12 +87,12 @@
                 <TextView
                     style="@style/TEXT"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:paddingStart="@dimen/_5sdp"
-                    android:text="Scheduling"
+                    android:text="Schedule 2"
                     android:textSize="@dimen/_18sdp" />
 
 

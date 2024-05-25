@@ -2,6 +2,7 @@ package com.gladiance.ui.activities.MyProfile;
 
 import static org.greenrobot.eventbus.EventBus.TAG;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -12,11 +13,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gladiance.R;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 
 public class AutomationActivity extends AppCompatActivity {
 
     LinearLayout setYourMood;
-    CardView scheduling;
+    LinearLayout scheduling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,25 @@ public class AutomationActivity extends AppCompatActivity {
         scheduling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AutomationActivity.this, SetYourMoodActivity.class);
-//                Log.e(TAG, "onClick: " );
-//                startActivity(intent);
+                Intent intent = new Intent(AutomationActivity.this, ScheduleActivity.class);
+                Log.e(TAG, "onClick: " );
+                startActivity(intent);
                 // Handle click for scheduling button if needed
             }
         });
+
+
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(AutomationActivity.this, NavBarActivity.class);
+                startActivity(intent);
+                finish(); // Optionally finish this activity
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
+
 }

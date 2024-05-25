@@ -117,39 +117,7 @@
                     android:layout_marginEnd="@dimen/_10sdp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/RoomType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ProjectName">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/roboto_light"
-                    android:gravity="center|left"
-                    android:paddingStart="@dimen/_15sdp"
-                    android:text="Room Type"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_13sdp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:textSize="@dimen/_12sdp"
-                    style="@style/MyEditTextStyle"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/RoomNo"
@@ -162,7 +130,7 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RoomType">
+                app:layout_constraintTop_toBottomOf="@+id/ProjectName">
 
                 <TextView
                     android:layout_width="match_parent"

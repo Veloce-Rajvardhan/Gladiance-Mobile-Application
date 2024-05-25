@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +35,8 @@ import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.adapters.CardAdapter;
+import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.saveScene.SceneConfig;
@@ -257,5 +262,48 @@ public class DeviceCardFragment extends Fragment {
 
 
     }
+//    // Handle onBackPressed
+//    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//        @Override
+//        public void handleOnBackPressed() {
+//            finish(); // Finish the activity when back button is pressed
+//        }
+//    };
+//    getOnBackPressedDispatcher().addCallback(this, callback);
 
+    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+            // Replace the current fragment with the EditSceneFragment
+            transaction.replace(R.id.set_mood, new EditSceneFragment());
+
+            // Add the transaction to the back stack
+            transaction.addToBackStack("EditSceneFragment");
+
+            // Commit the transaction
+            transaction.commit();
+        }
+    };
+
+
+//    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+//        @Override
+//        public void handleOnBackPressed() {
+//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//
+//// Replace the current fragment with the first fragment
+//            transaction.replace(R.id.set_mood, new EditSceneFragment());
+//
+//// Add the transaction to the back stack
+//            transaction.addToBackStack("EditSceneFragment");
+//
+//// Commit the transaction
+//            transaction.commit();
+//            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+//        }
+//    };
 }

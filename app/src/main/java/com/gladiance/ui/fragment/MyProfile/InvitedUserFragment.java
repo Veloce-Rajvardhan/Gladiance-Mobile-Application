@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gladiance.R;
+import com.gladiance.ui.activities.MyProfile.AutomationActivity;
+import com.gladiance.ui.activities.MyProfile.BasicInfoActivity;
 import com.gladiance.ui.adapters.InvitedUserAdapter;
 
 import java.util.ArrayList;
@@ -53,16 +55,26 @@ public class InvitedUserFragment extends Fragment {
         InvitedUserAdapter adapter = new InvitedUserAdapter(dataset, getContext());
         recyclerView.setAdapter(adapter);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-                Log.d(ContentValues.TAG, "handleOnBackPressed: ");
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                fragmentManager.popBackStack();
+//                Log.d(ContentValues.TAG, "handleOnBackPressed: ");
+//            }
+//        };
+//        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
         return view;
 
     }
+    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            BasicInfoActivity activity = (BasicInfoActivity) requireActivity();
+
+            // Call the method in the activity
+            activity.recreate(); // Replace "yourMethod()" with the actual method name you want to call
+        }
+    };
+
 }

@@ -1,17 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/SCREEN"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.gladiance.ui.fragment.MyProfile.AutomationFragment">
+    tools:context=".ui.activities.MyProfile.ScheduleActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         style="@style/MyButtonStyle"
         android:orientation="horizontal"
         android:layout_marginStart="@dimen/_12sdp"
@@ -27,9 +27,11 @@
             android:fontFamily="@font/roboto_regular"
             android:gravity="center|left"
             android:paddingStart="@dimen/_20sdp"
-            android:text="Automation"
+            android:text="Scheduling"
             style="@style/TEXT"
-            android:textSize="@dimen/_17sdp" />
+            android:textSize="@dimen/_17sdp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+            tools:layout_editor_absoluteX="0dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,40 +46,39 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" >
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/inviteUser"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
-            style="@style/ButtonStyleLeftCorners"
-            android:text="Scheduling"
+            style="@style/WhiteButtonStyle"
+            android:text="My Schedule"
             android:layout_weight="1"
             android:layout_marginStart="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/SetMood"
+            android:id="@+id/invitedUser"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_40sdp"
-            style="@style/GreyLightButtonRightCorner"
-            android:text="Set Your Mood"
+            style="@style/GreyLightButtonStyle"
+            android:text="Create Schedule"
             android:layout_weight="1"
             android:layout_marginEnd="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="@dimen/_12sdp"/>
-
+            android:textSize="@dimen/_14sdp"/>
 
     </LinearLayout>
 
-
     <FrameLayout
-        android:id="@+id/set_mood"
+        android:id="@+id/FlSchedule"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="@dimen/_450sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <FrameLayout
-        android:id="@+id/fragment_Device_Scheduling"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

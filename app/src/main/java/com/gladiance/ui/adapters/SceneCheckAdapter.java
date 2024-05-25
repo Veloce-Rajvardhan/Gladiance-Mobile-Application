@@ -282,7 +282,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     //destinationFragment.
 
                     FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.DeviceCardScene, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
+                    transaction.replace(R.id.set_mood, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
                             .commit();
 
                     //to here

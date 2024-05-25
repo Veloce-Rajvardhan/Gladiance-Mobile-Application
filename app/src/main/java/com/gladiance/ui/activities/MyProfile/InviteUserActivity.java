@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.gladiance.R;
 //import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
+import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
 //import com.gladiance.ui.fragment.MyProfile.SetMoodFragment;
 
@@ -29,19 +30,23 @@ public class InviteUserActivity extends AppCompatActivity {
         inviteUser = findViewById(R.id.inviteUser);
         invitedUser = findViewById(R.id.invitedUser);
 
+        // Load the FirstFragment by default
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.FlInviteUser, new InviteUserFragment())
+                .commit();
 
-//        inviteUser.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Fragment fragment = new InviteUserFragment();
-//                FragmentTransaction transaction = getSupportFragmentManager()
-//                        .beginTransaction();
-//
-//                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
-//                        .commit();
-//            }
-//        });
+        inviteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = new InviteUserFragment();
+                FragmentTransaction transaction = getSupportFragmentManager()
+                        .beginTransaction();
+
+                transaction.replace(R.id.FlInviteUser, fragment).addToBackStack(null)
+                        .commit();
+            }
+        });
 
         invitedUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,20 +55,21 @@ public class InviteUserActivity extends AppCompatActivity {
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
 
-                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
+                transaction.replace(R.id.FlInviteUser, fragment).addToBackStack(null)
                         .commit();
             }
         });
 
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(InviteUserActivity.this, BasicInfoActivity.class);
-                startActivity(intent);
-                finish(); // Optionally finish this activity
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                Intent intent = new Intent(InviteUserActivity.this, BasicInfoActivity.class);
+//                startActivity(intent);
+//                finish(); // Optionally finish this activity
+//            }
+//        };
+//        getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
 }

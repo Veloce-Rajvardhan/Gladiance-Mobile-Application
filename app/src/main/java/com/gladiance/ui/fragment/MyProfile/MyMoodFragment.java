@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.adapters.SceneConfigAdapter;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
@@ -133,6 +136,16 @@ public class MyMoodFragment extends Fragment {
         });
 
     }
+
+    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            AutomationActivity activity = (AutomationActivity) requireActivity();
+
+            // Call the method in the activity
+            activity.recreate(); // Replace "yourMethod()" with the actual method name you want to call
+        }
+    };
 
 
 }

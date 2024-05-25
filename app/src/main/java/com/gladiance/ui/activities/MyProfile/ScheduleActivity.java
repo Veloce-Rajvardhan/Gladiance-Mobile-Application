@@ -11,67 +11,65 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gladiance.R;
-import com.gladiance.ui.fragment.MyProfile.CreateMoodFragment;
-import com.gladiance.ui.fragment.MyProfile.InviteUserFragment;
+import com.gladiance.ui.fragment.MyProfile.CreateScheduleFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
-import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
+import com.gladiance.ui.fragment.MyProfile.MyScheduleFragment;
 
-public class SetYourMoodActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity {
 
-    private static final String TAG = "SetYourMoodActivity";
-    Button inviteUser;
-    Button invitedUser;
+    private static final String TAG = "InviteUserActivity";
+    Button mySchedule;
+    Button createSchedule;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_your_mood);
+        setContentView(R.layout.activity_schedule);
 
+        mySchedule = findViewById(R.id.inviteUser);
+        createSchedule = findViewById(R.id.invitedUser);
 
-        inviteUser = findViewById(R.id.inviteUser);
-        invitedUser = findViewById(R.id.invitedUser);
 
         // Load the FirstFragment by default
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.set_mood, new MyMoodFragment())
+                .replace(R.id.FlSchedule, new MyScheduleFragment())
                 .commit();
 
-
-        inviteUser.setOnClickListener(new View.OnClickListener() {
+        mySchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Fragment fragment = new MyMoodFragment();
+                Fragment fragment = new MyScheduleFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
 
-                transaction.replace(R.id.set_mood, fragment).addToBackStack(null)
+                transaction.replace(R.id.FlSchedule, fragment).addToBackStack(null)
                         .commit();
             }
         });
 
-        invitedUser.setOnClickListener(new View.OnClickListener() {
+
+        createSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new CreateMoodFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.set_mood, fragment)
-                        .addToBackStack(null)
+                Fragment fragment = new CreateScheduleFragment();
+                FragmentTransaction transaction = getSupportFragmentManager()
+                        .beginTransaction();
+
+                transaction.replace(R.id.FlSchedule, fragment).addToBackStack(null)
                         .commit();
             }
         });
-
 
 
 //        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
 //            @Override
 //            public void handleOnBackPressed() {
-//                Intent intent = new Intent(SetYourMoodActivity.this, AutomationActivity.class);
+//                Intent intent = new Intent(ScheduleActivity.this, BasicInfoActivity.class);
 //                startActivity(intent);
 //                finish(); // Optionally finish this activity
 //            }
 //        };
 //        getOnBackPressedDispatcher().addCallback(this, callback);
-
     }
 }
