@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/SCREEN"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.CreateScheduleFragment">
 
@@ -132,20 +133,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ScheduleName"/>
 
-    <TextView
-        android:id="@+id/Time"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:text="Time - 4:00 hr"
-        style="@style/TEXT"
-        android:textSize="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:paddingStart="@dimen/_22sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TriggerTime"/>
+        <LinearLayout
+            android:id="@+id/LLTime"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_25sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TriggerTime">
 
-    <CheckBox
+            <TextView
+                android:id="@+id/Time"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:text="Time :"
+                style="@style/TEXT"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"/>
+
+            <EditText
+                android:id="@+id/editTextTime"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:hint="Enter time"
+                style="@style/MyEditTextStyle"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"
+                android:layout_marginEnd="@dimen/_40sdp"/>
+
+        </LinearLayout>
+
+
+        <CheckBox
         android:id="@+id/CBWeek"
         style="@style/TEXT"
         android:layout_width="match_parent"
@@ -159,240 +179,21 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Time"/>
+        app:layout_constraintTop_toBottomOf="@+id/LLTime"/>
 
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_70sdp"
-        android:columnCount="4"
-        android:padding="0dp"
-        android:rowCount="2"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/CBWeek"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-
-        <!-- First CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Monday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Second CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Tuesday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Third CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Wednesday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Fourth CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Thursday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Fifth CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Friday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Sixth CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Saturday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Sunday"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewDay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintTop_toBottomOf="@+id/CBWeek"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_day"
+            />
     <CheckBox
         android:id="@+id/CBMonth"
         style="@style/TEXT"
@@ -407,409 +208,84 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewDay"/>
 
-    <TextView
-        android:id="@+id/DateOfMonth"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:text="Date :"
-        style="@style/TEXT"
-        android:textSize="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:paddingStart="@dimen/_22sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CBMonth"/>
+        <LinearLayout
+            android:id="@+id/LLDate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_25sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CBMonth">
 
-    <GridLayout
-        android:id="@+id/gridLayoutMonth"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
-        android:columnCount="6"
-        android:padding="0dp"
-        android:rowCount="2"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/DateOfMonth"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+            <TextView
+                android:id="@+id/Date"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:text="Date :"
+                style="@style/TEXT"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"/>
 
-        <!-- First CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
+            <!-- New EditText -->
+            <EditText
+                android:id="@+id/editTextDate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/_25sdp"
+                android:hint="Enter Date"
+                style="@style/MyEditTextStyle"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"
+                android:layout_marginEnd="@dimen/_40sdp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Jan"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-        <!-- Second CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
 
-            <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMonth"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintTop_toBottomOf="@+id/LLDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_month"
+            />
+
+        <LinearLayout
+            android:id="@+id/LLYear"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewMonth">
+
+            <TextView
+                android:id="@+id/Year"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:text="Year :"
+                style="@style/TEXT"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"/>
+
+            <EditText
+                android:id="@+id/editTextYear"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/_25sdp"
+                android:hint="Enter Year"
+                style="@style/MyEditTextStyle"
+                android:textSize="@dimen/_14sdp"
+                android:paddingStart="@dimen/_22sdp"
+                android:layout_marginEnd="@dimen/_40sdp"/>
 
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Feb"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Third CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Mar"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Fourth CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Apr"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Fifth CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <!-- Text in CardView -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="May"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Sixth CardView (similar to the first) -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Jun"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Jul"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Aug"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Sep"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Oct"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Nov"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="4dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"> <!-- Replace with your image resource -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/TransperantBg"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Dec"
-                    style="@style/TEXT"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </GridLayout>
-
-    <TextView
-        android:id="@+id/Year"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:text="Year :"
-        style="@style/TEXT"
-        android:textSize="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:paddingStart="@dimen/_22sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayoutMonth"/>
-
+        </LinearLayout>
     <CheckBox
         android:id="@+id/CBYear"
         style="@style/TEXT"
@@ -824,7 +300,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Year"/>
+        app:layout_constraintTop_toBottomOf="@+id/LLYear"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleEditSchedule"

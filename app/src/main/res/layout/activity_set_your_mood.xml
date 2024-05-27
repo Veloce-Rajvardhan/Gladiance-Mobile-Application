@@ -76,7 +76,7 @@
         android:id="@+id/set_mood"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_460sdp"
-        android:layout_marginTop="@dimen/_6sdp" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_105sdp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

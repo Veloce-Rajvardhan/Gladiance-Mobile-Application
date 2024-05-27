@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/SCREEN"
     tools:context=".ui.activities.MyProfile.ScheduleActivity">
 
     <LinearLayout
@@ -75,9 +76,9 @@
         android:id="@+id/FlSchedule"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_450sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_105sdp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 

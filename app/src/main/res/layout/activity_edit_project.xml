@@ -48,8 +48,8 @@
         <Spinner
             android:id="@+id/customSpinner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            style="@style/MyDropdownStyle"
+            android:layout_height="@dimen/_30sdp"
+            style="@style/MyEditTextStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"/>
@@ -98,7 +98,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center|left"
-        android:text="Day Of Week"
+        android:text="Has Area"
         android:textSize="@dimen/_13sdp"
         android:layout_marginStart="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_20sdp"
