@@ -8,20 +8,33 @@
     tools:context=".ui.activities.MyProfile.ProjectActivity">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_profile"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_18sdp"
-        style="@style/TopButtonStyle"
-        android:text="Projects"
-        android:gravity="center"
-        android:textAllCaps="false"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_14ssp"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="15dp"
+        style="@style/MyButtonStyle"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/_20sdp"
+            android:text="Projects"
+            style="@style/TEXT"
+            android:textSize="@dimen/_17sdp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+            tools:layout_editor_absoluteX="0dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout5"
@@ -32,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_profile" >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/myProject"
@@ -64,8 +77,8 @@
         android:id="@+id/project_fragment"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_105sdp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

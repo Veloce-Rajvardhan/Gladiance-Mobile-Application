@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/SCREEN"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.MyProjectFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_myProfile_myProject"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"

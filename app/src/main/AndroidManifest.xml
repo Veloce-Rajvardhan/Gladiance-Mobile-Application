@@ -36,6 +36,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
         <activity
             android:name=".ui.activities.MyProfile.EditProjectActivity"
             android:exported="false">
@@ -45,6 +47,15 @@
         </activity>
         <activity
             android:name=".ui.activities.MyProfile.EditScheduleActivity"
+            android:exported="true">
+
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.MyProfile.ScheduleActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -349,6 +360,7 @@
         <activity
             android:name="com.gladiance.ui.activities.Login.SplashScreenActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/SCREEN"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.CreateProjectFragment">
 
@@ -12,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_marginTop="@dimen/_10sdp"
         android:orientation="vertical"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
@@ -35,8 +35,8 @@
         <Spinner
             android:id="@+id/customSpinner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            style="@style/MyDropdownStyle"
+            android:layout_height="@dimen/_30sdp"
+            style="@style/MyEditTextStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"/>
@@ -69,7 +69,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:textColor="@color/white"
             android:paddingStart="@dimen/_5sdp"
             android:textSize="@dimen/_12sdp"
             style="@style/MyEditTextStyle"
@@ -85,7 +84,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center|left"
-        android:text="Day Of Week"
+        android:text="Has Area"
         android:textSize="@dimen/_13sdp"
         android:layout_marginStart="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_20sdp"
