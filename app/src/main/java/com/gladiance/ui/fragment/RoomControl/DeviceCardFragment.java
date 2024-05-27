@@ -230,7 +230,7 @@ public class DeviceCardFragment extends Fragment {
             Log.d("TAG", "Power: " + AppConstants.power);
 
             Log.e("APPCONSTS",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS",""+ AppConstants.Name_dyn);
+            Log.e("APPCONSTS",""+AppConstants.Name_dyn);
             Log.e("APPCONSTS",""+AppConstants.SceneRef);
             Log.e("APPCONSTS",""+AppConstants.Space_dyn);
             Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);

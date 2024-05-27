@@ -6,98 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.MyScheduleFragment">
 
-    <GridLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_180sdp"
-        android:columnCount="2"
-        android:columnOrderPreserved="false"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:rowCount="1"
-        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <!-- Card 1 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/transparentColor"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:id="@+id/cd_setYourMood"
-                style="@style/MyButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-                <ImageView
-                    style="@style/Project"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_15sdp" />
-
-                <TextView
-                    style="@style/TEXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:text="Schedule 1"
-                    android:textSize="@dimen/_18sdp" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/transparentColor"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:id="@+id/cd_scheduling"
-                style="@style/MyButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-                <ImageView
-                    style="@style/Project"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_17sdp" />
-
-                <TextView
-                    style="@style/TEXT"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:text="Schedule 2"
-                    android:textSize="@dimen/_18sdp" />
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_sceneList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_scene" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

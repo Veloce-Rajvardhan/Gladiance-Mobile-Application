@@ -50,6 +50,14 @@ public class SetYourMoodActivity extends AppCompatActivity {
             }
         });
 
+        invitedUser.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Fragment fragment = new MyMoodFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.set_mood, fragment).addToBackStack(null).commit();
+            }
+        });
         invitedUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

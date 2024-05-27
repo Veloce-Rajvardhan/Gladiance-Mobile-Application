@@ -135,4 +135,10 @@ public interface ApiService {
                                        @Path("loginToken") String loginToken,
                                        @Path("loginDeviceId") String loginDeviceId);
 
+    @GET("mobileapp/schedulelist/{gaaProjectSpaceTypeRef}/{loginToken}/{loginDeviceId}")
+    Call<SceneListResModel> getScheduleList(
+            @Path("gaaProjectSpaceTypeRef") String gaaProjectSpaceTypeRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
 }

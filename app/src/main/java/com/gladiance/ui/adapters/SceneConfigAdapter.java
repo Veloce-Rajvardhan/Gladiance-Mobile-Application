@@ -93,7 +93,7 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
 
 
 
-                // -- uncomment for figma New Ui -- //
+                // -- uncomment for figma New Ui (Used Activity instead of fragment)-- //
 
 //                Long sceneRef = scene.getRef();
 //                String sceneRefString = String.valueOf(sceneRef);
