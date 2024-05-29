@@ -407,6 +407,18 @@ public class AppConstants {
 
     public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();
 
+
+    public static String Ref_dyn_Schedule;
+    public static String Name_dyn_Schedule;
+    public static String ScheduleRef_Schedule;
+    public static String Space_dyn_Schedule;
+    public static String projectSpaceTypePlannedDeviceName_Schedule;
+    public static String GaaProjectSpaceTypePlannedDeviceRef_Schedule;
+    public static String powerState_Schedule;
+    public static String power_Schedule;
+
+    public static final ArrayList<String> MY_CONSTANT_LIST_SCHEDULE = new ArrayList<String>();
+
 //    private static AppConstants instance;
 //    private String yourString;
 //
