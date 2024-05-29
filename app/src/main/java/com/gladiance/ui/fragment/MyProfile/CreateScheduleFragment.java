@@ -50,6 +50,7 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
@@ -222,7 +223,35 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         yearPicker.setValue(currentYear);
 
 
+        //Day Recycle View
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false);
+        recyclerViewDay.setLayoutManager(gridLayoutManager);
+        List<String> days = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        dayAdapter = new DayAdapter(days, new DayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String day, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + day + " isChecked: " + isChecked);
+            }
 
+        });
+        recyclerViewDay.setAdapter(dayAdapter);
+
+
+        //Month Recycle View
+
+        GridLayoutManager gridLayoutManagerMonth = new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false);
+        recyclerViewMonth.setLayoutManager(gridLayoutManagerMonth);
+        List<String> months = Arrays.asList(
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        );
+        monthAdapter = new MonthAdapter(months, new MonthAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String month, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + month + " isChecked: " + isChecked);
+            }
+        });
+        recyclerViewMonth.setAdapter(monthAdapter);
 
         // Add listener to get the selected value
         yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -252,25 +281,25 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 Log.e("APPCONSTS",""+AppConstants.power_Schedule);
 
 
-                List<SceneConfig> list = new ArrayList<>();
+                List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
                 for(int i = 0; i <ConArrayList.size(); i++){
                     if(ConArrayList.get(i).isChecked() == true){
                         Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                        list.add(new SceneConfig(
-                                Long.parseLong(AppConstants.SceneRef),
+                        list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+                                Long.parseLong(AppConstants.ScheduleRef_Schedule),
                                 ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
                                 ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-                                AppConstants.powerState,
-                                AppConstants.power
+                                AppConstants.powerState_Schedule,
+                                AppConstants.power_Schedule
                         ));
                     }
                 }
 
-                SaveSceneRequest saveScene = new SaveSceneRequest(
-                        Long.parseLong(AppConstants.Ref_dyn),
-                        AppConstants.Name_dyn,
-                        Long.parseLong(AppConstants.SceneRef),
-                        list);
+//                SaveScheduleRequest saveScene = new SaveScheduleRequest(
+//                        Long.parseLong(AppConstants.Ref_dyn_Schedule),
+//                        AppConstants.Name_dyn_Schedule,
+//                        Long.parseLong(AppConstants.ScheduleRef_Schedule),
+//                        list);
    //             sendSaveSceneRequest(saveScene);
 
                 // Access TextView

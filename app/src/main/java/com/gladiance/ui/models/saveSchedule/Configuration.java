@@ -7,10 +7,10 @@ public class Configuration {
 
         @SerializedName("GAAProjectScheduleRef")
         @Expose
-        private Integer gAAProjectScheduleRef;
+        private Long gAAProjectScheduleRef;
         @SerializedName("GAAProjectSpaceTypePlannedDeviceRef")
         @Expose
-        private Integer gAAProjectSpaceTypePlannedDeviceRef;
+        private Long gAAProjectSpaceTypePlannedDeviceRef;
         @SerializedName("NodeConfigDeviceName")
         @Expose
         private String nodeConfigDeviceName;
@@ -21,19 +21,27 @@ public class Configuration {
         @Expose
         private String value;
 
-        public Integer getGAAProjectScheduleRef() {
+    public Configuration(Long gAAProjectScheduleRef, Long gAAProjectSpaceTypePlannedDeviceRef, String nodeConfigDeviceName, String nodeConfigParamName, String value) {
+        this.gAAProjectScheduleRef = gAAProjectScheduleRef;
+        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+        this.nodeConfigDeviceName = nodeConfigDeviceName;
+        this.nodeConfigParamName = nodeConfigParamName;
+        this.value = value;
+    }
+
+    public Long getGAAProjectScheduleRef() {
             return gAAProjectScheduleRef;
         }
 
-        public void setGAAProjectScheduleRef(Integer gAAProjectScheduleRef) {
+        public void setGAAProjectScheduleRef(Long gAAProjectScheduleRef) {
             this.gAAProjectScheduleRef = gAAProjectScheduleRef;
         }
 
-        public Integer getGAAProjectSpaceTypePlannedDeviceRef() {
+        public Long getGAAProjectSpaceTypePlannedDeviceRef() {
             return gAAProjectSpaceTypePlannedDeviceRef;
         }
 
-        public void setGAAProjectSpaceTypePlannedDeviceRef(Integer gAAProjectSpaceTypePlannedDeviceRef) {
+        public void setGAAProjectSpaceTypePlannedDeviceRef(Long gAAProjectSpaceTypePlannedDeviceRef) {
             this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
         }
 

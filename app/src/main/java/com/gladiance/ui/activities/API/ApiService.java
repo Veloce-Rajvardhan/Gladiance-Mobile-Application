@@ -22,6 +22,7 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningRequest;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningResponse;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
+import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 
@@ -142,6 +143,11 @@ public interface ApiService {
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
     );
+
+    @POST("mobileapp/saveschedule")
+    Call<SceneResModel> saveSchedule(@Body SaveScheduleRequest saveScheduleRequest);
+
+
     @POST("request/allocatesingleid/50000102")
     Call<AllocateSingleIdResponse>  allocateSingleId();
 }
