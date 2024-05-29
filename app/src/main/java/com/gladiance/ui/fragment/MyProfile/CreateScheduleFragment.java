@@ -227,8 +227,15 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false);
         recyclerViewDay.setLayoutManager(gridLayoutManager);
         List<String> days = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-        dayAdapter = new DayAdapter(days);
+        dayAdapter = new DayAdapter(days, new DayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String day, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + day + " isChecked: " + isChecked);
+            }
+
+        });
         recyclerViewDay.setAdapter(dayAdapter);
+
 
         //Month Recycle View
 
@@ -238,7 +245,12 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         );
-        monthAdapter = new MonthAdapter(months);
+        monthAdapter = new MonthAdapter(months, new MonthAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String month, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + month + " isChecked: " + isChecked);
+            }
+        });
         recyclerViewMonth.setAdapter(monthAdapter);
 
         // Add listener to get the selected value
