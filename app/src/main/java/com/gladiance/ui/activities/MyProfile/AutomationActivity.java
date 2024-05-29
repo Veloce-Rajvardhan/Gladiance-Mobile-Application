@@ -49,18 +49,6 @@ public class AutomationActivity extends AppCompatActivity {
             }
         });
 
-
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(AutomationActivity.this, NavBarActivity.class);
-                startActivity(intent);
-                finish(); // Optionally finish this activity
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
-
     }
 
 }

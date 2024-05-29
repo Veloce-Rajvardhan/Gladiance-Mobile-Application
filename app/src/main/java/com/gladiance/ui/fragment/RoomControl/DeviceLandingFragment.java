@@ -109,7 +109,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
     }
 
 
-
+//Call guest controls
     private void fetchInstallerControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);

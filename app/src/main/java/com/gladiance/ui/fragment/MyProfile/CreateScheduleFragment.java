@@ -31,12 +31,16 @@ import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.activities.MyProfile.EditScheduleActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
+import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
+import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
+import com.gladiance.ui.models.guestlandingpage.GuestControls;
+import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.Controls;
 import com.gladiance.ui.models.lnstallerlandingpage.Data;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
@@ -140,28 +144,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         /// time ///
         // Initialize hour picker
         NumberPicker hourPicker = view.findViewById(R.id.hourPicker);
-        NumberPicker hourPicker2 = view.findViewById(R.id.hourPicker2);
         hourPicker.setMinValue(0);
         hourPicker.setMaxValue(23); // 24 hours format
         // Set initial value
         hourPicker.setValue(12); // Default value 12
-
-        hourPicker2.setMinValue(0);
-        hourPicker2.setMaxValue(23); // 24 hours format
-        // Set initial value
-        hourPicker2.setValue(12); // Default value 12
-
-
-//        NumberPicker.Formatter hourFormatter = new NumberPicker.Formatter() {
-//            @Override
-//            public String format(int value) {
-//                // Add padding to the displayed value
-//                return String.format("%02d", value); // Adds leading zeros if necessary
-//            }
-//        };
-//
-//        hourPicker.setFormatter(hourFormatter);
-
 
 
         // Initialize minute picker
@@ -171,16 +157,15 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         // Set initial value
         minutePicker.setValue(0); // Default value 0
 
-     //   hourPicker.setPadding(20, 0, 20, 0);
 
         // Initialize minute picker
-        NumberPicker minutePicker2 = view.findViewById(R.id.minutePicker2);
-        minutePicker2.setMinValue(0);
-        minutePicker2.setMaxValue(59); // 60 minutes
+        NumberPicker datePicker = view.findViewById(R.id.DatePicker);
+        datePicker.setMinValue(0);
+        datePicker.setMaxValue(31); // 60 minutes
         // Set initial value
-        minutePicker2.setValue(0); // Default value 0
+        datePicker.setValue(0); // Default value 0
 
-     //For year
+        //For year
         // Initialize year picker
         NumberPicker yearPicker = view.findViewById(R.id.yearPicker);
 
@@ -459,71 +444,39 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     }
 
     private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-
-        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-
-        call.enqueue(new Callback<InstallerLandingResModel>() {
+        Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
+        call.enqueue(new Callback<GuestLandingResModel>() {
             @Override
-            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
+            public void onResponse(Call<GuestLandingResModel> call, Response<GuestLandingResModel> response) {
                 if (response.isSuccessful()) {
-                    InstallerLandingResModel installerLandingResModel = response.body();
-                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
-                        Data data = installerLandingResModel.getData();
-                        List<InstallerControl> installerControls = data.getInstallerControls();
-//                        editTextSpaceName.setText(data.getGaaProjectSpaceName());
+                    GuestLandingResModel responseModel = response.body();
+                    if (responseModel != null && responseModel.getData() != null) {
+                        List<GuestControls> controlsList = responseModel.getData().getGuestControls();
+                        if (controlsList != null && !controlsList.isEmpty()) {
+                            List<com.gladiance.ui.models.guestlandingpage.Controls> allControls = new ArrayList<>();
+                            for (GuestControls guestControls : controlsList) {
+                                allControls.addAll(guestControls.getControls());
+                            }
+                            // Set up ControlTypeName RecyclerView
+                            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
+                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
+                            recyclerView.setAdapter(deviceControlAdapter);
 
-                        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
-                        for (Controls controls : controlsDevice) {
-                            Log.e(ContentValues.TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
-                            ConArrayList.add(new Controls(controls.getNodeId(),controls.getDisplayOrder(),controls.getGaaProjectSpaceTypePlannedDeviceRef(),controls.getGaaProjectSpaceTypePlannedDeviceName(),controls.isProvisioned()));
                         }
 
-//                        Bundle bundleArrayList = getArguments();
-//
-//                        ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-//                        if (receivedList != null) {
-//                            for (String element : receivedList) {
-//                                System.out.println("ArrayList: "+element); // Prints each element on a new line
-//                            }
-//                        } else {
-//                            // Handle case where ArrayList is null
-//                        }
-
-                        /*Bundle bundle = getArguments();
-                        if (bundle != null) {
-                            // Retrieve data from bundle
-                            String key1Value = bundle.getString("key1");
-                            String key2Value = bundle.getString("key2");
-                            String key3Value = bundle.getString("key3");
-                            String key4Value = bundle.getString("key4");
-                            // Print the values using Log statements
-                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
-                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
-                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
-                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
-                            // Do something with the data
-                        }*/
-
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-                        recyclerView.setAdapter(sceneCheckAdapter);
-
                     }
+                } else {
+                    Log.e("API Response", "Unsuccessful response: " + response.code());
                 }
             }
 
-
             @Override
-            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
-
+            public void onFailure(Call<GuestLandingResModel> call, Throwable t) {
+                Log.e("API Error", "Error fetching controls: " + t.getMessage());
             }
         });
-
     }
-
 
 
 

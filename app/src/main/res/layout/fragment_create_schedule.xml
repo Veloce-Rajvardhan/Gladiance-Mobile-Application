@@ -243,16 +243,11 @@
                 android:orientation="horizontal">
 
                 <NumberPicker
-                    android:id="@+id/hourPicker2"
+                    android:id="@+id/DatePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-                <NumberPicker
-                    android:id="@+id/minutePicker2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
             </LinearLayout>
 
 

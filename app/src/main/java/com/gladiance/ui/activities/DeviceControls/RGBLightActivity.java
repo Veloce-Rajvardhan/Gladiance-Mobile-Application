@@ -64,7 +64,7 @@ public class RGBLightActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.tv_Whitebrightness);
         textView6 = findViewById(R.id.DeviceName);
 
-//        textView6.setText(Label);
+        textView6.setText(Label);
 
         disableSeekBars();
 

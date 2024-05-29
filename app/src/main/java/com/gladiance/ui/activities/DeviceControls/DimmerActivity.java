@@ -50,8 +50,11 @@ public class DimmerActivity extends AppCompatActivity {
         String Label = preferences.getString("KEY_USERNAMEs", "");
         Log.d(TAG, "Label : " +Label);
 
+
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
+
+
 
 
         textViewDeviceName = findViewById(R.id.DeviceName);
@@ -61,7 +64,7 @@ public class DimmerActivity extends AppCompatActivity {
         lampImg = findViewById(R.id.dimmer1);
         textView.setVisibility(View.GONE);
 
-//        textViewDeviceName.setText(Label);
+        textViewDeviceName.setText(Label);
 
         disableSeekBars();
 
@@ -83,10 +86,7 @@ public class DimmerActivity extends AppCompatActivity {
                     }
                     textView.setVisibility(View.VISIBLE);
                 } else {
-
                     disableSeekBars();
-                    lampImg.setVisibility(View.GONE);
-                    textView.setVisibility(View.GONE);
                 }
             }
         });

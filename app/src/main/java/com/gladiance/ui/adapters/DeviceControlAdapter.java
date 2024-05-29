@@ -82,7 +82,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
                 String Label = control.getLabel();
                 SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                Log.e(TAG, "Node Id: " + Label);
+                Log.e(TAG, "Label: " + Label);
                 editor1.putString("KEY_USERNAMEs", Label);
                 editor1.apply();
 

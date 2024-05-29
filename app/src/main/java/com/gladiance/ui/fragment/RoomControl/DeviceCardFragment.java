@@ -159,6 +159,7 @@ public class DeviceCardFragment extends Fragment {
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), DimmerActivity.class);
                             intent.putExtra("extra_name", name);
+                            Log.e(TAG, "Device Card Fragment : "+ name);
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.bellcontrol")){
                             String name = arrayList.get(0).getName();
