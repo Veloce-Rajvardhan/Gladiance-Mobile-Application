@@ -222,23 +222,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         yearPicker.setValue(currentYear);
 
 
-        //Day Recycle View
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false);
-        recyclerViewDay.setLayoutManager(gridLayoutManager);
-        List<String> days = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-        dayAdapter = new DayAdapter(days);
-        recyclerViewDay.setAdapter(dayAdapter);
 
-        //Month Recycle View
-
-        GridLayoutManager gridLayoutManagerMonth = new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false);
-        recyclerViewMonth.setLayoutManager(gridLayoutManagerMonth);
-        List<String> months = Arrays.asList(
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        );
-        monthAdapter = new MonthAdapter(months);
-        recyclerViewMonth.setAdapter(monthAdapter);
 
         // Add listener to get the selected value
         yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
