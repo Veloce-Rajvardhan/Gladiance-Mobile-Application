@@ -15,9 +15,17 @@ import java.util.List;
 public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHolder> {
 
     private List<String> months;
+    private boolean[] selectionState;
+    private OnItemClickListener listener;
 
-    public MonthAdapter(List<String> months) {
+    public interface OnItemClickListener {
+        void onItemClick(String month, boolean isChecked);
+    }
+
+    public MonthAdapter(List<String> months, OnItemClickListener listener) {
         this.months = months;
+        this.listener = listener;
+        this.selectionState = new boolean[months.size()];
     }
 
     @NonNull
@@ -31,6 +39,7 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
     public void onBindViewHolder(@NonNull MonthViewHolder holder, int position) {
         String month = months.get(position);
         holder.textViewMonth.setText(month);
+        holder.textViewMonth.setSelected(selectionState[position]);
     }
 
     @Override
@@ -38,12 +47,23 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
         return months.size();
     }
 
-    public static class MonthViewHolder extends RecyclerView.ViewHolder {
+    public class MonthViewHolder extends RecyclerView.ViewHolder {
         TextView textViewMonth;
 
         public MonthViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewMonth = itemView.findViewById(R.id.textViewMonth);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    boolean isChecked = !selectionState[position];
+                    selectionState[position] = isChecked;
+                    textViewMonth.setSelected(isChecked);
+                    listener.onItemClick(months.get(position), isChecked);
+                }
+            });
         }
     }
 }

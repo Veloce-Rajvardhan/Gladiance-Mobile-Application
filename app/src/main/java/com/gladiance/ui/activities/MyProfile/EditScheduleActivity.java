@@ -1,11 +1,14 @@
 package com.gladiance.ui.activities.MyProfile;
 
+import static org.greenrobot.eventbus.EventBus.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -55,7 +58,13 @@ public class EditScheduleActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(EditScheduleActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerViewDay.setLayoutManager(gridLayoutManager);
         List<String> days = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-        dayAdapter = new DayAdapter(days);
+        dayAdapter = new DayAdapter(days, new DayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String day, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + day + " isChecked: " + isChecked);
+            }
+
+        });
         recyclerViewDay.setAdapter(dayAdapter);
 
         //Month Recycle View
@@ -66,8 +75,14 @@ public class EditScheduleActivity extends AppCompatActivity {
                 "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         );
-        monthAdapter = new MonthAdapter(months);
+        monthAdapter = new MonthAdapter(months, new MonthAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String month, boolean isChecked) {
+                Log.e(TAG, "onItemClick: " + month + " isChecked: " + isChecked);
+            }
+        });
         recyclerViewMonth.setAdapter(monthAdapter);
+
 
     }
 }
