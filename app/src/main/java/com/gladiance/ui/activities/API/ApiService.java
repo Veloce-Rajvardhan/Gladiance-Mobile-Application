@@ -143,5 +143,5 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
     @POST("request/allocatesingleid/50000102")
-    AllocateSingleIdResponse allocateSingleId();
+    Call<AllocateSingleIdResponse>  allocateSingleId();
 }

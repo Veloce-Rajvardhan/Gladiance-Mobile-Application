@@ -242,7 +242,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             // Handle null bundle
         }
 
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
@@ -251,34 +251,35 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     }
 
         private void abc() {
-//            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-//            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-//            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-//            Log.d(TAG, "node id2: " + nodeId3);
-//            // Make API call
-//            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-//            call.enqueue(new Callback<AllocateSingleIdResponse>() {
-//                @Override
-//                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-//                    if (response.isSuccessful()) {
-//                        AllocateSingleIdResponse responseModel = response.body();
-//                        if (responseModel != null) {
-//                            boolean success = responseModel.getTag();
-//                            String message = responseModel.getMessage();
-//                            Log.d(TAG, "Success: " + success + ", Message: " + message);
-//
-//
-//                        }
-//                    } else {
-//                        Log.e(TAG, "API call failed with code: " + response.code());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-//                    Log.e(TAG, "API call failed: " + t.getMessage());
-//                }
-//            });
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+            Log.d(TAG, "node id2: " + nodeId3);
+            // Make API call
+            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+            call.enqueue(new Callback<AllocateSingleIdResponse>() {
+                @Override
+                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                    if (response.isSuccessful()) {
+                        AllocateSingleIdResponse responseModel = response.body();
+                        if (responseModel != null) {
+                            boolean success = responseModel.getSuccessful();
+                            String message = responseModel.getMessage();
+                            String Ref = responseModel.getTag();
+                            Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+
+
+                        }
+                    } else {
+                        Log.e(TAG, "API call failed with code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                    Log.e(TAG, "API call failed: " + t.getMessage());
+                }
+            });
         }
 
     private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
@@ -440,10 +441,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences2(Long.valueOf(selectedAreaRef));
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
     }
 
-    private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
+    private void fetchGuestControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
         call.enqueue(new Callback<GuestLandingResModel>() {
