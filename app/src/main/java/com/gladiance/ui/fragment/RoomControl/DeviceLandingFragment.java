@@ -103,14 +103,14 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
         Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef.trim());
 
-        fetchInstallerControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
+        fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
 
         return view;
     }
 
 
-//Call guest controls
-    private void fetchInstallerControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
+    //Call guest controls
+    private void fetchGuestControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
         call.enqueue(new Callback<GuestLandingResModel>() {
@@ -125,11 +125,11 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                             for (GuestControls guestControls : controlsList) {
                                 allControls.addAll(guestControls.getControls());
                             }
-                            // Set up ControlTypeName RecyclerView
+                            // Set up DeviceControlName RecyclerView
                             guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                             DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
                             guestRecyclerView.setAdapter(deviceControlAdapter);
-
+                            // Set up ControlTypeName RecyclerView
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager);
                             ControlAdapter controlAdapter = new ControlAdapter(controlsList, requireContext(), new ControlAdapter.OnControlTypeClickListener() {
