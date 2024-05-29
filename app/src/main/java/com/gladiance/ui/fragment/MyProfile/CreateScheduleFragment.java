@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import com.gladiance.AppConstants;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
@@ -47,6 +48,8 @@ import com.gladiance.ui.models.lnstallerlandingpage.Controls;
 import com.gladiance.ui.models.lnstallerlandingpage.Data;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
+import com.gladiance.ui.models.saveScene.SaveSceneRequest;
+import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
@@ -70,6 +73,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     CheckBox CBWeek;
     CheckBox CBMonth;
     CheckBox CBYear;
+    NumberPicker datePicker;
     Button btnSave;
 
     private ArrayList<Configuration> ConfigArrayList;
@@ -108,13 +112,47 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         buttonSave = view.findViewById(R.id.btnSave);
         spinner = view.findViewById(R.id.sceneAreaSpinner);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
+        datePicker = view.findViewById(R.id.DatePicker);
 
         ConArrayList = new ArrayList<>();
         arrayList2 = new ArrayList<>();
         ConfigArrayList = new ArrayList<>();
 
 
-        abc();
+        CBWeek.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    CBMonth.setChecked(false);
+                    recyclerViewMonth.setEnabled(false);
+                    recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+                    datePicker.setEnabled(false);
+                    datePicker.setAlpha(0.3f);
+
+                } else {
+                    recyclerViewMonth.setEnabled(true);
+                    recyclerViewMonth.setAlpha(1.0f);
+                    datePicker.setEnabled(true);
+                    datePicker.setAlpha(1.0f);
+                }
+            }
+        });
+
+        CBMonth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    CBWeek.setChecked(false);
+                    recyclerViewDay.setEnabled(false);
+                    recyclerViewDay.setAlpha(0.5f); // To visually show it's disabled
+                } else {
+                    recyclerViewDay.setEnabled(true);
+                    recyclerViewDay.setAlpha(1.0f);
+                }
+            }
+        });
+
+        getRef();
 
 
         // Ref
@@ -133,6 +171,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
         Log.e(ContentValues.TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
+        AppConstants.Space_dyn_Schedule = gaaProjectSpaceTypeRef;
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -162,7 +201,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
         // Initialize minute picker
-        NumberPicker datePicker = view.findViewById(R.id.DatePicker);
+       // NumberPicker datePicker = view.findViewById(R.id.DatePicker);
         datePicker.setMinValue(0);
         datePicker.setMaxValue(31); // 60 minutes
         // Set initial value
@@ -216,6 +255,40 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                AppConstants.Name_dyn_Schedule = String.valueOf(editTextSpaceName.getText());
+
+                Log.e("APPCONSTS",""+AppConstants.Ref_dyn_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.Name_dyn_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.ScheduleRef_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.Space_dyn_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+                Log.e("APPCONSTS",""+ AppConstants.powerState_Schedule);
+                Log.e("APPCONSTS",""+AppConstants.power_Schedule);
+
+
+                List<SceneConfig> list = new ArrayList<>();
+                for(int i = 0; i <ConArrayList.size(); i++){
+                    if(ConArrayList.get(i).isChecked() == true){
+                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        list.add(new SceneConfig(
+                                Long.parseLong(AppConstants.SceneRef),
+                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+                                AppConstants.powerState,
+                                AppConstants.power
+                        ));
+                    }
+                }
+
+                SaveSceneRequest saveScene = new SaveSceneRequest(
+                        Long.parseLong(AppConstants.Ref_dyn),
+                        AppConstants.Name_dyn,
+                        Long.parseLong(AppConstants.SceneRef),
+                        list);
+   //             sendSaveSceneRequest(saveScene);
+
                 // Access TextView
                 //extView textView = findViewById(R.id.TVProjectName);
                 // Get text from TextView
@@ -253,7 +326,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         return view;
     }
 
-        private void abc() {
+    // to Get Ref
+        private void getRef() {
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
             String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
@@ -269,6 +343,9 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             boolean success = responseModel.getSuccessful();
                             String message = responseModel.getMessage();
                             String Ref = responseModel.getTag();
+                            AppConstants.Ref_dyn_Schedule = responseModel.getTag();
+                            AppConstants.ScheduleRef_Schedule = responseModel.getTag();
+
                             Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
 
 

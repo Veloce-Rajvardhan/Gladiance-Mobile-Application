@@ -2,8 +2,12 @@ package com.gladiance.ui.adapters;
 
 import static android.content.ContentValues.TAG;
 
+import static com.gladiance.AppConstants.MY_CONSTANT_LIST;
+import static com.gladiance.AppConstants.MY_CONSTANT_LIST_SCHEDULE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +17,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.AppConstants;
 import com.gladiance.R;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
@@ -50,6 +56,8 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
+        String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +70,19 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
                 Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
                 editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
                 editor3.apply();
+
+
+                AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+                AppConstants.projectSpaceTypePlannedDeviceName_Schedule = projectSpaceTypePlannedDeviceName;
+                Log.e(TAG, "onClick: "+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule+ " ProjectSpaceTypePlannedDeviceName "+AppConstants.projectSpaceTypePlannedDeviceName_Schedule+" " );
+                for (String item : MY_CONSTANT_LIST_SCHEDULE) {
+                    System.out.println("NewList2: "+item);
+                }
+
+                Bundle bundle = new Bundle();
+                // Put data from constant ArrayList into the bundle
+                bundle.putStringArrayList("constantData", AppConstants.MY_CONSTANT_LIST);
+
 
                 String Label = control.getLabel();
                 SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
@@ -79,9 +100,13 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
                 // holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), DeviceCardActivity.class));
 
+                bundle.putLong("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
+
+
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 DeviceCardFragment newFragment = new DeviceCardFragment();
+                newFragment.setArguments(bundle);
                 transaction.replace(R.id.FlSchedule, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

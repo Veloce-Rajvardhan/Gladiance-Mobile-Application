@@ -41,6 +41,7 @@ import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.ObjectScenes;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -228,9 +229,9 @@ public class DeviceCardFragment extends Fragment {
             Log.d("TAG", "PowerState: " + AppConstants.powerState);
             Log.d("TAG", "Power: " + AppConstants.power);
 
-            Log.e("APPCONSTS",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
             Log.e("APPCONSTS",""+AppConstants.Space_dyn);
             Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
             Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
@@ -241,6 +242,42 @@ public class DeviceCardFragment extends Fragment {
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+
+            //// Schedule
+        try {
+            AppConstants.powerState_Schedule = power;
+            AppConstants.power_Schedule = String.valueOf(powerState);
+            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+
+            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
             List<SceneConfig> list = new ArrayList<>();
