@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import com.gladiance.AppConstants;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
@@ -34,6 +35,7 @@ import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
 import com.gladiance.ui.adapters.DeviceControlAdapter;
+import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
@@ -213,6 +215,16 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("APPCONSTS",""+ AppConstants.Ref_dyn);
+                Log.e("APPCONSTS",""+AppConstants.Name_dyn);
+                Log.e("APPCONSTS",""+AppConstants.SceneRef);
+                Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+                Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+                Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+                Log.e("APPCONSTS",""+ AppConstants.powerState);
+                Log.e("APPCONSTS",""+AppConstants.power);
+
                 // Access TextView
                 //extView textView = findViewById(R.id.TVProjectName);
                 // Get text from TextView
@@ -242,7 +254,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             // Handle null bundle
         }
 
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
@@ -250,36 +262,38 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         return view;
     }
 
-        private void abc() {
-//            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-//            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-//            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-//            Log.d(TAG, "node id2: " + nodeId3);
-//            // Make API call
-//            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-//            call.enqueue(new Callback<AllocateSingleIdResponse>() {
-//                @Override
-//                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-//                    if (response.isSuccessful()) {
-//                        AllocateSingleIdResponse responseModel = response.body();
-//                        if (responseModel != null) {
-//                            boolean success = responseModel.getTag();
-//                            String message = responseModel.getMessage();
-//                            Log.d(TAG, "Success: " + success + ", Message: " + message);
-//
-//
-//                        }
-//                    } else {
-//                        Log.e(TAG, "API call failed with code: " + response.code());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-//                    Log.e(TAG, "API call failed: " + t.getMessage());
-//                }
-//            });
-        }
+    // to Get Ref
+    private void abc() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "node id2: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+                        Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+
+
+                    }
+                } else {
+                    Log.e(TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
 
     private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -440,10 +454,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences2(Long.valueOf(selectedAreaRef));
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
     }
 
-    private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
+    private void fetchGuestControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
         call.enqueue(new Callback<GuestLandingResModel>() {
@@ -460,8 +474,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             }
                             // Set up ControlTypeName RecyclerView
                             recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
-                            recyclerView.setAdapter(deviceControlAdapter);
+                            DeviceControlScheduleAdapter deviceControlScheduleAdapter = new DeviceControlScheduleAdapter(allControls, requireContext());
+                            recyclerView.setAdapter(deviceControlScheduleAdapter);
 
                         }
 
