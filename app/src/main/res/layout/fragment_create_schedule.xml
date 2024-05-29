@@ -201,6 +201,21 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_day"
             />
+
+        <TextView
+            android:id="@+id/OR"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:text="- - - - - - - - -  OR  - - - - - - - - - "
+            android:gravity="center"
+            style="@style/TEXT"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewDay"/>
+
     <CheckBox
         android:id="@+id/CBMonth"
         style="@style/TEXT"
@@ -215,7 +230,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewDay"/>
+        app:layout_constraintTop_toBottomOf="@+id/OR"/>
 
         <LinearLayout
             android:id="@+id/LLDate"

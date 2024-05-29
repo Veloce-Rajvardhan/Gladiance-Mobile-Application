@@ -88,11 +88,7 @@ public class DeviceCardFragment extends Fragment {
          nodeId2 = preferences.getString("KEY_USERNAMEs", "");
         Log.d(TAG, "node id: " +nodeId2);
 
-
-
         getDevice(nodeId);
-
-
 
         return view;
     }
