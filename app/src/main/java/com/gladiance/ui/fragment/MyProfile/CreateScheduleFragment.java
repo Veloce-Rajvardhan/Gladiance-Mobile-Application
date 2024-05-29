@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -111,6 +112,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         ConArrayList = new ArrayList<>();
         arrayList2 = new ArrayList<>();
         ConfigArrayList = new ArrayList<>();
+
 
         abc();
 
