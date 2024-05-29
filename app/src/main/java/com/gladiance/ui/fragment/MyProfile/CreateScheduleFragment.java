@@ -34,6 +34,7 @@ import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
 import com.gladiance.ui.adapters.DeviceControlAdapter;
+import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
@@ -461,8 +462,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             }
                             // Set up ControlTypeName RecyclerView
                             recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
-                            recyclerView.setAdapter(deviceControlAdapter);
+                            DeviceControlScheduleAdapter deviceControlScheduleAdapter = new DeviceControlScheduleAdapter(allControls, requireContext());
+                            recyclerView.setAdapter(deviceControlScheduleAdapter);
 
                         }
 
