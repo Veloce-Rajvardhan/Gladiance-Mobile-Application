@@ -90,6 +90,8 @@ public class HomeFragment extends Fragment  {
         arrayList = new ArrayList<>();
         arrayList1 = new ArrayList<>();
 
+
+
         SharedPreferences sharedPreferencesProName = requireActivity().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
         String ProjectName = sharedPreferencesProName.getString("ProjectName", "");
         textViewProjectName.setText(ProjectName);

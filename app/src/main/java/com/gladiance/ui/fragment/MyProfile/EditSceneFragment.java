@@ -267,6 +267,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                 sendSaveSceneRequest(saveScene);
             }
 
+
             private void sendSaveSceneRequest(SaveSceneRequest saveScene) {
                 ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
