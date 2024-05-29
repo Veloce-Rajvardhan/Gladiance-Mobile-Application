@@ -15,6 +15,7 @@ import com.gladiance.ui.models.ResetResponse;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.ResponseModelNode;
 import com.gladiance.ui.models.SpaceSpaceGroupResModel;
+import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
@@ -141,4 +142,6 @@ public interface ApiService {
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
     );
+    @POST("request/allocatesingleid/50000102")
+    AllocateSingleIdResponse allocateSingleId();
 }

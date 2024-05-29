@@ -323,15 +323,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LLYear"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleEditSchedule"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CBYear"
-        />
+
+
+
+        <Spinner
+            android:id="@+id/sceneAreaSpinner"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.062"
+            app:layout_constraintTop_toBottomOf="@+id/CBYear" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewDeviceName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            app:layout_constraintTop_toBottomOf="@+id/sceneAreaSpinner"
+            tools:listitem="@layout/item_scene_control_card">
+        </androidx.recyclerview.widget.RecyclerView>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycleEditSchedule"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_200sdp"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/sceneAreaSpinner"-->
+<!--        />-->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSave"
@@ -347,7 +373,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleEditSchedule"/>
+        app:layout_constraintTop_toBottomOf="@+id/recycleViewDeviceName"/>
 
 
 
