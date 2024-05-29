@@ -38,12 +38,10 @@
             android:textSize="@dimen/_13sdp" />
 
         <Spinner
-            android:id="@+id/dropdownSpinner1"
-
-            style="@style/MyEditTextStyle"
-
+            android:id="@+id/createSchedule"
+            style="@style/MyDropdownStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp" />

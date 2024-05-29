@@ -111,7 +111,6 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
-
         // Retrieve SharedPreferences object (Ref get)
         SharedPreferences sharedPreferences_ref = requireContext().getSharedPreferences("Ref_Dyn", Context.MODE_PRIVATE);
         // Retrieve the long value stored with the key "REF_DYN_KEY"
@@ -167,6 +166,8 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
             Log.e(TAG, "Bundle is null");
             // Handle null bundle
         }
+
+
 
         fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
@@ -506,7 +507,6 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
         String loginDeviceId = GUID.trim();
-
 
         SharedPreferences  sharedPreferences2 = requireContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");

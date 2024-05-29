@@ -217,11 +217,13 @@ public class DeviceCardFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferencesPowerState.edit();
         editor.putBoolean("PowerState", shPowerState);
         editor.apply();
-        Log.e(TAG, "EspMain Activity PowerState:"+shPowerState );
+        Log.e(TAG, "Device Fragment PowerState:"+shPowerState );
+
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
+        Log.e(TAG, "Device Fragment Node Id:"+nodeId2 );
 
         try {
             AppConstants.powerState = power;

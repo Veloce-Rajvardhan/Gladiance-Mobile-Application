@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 
 import com.gladiance.R;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
@@ -23,6 +25,7 @@ import com.gladiance.ui.activities.MyProfile.EditScheduleActivity;
 import com.gladiance.ui.adapters.DayAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -37,6 +40,7 @@ public class CreateScheduleFragment extends Fragment {
     CheckBox CBMonth;
     CheckBox CBYear;
     Button btnSave;
+    private Spinner spinnerProjectType;
 
     public CreateScheduleFragment() {
         // Required empty public constructor
@@ -141,6 +145,25 @@ public class CreateScheduleFragment extends Fragment {
                 // Do something with the selected year
             }
         });
+
+        spinnerProjectType = view.findViewById(R.id.createSchedule);
+
+        // Create a list of items for the dropdown
+        List<String> items = new ArrayList<>();
+        items.add("Home");
+        items.add("Hotel");
+        items.add("Office");
+
+        // Create a custom adapter with your custom layout for dropdown items
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.dropdown_item1,
+                R.id.text1,
+                items
+        );
+
+        // Set the adapter for the dropdown spinner
+        spinnerProjectType.setAdapter(adapter);
 
 
         return view;

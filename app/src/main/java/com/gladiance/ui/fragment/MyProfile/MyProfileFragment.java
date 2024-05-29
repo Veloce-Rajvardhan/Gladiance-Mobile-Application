@@ -12,6 +12,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.gladiance.R;
 import com.gladiance.ui.activities.MyProfile.AboutUsActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
@@ -130,6 +131,7 @@ public class MyProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
 
         return view;
     }

@@ -49,7 +49,7 @@
                 android:textSize="@dimen/_13sdp" />
 
             <Spinner
-                android:id="@+id/dropdownSpinner1"
+                android:id="@+id/scheduleProjectType"
                 style="@style/MyDropdownStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
