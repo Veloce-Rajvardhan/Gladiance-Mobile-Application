@@ -87,6 +87,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!--  Transperant Bg Theme -->
+    <style name="TransperantButtonStyle">
+        <item name="android:background">@drawable/transparent_backgraund</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <!--    Mood and Favorite Botton-->
     <!-- Grey Button Left Corner Theme -->
     <style name="GreyLightButtonLeftCorner" parent="Widget.AppCompat.Button">
