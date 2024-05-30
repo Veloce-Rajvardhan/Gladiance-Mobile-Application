@@ -17,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent"> <!-- Replace with your image resource -->
 
         <LinearLayout
-            android:id="@+id/llProjectName"
+            android:id="@+id/llSpaceName"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:background="#222222"
             android:orientation="vertical">
             <!-- Image in CardView -->
             <ImageView
-                android:id="@+id/imgPN"
+                android:id="@+id/imgSN"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:padding="@dimen/_6sdp"

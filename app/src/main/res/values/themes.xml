@@ -87,6 +87,12 @@
         <item name="android:textColor">@color/color_black</item>
     </style>
 
+    <!--  Transperant Bg Theme -->
+    <style name="TransperantButtonStyle">
+        <item name="android:background">@drawable/transparent_backgraund</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
 
     <!--  Dropdown Theme -->
     <style name="MyDropdownStyle">

@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
@@ -62,10 +64,15 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView spaceNameTextView;
+        LinearLayout llSpaceName;
+        ImageView imgSN;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             spaceNameTextView = itemView.findViewById(R.id.spaceName);
+
+            llSpaceName = itemView.findViewById(R.id.llSpaceName);
+            imgSN = itemView.findViewById(R.id.imgSN);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +101,24 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
                         editor2.putString("Project_Space_Name", spaceName);
                         editor2.apply();
 
+                        llSpaceName.setBackground(getDrawableForTheme(context, R.drawable.new_border_button_background));
+
+
+                        int textColor = context.getResources().getColor(R.color.TextOrangeColor);
+                        if (isNightModeEnabled(context)) {
+                            textColor = context.getResources().getColor(R.color.TextOrangeColor);
+                        }
+                        spaceNameTextView.setTextColor(textColor);
+
+                        // Change image here
+                        if (isNightModeEnabled(context)) {
+                            // Change to night mode image
+                            imgSN.setImageResource(R.drawable.homeorange);
+                        } else {
+                            // Change to day mode image
+                            imgSN.setImageResource(R.drawable.homeorange);
+                        }
+
 
                         Intent intent = new Intent(context, NavBarActivity.class);
                         context.startActivity(intent);
@@ -102,6 +127,22 @@ public class ProjectSpaceNameAdapter extends RecyclerView.Adapter<ProjectSpaceNa
                     }
                 }
             });
+        }
+    }
+
+    private boolean isNightModeEnabled(Context context) {
+        int currentNightMode = context.getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    private Drawable getDrawableForTheme(Context context, @DrawableRes int drawableResId) {
+        if (isNightModeEnabled(context)) {
+            // Load night mode drawable
+            return ContextCompat.getDrawable(context, R.drawable.new_border_button_background_night);
+        } else {
+            // Load day mode drawable
+            return ContextCompat.getDrawable(context, drawableResId);
         }
     }
 

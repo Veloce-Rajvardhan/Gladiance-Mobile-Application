@@ -43,6 +43,9 @@ public class ProjectActivity extends AppCompatActivity {
         myProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myProject.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
+                createProject.setBackgroundResource(R.drawable.transparent_backgraund);
 
                 Fragment fragment = new MyProjectFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
@@ -50,17 +53,27 @@ public class ProjectActivity extends AppCompatActivity {
 
                 transaction.replace(R.id.project_fragment, fragment).addToBackStack(null)
                         .commit();
+
+
             }
         });
 
         createProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                createProject.setBackgroundResource(R.drawable.orange_transperant_bg_right);
+
+                myProject.setBackgroundResource(R.drawable.transparent_backgraund);
+
+
                 Fragment fragment = new CreateProjectFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.project_fragment, fragment)
                         .addToBackStack(null)
                         .commit();
+
+
             }
         });
 
