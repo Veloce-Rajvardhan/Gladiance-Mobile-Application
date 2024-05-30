@@ -3,6 +3,7 @@ package com.gladiance.ui.adapters;
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
@@ -43,6 +45,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         String day = days.get(position);
         holder.textViewDay.setText(day);
         holder.textViewDay.setSelected(selectionState[position]);
+
     }
 
     @Override
@@ -68,5 +71,12 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
                 }
             });
         }
+    }
+    public List<Pair<String, Boolean>> getAllDataWithCheckedStatus() {
+        List<Pair<String, Boolean>> dataList = new ArrayList<>();
+        for (int i = 0; i < days.size(); i++) {
+            dataList.add(new Pair<>(days.get(i), selectionState[i]));
+        }
+        return dataList;
     }
 }

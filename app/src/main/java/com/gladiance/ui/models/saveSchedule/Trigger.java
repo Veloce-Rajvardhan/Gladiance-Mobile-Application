@@ -80,6 +80,34 @@ public class Trigger {
     @Expose
     private Boolean repeatEveryYear;
 
+    public Trigger(Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday, Integer hour, Integer minute, Integer second, Integer dayOfMonth, Boolean january, Boolean february, Boolean march, Boolean april, Boolean may, Boolean june, Boolean july, Boolean august, Boolean september, Boolean october, Boolean november, Boolean december, Integer year, Boolean repeatEveryYear) {
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
+        this.dayOfMonth = dayOfMonth;
+        this.january = january;
+        this.february = february;
+        this.march = march;
+        this.april = april;
+        this.may = may;
+        this.june = june;
+        this.july = july;
+        this.august = august;
+        this.september = september;
+        this.october = october;
+        this.november = november;
+        this.december = december;
+        this.year = year;
+        this.repeatEveryYear = repeatEveryYear;
+    }
+
     public Boolean getMonday() {
         return monday;
     }

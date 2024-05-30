@@ -1,5 +1,6 @@
 package com.gladiance.ui.adapters;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHolder> {
@@ -65,5 +67,12 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
                 }
             });
         }
+    }
+    public List<Pair<String, Boolean>> getAllDataWithCheckedStatus() {
+        List<Pair<String, Boolean>> dataList = new ArrayList<>();
+        for (int i = 0; i < months.size(); i++) {
+            dataList.add(new Pair<>(months.get(i), selectionState[i]));
+        }
+        return dataList;
     }
 }

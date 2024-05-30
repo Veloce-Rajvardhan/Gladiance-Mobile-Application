@@ -419,6 +419,39 @@ public class AppConstants {
 
     public static final ArrayList<String> MY_CONSTANT_LIST_SCHEDULE = new ArrayList<String>();
 
+
+
+    public static Boolean Monday;
+    public static Boolean Tuesday;
+    public static Boolean Wednesday;
+    public static Boolean Thursday;
+    public static Boolean Friday;
+    public static Boolean Saturday;
+    public static Boolean Sunday;
+
+    public static int hour;
+    public static int minute;
+    public static int second;
+    public static int dayofmonth;
+
+    public static Boolean January;
+    public static Boolean February;
+    public static Boolean March;
+    public static Boolean April;
+    public static Boolean May;
+    public static Boolean June;
+    public static Boolean July;
+    public static Boolean August;
+    public static Boolean September;
+    public static Boolean October;
+    public static Boolean November;
+    public static Boolean December;
+
+    public static int Year;
+
+    public static Boolean RepeatEveryYear;
+
+
 //    private static AppConstants instance;
 //    private String yourString;
 //

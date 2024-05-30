@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.gladiance.AppConstants;
 import com.gladiance.R;
@@ -51,6 +53,7 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
+import com.gladiance.ui.models.saveSchedule.Trigger;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
@@ -76,6 +79,9 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     CheckBox CBYear;
     NumberPicker datePicker;
     Button btnSave;
+    Trigger trigger;
+    EditText scheduleName;
+    EditText projectName;
 
     private ArrayList<Configuration> ConfigArrayList;
 
@@ -114,6 +120,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         spinner = view.findViewById(R.id.sceneAreaSpinner);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
         datePicker = view.findViewById(R.id.DatePicker);
+        scheduleName = view.findViewById(R.id.ETScheduleName);
+        projectName = view.findViewById(R.id.ETProjectName);
 
         ConArrayList = new ArrayList<>();
         arrayList2 = new ArrayList<>();
@@ -153,6 +161,13 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             }
         });
 
+        SharedPreferences sharedPreferencesProName = requireActivity().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+        String ProjectName = sharedPreferencesProName.getString("ProjectName", "");
+        projectName.setText(ProjectName);
+
+        Log.e(TAG, "Home Fragment Project Name : "+ ProjectName );
+
+
         getRef();
 
 
@@ -180,8 +195,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         String loginDeviceId = GUID.trim();
 
 
-        EditText scheduleName = view.findViewById(R.id.ETScheduleName);
-        EditText projectName = view.findViewById(R.id.ETProjectName);
+
 
 
         /// time ///
@@ -199,6 +213,13 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         minutePicker.setMaxValue(59); // 60 minutes
         // Set initial value
         minutePicker.setValue(0); // Default value 0
+
+        // Initialize Second picker
+        NumberPicker secondsPicker = view.findViewById(R.id.secondsPicker);
+        secondsPicker.setMinValue(0);
+        secondsPicker.setMaxValue(59); // 60 minutes
+        // Set initial value
+        secondsPicker.setValue(0); // Default value 0
 
 
         // Initialize minute picker
@@ -223,6 +244,81 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         yearPicker.setValue(currentYear);
 
 
+        // Add listener to get the selected value
+        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Get the selected value
+                int selectedHour = hourPicker.getValue();
+                Log.e(TAG, "hour: "+selectedHour);
+                AppConstants.hour = selectedHour;
+                // Do something with the selected year
+            }
+        });
+
+        // Add listener to get the selected value
+        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Get the selected value
+                int selectedMinute = minutePicker.getValue();
+                Log.e(TAG, "minutes: "+selectedMinute);
+                AppConstants.minute = selectedMinute;
+                // Do something with the selected year
+            }
+        });
+
+
+        // Add listener to get the selected value
+        secondsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Get the selected value
+                int selectedSeconds = secondsPicker.getValue();
+                Log.e(TAG, "seconds: "+selectedSeconds);
+                AppConstants.second = selectedSeconds;
+                // Do something with the selected year
+            }
+        });
+
+        // Add listener to get the selected value
+        datePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Get the selected value
+                int selectedDate = datePicker.getValue();
+                Log.e(TAG, "date: "+selectedDate);
+                AppConstants.dayofmonth = selectedDate;
+                // Do something with the selected year
+            }
+        });
+
+        // Add listener to get the selected value
+        yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // Get the selected value
+                int selectedYear = yearPicker.getValue();
+                Log.e(TAG, "year: "+selectedYear);
+                AppConstants.Year = selectedYear;
+                // Do something with the selected year
+            }
+        });
+
+        CBYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // When the CheckBox is checked, isChecked will be true; otherwise, false
+                if (isChecked) {
+                    // If checked, set the value to true
+                    AppConstants.RepeatEveryYear = true;
+                } else {
+                    // If unchecked, set the value to false
+                    AppConstants.RepeatEveryYear = false;
+                }
+            }
+        });
+
         //Day Recycle View
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false);
         recyclerViewDay.setLayoutManager(gridLayoutManager);
@@ -231,6 +327,60 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             @Override
             public void onItemClick(String day, boolean isChecked) {
                 Log.e(TAG, "onItemClick: " + day + " isChecked: " + isChecked);
+                logDataList();
+            }
+
+            private void logDataList() {
+                    List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
+                    for (Pair<String, Boolean> pair : dataList) {
+                        Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
+
+                        String day = pair.first;
+                        boolean isChecked = pair.second;
+                        Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                        // Set the corresponding field in the Trigger object based on the day name
+                        switch (day) {
+                            case "Monday":
+                                trigger.setMonday(isChecked);
+                                AppConstants.Monday = trigger.getMonday();
+                                Log.e(TAG, "logDataList: "+ trigger.getMonday());
+                                break;
+                            case "Tuesday":
+                                trigger.setTuesday(isChecked);
+                                AppConstants.Tuesday = trigger.getTuesday();
+
+                                break;
+                            case "Wednesday":
+                                trigger.setWednesday(isChecked);
+                                AppConstants.Wednesday = trigger.getWednesday();
+
+                                break;
+                            case "Thursday":
+                                trigger.setThursday(isChecked);
+                                AppConstants.Thursday = trigger.getThursday();
+
+                                break;
+                            case "Friday":
+                                trigger.setFriday(isChecked);
+                                AppConstants.Friday = trigger.getFriday();
+
+                                break;
+                            case "Saturday":
+                                trigger.setSaturday(isChecked);
+                                AppConstants.Saturday = trigger.getSaturday();
+
+                                break;
+                            case "Sunday":
+                                trigger.setSunday(isChecked);
+                                AppConstants.Sunday = trigger.getSunday();
+
+                                break;
+                            default:
+                                // Handle if necessary
+                                break;
+                        }
+
+                    }
             }
 
         });
@@ -249,51 +399,205 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             @Override
             public void onItemClick(String month, boolean isChecked) {
                 Log.e(TAG, "onItemClick: " + month + " isChecked: " + isChecked);
+                logDataList2();
             }
+
+            private void logDataList2() {
+                List<Pair<String, Boolean>> dataList = monthAdapter.getAllDataWithCheckedStatus();
+                for (Pair<String, Boolean> pair : dataList) {
+                    Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
+
+                    String day = pair.first;
+                    boolean isChecked = pair.second;
+                    Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+
+                    // Set the corresponding field in the Trigger object based on the day name
+                    switch (day) {
+                        case "Jan":
+                            trigger.setJanuary(isChecked);
+                            AppConstants.January = trigger.getJanuary();
+                            Log.e(TAG, "logDataList3: "+AppConstants.January);
+
+                            Log.e(TAG, "logDataList4: "+ trigger.getJanuary());
+                            break;
+                        case "Feb":
+                            trigger.setFebruary(isChecked);
+                            AppConstants.February = trigger.getFebruary();
+
+                            break;
+                        case "Mar":
+                            trigger.setMarch(isChecked);
+                            AppConstants.March = trigger.getMarch();
+
+                            break;
+                        case "Apr":
+                            trigger.setThursday(isChecked);
+                            AppConstants.Thursday = trigger.getThursday();
+
+                            break;
+                        case "May":
+                            trigger.setMay(isChecked);
+                            AppConstants.May = trigger.getMay();
+
+                            break;
+                        case "Jun":
+                            trigger.setJune(isChecked);
+                            AppConstants.June = trigger.getJune();
+
+                            break;
+                        case "Jul":
+                            trigger.setJuly(isChecked);
+                            AppConstants.July = trigger.getJuly();
+
+                            break;
+                        case "Aug":
+                            trigger.setAugust(isChecked);
+                            AppConstants.August = trigger.getAugust();
+
+                            break;
+                        case "Sep":
+                            trigger.setSeptember(isChecked);
+                            AppConstants.September = trigger.getSeptember();
+
+                            break;
+                        case "Oct":
+                            trigger.setOctober(isChecked);
+                            AppConstants.October = trigger.getOctober();
+
+                            break;
+                        case "Nov":
+                            trigger.setNovember(isChecked);
+                            AppConstants.November = trigger.getNovember();
+                            break;
+                        case "Dec":
+                            trigger.setDecember(isChecked);
+                            AppConstants.December = trigger.getDecember();
+                            break;
+                        default:
+                            // Handle if necessary
+                            break;
+                    }
+
+                }
+            }
+
         });
         recyclerViewMonth.setAdapter(monthAdapter);
 
-        // Add listener to get the selected value
-        yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                // Get the selected value
-                int selectedYear = yearPicker.getValue();
-                Log.e(TAG, "onValueChange: "+selectedYear);
-                // Do something with the selected year
-            }
-        });
+
 
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                AppConstants.Name_dyn_Schedule = String.valueOf(editTextSpaceName.getText());
+////                boolean januaryValue = trigger.getJanuary();
+//                Log.e(TAG, "onClick: "+januaryValue );
+//
+//
+//                Log.e(TAG, "onClick2: "+januaryValue );
 
-                Log.e("APPCONSTS",""+AppConstants.Ref_dyn_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.Name_dyn_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.ScheduleRef_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.Space_dyn_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-                Log.e("APPCONSTS",""+ AppConstants.powerState_Schedule);
-                Log.e("APPCONSTS",""+AppConstants.power_Schedule);
+            //    Log.e(TAG, "logDataList2: "+AppConstants.January);
+
+                AppConstants.Name_dyn_Schedule = String.valueOf(scheduleName.getText());
+
+                Log.e("APPCONSTS_SH"," "+AppConstants.Ref_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Name_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.ScheduleRef_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Space_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.powerState_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.power_Schedule);
+
 
 
                 List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
-                for(int i = 0; i <ConArrayList.size(); i++){
-                    if(ConArrayList.get(i).isChecked() == true){
-                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+//                for(int i = 0; i <ConArrayList.size(); i++){
+//                    if(ConArrayList.get(i).isChecked() == true){
+                    //    Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
                         list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
                                 Long.parseLong(AppConstants.ScheduleRef_Schedule),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+                                Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule),
+                                AppConstants.projectSpaceTypePlannedDeviceName_Schedule,
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
                                 AppConstants.powerState_Schedule,
                                 AppConstants.power_Schedule
                         ));
-                    }
-                }
+//                    }
+//                }
+
+//                for(int i = 0; i <ConArrayList.size(); i++){
+//                    if(ConArrayList.get(i).isChecked() == true){
+//                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        List<Trigger> triggerList = new ArrayList<>();
+                        triggerList.add(new Trigger(
+                                AppConstants.Monday=false,
+                                AppConstants.Tuesday=false,
+                                AppConstants.Wednesday=false,
+                                AppConstants.Thursday=false,
+                                AppConstants.Friday=false,
+                                AppConstants.Saturday=false,
+                                AppConstants.Sunday,
+                                AppConstants.hour,
+                                AppConstants.minute,
+                                AppConstants.second,
+                                AppConstants.dayofmonth=0,
+                                AppConstants.January=false,
+                                AppConstants.February=false,
+                                AppConstants.March=false,
+                                AppConstants.April=false,
+                                AppConstants.May=false,
+                                AppConstants.June=false,
+                                AppConstants.July=false,
+                                AppConstants.August=false,
+                                AppConstants.September=false,
+                                AppConstants.October=false,
+                                AppConstants.November=false,
+                                AppConstants.December=false,
+                                AppConstants.Year,
+                                AppConstants.RepeatEveryYear
+                        ));
+                        for (Trigger trigger : triggerList) {
+                            System.out.println("Trigger data:");
+                            System.out.println("Monday: " + trigger.getMonday());
+                            System.out.println("Tuesday: " + trigger.getTuesday());
+                            System.out.println("Wednesday: " + trigger.getWednesday());
+                            System.out.println("Thursday: " + trigger.getThursday());
+                            System.out.println("Friday: " + trigger.getFriday());
+                            System.out.println("Saturday: " + trigger.getSaturday());
+                            System.out.println("Sunday: " + trigger.getSunday());
+                            System.out.println("Hour: " + trigger.getHour());
+                            System.out.println("Minute: " + trigger.getMinute());
+                            System.out.println("Second: " + trigger.getSecond());
+                            System.out.println("DayOfMonth: " + trigger.getDayOfMonth());
+                            System.out.println("January: " + trigger.getJanuary());
+                            System.out.println("February: " + trigger.getFebruary());
+                            System.out.println("March: " + trigger.getMarch());
+                            System.out.println("April: " + trigger.getApril());
+                            System.out.println("May: " + trigger.getMay());
+                            System.out.println("June: " + trigger.getJune());
+                            System.out.println("July: " + trigger.getJuly());
+                            System.out.println("August: " + trigger.getAugust());
+                            System.out.println("September: " + trigger.getSeptember());
+                            System.out.println("October: " + trigger.getOctober());
+                            System.out.println("November: " + trigger.getNovember());
+                            System.out.println("December: " + trigger.getDecember());
+                            System.out.println("Year: " + trigger.getYear());
+                            System.out.println("RepeatEveryYear: " + trigger.getRepeatEveryYear());
+                        }
+                SaveScheduleRequest saveScene = new SaveScheduleRequest(
+                        Long.parseLong(AppConstants.Ref_dyn_Schedule),
+                        AppConstants.Name_dyn_Schedule,
+                        Long.parseLong(AppConstants.ScheduleRef_Schedule),
+                        list, triggerList);
+                SaveScheduleRequest(saveScene);
+
+//                    }
+//                }
+
+
 
 //                SaveScheduleRequest saveScene = new SaveScheduleRequest(
 //                        Long.parseLong(AppConstants.Ref_dyn_Schedule),
@@ -305,10 +609,38 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 // Access TextView
                 //extView textView = findViewById(R.id.TVProjectName);
                 // Get text from TextView
-                String ScheduleName = scheduleName.getText().toString();
-                String ProjectName = projectName.getText().toString();
+//                String ScheduleName = scheduleName.getText().toString();
+//                String ProjectName = projectName.getText().toString();
+//
+//                Log.e(TAG, "onCreateView: "+ScheduleName+" "+ProjectName);
+            }
 
-                Log.e(TAG, "onCreateView: "+ScheduleName+" "+ProjectName);
+            private void SaveScheduleRequest(SaveScheduleRequest saveScene) {
+                ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+
+                Call<SceneResModel> call = apiService.saveSchedule(saveScene);
+                call.enqueue(new Callback<SceneResModel>() {
+                    @Override
+                    public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
+                        if (response.isSuccessful()) {
+                            // Handle successful response
+                            SceneResModel sceneResModel = response.body();
+                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                            Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
+                            Log.e(ContentValues.TAG, "Done ");
+                           // ObjectTag objectTag = SceneResModel.getObjectTag();
+                          //  SceneResModel = new SceneResModel.getSuccessful();
+                        } else {
+                            // Handle unsuccessful response
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SceneResModel> call, Throwable t) {
+                        // Handle API call failure
+                        Log.e(ContentValues.TAG, "Failure");
+                    }
+                });
             }
         });
 

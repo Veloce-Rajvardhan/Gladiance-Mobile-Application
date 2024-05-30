@@ -9,13 +9,13 @@ public class SaveScheduleRequest {
 
     @SerializedName("Ref")
     @Expose
-    private Integer ref;
+    private Long ref;
     @SerializedName("Name")
     @Expose
     private String name;
     @SerializedName("GAAProjectSpaceTypeRef")
     @Expose
-    private Integer gAAProjectSpaceTypeRef;
+    private Long gAAProjectSpaceTypeRef;
     @SerializedName("Configurations")
     @Expose
     private List<Configuration> configurations;
@@ -23,11 +23,19 @@ public class SaveScheduleRequest {
     @Expose
     private List<Trigger> triggers;
 
-    public Integer getRef() {
+    public SaveScheduleRequest(Long ref, String name, Long gAAProjectSpaceTypeRef, List<Configuration> configurations, List<Trigger> triggers) {
+        this.ref = ref;
+        this.name = name;
+        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
+        this.configurations = configurations;
+        this.triggers = triggers;
+    }
+
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(Integer ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 
@@ -39,11 +47,11 @@ public class SaveScheduleRequest {
         this.name = name;
     }
 
-    public Integer getGAAProjectSpaceTypeRef() {
+    public Long getGAAProjectSpaceTypeRef() {
         return gAAProjectSpaceTypeRef;
     }
 
-    public void setGAAProjectSpaceTypeRef(Integer gAAProjectSpaceTypeRef) {
+    public void setGAAProjectSpaceTypeRef(Long gAAProjectSpaceTypeRef) {
         this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
     }
 

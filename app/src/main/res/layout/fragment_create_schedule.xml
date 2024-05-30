@@ -14,40 +14,6 @@
 
 
     <LinearLayout
-        android:id="@+id/ProjectType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/TEXT"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_light"
-            android:gravity="center|left"
-            android:paddingStart="@dimen/_15sdp"
-            android:text="Project Type"
-            android:textSize="@dimen/_13sdp" />
-
-        <Spinner
-            android:id="@+id/createSchedule"
-            style="@style/MyDropdownStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/ProjectName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +24,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProjectType">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/TVProjectName"
@@ -77,6 +43,7 @@
             style="@style/MyEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
+            android:paddingStart="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp" />
@@ -163,6 +130,12 @@
 
                 <NumberPicker
                     android:id="@+id/minutePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <NumberPicker
+                    android:id="@+id/secondsPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
