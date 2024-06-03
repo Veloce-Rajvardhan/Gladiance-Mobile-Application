@@ -32,6 +32,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
         // Load the FirstFragment by default
+        mySchedule.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.FlSchedule, new MyScheduleFragment())
                 .commit();
@@ -39,6 +41,9 @@ public class ScheduleActivity extends AppCompatActivity {
         mySchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mySchedule.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
+                createSchedule.setBackgroundResource(R.drawable.transparent_backgraund);
                 Fragment fragment = new MyScheduleFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
@@ -52,6 +57,9 @@ public class ScheduleActivity extends AppCompatActivity {
         createSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                createSchedule.setBackgroundResource(R.drawable.orange_transperant_bg_right);
+
+                mySchedule.setBackgroundResource(R.drawable.transparent_backgraund);
                 Fragment fragment = new CreateScheduleFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();

@@ -6,6 +6,7 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -127,16 +128,27 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         arrayList2 = new ArrayList<>();
         ConfigArrayList = new ArrayList<>();
 
+        datePicker.setEnabled(false);
+        CBMonth.setChecked(false);
+//        recyclerViewMonth.setEnabled(false);
+//        recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+        datePicker.setEnabled(false);
+        datePicker.setAlpha(0.3f);
+        CBWeek.setChecked(false);
+        recyclerViewDay.setEnabled(false);
+        recyclerViewDay.setAlpha(0.5f);
 
         CBWeek.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     CBMonth.setChecked(false);
-                    recyclerViewMonth.setEnabled(false);
-                    recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+//                    recyclerViewMonth.setEnabled(false);
+//                    recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
                     datePicker.setEnabled(false);
                     datePicker.setAlpha(0.3f);
+                    recyclerViewDay.setEnabled(true);
+                    recyclerViewDay.setAlpha(1.0f);
 
                 } else {
                     recyclerViewMonth.setEnabled(true);
@@ -154,6 +166,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                     CBWeek.setChecked(false);
                     recyclerViewDay.setEnabled(false);
                     recyclerViewDay.setAlpha(0.5f); // To visually show it's disabled
+//                    recyclerViewMonth.setEnabled(true);
+//                    recyclerViewMonth.setAlpha(1.0f);
+                    datePicker.setEnabled(true);
+                    datePicker.setAlpha(1.0f);
                 } else {
                     recyclerViewDay.setEnabled(true);
                     recyclerViewDay.setAlpha(1.0f);
@@ -242,6 +258,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
         // Set initial value to current year
         yearPicker.setValue(currentYear);
+
 
 
         // Add listener to get the selected value
@@ -337,7 +354,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
                         String day = pair.first;
                         boolean isChecked = pair.second;
-                        Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                        Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
                         // Set the corresponding field in the Trigger object based on the day name
                         switch (day) {
                             case "Monday":
@@ -409,7 +426,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
                     String day = pair.first;
                     boolean isChecked = pair.second;
-                    Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                    Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
 
                     // Set the corresponding field in the Trigger object based on the day name
                     switch (day) {
@@ -532,33 +549,78 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                    if(ConArrayList.get(i).isChecked() == true){
 //                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
                         List<Trigger> triggerList = new ArrayList<>();
-                        triggerList.add(new Trigger(
-                                AppConstants.Monday=false,
-                                AppConstants.Tuesday=false,
-                                AppConstants.Wednesday=false,
-                                AppConstants.Thursday=false,
-                                AppConstants.Friday=false,
-                                AppConstants.Saturday=false,
-                                AppConstants.Sunday,
-                                AppConstants.hour,
-                                AppConstants.minute,
-                                AppConstants.second,
-                                AppConstants.dayofmonth=0,
-                                AppConstants.January=false,
-                                AppConstants.February=false,
-                                AppConstants.March=false,
-                                AppConstants.April=false,
-                                AppConstants.May=false,
-                                AppConstants.June=false,
-                                AppConstants.July=false,
-                                AppConstants.August=false,
-                                AppConstants.September=false,
-                                AppConstants.October=false,
-                                AppConstants.November=false,
-                                AppConstants.December=false,
-                                AppConstants.Year,
-                                AppConstants.RepeatEveryYear
-                        ));
+
+                if (CBWeek.isChecked()) {
+                    triggerList.add(new Trigger(
+                            Long.parseLong(AppConstants.ScheduleRef_Schedule),
+                            AppConstants.Monday,
+                            AppConstants.Tuesday,
+                            AppConstants.Wednesday,
+                            AppConstants.Thursday,
+                            AppConstants.Friday,
+                            AppConstants.Saturday,
+                            AppConstants.Sunday,
+                            AppConstants.hour,
+                            AppConstants.minute,
+                            AppConstants.second,
+                            AppConstants.dayofmonth = 0,
+//                            AppConstants.January = false,
+//                            AppConstants.February = false,
+//                            AppConstants.March = false,
+//                            AppConstants.April = false,
+//                            AppConstants.May = false,
+//                            AppConstants.June = false,
+//                            AppConstants.July = false,
+//                            AppConstants.August = false,
+//                            AppConstants.September = false,
+//                            AppConstants.October = false,
+//                            AppConstants.November = false,
+//                            AppConstants.December = false,
+                            AppConstants.January,
+                            AppConstants.February,
+                            AppConstants.March,
+                            AppConstants.April,
+                            AppConstants.May,
+                            AppConstants.June,
+                            AppConstants.July,
+                            AppConstants.August,
+                            AppConstants.September,
+                            AppConstants.October,
+                            AppConstants.November,
+                            AppConstants.December,
+                            AppConstants.Year,
+                            AppConstants.RepeatEveryYear
+                    ));
+                } else if(CBMonth.isChecked()){
+                    triggerList.add(new Trigger(
+                            Long.parseLong(AppConstants.ScheduleRef_Schedule),
+                            AppConstants.Monday = false,
+                            AppConstants.Tuesday = false,
+                            AppConstants.Wednesday = false,
+                            AppConstants.Thursday = false,
+                            AppConstants.Friday = false,
+                            AppConstants.Saturday = false,
+                            AppConstants.Sunday = false,
+                            AppConstants.hour,
+                            AppConstants.minute,
+                            AppConstants.second,
+                            AppConstants.dayofmonth,
+                            AppConstants.January,
+                            AppConstants.February,
+                            AppConstants.March,
+                            AppConstants.April,
+                            AppConstants.May,
+                            AppConstants.June,
+                            AppConstants.July,
+                            AppConstants.August,
+                            AppConstants.September,
+                            AppConstants.October,
+                            AppConstants.November,
+                            AppConstants.December,
+                            AppConstants.Year,
+                            AppConstants.RepeatEveryYear
+                    ));
+                }
                         for (Trigger trigger : triggerList) {
                             System.out.println("Trigger data:");
                             System.out.println("Monday: " + trigger.getMonday());
@@ -596,8 +658,6 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 //                    }
 //                }
-
-
 
 //                SaveScheduleRequest saveScene = new SaveScheduleRequest(
 //                        Long.parseLong(AppConstants.Ref_dyn_Schedule),
@@ -648,20 +708,20 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         Bundle bundle = getArguments();
 
         // Bundle bundle = getArguments();
-        if (bundle != null) {
-            String sceneRefString = bundle.getString("SCENE_REF");
-            if (sceneRefString != null) {
-                Long sceneRef = Long.parseLong(sceneRefString);
-                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
-                getScene(sceneRef, loginToken, loginDeviceId);
-            } else {
-                Log.e(ContentValues.TAG, "SceneRef is null");
-                // Handle null sceneRefString
-            }
-        } else {
-            Log.e(ContentValues.TAG, "Bundle is null");
-            // Handle null bundle
-        }
+//        if (bundle != null) {
+//            String sceneRefString = bundle.getString("SCENE_REF");
+//            if (sceneRefString != null) {
+//                Long sceneRef = Long.parseLong(sceneRefString);
+//                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
+//                getScene(sceneRef, loginToken, loginDeviceId);
+//            } else {
+//                Log.e(ContentValues.TAG, "SceneRef is null");
+//                // Handle null sceneRefString
+//            }
+//        } else {
+//            Log.e(ContentValues.TAG, "Bundle is null");
+//            // Handle null bundle
+//        }
 
         fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
@@ -707,72 +767,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             });
         }
 
-    private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<SceneResModel> call = apiService.getScene(gaaProjectSceneRef, loginToken, loginDeviceId);
-        call.enqueue(new Callback<SceneResModel>() {
-            @Override
-            public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
-                if (response.isSuccessful()) {
-                    SceneResModel apiResponse = response.body();
-                    if (apiResponse != null && apiResponse.getSuccessful()) {
-                        ObjectTag scene = apiResponse.getObjectTag();
-                        // Update EditText fields with ObjectTag data
-                        editTextProjectName.setText(scene.getgAAProjectName());
-                        //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
-                        editTextSceneName.setText(scene.getName());
 
-                        List<Configuration> configurations = scene.getConfigurations();
-                        for (Configuration configuration : configurations) {
-                            Log.e(ContentValues.TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
-
-                            ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
-                        }
-
-
-//                        Bundle bundleArrayList = getArguments();
-//
-//                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-//                            if (receivedList != null) {
-//                                for (String element : receivedList) {
-//                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
-//                                }
-//                            } else {
-//                                // Handle case where ArrayList is null
-//                            }
-                        Bundle bundle = getArguments();
-                        if (bundle != null) {
-                            // Retrieve data from bundle
-                            String key1Value = bundle.getString("key1");
-                            String key2Value = bundle.getString("key2");
-                            String key3Value = bundle.getString("key3");
-                            String key4Value = bundle.getString("key4");
-                            // Print the values using Log statements
-                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
-                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
-                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
-                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
-                            // Do something with the data
-                        }
-
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(gridLayoutManager1);
-
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-                        recyclerView.setAdapter(sceneCheckAdapter);
-
-                    }
-                } else {
-                    // Handle unsuccessful response
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SceneResModel> call, Throwable t) {
-                Log.e("MainActivity", "Failed to get response");
-            }
-        });
-    }
 
 
 

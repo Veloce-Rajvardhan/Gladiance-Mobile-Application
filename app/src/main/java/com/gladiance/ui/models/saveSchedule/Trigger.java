@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Trigger {
+    @SerializedName("GAAProjectNodeScheduleRef")
+    @Expose
+    private Long gAAProjectNodeScheduleRef;
     @SerializedName("Monday")
     @Expose
     private Boolean monday;
@@ -80,7 +83,8 @@ public class Trigger {
     @Expose
     private Boolean repeatEveryYear;
 
-    public Trigger(Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday, Integer hour, Integer minute, Integer second, Integer dayOfMonth, Boolean january, Boolean february, Boolean march, Boolean april, Boolean may, Boolean june, Boolean july, Boolean august, Boolean september, Boolean october, Boolean november, Boolean december, Integer year, Boolean repeatEveryYear) {
+    public Trigger(Long gAAProjectNodeScheduleRef, Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday, Integer hour, Integer minute, Integer second, Integer dayOfMonth, Boolean january, Boolean february, Boolean march, Boolean april, Boolean may, Boolean june, Boolean july, Boolean august, Boolean september, Boolean october, Boolean november, Boolean december, Integer year, Boolean repeatEveryYear) {
+        this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
@@ -106,6 +110,14 @@ public class Trigger {
         this.december = december;
         this.year = year;
         this.repeatEveryYear = repeatEveryYear;
+    }
+
+    public Long getGAAProjectNodeScheduleRef() {
+        return gAAProjectNodeScheduleRef;
+    }
+
+    public void setGAAProjectNodeScheduleRef(Long gAAProjectNodeScheduleRef) {
+        this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
     }
 
     public Boolean getMonday() {

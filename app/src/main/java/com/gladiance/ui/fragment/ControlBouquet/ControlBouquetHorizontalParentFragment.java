@@ -3,13 +3,17 @@ package com.gladiance.ui.fragment.ControlBouquet;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.gladiance.ui.activities.ControlBouquet.BillViewActivity;
 import com.gladiance.ui.activities.ControlBouquet.DoorCameraActivity;
 import com.gladiance.ui.activities.ControlBouquet.SurveillanceActivity;
@@ -145,9 +149,28 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                // Handle back button press here
+//                Intent intent = new Intent(requireActivity(), HomeFragment.class);
+//                startActivity(intent);
 
+                //ikde lava
+                MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
+                bottomNavigation.show(3, true);
+                requireActivity().onBackPressed();
+                return true; // Consumes the back button press event
+            }
+            return false; // Otherwise, let the system handle it
+        });
+    }
 
 
 }

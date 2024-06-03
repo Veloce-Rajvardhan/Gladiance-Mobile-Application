@@ -28,10 +28,12 @@ public class SetYourMoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_your_mood);
 
 
-        inviteUser = findViewById(R.id.inviteUser);
-        invitedUser = findViewById(R.id.invitedUser);
+        inviteUser = findViewById(R.id.inviteUser2);
+        invitedUser = findViewById(R.id.invitedUser2);
 
         // Load the FirstFragment by default
+        inviteUser.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.set_mood, new MyMoodFragment())
                 .commit();
@@ -40,6 +42,9 @@ public class SetYourMoodActivity extends AppCompatActivity {
         inviteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                inviteUser.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
+                invitedUser.setBackgroundResource(R.drawable.transparent_backgraund);
 
                 Fragment fragment = new MyMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
@@ -50,17 +55,23 @@ public class SetYourMoodActivity extends AppCompatActivity {
             }
         });
 
-        invitedUser.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Fragment fragment = new MyMoodFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.set_mood, fragment).addToBackStack(null).commit();
-            }
-        });
+//        invitedUser.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//
+//                Fragment fragment = new MyMoodFragment();
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.set_mood, fragment).addToBackStack(null).commit();
+//            }
+//        });
         invitedUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                invitedUser.setBackgroundResource(R.drawable.orange_transperant_bg_right);
+
+                inviteUser.setBackgroundResource(R.drawable.transparent_backgraund);
+
                 Fragment fragment = new CreateMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.set_mood, fragment)

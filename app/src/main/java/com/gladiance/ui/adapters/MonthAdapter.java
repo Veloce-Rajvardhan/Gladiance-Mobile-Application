@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
@@ -63,6 +64,9 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
                     boolean isChecked = !selectionState[position];
                     selectionState[position] = isChecked;
                     textViewMonth.setSelected(isChecked);
+                    int textColor = isChecked ? ContextCompat.getColor(itemView.getContext(), R.color.link_color) : ContextCompat.getColor(itemView.getContext(), R.color.white);
+                    textViewMonth.setTextColor(textColor);
+
                     listener.onItemClick(months.get(position), isChecked);
                 }
             });

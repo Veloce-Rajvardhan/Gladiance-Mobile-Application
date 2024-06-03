@@ -17,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
@@ -24,6 +25,12 @@ import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
+import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.scene.ObjectScenes;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FanActivity extends AppCompatActivity implements CircularSeekBarFan.OnProgressChangeListener{
 
@@ -129,6 +136,132 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
+        // Edit Scene
+        try {
+            AppConstants.powerState = "Speed";
+            AppConstants.power = String.valueOf(shFanSpeed);
+            Log.d("TAG", "PowerState: " + AppConstants.powerState);
+            Log.d("TAG", "Power: " + AppConstants.power);
+
+            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS",""+AppConstants.powerState);
+            Log.e("APPCONSTS",""+AppConstants.power);
+
+
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+
+            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+        // Create Scene
+        try {
+            AppConstants.Create_powerState = "Speed";
+            AppConstants.Create_power = String.valueOf(shFanSpeed);
+            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
+            Log.d("TAG", "Power2: " + AppConstants.Create_power);
+
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_SceneRef);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+
+//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
+//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
+//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
+//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
+//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
+//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+
+            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS",""+AppConstants.powerState);
+            Log.e("APPCONSTS",""+AppConstants.power);
+
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+
+            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+
+        //// Schedule
+        try {
+            AppConstants.powerState_Schedule = "Speed";
+            AppConstants.power_Schedule = String.valueOf(shFanSpeed);
+            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn_Schedule,AppConstants.Name_dyn_Schedule,AppConstants.ScheduleRef_Schedule,AppConstants.Space_dyn_Schedule,AppConstants.projectSpaceTypePlannedDeviceName_Schedule,AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.powerState_Schedule,AppConstants.power_Schedule);
+
+            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+
+
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
 
@@ -149,6 +282,130 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         Log.d(TAG, "node id: " +nodeId2);
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
+
+        // Edit Scene
+        try {
+            AppConstants.powerState = "Power";
+            AppConstants.power = String.valueOf(powerState);
+            Log.d("TAG", "PowerState: " + AppConstants.powerState);
+            Log.d("TAG", "Power: " + AppConstants.power);
+
+            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS",""+AppConstants.powerState);
+            Log.e("APPCONSTS",""+AppConstants.power);
+
+
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+
+            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+        // Create Scene
+        try {
+            AppConstants.Create_powerState = "Power";
+            AppConstants.Create_power = String.valueOf(powerState);
+            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
+            Log.d("TAG", "Power2: " + AppConstants.Create_power);
+
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_SceneRef);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+
+//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
+//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
+//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
+//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
+//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
+//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+
+            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS",""+AppConstants.powerState);
+            Log.e("APPCONSTS",""+AppConstants.power);
+
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+
+            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+
+        //// Schedule
+        try {
+            AppConstants.powerState_Schedule = "Power";
+            AppConstants.power_Schedule = String.valueOf(powerState);
+            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn_Schedule,AppConstants.Name_dyn_Schedule,AppConstants.ScheduleRef_Schedule,AppConstants.Space_dyn_Schedule,AppConstants.projectSpaceTypePlannedDeviceName_Schedule,AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.powerState_Schedule,AppConstants.power_Schedule);
+
+            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+
+            List<SceneConfig> list = new ArrayList<>();
+            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+            list.size();
+            Log.e(TAG, "List Size: "+list.size());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 

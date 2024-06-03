@@ -286,136 +286,136 @@ public class EditMoodActivity extends AppCompatActivity implements AreaSpinnerAd
 
 
     private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<SceneResModel> call = apiService.getScene(gaaProjectSceneRef, loginToken, loginDeviceId);
-        call.enqueue(new Callback<SceneResModel>() {
-            @Override
-            public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
-                if (response.isSuccessful()) {
-                    SceneResModel apiResponse = response.body();
-                    if (apiResponse != null && apiResponse.getSuccessful()) {
-                        ObjectTag scene = apiResponse.getObjectTag();
-                        // Update EditText fields with ObjectTag data
-                        editTextProjectName.setText(scene.getgAAProjectName());
-                        //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
-                        editTextSceneName.setText(scene.getName());
-
-                        List<Configuration> configurations = scene.getConfigurations();
-                        for (Configuration configuration : configurations) {
-                            Log.e(TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
-
-                            ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
-                        }
-
-
-//                        Bundle bundleArrayList = getArguments();
+//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+//        Call<SceneResModel> call = apiService.getScene(gaaProjectSceneRef, loginToken, loginDeviceId);
+//        call.enqueue(new Callback<SceneResModel>() {
+//            @Override
+//            public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
+//                if (response.isSuccessful()) {
+//                    SceneResModel apiResponse = response.body();
+//                    if (apiResponse != null && apiResponse.getSuccessful()) {
+//                        ObjectTag scene = apiResponse.getObjectTag();
+//                        // Update EditText fields with ObjectTag data
+//                        editTextProjectName.setText(scene.getgAAProjectName());
+//                        //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
+//                        editTextSceneName.setText(scene.getName());
 //
-//                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-//                            if (receivedList != null) {
-//                                for (String element : receivedList) {
-//                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
-//                                }
-//                            } else {
-//                                // Handle case where ArrayList is null
-//                            }
-                        Bundle bundle = getIntent().getExtras();
-                     //   Bundle bundle = getArguments();
-                        if (bundle != null) {
-                            // Retrieve data from bundle
-                            String key1Value = bundle.getString("key1");
-                            String key2Value = bundle.getString("key2");
-                            String key3Value = bundle.getString("key3");
-                            String key4Value = bundle.getString("key4");
-                            // Print the values using Log statements
-                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
-                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
-                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
-                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
-                            // Do something with the data
-                        }
-
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(gridLayoutManager1);
-
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-                        recyclerView.setAdapter(sceneCheckAdapter);
-
-                    }
-                } else {
-                    // Handle unsuccessful response
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SceneResModel> call, Throwable t) {
-                Log.e("MainActivity", "Failed to get response");
-            }
-        });
+//                        List<Configuration> configurations = scene.getConfigurations();
+//                        for (Configuration configuration : configurations) {
+//                            Log.e(TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
+//
+//                            ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+//                        }
+//
+//
+////                        Bundle bundleArrayList = getArguments();
+////
+////                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
+////                            if (receivedList != null) {
+////                                for (String element : receivedList) {
+////                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
+////                                }
+////                            } else {
+////                                // Handle case where ArrayList is null
+////                            }
+//                        Bundle bundle = getIntent().getExtras();
+//                     //   Bundle bundle = getArguments();
+//                        if (bundle != null) {
+//                            // Retrieve data from bundle
+//                            String key1Value = bundle.getString("key1");
+//                            String key2Value = bundle.getString("key2");
+//                            String key3Value = bundle.getString("key3");
+//                            String key4Value = bundle.getString("key4");
+//                            // Print the values using Log statements
+//                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
+//                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
+//                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
+//                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
+//                            // Do something with the data
+//                        }
+//
+//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
+//                        recyclerView.setLayoutManager(gridLayoutManager1);
+//
+//                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(allControls,ConfigArrayList);
+//                        recyclerView.setAdapter(sceneCheckAdapter);
+//
+//                    }
+//                } else {
+//                    // Handle unsuccessful response
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SceneResModel> call, Throwable t) {
+//                Log.e("MainActivity", "Failed to get response");
+//            }
+//        });
     }
 
     private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
 
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-
-        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-
-        call.enqueue(new Callback<InstallerLandingResModel>() {
-            @Override
-            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
-                if (response.isSuccessful()) {
-                    InstallerLandingResModel installerLandingResModel = response.body();
-                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
-                        Data data = installerLandingResModel.getData();
-                        List<InstallerControl> installerControls = data.getInstallerControls();
-                        editTextSpaceName.setText(data.getGaaProjectSpaceName());
-
-                        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
-                        for (Controls controls : controlsDevice) {
-                            Log.e(TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
-                            ConArrayList.add(new Controls(controls.getNodeId(),controls.getDisplayOrder(),controls.getGaaProjectSpaceTypePlannedDeviceRef(),controls.getGaaProjectSpaceTypePlannedDeviceName(),controls.isProvisioned()));
-                        }
-
-//                        Bundle bundleArrayList = getArguments();
+//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 //
-//                        ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-//                        if (receivedList != null) {
-//                            for (String element : receivedList) {
-//                                System.out.println("ArrayList: "+element); // Prints each element on a new line
-//                            }
-//                        } else {
-//                            // Handle case where ArrayList is null
+//        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
+//
+//        call.enqueue(new Callback<InstallerLandingResModel>() {
+//            @Override
+//            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
+//                if (response.isSuccessful()) {
+//                    InstallerLandingResModel installerLandingResModel = response.body();
+//                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
+//                        Data data = installerLandingResModel.getData();
+//                        List<InstallerControl> installerControls = data.getInstallerControls();
+//                        editTextSpaceName.setText(data.getGaaProjectSpaceName());
+//
+//                        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
+//                        for (Controls controls : controlsDevice) {
+//                            Log.e(TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
+//                            ConArrayList.add(new Controls(controls.getNodeId(),controls.getDisplayOrder(),controls.getGaaProjectSpaceTypePlannedDeviceRef(),controls.getGaaProjectSpaceTypePlannedDeviceName(),controls.isProvisioned()));
 //                        }
-
-                        /*Bundle bundle = getArguments();
-                        if (bundle != null) {
-                            // Retrieve data from bundle
-                            String key1Value = bundle.getString("key1");
-                            String key2Value = bundle.getString("key2");
-                            String key3Value = bundle.getString("key3");
-                            String key4Value = bundle.getString("key4");
-                            // Print the values using Log statements
-                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
-                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
-                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
-                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
-                            // Do something with the data
-                        }*/
-
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-                        recyclerView.setAdapter(sceneCheckAdapter);
-
-                    }
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
-
-            }
-        });
+//
+////                        Bundle bundleArrayList = getArguments();
+////
+////                        ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
+////                        if (receivedList != null) {
+////                            for (String element : receivedList) {
+////                                System.out.println("ArrayList: "+element); // Prints each element on a new line
+////                            }
+////                        } else {
+////                            // Handle case where ArrayList is null
+////                        }
+//
+//                        /*Bundle bundle = getArguments();
+//                        if (bundle != null) {
+//                            // Retrieve data from bundle
+//                            String key1Value = bundle.getString("key1");
+//                            String key2Value = bundle.getString("key2");
+//                            String key3Value = bundle.getString("key3");
+//                            String key4Value = bundle.getString("key4");
+//                            // Print the values using Log statements
+//                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
+//                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
+//                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
+//                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
+//                            // Do something with the data
+//                        }*/
+//
+//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
+//                        recyclerView.setLayoutManager(gridLayoutManager1);
+//                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+//                        recyclerView.setAdapter(sceneCheckAdapter);
+//
+//                    }
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 

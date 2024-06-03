@@ -75,6 +75,7 @@
                     android:padding="@dimen/_15sdp" />
 
                 <TextView
+                    android:id="@+id/tv_SetYourMood"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -114,6 +115,7 @@
                     android:padding="@dimen/_17sdp" />
 
                 <TextView
+                    android:id="@+id/tv_Schedule"
                     style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

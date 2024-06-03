@@ -396,6 +396,7 @@ public class AppConstants {
     public static final String URL_USER_NODE_MAPPING = BuildConfig.BASE_URL + AppConstants.PATH_SEPARATOR
             + AppConstants.CURRENT_VERSION + "/user/nodes/mapping";
 
+    //Edit Scene
     public static String Ref_dyn;
     public static String Name_dyn;
     public static String SceneRef;
@@ -404,6 +405,17 @@ public class AppConstants {
     public static String GaaProjectSpaceTypePlannedDeviceRef;
     public static String powerState;
     public static String power;
+
+
+    // Create Scene
+    public static String Create_Ref_dyn;
+    public static String Create_Name_dyn;
+    public static String Create_SceneRef;
+    public static String Create_Space_dyn;
+    public static String Create_projectSpaceTypePlannedDeviceName;
+    public static String Create_GaaProjectSpaceTypePlannedDeviceRef;
+    public static String Create_powerState;
+    public static String Create_power;
 
     public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();
 
@@ -421,35 +433,35 @@ public class AppConstants {
 
 
 
-    public static Boolean Monday;
-    public static Boolean Tuesday;
-    public static Boolean Wednesday;
-    public static Boolean Thursday;
-    public static Boolean Friday;
-    public static Boolean Saturday;
-    public static Boolean Sunday;
+    public static Boolean Monday=false;
+    public static Boolean Tuesday=false;
+    public static Boolean Wednesday=false;
+    public static Boolean Thursday=false;
+    public static Boolean Friday=false;
+    public static Boolean Saturday=false;
+    public static Boolean Sunday = false;
 
     public static int hour;
     public static int minute;
     public static int second;
-    public static int dayofmonth;
+    public static int dayofmonth=0;
 
-    public static Boolean January;
-    public static Boolean February;
-    public static Boolean March;
-    public static Boolean April;
-    public static Boolean May;
-    public static Boolean June;
-    public static Boolean July;
-    public static Boolean August;
-    public static Boolean September;
-    public static Boolean October;
-    public static Boolean November;
-    public static Boolean December;
+    public static Boolean January=false;
+    public static Boolean February=false;
+    public static Boolean March=false;
+    public static Boolean April=false;
+    public static Boolean May=false;
+    public static Boolean June=false;
+    public static Boolean July=false;
+    public static Boolean August=false;
+    public static Boolean September=false;
+    public static Boolean October=false;
+    public static Boolean November=false;
+    public static Boolean December=false;
 
     public static int Year;
 
-    public static Boolean RepeatEveryYear;
+    public static Boolean RepeatEveryYear = false;
 
 
 //    private static AppConstants instance;

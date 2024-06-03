@@ -35,6 +35,8 @@ public class ProjectActivity extends AppCompatActivity {
         createProject = findViewById(R.id.createProject);
 
         // Load the FirstFragment by default
+        myProject.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.project_fragment, new MyProjectFragment())
                 .commit();

@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/textViewDay"
         android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="@dimen/_34sdp"
         android:padding="@dimen/_3sdp"
         android:gravity="center"
         style="@style/TransperantBg"

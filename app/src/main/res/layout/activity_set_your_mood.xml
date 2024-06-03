@@ -37,35 +37,35 @@
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:orientation="horizontal"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        style="@style/TransperantBg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" >
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/inviteUser"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_40sdp"
-            style="@style/WhiteButtonStyle"
+            android:id="@+id/inviteUser2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent_backgraund"
             android:text="My Mood"
             android:layout_weight="1"
-            android:layout_marginStart="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
             android:textSize="@dimen/_14sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/invitedUser"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_40sdp"
-            style="@style/GreyLightButtonStyle"
+            android:id="@+id/invitedUser2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Create Mood"
+            android:background="@drawable/transparent_backgraund"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/_30sdp"
             android:textAllCaps="false"
             android:fontFamily="@font/roboto_regular"
             android:textSize="@dimen/_14sdp"/>
