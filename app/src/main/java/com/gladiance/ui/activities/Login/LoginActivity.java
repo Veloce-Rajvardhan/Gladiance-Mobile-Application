@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         //View view = findViewById(R.id.screen1);
 
 
-
         getGUID();
 
         //Password Icon code
@@ -256,6 +255,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 singIn();
+
             }
         });
     }
@@ -377,6 +377,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Close the app when the back button is pressed
+        super.onBackPressed();
         finishAffinity();
     }
 }
