@@ -78,8 +78,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEW_TYPE_SEVEN;
         } else if (title.equals("e.d.bell")) {
             return VIEW_TYPE_EIGHT;
-        }
-        else if (title.equals("e.d.curt")) {
+        } else if (title.equals("e.d.curt")) {
             return VIEW_TYPE_NINE;
         } else if (title.equals("e.d.ther")) {
             return VIEW_TYPE_TEN;
