@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
 import com.gladiance.R;
+import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
@@ -105,7 +106,7 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                DeviceCardFragment newFragment = new DeviceCardFragment();
+                ProfileDeviceCardFragment newFragment = new ProfileDeviceCardFragment();
                 newFragment.setArguments(bundle);
                 transaction.replace(R.id.FlSchedule, newFragment);
                 transaction.addToBackStack(null);
