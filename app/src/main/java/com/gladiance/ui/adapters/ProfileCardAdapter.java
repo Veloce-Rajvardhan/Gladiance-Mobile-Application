@@ -15,31 +15,27 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.R;
 import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
 import com.gladiance.ui.activities.DeviceControls.BellActivity;
 import com.gladiance.ui.activities.DeviceControls.CurtainActivity;
 import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
+import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspMainActivity;
-import com.gladiance.ui.activities.DeviceControls.FanActivity;
-
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.Devices;
-import com.gladiance.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    //private List<param> arrayList;
+public class ProfileCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
     private static List<Devices> arrayList;
 
     EspMainActivity espMainActivity;
@@ -54,10 +50,9 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_NINE = 9;
     private static final int VIEW_TYPE_TEN = 10;
 
-    public CardAdapter(ArrayList<Devices> arrayList) {
+    public ProfileCardAdapter(ArrayList<Devices> arrayList) {
         this.arrayList = arrayList;
     }
-
     @Override
     public int getItemViewType(int position) {
         String title = arrayList.get(position).getType();
@@ -96,41 +91,41 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
         if (viewType == VIEW_TYPE_ONE) {
             view = layoutInflater.inflate(R.layout.card_fan, parent, false);
-            return new TypeOneViewHolder(view);
+            return new ProfileCardAdapter.TypeOneViewHolder(view);
         } else if (viewType == VIEW_TYPE_TWO) {
             view = layoutInflater.inflate(R.layout.card_toggle, parent, false);
-            return new TypeTwoViewHolder(view);
+            return new ProfileCardAdapter.TypeTwoViewHolder(view);
         } else if (viewType == VIEW_TYPE_THREE) {
             view = layoutInflater.inflate(R.layout.card_curtain, parent, false);
-            return new TypeThreeViewHolder(view);
+            return new ProfileCardAdapter.TypeThreeViewHolder(view);
         } else if (viewType == VIEW_TYPE_FOUR) {
             view = layoutInflater.inflate(R.layout.card_dimmer, parent, false);
-            return new TypeFourViewHolder(view);
+            return new ProfileCardAdapter.TypeFourViewHolder(view);
         } else if (viewType == VIEW_TYPE_FIVE) {
             view = layoutInflater.inflate(R.layout.card_rgblight, parent, false);
-            return new TypeFiveViewHolder(view);
+            return new ProfileCardAdapter.TypeFiveViewHolder(view);
         } else if (viewType == VIEW_TYPE_SIX) {
             view = layoutInflater.inflate(R.layout.card_bell, parent, false);
-            return new TypeSixViewHolder(view);
+            return new ProfileCardAdapter.TypeSixViewHolder(view);
         } else if (viewType == VIEW_TYPE_SEVEN) {
             view = layoutInflater.inflate(R.layout.card_aircondition, parent, false);
-            return new TypeSevenViewHolder(view);
+            return new ProfileCardAdapter.TypeSevenViewHolder(view);
         }
         else if (viewType == VIEW_TYPE_EIGHT) {
             view = layoutInflater.inflate(R.layout.card_bell, parent, false);
-            return new TypeSixViewHolder(view);
+            return new ProfileCardAdapter.TypeSixViewHolder(view);
         }
         else if (viewType == VIEW_TYPE_NINE) {
             view = layoutInflater.inflate(R.layout.card_curtain, parent, false);
-            return new TypeThreeViewHolder(view);
+            return new ProfileCardAdapter.TypeThreeViewHolder(view);
         } else if (viewType == VIEW_TYPE_TEN) {
             view = layoutInflater.inflate(R.layout.card_aircondition, parent, false);
-            return new TypeSevenViewHolder(view);
+            return new ProfileCardAdapter.TypeSevenViewHolder(view);
         }
 
         else {
             view = layoutInflater.inflate(R.layout.card_curtain, parent, false);
-            return new TypeThreeViewHolder(view);
+            return new ProfileCardAdapter.TypeThreeViewHolder(view);
         }
     }
 
@@ -139,50 +134,50 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Devices devices = arrayList.get(position);
 
         if (holder.getItemViewType() == VIEW_TYPE_ONE) {
-            TypeOneViewHolder typeOneViewHolder = (TypeOneViewHolder) holder;
+            ProfileCardAdapter.TypeOneViewHolder typeOneViewHolder = (ProfileCardAdapter.TypeOneViewHolder) holder;
             // Bind data for type one view
             typeOneViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_TWO) {
-            TypeTwoViewHolder typeTwoViewHolder = (TypeTwoViewHolder) holder;
+            ProfileCardAdapter.TypeTwoViewHolder typeTwoViewHolder = (ProfileCardAdapter.TypeTwoViewHolder) holder;
             // Bind data for type two view
             typeTwoViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_THREE) {
-            TypeThreeViewHolder typeThreeViewHolder = (TypeThreeViewHolder) holder;
+            ProfileCardAdapter.TypeThreeViewHolder typeThreeViewHolder = (ProfileCardAdapter.TypeThreeViewHolder) holder;
             // Bind data for type two view
             typeThreeViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_FOUR) {
-            TypeFourViewHolder typeFourViewHolder = (TypeFourViewHolder) holder;
+            ProfileCardAdapter.TypeFourViewHolder typeFourViewHolder = (ProfileCardAdapter.TypeFourViewHolder) holder;
             // Bind data for type two view
             typeFourViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_FIVE) {
-            TypeFiveViewHolder typeFiveViewHolder = (TypeFiveViewHolder) holder;
+            ProfileCardAdapter.TypeFiveViewHolder typeFiveViewHolder = (ProfileCardAdapter.TypeFiveViewHolder) holder;
             // Bind data for type two view
             typeFiveViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_SIX) {
-            TypeSixViewHolder typeSixViewHolder = (TypeSixViewHolder) holder;
+            ProfileCardAdapter.TypeSixViewHolder typeSixViewHolder = (ProfileCardAdapter.TypeSixViewHolder) holder;
             // Bind data for type two view
             typeSixViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_SEVEN) {
-            TypeSevenViewHolder typeSevenViewHolder = (TypeSevenViewHolder) holder;
+            ProfileCardAdapter.TypeSevenViewHolder typeSevenViewHolder = (ProfileCardAdapter.TypeSevenViewHolder) holder;
             // Bind data for type two view
             typeSevenViewHolder.title.setText(devices.getName());
         }
         else if (holder.getItemViewType() == VIEW_TYPE_EIGHT) {
-            TypeSixViewHolder typeSixViewHolder = (TypeSixViewHolder) holder;
+            ProfileCardAdapter.TypeSixViewHolder typeSixViewHolder = (ProfileCardAdapter.TypeSixViewHolder) holder;
             // Bind data for type two view
             typeSixViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_NINE) {
-            TypeThreeViewHolder typeThreeViewHolder = (TypeThreeViewHolder) holder;
+            ProfileCardAdapter.TypeThreeViewHolder typeThreeViewHolder = (ProfileCardAdapter.TypeThreeViewHolder) holder;
             // Bind data for type two view
             typeThreeViewHolder.title.setText(devices.getName());
         } else if (holder.getItemViewType() == VIEW_TYPE_TEN) {
-            TypeSevenViewHolder typeSevenViewHolder = (TypeSevenViewHolder) holder;
+            ProfileCardAdapter.TypeSevenViewHolder typeSevenViewHolder = (ProfileCardAdapter.TypeSevenViewHolder) holder;
             // Bind data for type two view
             typeSevenViewHolder.title.setText(devices.getName());
         }
 
         else {
-            TypeFourViewHolder typeFourViewHolder = (TypeFourViewHolder) holder;
+            ProfileCardAdapter.TypeFourViewHolder typeFourViewHolder = (ProfileCardAdapter.TypeFourViewHolder) holder;
             // Bind data for type two view
             typeFourViewHolder.title.setText(devices.getName());
         }
@@ -278,8 +273,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String name = clickedCard.getName();
                         String power = clickedCard.getPrimary();
 
-                        deviceCardFragment.sendSwitchState(powerState,name,power);
-                       // profileDeviceCardFragment.sendSwitchState(powerState,name,power);
+                        profileDeviceCardFragment.sendSwitchState(powerState,name,power);
 
                     }
                 }
@@ -499,4 +493,6 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
     }
+
+
 }
