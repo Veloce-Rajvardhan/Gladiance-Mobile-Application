@@ -33,12 +33,16 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
+import com.gladiance.ui.adapters.ControlAdapter;
+import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
-import com.gladiance.ui.models.lnstallerlandingpage.Controls;
+import com.gladiance.ui.models.guestlandingpage.Controls;
+import com.gladiance.ui.models.guestlandingpage.GuestControls;
+import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.Data;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
@@ -178,7 +182,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
 
 
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControlsType(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
@@ -293,11 +297,11 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                 List<SceneConfig> list = new ArrayList<>();
                 for(int i = 0; i <ConArrayList.size(); i++){
                     if(ConArrayList.get(i).isChecked() == true){
-                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
                         list.add(new SceneConfig(
                                 Long.parseLong(AppConstants.SceneRef),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef(),
+                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName(),
                                 AppConstants.powerState,
                                 AppConstants.power
                         ));
@@ -446,7 +450,6 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-
                         SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
@@ -463,71 +466,44 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         });
     }
 
-    private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-
+    private void fetchGuestControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-
-        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-
-        call.enqueue(new Callback<InstallerLandingResModel>() {
+        Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
+        call.enqueue(new Callback<GuestLandingResModel>() {
             @Override
-            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
+            public void onResponse(Call<GuestLandingResModel> call, Response<GuestLandingResModel> response) {
                 if (response.isSuccessful()) {
-                    InstallerLandingResModel installerLandingResModel = response.body();
-                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
-                        Data data = installerLandingResModel.getData();
-                        List<InstallerControl> installerControls = data.getInstallerControls();
-                        editTextSpaceName.setText(data.getGaaProjectSpaceName());
+                    GuestLandingResModel responseModel = response.body();
+                    if (responseModel != null && responseModel.getData() != null) {
+                        List<GuestControls> controlsList = responseModel.getData().getGuestControls();
+                        if (controlsList != null && !controlsList.isEmpty()) {
+                            List<com.gladiance.ui.models.guestlandingpage.Controls> allControls = new ArrayList<>();
+                            for (GuestControls guestControls : controlsList) {
+                                allControls.addAll(guestControls.getControls());
+                            }
+                            // Set up DeviceControlName RecyclerView
 
-                        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
-                        for (Controls controls : controlsDevice) {
-                            Log.e(TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
-                            ConArrayList.add(new Controls(controls.getNodeId(),controls.getDisplayOrder(),controls.getGaaProjectSpaceTypePlannedDeviceRef(),controls.getGaaProjectSpaceTypePlannedDeviceName(),controls.isProvisioned()));
+                            // Set up ControlTypeName RecyclerView
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                            recyclerView.setLayoutManager(gridLayoutManager1);
+                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+                            recyclerView.setAdapter(sceneCheckAdapter);
+
                         }
 
-//                        Bundle bundleArrayList = getArguments();
-//
-//                        ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-//                        if (receivedList != null) {
-//                            for (String element : receivedList) {
-//                                System.out.println("ArrayList: "+element); // Prints each element on a new line
-//                            }
-//                        } else {
-//                            // Handle case where ArrayList is null
-//                        }
-
-                        /*Bundle bundle = getArguments();
-                        if (bundle != null) {
-                            // Retrieve data from bundle
-                            String key1Value = bundle.getString("key1");
-                            String key2Value = bundle.getString("key2");
-                            String key3Value = bundle.getString("key3");
-                            String key4Value = bundle.getString("key4");
-                            // Print the values using Log statements
-                            Log.d("NextFragment", "Key 1 Value: " + key1Value);
-                            Log.d("NextFragment", "Key 2 Value: " + key2Value);
-                            Log.d("NextFragment", "Key 3 Value: " + key3Value);
-                            Log.d("NextFragment", "Key 4 Value: " + key4Value);
-                            // Do something with the data
-                        }*/
-
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-                        recyclerView.setAdapter(sceneCheckAdapter);
-
                     }
+                } else {
+                    Log.e("API Response", "Unsuccessful response: " + response.code());
                 }
             }
 
-
             @Override
-            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
-
+            public void onFailure(Call<GuestLandingResModel> call, Throwable t) {
+                Log.e("API Error", "Error fetching controls: " + t.getMessage());
             }
         });
-
     }
+
 
     //for spinner
     private void fetchAreas(String GAAProjectSpaceRef, String LoginToken, String LoginDeviceId) {
@@ -616,7 +592,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences2(Long.valueOf(selectedAreaRef));
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchGuestControlsType(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
     }
 
     private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {

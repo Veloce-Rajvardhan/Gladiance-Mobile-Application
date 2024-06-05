@@ -28,7 +28,7 @@ import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 //import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
-import com.gladiance.ui.models.lnstallerlandingpage.Controls;
+import com.gladiance.ui.models.guestlandingpage.Controls;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.R;
 
@@ -65,9 +65,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
             Configuration configuration = ConfigArrayList.get(i);
 
-            holder.deviceNameTextView.setText(control.getGaaProjectSpaceTypePlannedDeviceName());
-            if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getGaaProjectSpaceTypePlannedDeviceRef()))){
-                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getGaaProjectSpaceTypePlannedDeviceRef() );
+            holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
+            if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
+                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
                 holder.deviceNameCheckBox.setChecked(true);
             }
         }
@@ -90,30 +90,31 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
             @Override
             public void onClick(View view) {
 
-                boolean provisionStatus = control.isProvisioned();
-                SharedPreferences sharedPreferences13 = view.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor2 = sharedPreferences13.edit();
-                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + sharedPreferences13);
-                editor2.putBoolean("KEY_USERNAMEw", provisionStatus);
-                editor2.apply();
+//                boolean provisionStatus = control.isProvisioned();
+//                SharedPreferences sharedPreferences13 = view.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor2 = sharedPreferences13.edit();
+//                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + sharedPreferences13);
+//                editor2.putBoolean("KEY_USERNAMEw", provisionStatus);
+//                editor2.apply();
 
-                if (!control.isProvisioned()) {
+//                if (!control.isProvisioned()) {
+//                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+//                    Long GaaProjectSpaceTypePlannedDeviceRef = control.getGaaProjectSpaceTypePlannedDeviceRef();
+//                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
+//                    editor.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
+//                    editor.apply();
+
+
+
+//                    Toast.makeText(inflater.getContext(), "This is a toast message" + control.getGaaProjectSpaceTypePlannedDeviceName(), Toast.LENGTH_SHORT).show();
+//                    holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), AddDeviceActivity.class));
+//                } else {
+
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    Long GaaProjectSpaceTypePlannedDeviceRef = control.getGaaProjectSpaceTypePlannedDeviceRef();
-                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-                    editor.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-                    editor.apply();
 
-
-
-                    Toast.makeText(inflater.getContext(), "This is a toast message" + control.getGaaProjectSpaceTypePlannedDeviceName(), Toast.LENGTH_SHORT).show();
-                    holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), AddDeviceActivity.class));
-                } else {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-
-                    Long GaaProjectSpaceTypePlannedDeviceRef = control.getGaaProjectSpaceTypePlannedDeviceRef();
+                    Long GaaProjectSpaceTypePlannedDeviceRef = control.getgAAProjectSpaceTypePlannedDeviceRef();
 
                     Log.e(TAG, "www: ");
 
@@ -129,7 +130,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
 
                     // GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF / NodeConfigDeviceName
-                    String projectSpaceTypePlannedDeviceName = control.getGaaProjectSpaceTypePlannedDeviceName();
+                    String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
                     SharedPreferences sharedPreference_dyn3 = inflater.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn3 = sharedPreference_dyn3.edit();
                     editor_dyn3.putString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", projectSpaceTypePlannedDeviceName);
@@ -323,7 +324,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     ///   holder.itemView.getContext().startActivity(intent);
                 /////////-----
                 }
-            }
+
 
         });
 

@@ -52,35 +52,35 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener  {
+public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener {
 
-private static final String ARG_SELECTED_AREA_REF = "selectedAreaRef";
+    private static final String ARG_SELECTED_AREA_REF = "selectedAreaRef";
 
-private static final String PREFS_NAME = "MyPrefsFile";
-private static final String USER_ID_KEY = "userId";
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String USER_ID_KEY = "userId";
 
-private ArrayList<Configuration> ConfigArrayList;
+    private ArrayList<Configuration> ConfigArrayList;
 
-private ArrayList<Controls> ConArrayList;
+    private ArrayList<Controls> ConArrayList;
 
-private ArrayList<Area> arrayList2;
-private static final String PREF_SELECTED_AREA_REF = "selectedAreaRef";
+    private ArrayList<Area> arrayList2;
+    private static final String PREF_SELECTED_AREA_REF = "selectedAreaRef";
 
-        EditText editTextProjectName, editTextSpaceName, editTextSceneName;
+    EditText editTextProjectName, editTextSpaceName, editTextSceneName;
 
-        RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
-        Spinner spinner;
-        Button buttonSave;
+    Spinner spinner;
+    Button buttonSave;
 
 
-public CreateMoodFragment() {
+    public CreateMoodFragment() {
         // Required empty public constructor
-        }
+    }
 
-@Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_mood, container, false);
 
@@ -107,7 +107,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
-        Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+        Log.e(TAG, "Project Space Ref: " + saveProjectSpaceRef);
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
 
@@ -115,24 +115,24 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
         SharedPreferences sharedPreferences_ref = requireContext().getSharedPreferences("Ref_Dyn", Context.MODE_PRIVATE);
         // Retrieve the long value stored with the key "REF_DYN_KEY"
         long retrievedValue = sharedPreferences_ref.getLong("REF_DYN_KEY", 0L);
-        Log.e(TAG, "REF_DYN_KEY2: "+retrievedValue);
+        Log.e(TAG, "REF_DYN_KEY2: " + retrievedValue);
 
 
         // Retrieve SharedPreferences object (Ref get)
         SharedPreferences sharedPreferences_name = requireContext().getSharedPreferences("Name_Dyn", Context.MODE_PRIVATE);
         String retrievedName = sharedPreferences_name.getString("NAME_DYN_KEY", "");
-        Log.e(TAG, "NAME_DYN_KEY2: "+retrievedName);
+        Log.e(TAG, "NAME_DYN_KEY2: " + retrievedName);
 
 
         // Retrieve SharedPreferences object (Ref get)
         SharedPreferences sharedPreferences_projectspace = requireContext().getSharedPreferences("PROJECT_SPACE_REF_Dyn", Context.MODE_PRIVATE);
         long retrievedSpace = sharedPreferences_projectspace.getLong("PROJECT_SPACE_TYPE_REF_DYN_KEY", 0L);
-        Log.e(TAG, "PROJECT_SPACE_TYPE_REF_DYN_KEY2: "+retrievedSpace);
+        Log.e(TAG, "PROJECT_SPACE_TYPE_REF_DYN_KEY2: " + retrievedSpace);
 
         // GAAProjectSpaceTypeRef
-        SharedPreferences  sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSTR", MODE_PRIVATE);
+        SharedPreferences sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSTR", MODE_PRIVATE);
         String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
-        Log.e(ContentValues.TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
+        Log.e(ContentValues.TAG, "Project Space Type Ref: " + saveProjectSpaceTypeRef);
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
         AppConstants.Create_Space_dyn = gaaProjectSpaceTypeRef;
 
@@ -143,114 +143,113 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-        // Retrieve data from bundle
-        String key1Value = bundle.getString("key1");
-        String key2Value = bundle.getString("key2");
-        String key3Value = bundle.getString("key3");
-        String key4Value = bundle.getString("key4");
-        // Print the values using Log statements
-        Log.d("NextFragment", "Key 1 Value: " + key1Value);
-        Log.d("NextFragment", "Key 2 Value: " + key2Value);
-        Log.d("NextFragment", "Key 3 Value: " + key3Value);
-        Log.d("NextFragment", "Key 4 Value: " + key4Value);
-        // Do something with the data
+            // Retrieve data from bundle
+            String key1Value = bundle.getString("key1");
+            String key2Value = bundle.getString("key2");
+            String key3Value = bundle.getString("key3");
+            String key4Value = bundle.getString("key4");
+            // Print the values using Log statements
+            Log.d("NextFragment", "Key 1 Value: " + key1Value);
+            Log.d("NextFragment", "Key 2 Value: " + key2Value);
+            Log.d("NextFragment", "Key 3 Value: " + key3Value);
+            Log.d("NextFragment", "Key 4 Value: " + key4Value);
+            // Do something with the data
         }
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
 
         // Bundle bundle = getArguments();
         if (bundle != null) {
-        String sceneRefString = bundle.getString("SCENE_REF");
-        if (sceneRefString != null) {
-        Long sceneRef = Long.parseLong(sceneRefString);
-        Log.e(TAG, "SceneRef: " + sceneRef);
-        getScene(sceneRef, loginToken, loginDeviceId);
+            String sceneRefString = bundle.getString("SCENE_REF");
+            if (sceneRefString != null) {
+                Long sceneRef = Long.parseLong(sceneRefString);
+                Log.e(TAG, "SceneRef: " + sceneRef);
+                getScene(sceneRef, loginToken, loginDeviceId);
+            } else {
+                Log.e(TAG, "SceneRef is null");
+                // Handle null sceneRefString
+            }
         } else {
-        Log.e(TAG, "SceneRef is null");
-        // Handle null sceneRefString
-        }
-        } else {
-        Log.e(TAG, "Bundle is null");
-        // Handle null bundle
+            Log.e(TAG, "Bundle is null");
+            // Handle null bundle
         }
 
         getRef();
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+        fetchInstallerControls(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
 
 
-        fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
+        fetchAreas(projectSpaceRef, loginToken, loginDeviceId);
 
         return view;
-        }
+    }
 
-        // to Get Ref
-        private void getRef() {
-                ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-                SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-                String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-                Log.d(TAG, "node id2: " + nodeId3);
-                // Make API call
-                Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-                call.enqueue(new Callback<AllocateSingleIdResponse>() {
-                        @Override
-                        public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-                                if (response.isSuccessful()) {
-                                        AllocateSingleIdResponse responseModel = response.body();
-                                        if (responseModel != null) {
-                                                boolean success = responseModel.getSuccessful();
-                                                String message = responseModel.getMessage();
-                                                String Ref = responseModel.getTag();
-                                                AppConstants.Create_Ref_dyn = responseModel.getTag();
-                                                AppConstants.Create_SceneRef = responseModel.getTag();
+    // to Get Ref
+    private void getRef() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "node id2: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+                        AppConstants.Create_Ref_dyn = responseModel.getTag();
+                        AppConstants.Create_SceneRef = responseModel.getTag();
 
-                                                Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+                        Log.d(TAG, "Success: " + success + ", Message: " + message + " Tag: " + Ref);
 
-                                        }
-                                } else {
-                                        Log.e(TAG, "API call failed with code: " + response.code());
-                                }
-                        }
+                    }
+                } else {
+                    Log.e(TAG, "API call failed with code: " + response.code());
+                }
+            }
 
-                        @Override
-                        public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-                                Log.e(TAG, "API call failed: " + t.getMessage());
-                        }
-                });
-        }
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
 
 
-
-        @Override
-public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
 
         SharedPreferences sharedPreferencesPowerState = requireContext().getSharedPreferences("MyPreferencesPS", Context.MODE_PRIVATE);
         boolean PowerState = sharedPreferencesPowerState.getBoolean("PowerState", false);
-        Log.e(TAG, "EditSceneFragment Power onResume : "+PowerState);
+        Log.e(TAG, "EditSceneFragment Power onResume : " + PowerState);
 
         SharedPreferences sharedPreferencesFanSpeed = requireContext().getSharedPreferences("MyPreferencesFS", Context.MODE_PRIVATE);
         int FanSpeed = sharedPreferencesFanSpeed.getInt("FanSpeed", 0);
-        Log.e(TAG, "EditSceneFragment FanSpeed onResume : "+FanSpeed);
+        Log.e(TAG, "EditSceneFragment FanSpeed onResume : " + FanSpeed);
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View view) {
-        // Retrieve the arguments bundle
-        Bundle args = getArguments();
-        if (args != null) {
-        ArrayList<String> mData = (ArrayList<String>) args.getSerializable("myArrayList");
-        if (mData != null) {
-        for (String item : mData) {
-        System.out.println("ArrayList Data2: "+item); // or use Log.d() for logging in Android
-        }
-        }
-        }
+            @Override
+            public void onClick(View view) {
+                // Retrieve the arguments bundle
+                Bundle args = getArguments();
+                if (args != null) {
+                    ArrayList<String> mData = (ArrayList<String>) args.getSerializable("myArrayList");
+                    if (mData != null) {
+                        for (String item : mData) {
+                            System.out.println("ArrayList Data2: " + item); // or use Log.d() for logging in Android
+                        }
+                    }
+                }
 //                for (String item : MY_CONSTANT_LIST) {
 //                    System.out.println("NewList4: "+item);
 //                }
-        AppConstants.Create_Name_dyn = String.valueOf(editTextSceneName.getText());
+                AppConstants.Create_Name_dyn = String.valueOf(editTextSceneName.getText());
 
-        // Retrieve data from the bundle
+                // Retrieve data from the bundle
 //        ArrayList<String> constantData = args.getStringArrayList("constantData");
 //        // Use the retrieved data as needed
 //        if (constantData != null) {
@@ -260,91 +259,88 @@ public void onClick(View view) {
 //        }
 //        }
 
-        // Retrieve SharedPreferences object (Ref get)
-        SharedPreferences sharedPreferences_ref = requireContext().getSharedPreferences("Ref_Dyn", Context.MODE_PRIVATE);
-        // Retrieve the long value stored with the key "REF_DYN_KEY"
-        long retrievedValue = sharedPreferences_ref.getLong("REF_DYN_KEY", 0L);
-        Log.e(TAG, "REF_DYN_KEY2: "+retrievedValue);
+                // Retrieve SharedPreferences object (Ref get)
+                SharedPreferences sharedPreferences_ref = requireContext().getSharedPreferences("Ref_Dyn", Context.MODE_PRIVATE);
+                // Retrieve the long value stored with the key "REF_DYN_KEY"
+                long retrievedValue = sharedPreferences_ref.getLong("REF_DYN_KEY", 0L);
+                Log.e(TAG, "REF_DYN_KEY2: " + retrievedValue);
 
 
-        // Retrieve SharedPreferences object (Ref get)
-        SharedPreferences sharedPreferences_name = requireContext().getSharedPreferences("Name_Dyn", Context.MODE_PRIVATE);
-        String retrievedName = sharedPreferences_name.getString("NAME_DYN_KEY", "");
-        Log.e(TAG, "NAME_DYN_KEY2: "+retrievedName);
+                // Retrieve SharedPreferences object (Ref get)
+                SharedPreferences sharedPreferences_name = requireContext().getSharedPreferences("Name_Dyn", Context.MODE_PRIVATE);
+                String retrievedName = sharedPreferences_name.getString("NAME_DYN_KEY", "");
+                Log.e(TAG, "NAME_DYN_KEY2: " + retrievedName);
 
 
-        // Retrieve SharedPreferences object (Ref get)
-        SharedPreferences sharedPreferences_projectspace = requireContext().getSharedPreferences("PROJECT_SPACE_REF_Dyn", Context.MODE_PRIVATE);
-        long retrievedSpace = sharedPreferences_projectspace.getLong("PROJECT_SPACE_TYPE_REF_DYN_KEY", 0L);
-        Log.e(TAG, "PROJECT_SPACE_TYPE_REF_DYN_KEY2: "+retrievedSpace);
+                // Retrieve SharedPreferences object (Ref get)
+                SharedPreferences sharedPreferences_projectspace = requireContext().getSharedPreferences("PROJECT_SPACE_REF_Dyn", Context.MODE_PRIVATE);
+                long retrievedSpace = sharedPreferences_projectspace.getLong("PROJECT_SPACE_TYPE_REF_DYN_KEY", 0L);
+                Log.e(TAG, "PROJECT_SPACE_TYPE_REF_DYN_KEY2: " + retrievedSpace);
 
 
-        Log.e("APPCONSTS",""+ AppConstants.Create_Ref_dyn);
-        Log.e("APPCONSTS",""+AppConstants.Create_Name_dyn);
-        Log.e("APPCONSTS",""+AppConstants.Create_SceneRef);
-        Log.e("APPCONSTS",""+AppConstants.Create_Space_dyn);
-        Log.e("APPCONSTS",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
-        Log.e("APPCONSTS",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
-        Log.e("APPCONSTS",""+ AppConstants.Create_powerState);
-        Log.e("APPCONSTS",""+AppConstants.Create_power);
+                Log.e("APPCONSTS", "" + AppConstants.Create_Ref_dyn);
+                Log.e("APPCONSTS", "" + AppConstants.Create_Name_dyn);
+                Log.e("APPCONSTS", "" + AppConstants.Create_SceneRef);
+                Log.e("APPCONSTS", "" + AppConstants.Create_Space_dyn);
+                Log.e("APPCONSTS", "" + AppConstants.Create_projectSpaceTypePlannedDeviceName);
+                Log.e("APPCONSTS", "" + AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+                Log.e("APPCONSTS", "" + AppConstants.Create_powerState);
+                Log.e("APPCONSTS", "" + AppConstants.Create_power);
 
-        List<SceneConfig> list = new ArrayList<>();
-        for(int i = 0; i <ConArrayList.size(); i++){
-        if(ConArrayList.get(i).isChecked() == true){
-        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-        list.add(new SceneConfig(
-        Long.parseLong(AppConstants.Create_SceneRef),
-        ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
-        ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-        AppConstants.Create_powerState,
-        AppConstants.Create_power
-        ));
-        }
-        }
+                List<SceneConfig> list = new ArrayList<>();
+                for (int i = 0; i < ConArrayList.size(); i++) {
+                    if (ConArrayList.get(i).isChecked() == true) {
+                        Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        list.add(new SceneConfig(
+                                Long.parseLong(AppConstants.Create_SceneRef),
+                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+                                AppConstants.Create_powerState,
+                                AppConstants.Create_power
+                        ));
+                    }
+                }
 
-        SaveSceneRequest saveScene = new SaveSceneRequest(
-        Long.parseLong(AppConstants.Create_Ref_dyn),
-        AppConstants.Create_Name_dyn,
-        Long.parseLong(AppConstants.Create_SceneRef),
-        list);
-        sendSaveSceneRequest(saveScene);
-        }
+                SaveSceneRequest saveScene = new SaveSceneRequest(
+                        Long.parseLong(AppConstants.Create_Ref_dyn),
+                        AppConstants.Create_Name_dyn,
+                        Long.parseLong(AppConstants.Create_SceneRef),
+                        list);
+                sendSaveSceneRequest(saveScene);
+            }
 
-private void sendSaveSceneRequest(SaveSceneRequest saveScene) {
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+            private void sendSaveSceneRequest(SaveSceneRequest saveScene) {
+                ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        Call<SceneResModel> call = apiService.saveScene(saveScene);
-        call.enqueue(new Callback<SceneResModel>() {
-@Override
-public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
-        if (response.isSuccessful()) {
-        // Handle successful response
-        Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "Done ");
-        } else {
-        // Handle unsuccessful response
-        }
-        }
+                Call<SceneResModel> call = apiService.saveScene(saveScene);
+                call.enqueue(new Callback<SceneResModel>() {
+                    @Override
+                    public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
+                        if (response.isSuccessful()) {
+                            // Handle successful response
+                            Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Done ");
+                        } else {
+                            // Handle unsuccessful response
+                        }
+                    }
 
-@Override
-public void onFailure(Call<SceneResModel> call, Throwable t) {
-        // Handle API call failure
-        Log.e(TAG, "Failure");
-        }
-        });
-        }
-
-
+                    @Override
+                    public void onFailure(Call<SceneResModel> call, Throwable t) {
+                        // Handle API call failure
+                        Log.e(TAG, "Failure");
+                    }
+                });
+            }
 
 
         });
 
 
-        }
+    }
 
 
-
-private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
+    private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDeviceId) {
 //        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 //        Call<SceneResModel> call = apiService.getScene(gaaProjectSceneRef, loginToken, loginDeviceId);
 //        call.enqueue(new Callback<SceneResModel>() {
@@ -409,29 +405,29 @@ private void getScene(Long gaaProjectSceneRef, String loginToken, String loginDe
 //        Log.e("MainActivity", "Failed to get response");
 //        }
 //        });
-        }
+    }
 
-private void fetchInstallerControls(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
+    private void fetchInstallerControls(String GAAProjectSpaceRef, Long AreaRef, String LoginToken, String LoginDeviceId) {
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
+        Call<InstallerLandingResModel> call = apiService.getDevices(GAAProjectSpaceRef, AreaRef, LoginToken, LoginDeviceId);
 
         call.enqueue(new Callback<InstallerLandingResModel>() {
-@Override
-public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
-        if (response.isSuccessful()) {
-        InstallerLandingResModel installerLandingResModel = response.body();
-        if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
-        Data data = installerLandingResModel.getData();
-        List<InstallerControl> installerControls = data.getInstallerControls();
-    //    editTextSpaceName.setText(data.getGaaProjectSpaceName());
+            @Override
+            public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLandingResModel> response) {
+                if (response.isSuccessful()) {
+                    InstallerLandingResModel installerLandingResModel = response.body();
+                    if (installerLandingResModel != null && installerLandingResModel.getSuccessful()) {
+                        Data data = installerLandingResModel.getData();
+                        List<InstallerControl> installerControls = data.getInstallerControls();
+                        //    editTextSpaceName.setText(data.getGaaProjectSpaceName());
 
-        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
-        for (Controls controls : controlsDevice) {
-        Log.e(TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
-        ConArrayList.add(new Controls(controls.getNodeId(),controls.getDisplayOrder(),controls.getGaaProjectSpaceTypePlannedDeviceRef(),controls.getGaaProjectSpaceTypePlannedDeviceName(),controls.isProvisioned()));
-        }
+                        List<Controls> controlsDevice = data.getInstallerControls().get(0).getControls();
+                        for (Controls controls : controlsDevice) {
+                            Log.e(TAG, "onResponse Plan Device Name: " + controls.getGaaProjectSpaceTypePlannedDeviceName());
+                            ConArrayList.add(new Controls(controls.getNodeId(), controls.getDisplayOrder(), controls.getGaaProjectSpaceTypePlannedDeviceRef(), controls.getGaaProjectSpaceTypePlannedDeviceName(), controls.isProvisioned()));
+                        }
 
 //                        Bundle bundleArrayList = getArguments();
 //
@@ -459,122 +455,122 @@ public void onResponse(Call<InstallerLandingResModel> call, Response<InstallerLa
                             // Do something with the data
                         }*/
 
-        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager1);
-        SceneCreateAdapter sceneCreateAdapter = new SceneCreateAdapter(ConArrayList);
-        recyclerView.setAdapter(sceneCreateAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(gridLayoutManager1);
+                        SceneCreateAdapter sceneCreateAdapter = new SceneCreateAdapter(ConArrayList);
+                        recyclerView.setAdapter(sceneCreateAdapter);
 
-        }
-        }
-        }
+                    }
+                }
+            }
 
 
-@Override
-public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
+            @Override
+            public void onFailure(Call<InstallerLandingResModel> call, Throwable t) {
 
-        }
+            }
         });
 
-        }
+    }
 
-//for spinner
-private void fetchAreas(String GAAProjectSpaceRef, String LoginToken, String LoginDeviceId) {
+    //for spinner
+    private void fetchAreas(String GAAProjectSpaceRef, String LoginToken, String LoginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<ProjectAreaLandingResModel> call = apiService.getAreaLandingPageData(GAAProjectSpaceRef, LoginToken, LoginDeviceId);
         call.enqueue(new Callback<ProjectAreaLandingResModel>() {
-@Override
-public void onResponse(Call<ProjectAreaLandingResModel> call, Response<ProjectAreaLandingResModel> response) {
-        if (response.isSuccessful() && response.body() != null) {
-        ProjectAreaLandingResModel dataResponse = response.body();
-        List<Area> areas = dataResponse.getData().getAreas();
+            @Override
+            public void onResponse(Call<ProjectAreaLandingResModel> call, Response<ProjectAreaLandingResModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ProjectAreaLandingResModel dataResponse = response.body();
+                    List<Area> areas = dataResponse.getData().getAreas();
 
-        for(Area area : areas) {
-        Log.e(TAG, "onResponse AreaName: " + area.getGAAProjectSpaceTypeAreaName());
-        Log.e(TAG, "onResponse Area Ref: " + area.getGAAProjectSpaceTypeAreaRef());
-        arrayList2.add(new Area(area.getGAAProjectSpaceTypeAreaRef(), area.getGAAProjectSpaceTypeAreaName(), area.getWifiSSID(), area.getWifiPassword(), area.getGuestControls(), area.getInstallerControls()));
+                    for (Area area : areas) {
+                        Log.e(TAG, "onResponse AreaName: " + area.getGAAProjectSpaceTypeAreaName());
+                        Log.e(TAG, "onResponse Area Ref: " + area.getGAAProjectSpaceTypeAreaRef());
+                        arrayList2.add(new Area(area.getGAAProjectSpaceTypeAreaRef(), area.getGAAProjectSpaceTypeAreaName(), area.getWifiSSID(), area.getWifiPassword(), area.getGuestControls(), area.getInstallerControls()));
 
-        if (area.getGAAProjectSpaceTypeAreaRef() == 0) {
+                        if (area.getGAAProjectSpaceTypeAreaRef() == 0) {
 
-        }
-        }
-        // Create custom spinner adapter
-        AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(requireContext(),spinner,areas);
+                        }
+                    }
+                    // Create custom spinner adapter
+                    AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(requireContext(), spinner, areas);
 
-        // Set the listener for the adapter
-        adapter.setOnAreaSelectedListener(CreateMoodFragment.this); // Replace YourFragmentClassName with the name of your fragment class
+                    // Set the listener for the adapter
+                    adapter.setOnAreaSelectedListener(CreateMoodFragment.this); // Replace YourFragmentClassName with the name of your fragment class
 
-        spinner.setAdapter(adapter);
+                    spinner.setAdapter(adapter);
 
-        // Handle item selection
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-@Override
-public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    // Handle item selection
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-        }
-@Override
-public void onNothingSelected(AdapterView<?> parentView) {
+                        }
 
-        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProjectAreaLandingResModel> call, Throwable t) {
+                // Handle API call failure
+            }
         });
+    }
 
-        }
-        }
-
-@Override
-public void onFailure(Call<ProjectAreaLandingResModel> call, Throwable t) {
-        // Handle API call failure
-        }
-        });
-        }
-
-private long getSelectedAreaRefFromPreferences() {
+    private long getSelectedAreaRefFromPreferences() {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getLong(PREF_SELECTED_AREA_REF, 0L);
-        }
+    }
 
 
-
-private long getSelectedAreaRefFromPreferences2(Long selectedAreaRef) {
+    private long getSelectedAreaRefFromPreferences2(Long selectedAreaRef) {
         // Get an instance of SharedPreferences
-        SharedPreferences sharedPreferences =  requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //  Long selectedAreaRef = null;
         editor.putLong(ARG_SELECTED_AREA_REF, selectedAreaRef);
         editor.apply();
 
         return sharedPreferences.getLong(PREF_SELECTED_AREA_REF, 0L);
-        }
+    }
 
-@Override
-public void onAreaSelected(String selectedAreaRef) {
+    @Override
+    public void onAreaSelected(String selectedAreaRef) {
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
-        Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+        Log.e(TAG, "Project Space GUID/LoginDeviceId: " + GUID);
         String loginDeviceId = GUID.trim();
 
 
-        SharedPreferences  sharedPreferences2 = requireContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences2 = requireContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
-        Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+        Log.e(TAG, "Project Space loginToken: " + savedLoginDeviceId);
         String loginToken = savedLoginDeviceId.trim();
 
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
-        Log.e(TAG, "Project Space Ref: "+savedLoginDeviceId );
+        Log.e(TAG, "Project Space Ref: " + savedLoginDeviceId);
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences2(Long.valueOf(selectedAreaRef));
-        fetchInstallerControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
-        }
+        fetchInstallerControls(projectSpaceRef, gAAProjectSpaceTypeAreaRef, loginToken, loginDeviceId);
+    }
 
-        private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-                @Override
-                public void handleOnBackPressed() {
-                        requireActivity().finish();
-                }
-        };
+    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            requireActivity().finish();
         }
+    };
+}
 
 
 
