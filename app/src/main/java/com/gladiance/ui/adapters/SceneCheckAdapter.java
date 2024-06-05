@@ -274,6 +274,13 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     Log.e(TAG, "Node Id: " + nodeId);
                     editor.putString("KEY_USERNAMEs", nodeId);
                     editor.apply();
+
+                    String Label = control.getLabel();
+                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    Log.e(TAG, "Label: " + Label);
+                    editor1.putString("KEY_USERNAMEs", Label);
+                    editor1.apply();
                     //  intent.putExtra("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
 
                     //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
