@@ -33,8 +33,6 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
-import com.gladiance.ui.adapters.ControlAdapter;
-import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
@@ -308,7 +306,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                     }
                 }
 
-           //     List<SceneConfig> list = new ArrayList<>();
+                //     List<SceneConfig> list = new ArrayList<>();
 //                for(int i = 0; i <ConArrayList.size(); i++){
 //                    if(ConArrayList.get(i).isChecked() == true){
 //                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
@@ -330,27 +328,27 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 //                        for(int i = 0; i <ConArrayList.size(); i++) {
 //                            if (ConArrayList.get(i).isChecked() == true) {
 //                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                                if (objectScenesList != null) {
-                                    for (ObjectScenes objectScenes : objectScenesList) {
+                        if (objectScenesList != null) {
+                            for (ObjectScenes objectScenes : objectScenesList) {
 
-                                        list.add(new SceneConfig(
-                                                Long.parseLong(objectScenes.getSceneRef()),
-                                                Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
-                                                objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
-                                                objectScenes.getNodeConfigParamName(),
-                                                objectScenes.getValue()
-                                        ));
-                                        Log.d("ObjectScenes2", objectScenes.getSceneRef());
-                                        Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
-                                        Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
-                                        Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
-                                        Log.d("getValue", objectScenes.getValue());
-                                    }
+                                list.add(new SceneConfig(
+                                        Long.parseLong(objectScenes.getSceneRef()),
+                                        Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
+                                        objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
+                                        objectScenes.getNodeConfigParamName(),
+                                        objectScenes.getValue()
+                                ));
+                                Log.d("ObjectScenes2", objectScenes.getSceneRef());
+                                Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
+                                Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+                                Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
+                                Log.d("getValue", objectScenes.getValue());
+                            }
 
-                                    // Remember to remove the observer if necessary
-                                    objectScenesListLiveData.removeObserver(this);
-                                }
-                         //   }
+                            // Remember to remove the observer if necessary
+                            objectScenesListLiveData.removeObserver(this);
+                        }
+                        //   }
                         //}
                     }
                 });
@@ -360,7 +358,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         AppConstants.Name_dyn,
                         Long.parseLong(AppConstants.Space_dyn),
                         list);
-               sendSaveSceneRequest(saveScene);
+                sendSaveSceneRequest(saveScene);
 
             }
 
@@ -479,11 +477,9 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         if (controlsList != null && !controlsList.isEmpty()) {
                             List<com.gladiance.ui.models.guestlandingpage.Controls> allControls = new ArrayList<>();
                             for (GuestControls guestControls : controlsList) {
-                                allControls.addAll(guestControls.getControls());
+                                ConArrayList.addAll(guestControls.getControls());
                             }
-                            // Set up DeviceControlName RecyclerView
 
-                            // Set up ControlTypeName RecyclerView
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
                             SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
@@ -503,7 +499,6 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
             }
         });
     }
-
 
     //for spinner
     private void fetchAreas(String GAAProjectSpaceRef, String LoginToken, String LoginDeviceId) {
