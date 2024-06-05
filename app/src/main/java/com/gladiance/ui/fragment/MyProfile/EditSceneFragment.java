@@ -11,6 +11,9 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +34,8 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
+import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.Controls;
@@ -40,8 +45,12 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
+import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +202,42 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+//                ScheduleViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+//                LiveData<ObjectSchedule> objectScheduleLiveData = scheduleViewModel.getObjectSchedule();
+//                // Observe the LiveData to get the ObjectSchedule
+//                objectScheduleLiveData.observe(getViewLifecycleOwner(), new Observer<ObjectSchedule>() {
+//                    @Override
+//                    public void onChanged(ObjectSchedule objectSchedule) {
+//                        // Now you can use objectSchedule
+//                        // For example:
+//                        // doSomethingWithObjectSchedule(objectSchedule);
+//                        Log.d("ObjectSchedule", objectSchedule.toString());
+//                        // Remember to remove the observer if necessary
+//                        objectScheduleLiveData.removeObserver(this);
+//                    }
+//                });
+
+
+
+
+//                SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//                LiveData<ObjectScenes> objectScheduleLiveData = sharedViewModel.getObjectSchedule();
+//
+//                objectScheduleLiveData.observe(getViewLifecycleOwner(), new Observer<ObjectScenes>() {
+//                    @Override
+//                    public void onChanged(ObjectScenes objectSchedule) {
+//                        if (objectSchedule != null) {
+//                            // Now you can use objectSchedule
+//                            Log.d("ObjectSchedule", objectSchedule.toString());
+//
+//                            // Remember to remove the observer if necessary
+//                            objectScheduleLiveData.removeObserver(this);
+//                        }
+//                    }
+//                });
+
                 // Retrieve the arguments bundle
                 Bundle args = getArguments();
                 if (args != null) {
@@ -259,12 +304,60 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                     }
                 }
 
+           //     List<SceneConfig> list = new ArrayList<>();
+//                for(int i = 0; i <ConArrayList.size(); i++){
+//                    if(ConArrayList.get(i).isChecked() == true){
+//                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+//                        list.add(new SceneConfig(
+//                                Long.parseLong(AppConstants.SceneRef),
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+//                                AppConstants.powerState,
+//                                AppConstants.power
+//                        ));
+//                    }
+//                }
+
+                SceneViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+                LiveData<List<ObjectScenes>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
+                objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectScenes>>() {
+                    @Override
+                    public void onChanged(List<ObjectScenes> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                                if (objectScenesList != null) {
+                                    for (ObjectScenes objectScenes : objectScenesList) {
+
+                                        list.add(new SceneConfig(
+                                                Long.parseLong(objectScenes.getSceneRef()),
+                                                Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
+                                                objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
+                                                objectScenes.getNodeConfigParamName(),
+                                                objectScenes.getValue()
+                                        ));
+                                        Log.d("ObjectScenes2", objectScenes.getSceneRef());
+                                        Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
+                                        Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+                                        Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
+                                        Log.d("getValue", objectScenes.getValue());
+                                    }
+
+                                    // Remember to remove the observer if necessary
+                                    objectScenesListLiveData.removeObserver(this);
+                                }
+                         //   }
+                        //}
+                    }
+                });
+
                 SaveSceneRequest saveScene = new SaveSceneRequest(
                         Long.parseLong(AppConstants.Ref_dyn),
                         AppConstants.Name_dyn,
                         Long.parseLong(AppConstants.SceneRef),
                         list);
-                sendSaveSceneRequest(saveScene);
+               sendSaveSceneRequest(saveScene);
+
             }
 
 
@@ -277,8 +370,11 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                     public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
                         if (response.isSuccessful()) {
                             // Handle successful response
+                            SceneResModel sceneResModel = response.body();
+                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Done ");
+
                         } else {
                             // Handle unsuccessful response
                         }

@@ -2,6 +2,7 @@ package com.gladiance.ui.adapters;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     private boolean[] selectionState;
     private OnItemClickListener listener;
 
+    SharedPreferences sharedPreferences;
     public interface OnItemClickListener {
         void onItemClick(String day, boolean isChecked);
     }
@@ -65,13 +67,28 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
+
                     boolean isChecked = !selectionState[position];
                     selectionState[position] = isChecked;
                     textViewDay.setSelected(isChecked);
                     int textColor = isChecked ? ContextCompat.getColor(itemView.getContext(), R.color.link_color) : ContextCompat.getColor(itemView.getContext(), R.color.white);
                     textViewDay.setTextColor(textColor);
 
+
+                    // Save selection state and color to SharedPreferences
+                    try {
+                        saveSelectionStateToSharedPreferences(position, isChecked, textColor);
+                    }catch (Exception e){
+
+                    }
                     listener.onItemClick(days.get(position), isChecked);
+                }
+
+                private void saveSelectionStateToSharedPreferences(int position, boolean isChecked, int textColor) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("selection_" + position, isChecked);
+                    editor.putInt("text_color_" + position, textColor);
+                    editor.apply();
                 }
             });
         }

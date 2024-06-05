@@ -10,8 +10,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -42,6 +47,8 @@ import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
+import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
@@ -56,8 +63,10 @@ import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
 import com.gladiance.ui.models.scene.Configuration;
+import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
 
 
 import java.util.ArrayList;
@@ -83,6 +92,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     Trigger trigger;
     EditText scheduleName;
     EditText projectName;
+    private View view;
 
     private ArrayList<Configuration> ConfigArrayList;
 
@@ -110,7 +120,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_create_schedule, container, false);
+        view =  inflater.inflate(R.layout.fragment_create_schedule, container, false);
 
         recyclerViewDay = view.findViewById(R.id.recyclerViewDay);
         recyclerViewMonth = view.findViewById(R.id.recyclerViewMonth);
@@ -504,6 +514,99 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
 
+
+
+        long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
+        Bundle bundle = getArguments();
+
+        // Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            String sceneRefString = bundle.getString("SCENE_REF");
+//            if (sceneRefString != null) {
+//                Long sceneRef = Long.parseLong(sceneRefString);
+//                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
+//                getScene(sceneRef, loginToken, loginDeviceId);
+//            } else {
+//                Log.e(ContentValues.TAG, "SceneRef is null");
+//                // Handle null sceneRefString
+//            }
+//        } else {
+//            Log.e(ContentValues.TAG, "Bundle is null");
+//            // Handle null bundle
+//        }
+
+        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+
+
+        fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
+
+        return view;
+    }
+
+    // to Get Ref
+        private void getRef() {
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+            Log.d(TAG, "node id2: " + nodeId3);
+            // Make API call
+            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+            call.enqueue(new Callback<AllocateSingleIdResponse>() {
+                @Override
+                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                    if (response.isSuccessful()) {
+                        AllocateSingleIdResponse responseModel = response.body();
+                        if (responseModel != null) {
+                            boolean success = responseModel.getSuccessful();
+                            String message = responseModel.getMessage();
+                            String Ref = responseModel.getTag();
+                            AppConstants.Ref_dyn_Schedule = responseModel.getTag();
+                            AppConstants.ScheduleRef_Schedule = responseModel.getTag();
+
+                            Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+
+
+                        }
+                    } else {
+                        Log.e(TAG, "API call failed with code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                    Log.e(TAG, "API call failed: " + t.getMessage());
+                }
+            });
+        }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        ScheduleViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+//
+//        ObjectSchedule objectSchedule = scheduleViewModel.getObjectSchedule();
+
+        // Retrieve RecyclerView from the layout
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewDay);
+
+        // Set up RecyclerView adapter and layout manager
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("your_shared_preferences_name", Context.MODE_PRIVATE);
+        int numberOfItems = sharedPreferences.getInt("number_of_items", 0);
+        // Iterate through saved selection states and text colors
+        for (int i = 0; i < numberOfItems; i++) { // numberOfItems should be the same number used when saving the data
+            boolean isChecked = sharedPreferences.getBoolean("selection_" + i, false); // default value false
+            int textColor = sharedPreferences.getInt("text_color_" + i, ContextCompat.getColor(requireContext(), R.color.white)); // default color if not found
+//            textView.setTextColor(textColor);
+//            yourAdapter.updateTextColor(i, textColor);
+            // Handle the fetched data, maybe update your UI accordingly
+            // For example, if you have a list of items, you might want to update their states and colors
+            // item.setChecked(isChecked);
+            // item.setTextColor(textColor);
+        }
+
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -514,7 +617,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //
 //                Log.e(TAG, "onClick2: "+januaryValue );
 
-            //    Log.e(TAG, "logDataList2: "+AppConstants.January);
+                //    Log.e(TAG, "logDataList2: "+AppConstants.January);
 
                 AppConstants.Name_dyn_Schedule = String.valueOf(scheduleName.getText());
 
@@ -532,23 +635,23 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
 //                for(int i = 0; i <ConArrayList.size(); i++){
 //                    if(ConArrayList.get(i).isChecked() == true){
-                    //    Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                        list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
-                                Long.parseLong(AppConstants.ScheduleRef_Schedule),
-                                Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule),
-                                AppConstants.projectSpaceTypePlannedDeviceName_Schedule,
+                //    Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+                        Long.parseLong(AppConstants.ScheduleRef_Schedule),
+                        Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule),
+                        AppConstants.projectSpaceTypePlannedDeviceName_Schedule,
 //                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
 //                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-                                AppConstants.powerState_Schedule,
-                                AppConstants.power_Schedule
-                        ));
+                        AppConstants.powerState_Schedule,
+                        AppConstants.power_Schedule
+                ));
 //                    }
 //                }
 
 //                for(int i = 0; i <ConArrayList.size(); i++){
 //                    if(ConArrayList.get(i).isChecked() == true){
 //                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                        List<Trigger> triggerList = new ArrayList<>();
+                List<Trigger> triggerList = new ArrayList<>();
 
                 if (CBWeek.isChecked()) {
                     triggerList.add(new Trigger(
@@ -621,34 +724,34 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             AppConstants.RepeatEveryYear
                     ));
                 }
-                        for (Trigger trigger : triggerList) {
-                            System.out.println("Trigger data:");
-                            System.out.println("Monday: " + trigger.getMonday());
-                            System.out.println("Tuesday: " + trigger.getTuesday());
-                            System.out.println("Wednesday: " + trigger.getWednesday());
-                            System.out.println("Thursday: " + trigger.getThursday());
-                            System.out.println("Friday: " + trigger.getFriday());
-                            System.out.println("Saturday: " + trigger.getSaturday());
-                            System.out.println("Sunday: " + trigger.getSunday());
-                            System.out.println("Hour: " + trigger.getHour());
-                            System.out.println("Minute: " + trigger.getMinute());
-                            System.out.println("Second: " + trigger.getSecond());
-                            System.out.println("DayOfMonth: " + trigger.getDayOfMonth());
-                            System.out.println("January: " + trigger.getJanuary());
-                            System.out.println("February: " + trigger.getFebruary());
-                            System.out.println("March: " + trigger.getMarch());
-                            System.out.println("April: " + trigger.getApril());
-                            System.out.println("May: " + trigger.getMay());
-                            System.out.println("June: " + trigger.getJune());
-                            System.out.println("July: " + trigger.getJuly());
-                            System.out.println("August: " + trigger.getAugust());
-                            System.out.println("September: " + trigger.getSeptember());
-                            System.out.println("October: " + trigger.getOctober());
-                            System.out.println("November: " + trigger.getNovember());
-                            System.out.println("December: " + trigger.getDecember());
-                            System.out.println("Year: " + trigger.getYear());
-                            System.out.println("RepeatEveryYear: " + trigger.getRepeatEveryYear());
-                        }
+                for (Trigger trigger : triggerList) {
+                    System.out.println("Trigger data:");
+                    System.out.println("Monday: " + trigger.getMonday());
+                    System.out.println("Tuesday: " + trigger.getTuesday());
+                    System.out.println("Wednesday: " + trigger.getWednesday());
+                    System.out.println("Thursday: " + trigger.getThursday());
+                    System.out.println("Friday: " + trigger.getFriday());
+                    System.out.println("Saturday: " + trigger.getSaturday());
+                    System.out.println("Sunday: " + trigger.getSunday());
+                    System.out.println("Hour: " + trigger.getHour());
+                    System.out.println("Minute: " + trigger.getMinute());
+                    System.out.println("Second: " + trigger.getSecond());
+                    System.out.println("DayOfMonth: " + trigger.getDayOfMonth());
+                    System.out.println("January: " + trigger.getJanuary());
+                    System.out.println("February: " + trigger.getFebruary());
+                    System.out.println("March: " + trigger.getMarch());
+                    System.out.println("April: " + trigger.getApril());
+                    System.out.println("May: " + trigger.getMay());
+                    System.out.println("June: " + trigger.getJune());
+                    System.out.println("July: " + trigger.getJuly());
+                    System.out.println("August: " + trigger.getAugust());
+                    System.out.println("September: " + trigger.getSeptember());
+                    System.out.println("October: " + trigger.getOctober());
+                    System.out.println("November: " + trigger.getNovember());
+                    System.out.println("December: " + trigger.getDecember());
+                    System.out.println("Year: " + trigger.getYear());
+                    System.out.println("RepeatEveryYear: " + trigger.getRepeatEveryYear());
+                }
                 SaveScheduleRequest saveScene = new SaveScheduleRequest(
                         Long.parseLong(AppConstants.Ref_dyn_Schedule),
                         AppConstants.Name_dyn_Schedule,
@@ -664,7 +767,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                        AppConstants.Name_dyn_Schedule,
 //                        Long.parseLong(AppConstants.ScheduleRef_Schedule),
 //                        list);
-   //             sendSaveSceneRequest(saveScene);
+                //             sendSaveSceneRequest(saveScene);
 
                 // Access TextView
                 //extView textView = findViewById(R.id.TVProjectName);
@@ -688,8 +791,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
-                           // ObjectTag objectTag = SceneResModel.getObjectTag();
-                          //  SceneResModel = new SceneResModel.getSuccessful();
+                            // ObjectTag objectTag = SceneResModel.getObjectTag();
+                            //  SceneResModel = new SceneResModel.getSuccessful();
                         } else {
                             // Handle unsuccessful response
                         }
@@ -703,72 +806,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 });
             }
         });
-
-        long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
-        Bundle bundle = getArguments();
-
-        // Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            String sceneRefString = bundle.getString("SCENE_REF");
-//            if (sceneRefString != null) {
-//                Long sceneRef = Long.parseLong(sceneRefString);
-//                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
-//                getScene(sceneRef, loginToken, loginDeviceId);
-//            } else {
-//                Log.e(ContentValues.TAG, "SceneRef is null");
-//                // Handle null sceneRefString
-//            }
-//        } else {
-//            Log.e(ContentValues.TAG, "Bundle is null");
-//            // Handle null bundle
-//        }
-
-        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
-
-
-        fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
-
-        return view;
     }
-
-    // to Get Ref
-        private void getRef() {
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-            Log.d(TAG, "node id2: " + nodeId3);
-            // Make API call
-            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-            call.enqueue(new Callback<AllocateSingleIdResponse>() {
-                @Override
-                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-                    if (response.isSuccessful()) {
-                        AllocateSingleIdResponse responseModel = response.body();
-                        if (responseModel != null) {
-                            boolean success = responseModel.getSuccessful();
-                            String message = responseModel.getMessage();
-                            String Ref = responseModel.getTag();
-                            AppConstants.Ref_dyn_Schedule = responseModel.getTag();
-                            AppConstants.ScheduleRef_Schedule = responseModel.getTag();
-
-                            Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
-
-
-                        }
-                    } else {
-                        Log.e(TAG, "API call failed with code: " + response.code());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-                    Log.e(TAG, "API call failed: " + t.getMessage());
-                }
-            });
-        }
-
-
-
 
 
 

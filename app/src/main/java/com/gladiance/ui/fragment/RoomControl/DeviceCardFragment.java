@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,8 @@ import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
@@ -64,7 +67,8 @@ public class DeviceCardFragment extends Fragment {
     private ObjectScenes objectScenes;
 
     private static DeviceCardFragment instance;
-
+    // Inside your fragment where you initialize objectSchedule
+ //   ScheduleViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
 
 
 
@@ -241,6 +245,9 @@ public class DeviceCardFragment extends Fragment {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+           // sharedViewModel.setObjectSchedule(objectScenes);
+            sharedViewModel.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -294,6 +301,10 @@ public class DeviceCardFragment extends Fragment {
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+
+
+
+
 
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -364,6 +375,10 @@ public class DeviceCardFragment extends Fragment {
     private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
         @Override
         public void handleOnBackPressed() {
+//            ScheduleViewModel scheduleViewModel = new ViewModelProviders.of(requireActivity()).get(ScheduleViewModel.class);
+//
+//            ObjectSchedule objectSchedule = scheduleViewModel.getObjectSchedule().getValue();
+
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
