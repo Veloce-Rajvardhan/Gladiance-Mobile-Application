@@ -144,43 +144,68 @@ public class DeviceCardFragment extends Fragment {
                         if(arrayList.get(0).getType().equals("esp.device.lightbulb")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), RGBLightActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.fan")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), FanActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            intent.putExtra("extra_name", name);
+                            //intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.light")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), DimmerActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             Log.e(TAG, "Device Card Fragment : "+ name);
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.bellcontrol")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.ther")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), AirContiningActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.curt")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else {
                             CardAdapter cardAdapter = new CardAdapter(arrayList);
@@ -229,6 +254,7 @@ public class DeviceCardFragment extends Fragment {
 
         // Edit Scene
         try {
+            AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = power;
             AppConstants.power = String.valueOf(powerState);
             Log.d("TAG", "PowerState: " + AppConstants.powerState);

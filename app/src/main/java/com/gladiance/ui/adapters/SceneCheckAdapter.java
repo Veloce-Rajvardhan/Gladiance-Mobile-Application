@@ -223,7 +223,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     //AppConstants.addToConstantList(projectSpaceTypePlannedDeviceName);
 
                     AppConstants.GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
-                    AppConstants.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
+                    //AppConstants.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
                     for (String item : MY_CONSTANT_LIST) {
                         System.out.println("NewList2: "+item);
                     }

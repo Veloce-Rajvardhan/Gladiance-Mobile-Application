@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import com.gladiance.ui.adapters.ProfileCardAdapter;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
@@ -221,6 +223,16 @@ public class ProfileDeviceCardFragment extends Fragment {
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
         Log.e(TAG, "Device Fragment Node Id:"+nodeId2 );
 
+        SharedPreferences sharedPreference_dyn3 = requireActivity().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
+        String savedValue = sharedPreference_dyn3.getString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", "default_value_if_not_found");
+
+
+//        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+//        String nodeId = preferences9.getString("KEY_USERNAMEs", "");
+//        Log.d(TAG, "node id4: " +nodeId);
+
+        AppConstants.projectSpaceTypePlannedDeviceName = savedValue;
+
         // Edit Scene
         try {
             AppConstants.powerState = power;
@@ -239,6 +251,9 @@ public class ProfileDeviceCardFragment extends Fragment {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+            // sharedViewModel.setObjectSchedule(objectScenes);
+            sharedViewModel.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);

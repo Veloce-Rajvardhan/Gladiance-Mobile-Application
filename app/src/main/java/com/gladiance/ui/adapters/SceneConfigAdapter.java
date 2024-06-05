@@ -57,11 +57,11 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
                 Long Ref_dyn = arraylist.get(position).getRef();
                 String Name_dyn = arraylist.get(position).getName();
                 Long Space_dyn = arraylist.get(position).getgAAProjectSpaceTypeRef();
-                Long SceneRef = Ref_dyn;
+                Long SceneRef = Space_dyn;
 
                 AppConstants.Ref_dyn = String.valueOf(Ref_dyn);
                 AppConstants.Name_dyn = Name_dyn;
-                AppConstants.SceneRef = String.valueOf(SceneRef);
+                AppConstants.SceneRef = String.valueOf(Ref_dyn);
                 AppConstants.Space_dyn = String.valueOf(Space_dyn);
 
 
