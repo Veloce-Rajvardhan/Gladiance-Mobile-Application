@@ -2,6 +2,7 @@
     <item android:id="@android:id/background">
         <shape>
             <solid android:color="#E1E1E1"/>
+            <size android:height="@dimen/_30sdp"/>
             <corners android:radius="5dp"/>
         </shape>
     </item>
