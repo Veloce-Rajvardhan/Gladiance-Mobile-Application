@@ -73,9 +73,9 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
                 editor3.apply();
 
 
-                AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
-                AppConstants.projectSpaceTypePlannedDeviceName_Schedule = projectSpaceTypePlannedDeviceName;
-                Log.e(TAG, "onClick: "+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule+ " ProjectSpaceTypePlannedDeviceName "+AppConstants.projectSpaceTypePlannedDeviceName_Schedule+" " );
+                AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+              //  AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = projectSpaceTypePlannedDeviceName;
+                Log.e(TAG, "onClick: "+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule+ " ProjectSpaceTypePlannedDeviceName "+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule+" " );
                 for (String item : MY_CONSTANT_LIST_SCHEDULE) {
                     System.out.println("NewList2: "+item);
                 }

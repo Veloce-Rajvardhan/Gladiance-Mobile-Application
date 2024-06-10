@@ -27,6 +27,7 @@ import com.gladiance.AppConstants;
 import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 //import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 import com.gladiance.ui.models.scene.Configuration;
@@ -59,13 +60,13 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
     public void onBindViewHolder(@NonNull SceneCheckAdapter.ViewHolder holder, int position) {
 
         Controls control = ConArrayList.get(position);
-
+        holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
        // int positions = 0;
         for (int i=0;i< ConfigArrayList.size(); i++) {
 
             Configuration configuration = ConfigArrayList.get(i);
 
-            holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
+
             if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
                 Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
                 holder.deviceNameCheckBox.setChecked(true);
@@ -224,7 +225,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     //AppConstants.addToConstantList(projectSpaceTypePlannedDeviceName);
 
                     AppConstants.GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
-                    //AppConstants.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
+                    AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+
+                //AppConstants.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
                     for (String item : MY_CONSTANT_LIST) {
                         System.out.println("NewList2: "+item);
                     }
@@ -287,7 +290,8 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
 
                     //edit from here
-                    Fragment fragment = new DeviceCardFragment();
+                  //  Fragment fragment = new DeviceCardFragment();
+                Fragment fragment = new ProfileDeviceCardFragment();
 
                  //   Bundle bundle = new Bundle();
                     // Pass the sceneRef to the next fragment using fragment arguments

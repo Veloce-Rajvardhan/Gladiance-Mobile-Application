@@ -408,7 +408,7 @@ public class AppConstants {
 
 
     // Create Scene
-    public static String Create_Ref_dyn;
+    public static String Create_Ref_dyn = "null";
     public static String Create_Name_dyn;
     public static String Create_SceneRef;
     public static String Create_Space_dyn;
@@ -420,14 +420,15 @@ public class AppConstants {
     public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();
 
 
-    public static String Ref_dyn_Schedule;
-    public static String Name_dyn_Schedule;
-    public static String ScheduleRef_Schedule;
-    public static String Space_dyn_Schedule;
-    public static String projectSpaceTypePlannedDeviceName_Schedule;
-    public static String GaaProjectSpaceTypePlannedDeviceRef_Schedule;
-    public static String powerState_Schedule;
-    public static String power_Schedule;
+    //Create Schedule
+    public static String Create_Ref_dyn_Schedule = "null";
+    public static String Create_Name_dyn_Schedule;
+    public static String Create_ScheduleRef_Schedule;
+    public static String Create_Space_dyn_Schedule;
+    public static String Create_projectSpaceTypePlannedDeviceName_Schedule;
+    public static String Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule;
+    public static String Create_powerState_Schedule;
+    public static String Create_power_Schedule;
 
     public static final ArrayList<String> MY_CONSTANT_LIST_SCHEDULE = new ArrayList<String>();
 

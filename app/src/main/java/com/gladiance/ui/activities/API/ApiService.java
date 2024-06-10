@@ -25,6 +25,7 @@ import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
+import com.gladiance.ui.models.schedule.ScheduleResModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -140,6 +141,13 @@ public interface ApiService {
     @GET("mobileapp/schedulelist/{gaaProjectSpaceTypeRef}/{loginToken}/{loginDeviceId}")
     Call<SceneListResModel> getScheduleList(
             @Path("gaaProjectSpaceTypeRef") String gaaProjectSpaceTypeRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/schedule/{gaaProjectNodeScheduleRef}/{loginToken}/{loginDeviceId}")
+    Call<ScheduleResModel> getSchedule(
+            @Path("gaaProjectNodeScheduleRef") Long gaaProjectNodeScheduleRef,
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
     );

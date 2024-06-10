@@ -41,8 +41,10 @@ import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
+import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -54,9 +56,6 @@ import retrofit2.Response;
 
 
 public class ProfileDeviceCardFragment extends Fragment {
-
-
-
     public ProfileDeviceCardFragment() {
         // Required empty public constructor
     }
@@ -140,43 +139,68 @@ public class ProfileDeviceCardFragment extends Fragment {
                         if(arrayList.get(0).getType().equals("esp.device.lightbulb")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), RGBLightActivity.class);
-                            intent.putExtra("extra_name", name);
+                           // intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.fan")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), FanActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.light")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), DimmerActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             Log.e(TAG, "Device Card Fragment : "+ name);
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.bellcontrol")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.ther")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), AirContiningActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.curt")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            intent.putExtra("extra_name", name);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
                             startActivity(intent);
                         }else {
                             ProfileCardAdapter profileCardAdapter = new ProfileCardAdapter(arrayList);
@@ -223,18 +247,19 @@ public class ProfileDeviceCardFragment extends Fragment {
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
         Log.e(TAG, "Device Fragment Node Id:"+nodeId2 );
 
-        SharedPreferences sharedPreference_dyn3 = requireActivity().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
-        String savedValue = sharedPreference_dyn3.getString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", "default_value_if_not_found");
+//        SharedPreferences sharedPreference_dyn3 = requireActivity().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
+//        String savedValue = sharedPreference_dyn3.getString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", "default_value_if_not_found");
 
 
 //        SharedPreferences preferences9 = requireContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
 //        String nodeId = preferences9.getString("KEY_USERNAMEs", "");
 //        Log.d(TAG, "node id4: " +nodeId);
 
-        AppConstants.projectSpaceTypePlannedDeviceName = savedValue;
+       // AppConstants.projectSpaceTypePlannedDeviceName = savedValue;
 
         // Edit Scene
         try {
+            AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = power;
             AppConstants.power = String.valueOf(powerState);
             Log.d("TAG", "PowerState: " + AppConstants.powerState);
@@ -273,48 +298,52 @@ public class ProfileDeviceCardFragment extends Fragment {
 
         // Create Scene
         try {
+            AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = power;
             AppConstants.Create_power = String.valueOf(powerState);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
             Log.d("TAG", "Power2: " + AppConstants.Create_power);
 
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_SceneRef);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS2 Create Scene Ref_dyn_Schedule2",""+AppConstants.Create_Ref_dyn);
+            Log.e("APPCONSTS2 Create Name_dyn_Schedule2",""+AppConstants.Create_Name_dyn);
+            Log.e("APPCONSTS2 Space_dyn_Schedule2",""+AppConstants.Create_Space_dyn);
+            Log.e("APPCONSTS2 SceneRef_Schedule2",""+AppConstants.Create_SceneRef);
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            //
+//            AppConstants.projectSpaceTypePlannedDeviceName = name;
+//            AppConstants.powerState = power;
+//            AppConstants.power = String.valueOf(powerState);
+//            Log.d("TAG", "PowerState: " + AppConstants.powerState);
+//            Log.d("TAG", "Power: " + AppConstants.power);
 
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
+//            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+//            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+//            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+//            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+//            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+//            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+//            Log.e("APPCONSTS",""+AppConstants.powerState);
+//            Log.e("APPCONSTS",""+AppConstants.power);
 
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+            // sharedViewModel.setObjectSchedule(objectScenes);
+            sharedViewModel.addObjectScenes(objectSceneCreate);
+            ///
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+//            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+//
+//            Log.e(TAG, "sendSwitchState: "+objectSceneCreate.getRef_dyn());
+//            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
@@ -325,32 +354,42 @@ public class ProfileDeviceCardFragment extends Fragment {
         }
 
 
-        //// Schedule
+        //// Create Schedule
         try {
-            AppConstants.powerState_Schedule = power;
-            AppConstants.power_Schedule = String.valueOf(powerState);
-            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
-            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+            AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
+            AppConstants.Create_powerState_Schedule = power;
+            AppConstants.Create_power_Schedule = String.valueOf(powerState);
+            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
 
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+//            Log.e("APPCONSTS2 Create Scene Ref_dyn_Schedule2",""+AppConstants.Create_Ref_dyn);
+//            Log.e("APPCONSTS2 Create Name_dyn_Schedule2",""+AppConstants.Create_Name_dyn);
+//            Log.e("APPCONSTS2 Space_dyn_Schedule2",""+AppConstants.Create_Space_dyn);
+//            Log.e("APPCONSTS2 SceneRef_Schedule2",""+AppConstants.Create_SceneRef);
+//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
+//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
+//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn_Schedule,AppConstants.Name_dyn_Schedule,AppConstants.ScheduleRef_Schedule,AppConstants.Space_dyn_Schedule,AppConstants.projectSpaceTypePlannedDeviceName_Schedule,AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.powerState_Schedule,AppConstants.power_Schedule);
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
 
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 

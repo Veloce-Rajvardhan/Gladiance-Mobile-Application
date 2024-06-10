@@ -336,24 +336,24 @@ public class RGBLightActivity extends AppCompatActivity {
         }
 
 
-        //// Schedule
+        //// Create Schedule
         try {
-            AppConstants.powerState_Schedule = "Power";
-            AppConstants.power_Schedule = String.valueOf(powerState);
-            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
-            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+            AppConstants.Create_powerState_Schedule = "Power";
+            AppConstants.Create_power_Schedule = String.valueOf(powerState);
+            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
 
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn_Schedule,AppConstants.Name_dyn_Schedule,AppConstants.ScheduleRef_Schedule,AppConstants.Space_dyn_Schedule,AppConstants.projectSpaceTypePlannedDeviceName_Schedule,AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.powerState_Schedule,AppConstants.power_Schedule);
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
 
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -479,24 +479,24 @@ public class RGBLightActivity extends AppCompatActivity {
         }
 
 
-        //// Schedule
+        //// Create Schedule
         try {
-            AppConstants.powerState_Schedule = "Brightness";
-            AppConstants.power_Schedule = String.valueOf(progress);
-            Log.d("TAG", "PowerState2: " + AppConstants.powerState_Schedule);
-            Log.d("TAG", "Power2: " + AppConstants.power_Schedule);
+            AppConstants.Create_powerState_Schedule = "Brightness";
+            AppConstants.Create_power_Schedule = String.valueOf(progress);
+            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
+            Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
 
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.powerState_Schedule);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.power_Schedule);
+            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
+            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
+            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
+            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
+            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
+            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Ref_dyn_Schedule,AppConstants.Name_dyn_Schedule,AppConstants.ScheduleRef_Schedule,AppConstants.Space_dyn_Schedule,AppConstants.projectSpaceTypePlannedDeviceName_Schedule,AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.powerState_Schedule,AppConstants.power_Schedule);
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
 
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);

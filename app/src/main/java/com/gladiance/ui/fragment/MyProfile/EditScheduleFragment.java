@@ -6,17 +6,12 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -39,35 +34,25 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
-import com.gladiance.ui.activities.MyProfile.EditScheduleActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
-import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
-import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
-import com.gladiance.ui.models.SceneViewModel;
-import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
-import com.gladiance.ui.models.lnstallerlandingpage.Controls;
-import com.gladiance.ui.models.lnstallerlandingpage.Data;
-import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
-import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
-import com.gladiance.ui.models.saveScene.SaveSceneRequest;
-import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.guestlandingpage.Controls;
+import com.gladiance.ui.models.saveSchedule.Configurations;
+import com.gladiance.ui.models.saveSchedule.ObjectTagSchedule;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
 import com.gladiance.ui.models.scene.Configuration;
-import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
-import com.gladiance.ui.models.scenelist.ObjectSchedule;
-
+import com.gladiance.ui.models.schedule.ScheduleResModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener {
+public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener{
 
     private RecyclerView recyclerViewDay,recyclerViewMonth;
     private DayAdapter dayAdapter;
@@ -110,8 +95,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     Spinner spinner;
     Button buttonSave;
 
-
-    public CreateScheduleFragment() {
+    public EditScheduleFragment() {
         // Required empty public constructor
     }
 
@@ -120,7 +104,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_create_schedule, container, false);
+        view = inflater.inflate(R.layout.fragment_edit_schedule, container, false);
 
         recyclerViewDay = view.findViewById(R.id.recyclerViewDay);
         recyclerViewMonth = view.findViewById(R.id.recyclerViewMonth);
@@ -132,7 +116,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
         datePicker = view.findViewById(R.id.DatePicker);
         scheduleName = view.findViewById(R.id.ETScheduleName);
-        projectName = view.findViewById(R.id.ETProjectName);
+        editTextProjectName = view.findViewById(R.id.ETProjectName);
 
         ConArrayList = new ArrayList<>();
         arrayList2 = new ArrayList<>();
@@ -187,15 +171,15 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             }
         });
 
-        SharedPreferences sharedPreferencesProName = requireActivity().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
-        String ProjectName = sharedPreferencesProName.getString("ProjectName", "");
-        projectName.setText(ProjectName);
+//        SharedPreferences sharedPreferencesProName = requireActivity().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+//        String ProjectName = sharedPreferencesProName.getString("ProjectName", "");
+//        projectName.setText(ProjectName);
 
-        Log.e(TAG, "Home Fragment Project Name : "+ ProjectName );
+      //  Log.e(TAG, "Home Fragment Project Name : "+ ProjectName );
 
-        if(AppConstants.Create_Ref_dyn_Schedule == "null") {
-            getRef();
-        }
+//        if(AppConstants.Create_Ref_dyn_Schedule == "null") {
+//            getRef();
+//        }
 
         // Ref
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
@@ -249,7 +233,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
         // Initialize minute picker
-       // NumberPicker datePicker = view.findViewById(R.id.DatePicker);
+        // NumberPicker datePicker = view.findViewById(R.id.DatePicker);
         datePicker.setMinValue(0);
         datePicker.setMaxValue(31); // 60 minutes
         // Set initial value
@@ -358,56 +342,56 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             }
 
             private void logDataList() {
-                    List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
-                    for (Pair<String, Boolean> pair : dataList) {
-                        Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
+                List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
+                for (Pair<String, Boolean> pair : dataList) {
+                    Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
 
-                        String day = pair.first;
-                        boolean isChecked = pair.second;
-                        Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-                        // Set the corresponding field in the Trigger object based on the day name
-                        switch (day) {
-                            case "Monday":
-                                trigger.setMonday(isChecked);
-                                AppConstants.Monday = trigger.getMonday();
-                                Log.e(TAG, "logDataList: "+ trigger.getMonday());
-                                break;
-                            case "Tuesday":
-                                trigger.setTuesday(isChecked);
-                                AppConstants.Tuesday = trigger.getTuesday();
+                    String day = pair.first;
+                    boolean isChecked = pair.second;
+                    Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                    // Set the corresponding field in the Trigger object based on the day name
+                    switch (day) {
+                        case "Monday":
+                            trigger.setMonday(isChecked);
+                            AppConstants.Monday = trigger.getMonday();
+                            Log.e(TAG, "logDataList: "+ trigger.getMonday());
+                            break;
+                        case "Tuesday":
+                            trigger.setTuesday(isChecked);
+                            AppConstants.Tuesday = trigger.getTuesday();
 
-                                break;
-                            case "Wednesday":
-                                trigger.setWednesday(isChecked);
-                                AppConstants.Wednesday = trigger.getWednesday();
+                            break;
+                        case "Wednesday":
+                            trigger.setWednesday(isChecked);
+                            AppConstants.Wednesday = trigger.getWednesday();
 
-                                break;
-                            case "Thursday":
-                                trigger.setThursday(isChecked);
-                                AppConstants.Thursday = trigger.getThursday();
+                            break;
+                        case "Thursday":
+                            trigger.setThursday(isChecked);
+                            AppConstants.Thursday = trigger.getThursday();
 
-                                break;
-                            case "Friday":
-                                trigger.setFriday(isChecked);
-                                AppConstants.Friday = trigger.getFriday();
+                            break;
+                        case "Friday":
+                            trigger.setFriday(isChecked);
+                            AppConstants.Friday = trigger.getFriday();
 
-                                break;
-                            case "Saturday":
-                                trigger.setSaturday(isChecked);
-                                AppConstants.Saturday = trigger.getSaturday();
+                            break;
+                        case "Saturday":
+                            trigger.setSaturday(isChecked);
+                            AppConstants.Saturday = trigger.getSaturday();
 
-                                break;
-                            case "Sunday":
-                                trigger.setSunday(isChecked);
-                                AppConstants.Sunday = trigger.getSunday();
+                            break;
+                        case "Sunday":
+                            trigger.setSunday(isChecked);
+                            AppConstants.Sunday = trigger.getSunday();
 
-                                break;
-                            default:
-                                // Handle if necessary
-                                break;
-                        }
-
+                            break;
+                        default:
+                            // Handle if necessary
+                            break;
                     }
+
+                }
             }
 
         });
@@ -517,23 +501,23 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
-        Bundle bundle = getArguments();
 
-        // Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            String sceneRefString = bundle.getString("SCENE_REF");
-//            if (sceneRefString != null) {
-//                Long sceneRef = Long.parseLong(sceneRefString);
-//                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
-//                getScene(sceneRef, loginToken, loginDeviceId);
-//            } else {
-//                Log.e(ContentValues.TAG, "SceneRef is null");
-//                // Handle null sceneRefString
-//            }
-//        } else {
-//            Log.e(ContentValues.TAG, "Bundle is null");
-//            // Handle null bundle
-//        }
+
+         Bundle bundle = getArguments();
+        if (bundle != null) {
+            String sceneRefString = bundle.getString("SCHEDULE_REF");
+            if (sceneRefString != null) {
+                Long sceneRef = Long.parseLong(sceneRefString);
+                Log.e(ContentValues.TAG, "SceneRef: " + sceneRef);
+                getSchedule(sceneRef, loginToken, loginDeviceId);
+            } else {
+                Log.e(ContentValues.TAG, "SceneRef is null");
+                // Handle null sceneRefString
+            }
+        } else {
+            Log.e(ContentValues.TAG, "Bundle is null");
+            // Handle null bundle
+        }
 
         fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
 
@@ -543,41 +527,122 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         return view;
     }
 
-    // to Get Ref
-        private void getRef() {
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-            Log.d(TAG, "node id2: " + nodeId3);
-            // Make API call
-            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-            call.enqueue(new Callback<AllocateSingleIdResponse>() {
+
+        private void getSchedule(Long gaaProjectNodeScheduleRef, String loginToken, String loginDeviceId) {
+            ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+            Call<ScheduleResModel> call = apiService.getSchedule(gaaProjectNodeScheduleRef, loginToken, loginDeviceId);
+            call.enqueue(new Callback<ScheduleResModel>() {
                 @Override
-                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                public void onResponse(Call<ScheduleResModel> call, Response<ScheduleResModel> response) {
                     if (response.isSuccessful()) {
-                        AllocateSingleIdResponse responseModel = response.body();
-                        if (responseModel != null) {
-                            boolean success = responseModel.getSuccessful();
-                            String message = responseModel.getMessage();
-                            String Ref = responseModel.getTag();
-                            AppConstants.Create_Ref_dyn_Schedule = responseModel.getTag();
-                            AppConstants.Create_ScheduleRef_Schedule = responseModel.getTag();
-
-                            Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
-
-
-                        }
+                        ScheduleResModel apiResponse = response.body();
+                        Log.e(TAG, "Schedule response: "+apiResponse.getMessage()+ " , " +apiResponse.getSuccessful());
+//                        if (apiResponse != null && apiResponse.getSuccessful()) {
+//                            ObjectTagSchedule scene2 = apiResponse.getObjectTag();
+//
+//                         //   ObjectTag scene = apiResponse.getObjectTag();
+//                            // Update EditText fields with ObjectTag data
+//                            editTextProjectName.setText(scene2.getGAAProjectName());
+//                            //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
+//                            scheduleName.setText(scene2.getName());
+//
+//                            List<Configurations> configurations = scene2.getConfigurations();
+//                            for (Configurations configuration : configurations) {
+//                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
+//
+//                          //      ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+//                            }
+//
+//                            //work from here
+//                         //   ObjectTagSchedule scene2 = apiResponse.getObjectTag();
+//                            List<Trigger> triggers = scene2.getTriggers();
+//                            for (Trigger trigger : triggers) {
+//                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + trigger.getMonday());
+//
+//                           //     ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+//                            }
+//
+//
+////                        Bundle bundleArrayList = getArguments();
+////
+////                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
+////                            if (receivedList != null) {
+////                                for (String element : receivedList) {
+////                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
+////                                }
+////                            } else {
+////                                // Handle case where ArrayList is null
+////                            }
+//                            Bundle bundle = getArguments();
+//                            if (bundle != null) {
+//                                // Retrieve data from bundle
+//                                String key1Value = bundle.getString("key1");
+//                                String key2Value = bundle.getString("key2");
+//                                String key3Value = bundle.getString("key3");
+//                                String key4Value = bundle.getString("key4");
+//                                // Print the values using Log statements
+//                                Log.d("NextFragment", "Key 1 Value: " + key1Value);
+//                                Log.d("NextFragment", "Key 2 Value: " + key2Value);
+//                                Log.d("NextFragment", "Key 3 Value: " + key3Value);
+//                                Log.d("NextFragment", "Key 4 Value: " + key4Value);
+//                                // Do something with the data
+//                            }
+//
+//                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+//                            recyclerView.setLayoutManager(gridLayoutManager1);
+//                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+//                            recyclerView.setAdapter(sceneCheckAdapter);
+//
+//                        }
                     } else {
-                        Log.e(TAG, "API call failed with code: " + response.code());
+                        // Handle unsuccessful response
                     }
                 }
 
                 @Override
-                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-                    Log.e(TAG, "API call failed: " + t.getMessage());
+                public void onFailure(Call<ScheduleResModel> call, Throwable t) {
+                    Log.e("MainActivity", "Failed to get response");
+                    Log.e("MainActivity", "Failed to get response "+t);
+
                 }
             });
         }
+
+    // to Get Ref
+    private void getRef() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "node id2: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+                        AppConstants.Create_Ref_dyn_Schedule = responseModel.getTag();
+                        AppConstants.Create_ScheduleRef_Schedule = responseModel.getTag();
+
+                        Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+
+
+                    }
+                } else {
+                    Log.e(TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
 
 
     @Override
@@ -755,7 +820,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 SaveScheduleRequest saveScene = new SaveScheduleRequest(
                         Long.parseLong(AppConstants.Create_Ref_dyn_Schedule),
                         AppConstants.Create_Name_dyn_Schedule,
-                    //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
+                        //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
                         Long.parseLong(AppConstants.Create_Space_dyn_Schedule),
                         list, triggerList);
                 SaveScheduleRequest(saveScene);
@@ -836,7 +901,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                     AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(requireContext(),spinner,areas);
 
                     // Set the listener for the adapter
-                    adapter.setOnAreaSelectedListener(CreateScheduleFragment.this); // Replace YourFragmentClassName with the name of your fragment class
+                    adapter.setOnAreaSelectedListener(EditScheduleFragment.this); // Replace YourFragmentClassName with the name of your fragment class
 
                     spinner.setAdapter(adapter);
 

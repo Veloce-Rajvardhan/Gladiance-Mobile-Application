@@ -23,7 +23,7 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
-import com.gladiance.ui.adapters.SceneConfigAdapter;
+import com.gladiance.ui.adapters.ScheduleConfigAdapter;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 
@@ -100,7 +100,7 @@ public class MyScheduleFragment extends Fragment {
                             arrayList.add(new ObjectTag(objectTag.getRef(),objectTag.getName(),objectTag.getgAAProjectRef(),objectTag.getCode(),objectTag.getIsSystemDefinedScene(),objectTag.getgAAProjectSpaceTypeRef(),objectTag.getgAAProjectSpaceTypeName(),objectTag.getgAAProjectName(),objectTag.getConfigurations()));
                         }
 
-                        SceneConfigAdapter spaceAdapter = new SceneConfigAdapter(arrayList);
+                        ScheduleConfigAdapter spaceAdapter = new ScheduleConfigAdapter(arrayList);
                         recyclerView.setAdapter(spaceAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);

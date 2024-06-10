@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/SCREEN"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.MyProfile.CreateScheduleFragment">
+    tools:context=".ui.fragment.MyProfile.EditScheduleFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,91 +13,91 @@
 
 
 
-    <LinearLayout
-        android:id="@+id/ProjectName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/ProjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/TVProjectName"
+                style="@style/TEXT"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center|left"
+                android:paddingStart="@dimen/_15sdp"
+                android:text="Project Name"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/ETProjectName"
+                style="@style/MyEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ScheduleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ProjectName">
+
+            <TextView
+                android:id="@+id/TVScheduleName"
+                style="@style/TEXT"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center|left"
+                android:paddingStart="@dimen/_15sdp"
+                android:text="Schedule Name"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/ETScheduleName"
+                style="@style/MyEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/TVProjectName"
-            style="@style/TEXT"
+            android:id="@+id/TriggerTime"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_light"
-            android:gravity="center|left"
-            android:paddingStart="@dimen/_15sdp"
-            android:text="Project Name"
-            android:textSize="@dimen/_13sdp" />
-
-        <EditText
-            android:id="@+id/ETProjectName"
-            style="@style/MyEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
-            android:paddingStart="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ScheduleName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProjectName">
-
-        <TextView
-            android:id="@+id/TVScheduleName"
+            android:text="Trigger Time"
             style="@style/TEXT"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_light"
-            android:gravity="center|left"
-            android:paddingStart="@dimen/_15sdp"
-            android:text="Schedule Name"
-            android:textSize="@dimen/_13sdp" />
-
-        <EditText
-            android:id="@+id/ETScheduleName"
-            style="@style/MyEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:paddingStart="@dimen/_10sdp"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_14sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/TriggerTime"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:text="Trigger Time"
-        style="@style/TEXT"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:paddingStart="@dimen/_22sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ScheduleName"/>
+            android:paddingStart="@dimen/_22sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ScheduleName"/>
 
         <LinearLayout
             android:id="@+id/LLTime"
@@ -147,20 +147,20 @@
 
 
         <CheckBox
-        android:id="@+id/CBWeek"
-        style="@style/TEXT"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center|left"
-        android:text="Day Of Week"
-        android:textSize="@dimen/_13sdp"
-        android:layout_marginStart="@dimen/_18sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LLTime"/>
+            android:id="@+id/CBWeek"
+            style="@style/TEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center|left"
+            android:text="Day Of Week"
+            android:textSize="@dimen/_13sdp"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LLTime"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -190,21 +190,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerViewDay"/>
 
-    <CheckBox
-        android:id="@+id/CBMonth"
-        style="@style/TEXT"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center|left"
-        android:text="Day Of Month"
-        android:textSize="@dimen/_13sdp"
-        android:layout_marginStart="@dimen/_18sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OR"/>
+        <CheckBox
+            android:id="@+id/CBMonth"
+            style="@style/TEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center|left"
+            android:text="Day Of Month"
+            android:textSize="@dimen/_13sdp"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/OR"/>
 
         <LinearLayout
             android:id="@+id/LLDate"
@@ -289,21 +289,21 @@
 
 
         </LinearLayout>
-    <CheckBox
-        android:id="@+id/CBYear"
-        style="@style/TEXT"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center|left"
-        android:text="Repeat every year"
-        android:textSize="@dimen/_13sdp"
-        android:layout_marginStart="@dimen/_18sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LLYear"/>
+        <CheckBox
+            android:id="@+id/CBYear"
+            style="@style/TEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center|left"
+            android:text="Repeat every year"
+            android:textSize="@dimen/_13sdp"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LLYear"/>
 
 
 
@@ -331,34 +331,34 @@
             tools:listitem="@layout/item_scene_control_card">
         </androidx.recyclerview.widget.RecyclerView>
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recycleEditSchedule"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_200sdp"-->
-<!--        android:layout_marginTop="@dimen/_10sdp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/sceneAreaSpinner"-->
-<!--        />-->
+        <!--    <androidx.recyclerview.widget.RecyclerView-->
+        <!--        android:id="@+id/recycleEditSchedule"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="@dimen/_200sdp"-->
+        <!--        android:layout_marginTop="@dimen/_10sdp"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/sceneAreaSpinner"-->
+        <!--        />-->
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSave"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:text="Save"
-        style="@style/TEXT"
-        android:textSize="@dimen/_20sdp"
-        android:fontFamily="@font/roboto_medium"
-        android:background="@drawable/orange_button_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleViewDeviceName"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:text="Save"
+            style="@style/TEXT"
+            android:textSize="@dimen/_20sdp"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/orange_button_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycleViewDeviceName"/>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
