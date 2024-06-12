@@ -203,4 +203,24 @@ public class Configuration {
         this.gAAProjectName = gAAProjectName;
     }
 
+    public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef, String nodeConfigParamName, String value, String nodeConfigDeviceName, String gAAProjectNodeScheduleName, String gAAProjectNodeScheduleCode, String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef, String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
+        this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
+        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
+        this.gAAProjectSpaceTypePlannedDeviceConnectionRef = gAAProjectSpaceTypePlannedDeviceConnectionRef;
+        this.nodeConfigParamName = nodeConfigParamName;
+        this.value = value;
+        this.nodeConfigDeviceName = nodeConfigDeviceName;
+        this.gAAProjectNodeScheduleName = gAAProjectNodeScheduleName;
+        this.gAAProjectNodeScheduleCode = gAAProjectNodeScheduleCode;
+        this.gAAProjectSpaceTypeName = gAAProjectSpaceTypeName;
+        this.gAAProjectSpaceTypeAreaRef = gAAProjectSpaceTypeAreaRef;
+        this.gAAProjectSpaceTypeAreaName = gAAProjectSpaceTypeAreaName;
+        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+        this.gAAProjectSpaceTypePlannedDeviceName = gAAProjectSpaceTypePlannedDeviceName;
+        this.label = label;
+        this.outputDriverChannelRef = outputDriverChannelRef;
+        this.outputDriverChannelName = outputDriverChannelName;
+        this.gAAProjectRef = gAAProjectRef;
+        this.gAAProjectName = gAAProjectName;
+    }
 }

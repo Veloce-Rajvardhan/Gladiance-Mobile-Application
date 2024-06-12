@@ -56,10 +56,10 @@ public class ScheduleConfigAdapter extends RecyclerView.Adapter<ScheduleConfigAd
                 Long Space_dyn = arraylist.get(position).getgAAProjectSpaceTypeRef();
                 Long SceneRef = Space_dyn;
 
-                AppConstants.Ref_dyn = String.valueOf(Ref_dyn);
-                AppConstants.Name_dyn = Name_dyn;
-                AppConstants.SceneRef = String.valueOf(Ref_dyn);
-                AppConstants.Space_dyn = String.valueOf(Space_dyn);
+                AppConstants.Edit_Ref_dyn_Schedule = String.valueOf(Ref_dyn);
+                AppConstants.Edit_Name_dyn_Schedule = Name_dyn;
+                AppConstants.Edit_ScheduleRef_Schedule = String.valueOf(Ref_dyn);
+                AppConstants.Edit_Space_dyn_Schedule = String.valueOf(Space_dyn);
 
 
                 Log.e(TAG, "onClick: "+Ref_dyn);

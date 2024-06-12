@@ -1,11 +1,9 @@
 package com.gladiance.ui.adapters;
 
 import static android.content.ContentValues.TAG;
-
 import static com.gladiance.AppConstants.MY_CONSTANT_LIST;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,58 +16,58 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
-import com.gladiance.ui.activities.AddDeviceActivity;
-import com.gladiance.ui.activities.EspMainActivity;
-//import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.R;
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
-import com.gladiance.ui.models.scene.Configuration;
-import com.gladiance.R;
+import com.gladiance.ui.models.schedule.Configuration;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.ViewHolder> {
+public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdapter.ViewHolder> {
     private List<Controls> ConArrayList;
     private List<Configuration> ConfigArrayList;
 
 
-    public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
+    public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
         this.ConArrayList = ConArrayList;
         this.ConfigArrayList = ConfigArrayList;
     }
 
     @NonNull
     @Override
-    public SceneCheckAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_scene_control_card, parent, false);
-        return new SceneCheckAdapter.ViewHolder(view);
+    public ScheduleCheckAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_control_card, parent, false);
+        return new ScheduleCheckAdapter.ViewHolder(view);
     }
 
 
 
 
     @Override
-    public void onBindViewHolder(@NonNull SceneCheckAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ScheduleCheckAdapter.ViewHolder holder, int position) {
 
         Controls control = ConArrayList.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
-       // int positions = 0;
+        // int positions = 0;
         for (int i=0;i< ConfigArrayList.size(); i++) {
 
             Configuration configuration = ConfigArrayList.get(i);
 
 
-            if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
-                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
+            if((configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
+                Log.e(TAG, "onBindViewHolder: "+configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
                 holder.deviceNameCheckBox.setChecked(true);
             }
         }
@@ -88,10 +86,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
         });
 
 
-        holder.CdScene.setOnClickListener(new View.OnClickListener() {
+        holder.scheduleCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isChecked = holder.deviceNameCheckBox.isChecked();
 
 //                boolean provisionStatus = control.isProvisioned();
 //                SharedPreferences sharedPreferences13 = view.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
@@ -114,7 +111,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 //                    holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), AddDeviceActivity.class));
 //                } else {
 
+                boolean isChecked = holder.deviceNameCheckBox.isChecked();
                 if (isChecked) {
+
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
 
                     Long GaaProjectSpaceTypePlannedDeviceRef = control.getgAAProjectSpaceTypePlannedDeviceRef();
@@ -128,6 +127,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     editor_dyn.putLong("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF", GaaProjectSpaceTypePlannedDeviceRef);
                     editor_dyn.apply();
                     Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef: " + GaaProjectSpaceTypePlannedDeviceRef);
+
+                    AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+
 
 
                     // GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF / NodeConfigDeviceName
@@ -301,8 +303,9 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     //destinationFragment.
 
                     FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.set_mood, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
+                    transaction.replace(R.id.FlSchedule, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
                             .commit();
+
 
                     //to here
 
@@ -329,7 +332,6 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                 } else {
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
                     Toast.makeText(inflater.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -347,13 +349,13 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceNameTextView;
         CheckBox deviceNameCheckBox;
-        CardView CdScene;
+        CardView scheduleCardView;
 
         public ViewHolder(@NonNull View itemView ) {
             super(itemView);
-            CdScene = itemView.findViewById(R.id.CdScene);
-            deviceNameTextView = itemView.findViewById(R.id.Device_name_text_view);
-            deviceNameCheckBox = itemView.findViewById(R.id.DN_checkbox);
+            scheduleCardView = itemView.findViewById(R.id.Cd_Schedule);
+            deviceNameTextView = itemView.findViewById(R.id.Device_name_text_view1);
+            deviceNameCheckBox = itemView.findViewById(R.id.DN_checkbox1);
             deviceNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
