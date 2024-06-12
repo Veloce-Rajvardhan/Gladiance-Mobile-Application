@@ -39,19 +39,21 @@ import com.gladiance.ui.adapters.DayAdapter;
 import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
+import com.gladiance.ui.adapters.ScheduleCheckAdapter;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.Controls;
-import com.gladiance.ui.models.saveSchedule.Configurations;
+//import com.gladiance.ui.models.saveSchedule.Configurations;
 import com.gladiance.ui.models.saveSchedule.ObjectTagSchedule;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
-import com.gladiance.ui.models.scene.Configuration;
-import com.gladiance.ui.models.scene.ObjectTag;
+//import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.ui.models.scene.SceneResModel;
+import com.gladiance.ui.models.schedule.Configuration;
+import com.gladiance.ui.models.schedule.ObjectTag;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
 
 import java.util.ArrayList;
@@ -197,7 +199,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
         String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
         Log.e(ContentValues.TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
-        AppConstants.Create_Space_dyn_Schedule = gaaProjectSpaceTypeRef;
+        AppConstants.Edit_Space_dyn_Schedule = gaaProjectSpaceTypeRef;
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -497,9 +499,6 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
 
 
-
-
-
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
 
 
@@ -537,67 +536,181 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                     if (response.isSuccessful()) {
                         ScheduleResModel apiResponse = response.body();
                         Log.e(TAG, "Schedule response: "+apiResponse.getMessage()+ " , " +apiResponse.getSuccessful());
-//                        if (apiResponse != null && apiResponse.getSuccessful()) {
-//                            ObjectTagSchedule scene2 = apiResponse.getObjectTag();
+                        if (apiResponse != null && apiResponse.getSuccessful()) {
+                            ObjectTag scene2 = apiResponse.getObjectTag();
+                            editTextProjectName.setText(scene2.getGAAProjectName());
+                            //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
+                            scheduleName.setText(scene2.getName());
+                           // editTextProjectName.setText(scene2.getGAAProjectName());
+
+                          //  scheduleName.setText(scene2.getName());
+
+                            List<com.gladiance.ui.models.schedule.Configuration> configurations = scene2.getConfigurations();
+                            for (com.gladiance.ui.models.schedule.Configuration configuration : configurations) {
+                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + configuration.getGAAProjectSpaceTypePlannedDeviceName());
+                              //  ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+                            //                                                                   public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef,                         String nodeConfigParamName,                 String value, String nodeConfigDeviceName,              String gAAProjectNodeScheduleName,            String gAAProjectNodeScheduleCode,                                   String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef,                                                                 String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
+                                ConfigArrayList.add(new com.gladiance.ui.models.schedule.Configuration(configuration.getGAAProjectNodeScheduleRef(),configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName()));
+
+                            }
+
+                            //work from here
+                         //   ObjectTagSchedule scene2 = apiResponse.getObjectTag();
+                            List<com.gladiance.ui.models.schedule.Trigger> triggers = scene2.getTriggers();
+                            for (com.gladiance.ui.models.schedule.Trigger trigger : triggers) {
+                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + trigger.getMonday());
+                                boolean monday = trigger.getMonday() == 1;
+                                boolean sunday = trigger.getSunday() == 1;
+                                boolean tuesday = trigger.getTuesday() == 1;
+                                boolean wednesday = trigger.getWednesday() == 1;
+                                boolean thursday = trigger.getThursday() == 1;
+                                boolean friday = trigger.getFriday() == 1;
+                                boolean saturday = trigger.getSaturday() == 1;
+                                boolean jan = trigger.getJanuary() == 1;
+                                boolean feb = trigger.getFebruary() == 1;
+                                boolean mar = trigger.getMarch() == 1;
+                                boolean apr = trigger.getApril() == 1;
+                                boolean may = trigger.getMay() == 1;
+                                boolean jun = trigger.getJune() == 1;
+                                boolean jul = trigger.getJuly() == 1;
+                                boolean aug = trigger.getAugust() == 1;
+                                boolean sep = trigger.getSeptember() == 1;
+                                boolean oct = trigger.getOctober() == 1;
+                                boolean nov = trigger.getNovember() == 1;
+                                boolean dec = trigger.getDecember() == 1;
+                                boolean repeatEveryYear = trigger.getRepeatEveryYear() == 1;
+
+                                Log.e(TAG, "Monday: "+monday);
+                                Log.e(TAG, "Sunday: "+sunday);
+
+                                List<String> daysList = new ArrayList<>();
+
+                                daysList.add("Monday");
+                                daysList.add("Tuesday");
+
+                                recyclerViewDay.setEnabled(true);
+                                //   recyclerViewDay.setAlpha(0.5f);
+                                recyclerViewDay.setAlpha(1.0f);
+
+                                List<Boolean> apiCheckedStatus = new ArrayList<>();
+                                apiCheckedStatus.add(sunday);
+                                apiCheckedStatus.add(monday);
+                                apiCheckedStatus.add(tuesday);
+                                apiCheckedStatus.add(wednesday);
+                                apiCheckedStatus.add(thursday);
+                                apiCheckedStatus.add(friday);
+                                apiCheckedStatus.add(saturday);
+                                dayAdapter.updateCheckedStatus(apiCheckedStatus);
+
+
+             //                   List<String> days = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+               //                 dayAdapter = new DayAdapter(days, null);
+                                logDataList3(trigger.getGAAProjectNodeScheduleRef(),monday,tuesday, wednesday,thursday,friday,saturday,sunday,trigger.getHour(),trigger.getMinute(),trigger.getSecond(),trigger.getDayOfMonth(),jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,trigger.getYear(),repeatEveryYear);
+
+                            }
+
+                            ///
+                            GridLayoutManager gridLayoutManagerMonth = new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false);
+                            recyclerViewMonth.setLayoutManager(gridLayoutManagerMonth);
+                            recyclerViewMonth.setAdapter(monthAdapter);
+
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false);
+                            recyclerViewDay.setLayoutManager(gridLayoutManager);
+                            recyclerViewDay.setAdapter(dayAdapter);
+
+
+                            ////
+
+//                        Bundle bundleArrayList = getArguments();
 //
-//                         //   ObjectTag scene = apiResponse.getObjectTag();
-//                            // Update EditText fields with ObjectTag data
-//                            editTextProjectName.setText(scene2.getGAAProjectName());
-//                            //  editTextSpaceName.setText(scene.getGAAProjectSpaceTypeName());
-//                            scheduleName.setText(scene2.getName());
-//
-//                            List<Configurations> configurations = scene2.getConfigurations();
-//                            for (Configurations configuration : configurations) {
-//                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
-//
-//                          //      ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+//                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
+//                            if (receivedList != null) {
+//                                for (String element : receivedList) {
+//                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
+//                                }
+//                            } else {
+//                                // Handle case where ArrayList is null
 //                            }
-//
-//                            //work from here
-//                         //   ObjectTagSchedule scene2 = apiResponse.getObjectTag();
-//                            List<Trigger> triggers = scene2.getTriggers();
-//                            for (Trigger trigger : triggers) {
-//                                Log.e(ContentValues.TAG, "Scene Planed Device Name: " + trigger.getMonday());
-//
-//                           //     ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
-//                            }
-//
-//
-////                        Bundle bundleArrayList = getArguments();
-////
-////                            ArrayList<String> receivedList = bundleArrayList.getStringArrayList("myArrayList");
-////                            if (receivedList != null) {
-////                                for (String element : receivedList) {
-////                                    System.out.println("ArrayList: "+element); // Prints each element on a new line
-////                                }
-////                            } else {
-////                                // Handle case where ArrayList is null
-////                            }
-//                            Bundle bundle = getArguments();
-//                            if (bundle != null) {
-//                                // Retrieve data from bundle
-//                                String key1Value = bundle.getString("key1");
-//                                String key2Value = bundle.getString("key2");
-//                                String key3Value = bundle.getString("key3");
-//                                String key4Value = bundle.getString("key4");
-//                                // Print the values using Log statements
-//                                Log.d("NextFragment", "Key 1 Value: " + key1Value);
-//                                Log.d("NextFragment", "Key 2 Value: " + key2Value);
-//                                Log.d("NextFragment", "Key 3 Value: " + key3Value);
-//                                Log.d("NextFragment", "Key 4 Value: " + key4Value);
-//                                // Do something with the data
-//                            }
-//
-//                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-//                            recyclerView.setLayoutManager(gridLayoutManager1);
-//                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
-//                            recyclerView.setAdapter(sceneCheckAdapter);
-//
-//                        }
+                            Bundle bundle = getArguments();
+                            if (bundle != null) {
+                                // Retrieve data from bundle
+                                String key1Value = bundle.getString("key1");
+                                String key2Value = bundle.getString("key2");
+                                String key3Value = bundle.getString("key3");
+                                String key4Value = bundle.getString("key4");
+                                // Print the values using Log statements
+                                Log.d("NextFragment", "Key 1 Value: " + key1Value);
+                                Log.d("NextFragment", "Key 2 Value: " + key2Value);
+                                Log.d("NextFragment", "Key 3 Value: " + key3Value);
+                                Log.d("NextFragment", "Key 4 Value: " + key4Value);
+                                // Do something with the data
+                            }
+
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                            recyclerView.setLayoutManager(gridLayoutManager1);
+                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList);
+                            recyclerView.setAdapter(sceneCheckAdapter);
+
+                        }
                     } else {
                         // Handle unsuccessful response
                     }
                 }
+
+                private void logDataList3(Long gaaProjectNodeScheduleRef, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday, Integer hour, Integer min, Integer second, Integer dayOfMonth, boolean jan, boolean feb, boolean mar, boolean apr, boolean may, boolean jun, boolean jul, boolean aug, boolean sep, boolean oct, boolean nov, boolean dec, Integer year, boolean repeatEveryYear) {
+                    List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
+                    for (Pair<String, Boolean> pair : dataList) {
+                        Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
+
+                        String day = pair.first;
+                        boolean isChecked = pair.second;
+                        Trigger trigger = new Trigger(gaaProjectNodeScheduleRef,monday,tuesday,wednesday,thursday,friday,saturday,sunday,hour,min,second,dayOfMonth,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,year,repeatEveryYear);
+                        // Set the corresponding field in the Trigger object based on the day name
+                        switch (day) {
+                            case "Monday":
+                                trigger.setMonday(isChecked);
+                                AppConstants.Monday = trigger.getMonday();
+                                Log.e(TAG, "logDataList: "+ trigger.getMonday());
+                                break;
+                            case "Tuesday":
+                                trigger.setTuesday(isChecked);
+                                AppConstants.Tuesday = trigger.getTuesday();
+
+                                break;
+                            case "Wednesday":
+                                trigger.setWednesday(isChecked);
+                                AppConstants.Wednesday = trigger.getWednesday();
+
+                                break;
+                            case "Thursday":
+                                trigger.setThursday(isChecked);
+                                AppConstants.Thursday = trigger.getThursday();
+
+                                break;
+                            case "Friday":
+                                trigger.setFriday(isChecked);
+                                AppConstants.Friday = trigger.getFriday();
+
+                                break;
+                            case "Saturday":
+                                trigger.setSaturday(isChecked);
+                                AppConstants.Saturday = trigger.getSaturday();
+
+                                break;
+                            case "Sunday":
+                                trigger.setSunday(isChecked);
+                                AppConstants.Sunday = trigger.getSunday();
+
+                                break;
+                            default:
+                                // Handle if necessary
+                                break;
+                        }
+
+
+                    }
+                }
+
 
                 @Override
                 public void onFailure(Call<ScheduleResModel> call, Throwable t) {
@@ -607,42 +720,6 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                 }
             });
         }
-
-    // to Get Ref
-    private void getRef() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-        Log.d(TAG, "node id2: " + nodeId3);
-        // Make API call
-        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-        call.enqueue(new Callback<AllocateSingleIdResponse>() {
-            @Override
-            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-                if (response.isSuccessful()) {
-                    AllocateSingleIdResponse responseModel = response.body();
-                    if (responseModel != null) {
-                        boolean success = responseModel.getSuccessful();
-                        String message = responseModel.getMessage();
-                        String Ref = responseModel.getTag();
-                        AppConstants.Create_Ref_dyn_Schedule = responseModel.getTag();
-                        AppConstants.Create_ScheduleRef_Schedule = responseModel.getTag();
-
-                        Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
-
-
-                    }
-                } else {
-                    Log.e(TAG, "API call failed with code: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-                Log.e(TAG, "API call failed: " + t.getMessage());
-            }
-        });
-    }
 
 
     @Override
@@ -684,16 +761,16 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                 //    Log.e(TAG, "logDataList2: "+AppConstants.January);
 
-                AppConstants.Create_Name_dyn_Schedule = String.valueOf(scheduleName.getText());
+                AppConstants.Edit_Name_dyn_Schedule = String.valueOf(scheduleName.getText());
 
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_Ref_dyn_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_Name_dyn_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_ScheduleRef_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_Space_dyn_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_powerState_Schedule);
-                Log.e("APPCONSTS_SH"," "+AppConstants.Create_power_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_Ref_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_Name_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_ScheduleRef_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_Space_dyn_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_powerState_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Edit_power_Schedule);
 
 
 
@@ -702,13 +779,13 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 //                    if(ConArrayList.get(i).isChecked() == true){
                 //    Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
                 list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
-                        Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
-                        Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule),
-                        AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,
+                        Long.parseLong(AppConstants.Edit_ScheduleRef_Schedule),
+                        Long.parseLong(AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule),
+                        AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,
 //                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
 //                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-                        AppConstants.Create_powerState_Schedule,
-                        AppConstants.Create_power_Schedule
+                        AppConstants.Edit_powerState_Schedule,
+                        AppConstants.Edit_power_Schedule
                 ));
 //                    }
 //                }
@@ -720,7 +797,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                 if (CBWeek.isChecked()) {
                     triggerList.add(new Trigger(
-                            Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
+                            Long.parseLong(AppConstants.Edit_ScheduleRef_Schedule),
                             AppConstants.Monday,
                             AppConstants.Tuesday,
                             AppConstants.Wednesday,
@@ -761,7 +838,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                     ));
                 } else if(CBMonth.isChecked()){
                     triggerList.add(new Trigger(
-                            Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
+                            Long.parseLong(AppConstants.Edit_ScheduleRef_Schedule),
                             AppConstants.Monday = false,
                             AppConstants.Tuesday = false,
                             AppConstants.Wednesday = false,
@@ -818,10 +895,10 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                     System.out.println("RepeatEveryYear: " + trigger.getRepeatEveryYear());
                 }
                 SaveScheduleRequest saveScene = new SaveScheduleRequest(
-                        Long.parseLong(AppConstants.Create_Ref_dyn_Schedule),
-                        AppConstants.Create_Name_dyn_Schedule,
+                        Long.parseLong(AppConstants.Edit_Ref_dyn_Schedule),
+                        AppConstants.Edit_Name_dyn_Schedule,
                         //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
-                        Long.parseLong(AppConstants.Create_Space_dyn_Schedule),
+                        Long.parseLong(AppConstants.Edit_Space_dyn_Schedule),
                         list, triggerList);
                 SaveScheduleRequest(saveScene);
 
@@ -980,14 +1057,21 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                         List<GuestControls> controlsList = responseModel.getData().getGuestControls();
                         if (controlsList != null && !controlsList.isEmpty()) {
                             List<com.gladiance.ui.models.guestlandingpage.Controls> allControls = new ArrayList<>();
+//                            for (GuestControls guestControls : controlsList) {
+//                                allControls.addAll(guestControls.getControls());
+//                            }
+//                            // Set up ControlTypeName RecyclerView
+//                            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
+//                            DeviceControlScheduleAdapter deviceControlScheduleAdapter = new DeviceControlScheduleAdapter(allControls, requireContext());
+//                            recyclerView.setAdapter(deviceControlScheduleAdapter);
                             for (GuestControls guestControls : controlsList) {
-                                allControls.addAll(guestControls.getControls());
+                                ConArrayList.addAll(guestControls.getControls());
                             }
-                            // Set up ControlTypeName RecyclerView
-                            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-                            DeviceControlScheduleAdapter deviceControlScheduleAdapter = new DeviceControlScheduleAdapter(allControls, requireContext());
-                            recyclerView.setAdapter(deviceControlScheduleAdapter);
 
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                            recyclerView.setLayoutManager(gridLayoutManager1);
+                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList);
+                            recyclerView.setAdapter(sceneCheckAdapter);
                         }
 
                     }

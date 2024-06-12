@@ -24,6 +24,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     private List<String> days;
     private boolean[] selectionState;
     private OnItemClickListener listener;
+    RecyclerView recyclerViewDay;
 
     SharedPreferences sharedPreferences;
     public interface OnItemClickListener {
@@ -34,6 +35,13 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         this.days = days;
         this.listener = listener;
         this.selectionState = new boolean[days.size()];
+    }
+
+    public void updateCheckedStatus(List<Boolean> checkedStatus) {
+        for (int i = 0; i < checkedStatus.size(); i++) {
+            selectionState[i] = checkedStatus.get(i);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
