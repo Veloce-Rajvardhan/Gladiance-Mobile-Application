@@ -56,7 +56,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_90sdp">
+        android:layout_marginTop="@dimen/_90sdp"
+        android:layout_marginBottom="@dimen/_10sdp">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rVProjectSpaceGroupName"
         android:layout_width="match_parent"

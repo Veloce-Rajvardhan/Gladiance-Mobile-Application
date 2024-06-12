@@ -24,11 +24,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
 import com.gladiance.ui.activities.RoomControl.DeviceCardActivity;
+import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.guestlandingpage.Controls;
@@ -42,8 +45,6 @@ import retrofit2.Call;
 public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdapter.ViewHolder> {
     private List<Controls> controls;
     private Context context;
-
-
 
 
     public DeviceControlAdapter(List<Controls> controls, Context context) {
@@ -95,6 +96,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
 
                 // holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), DeviceCardActivity.class));
 
+
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 DeviceCardFragment newFragment = new DeviceCardFragment();
@@ -132,3 +134,6 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
 
 
 }
+
+
+

@@ -127,27 +127,27 @@ public class AreaLandingFragment extends Fragment  {
                         arrayList.add(new Area(area.getGAAProjectSpaceTypeAreaRef(), area.getGAAProjectSpaceTypeAreaName(), area.getWifiSSID(), area.getWifiPassword(), area.getGuestControls(), area.getInstallerControls()));
                     }
 
-//                    if (areas.size() == 1){
-//
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
-//                                Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
-//                                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-//                                transaction.replace(R.id.container, newFragment);
-//                                transaction.addToBackStack(null);
-//                                transaction.commit();
-//
-//                            }
-//                        }, 700);
-//
-//                    }else {
-//                        AreaLandingAdapter areaLandingAdapter = new AreaLandingAdapter(arrayList,getContext());
-//                        recyclerView.setAdapter(areaLandingAdapter);
-//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-//                        recyclerView.setLayoutManager(gridLayoutManager1);
-//                    }
+                    if (areas.size() == 1){
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String selectedAreaRef = String.valueOf(areas.get(0).getGAAProjectSpaceTypeAreaRef());
+                                Fragment newFragment = DeviceLandingFragment.newInstance(getContext(), Long.valueOf((selectedAreaRef)));
+                                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.container, newFragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+
+                            }
+                        }, 700);
+
+                    }else {
+                        AreaLandingAdapter areaLandingAdapter = new AreaLandingAdapter(arrayList,getContext());
+                        recyclerView.setAdapter(areaLandingAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
+                        recyclerView.setLayoutManager(gridLayoutManager1);
+                    }
 
                     AreaLandingAdapter areaLandingAdapter = new AreaLandingAdapter(arrayList,getContext());
                     recyclerView.setAdapter(areaLandingAdapter);
@@ -175,12 +175,7 @@ public class AreaLandingFragment extends Fragment  {
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 // Handle back button press here
-//                Intent intent = new Intent(requireActivity(), HomeFragment.class);
-//                startActivity(intent);
-
-                //ikde lava
                 MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
-
                 bottomNavigation.show(3, true);
                 requireActivity().onBackPressed();
                 return true; // Consumes the back button press event

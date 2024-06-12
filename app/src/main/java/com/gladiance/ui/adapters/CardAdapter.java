@@ -242,6 +242,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LinearLayout linearLayout;
         DeviceCardFragment deviceCardFragment = DeviceCardFragment.getInstance();
         ProfileDeviceCardFragment profileDeviceCardFragment = ProfileDeviceCardFragment.getInstance();
+
         // MainActivity mainActivity = MainActivity.getInstance();
         final String[] a = {"1"};
         //boolean a = true;
