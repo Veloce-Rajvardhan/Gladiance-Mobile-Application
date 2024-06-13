@@ -127,9 +127,9 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
         SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSAR", MODE_PRIVATE);
-        String saveProjectSpaceAreRef = sharedPreferences3.getString("Project_Space_Area_Ref", "");
+        Long saveProjectSpaceAreRef = sharedPreferences3.getLong("Project_Space_Area_Ref", 0l);
         Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
-        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef.trim());
+        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef);
 
         fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
 
