@@ -211,8 +211,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 // Handle back button press here
-//                MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
-//                bottomNavigation.show(3, true);
+                MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
+                bottomNavigation.show(3, true);
                 requireActivity().onBackPressed();
                 return true; // Consumes the back button press event
             }

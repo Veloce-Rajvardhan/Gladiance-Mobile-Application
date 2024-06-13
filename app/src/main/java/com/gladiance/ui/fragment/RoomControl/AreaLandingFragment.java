@@ -104,8 +104,8 @@ public class AreaLandingFragment extends Fragment  {
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
 
-        MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
-        bottomNavigation.show(2, true);
+//        MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
+//        bottomNavigation.show(3, true);
 
         return view;
     }
