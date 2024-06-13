@@ -33,6 +33,9 @@ public class ControlAdapter extends RecyclerView.Adapter<ControlAdapter.ViewHold
         this.controls1 = controls;
         this.context = context;
         this.listener = listener;
+
+        selectedPosition = 0;
+        notifyItemChanged(selectedPosition);
     }
 
 

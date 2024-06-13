@@ -28,6 +28,16 @@ public class Controls {
     @Expose
     private boolean isChecked;
 
+    private boolean powerState = false;
+
+    public boolean isPowerState() {
+        return powerState;
+    }
+
+    public void setPowerState(boolean powerState) {
+        this.powerState = powerState;
+    }
+
     public boolean isChecked() {
         return isChecked;
     }

@@ -160,7 +160,6 @@ public class DeviceCardFragment extends Fragment {
                         }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            //intent.putExtra("extra_name", name);
                             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor2 = sharedPreferences.edit();
                             editor2.putString("Name", name);

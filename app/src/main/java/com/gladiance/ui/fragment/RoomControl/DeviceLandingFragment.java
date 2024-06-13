@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,11 +26,21 @@ import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.gladiance.AppConstants;
+import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
+import com.gladiance.ui.activities.DeviceControls.BellActivity;
+import com.gladiance.ui.activities.DeviceControls.CurtainActivity;
+import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
+import com.gladiance.ui.activities.DeviceControls.FanActivity;
+import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
+import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.models.DeviceInfo;
+import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
@@ -38,6 +50,7 @@ import com.gladiance.R;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +70,11 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
 
     RecyclerView recyclerView, guestRecyclerView;
+
+    private ArrayList<Devices> arrayList;
+
+    NetworkApiManager networkApiManager;
+
     //ControlAdapter.OnControlTypeClickListener OnControlTypeClickListener ;
 
     Context context;
@@ -89,6 +107,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
         List<GuestControls> controlsList = new ArrayList<>();
 
+        arrayList = new ArrayList<>();
+
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "Project Space GUID/LoginDeviceId: " + GUID);
@@ -113,60 +133,10 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
         fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
 
+
         return view;
     }
 
-
-    //Call guest controls
-//    private void fetchGuestControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//        Call<GuestLandingResModel> call = apiService.getControlTypeName(GAAProjectSpaceRef,AreaRef,LoginToken,LoginDeviceId);
-//        call.enqueue(new Callback<GuestLandingResModel>() {
-//            @Override
-//            public void onResponse(Call<GuestLandingResModel> call, Response<GuestLandingResModel> response) {
-//                if (response.isSuccessful()) {
-//                    GuestLandingResModel responseModel = response.body();
-//                    if (responseModel != null && responseModel.getData() != null) {
-//                        List<GuestControls> controlsList = responseModel.getData().getGuestControls();
-//                        if (controlsList != null && !controlsList.isEmpty()) {
-//                            List<Controls> allControls = new ArrayList<>();
-//                            for (GuestControls guestControls : controlsList) {
-//                                allControls.addAll(guestControls.getControls());
-//                            }
-//                            // Set up DeviceControlName RecyclerView
-//                            guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-//                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
-//                            guestRecyclerView.setAdapter(deviceControlAdapter);
-//                            // Set up ControlTypeName RecyclerView
-//                            GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-//                            recyclerView.setLayoutManager(gridLayoutManager);
-//                            ControlAdapter controlAdapter = new ControlAdapter(controlsList, requireContext(), new ControlAdapter.OnControlTypeClickListener() {
-//                                @Override
-//                                public void onControlTypeClicked(GuestControls control) {
-//                                    Log.d("ControlAdapter", "Control clicked: " + control.getControlTypeName());
-//                                    List<Controls> filteredControls = control.getControls();
-//
-//                                    guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-//                                    DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
-//                                    guestRecyclerView.setAdapter(deviceControlAdapter);
-//                                }
-//                            });
-//                            recyclerView.setAdapter(controlAdapter);
-//
-//                        }
-//
-//                    }
-//                } else {
-//                    Log.e("API Response", "Unsuccessful response: " + response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GuestLandingResModel> call, Throwable t) {
-//                Log.e("API Error", "Error fetching controls: " + t.getMessage());
-//            }
-//        });
-//    }
 
     //Call guest controls
     private void fetchGuestControlsType(String GAAProjectSpaceRef,Long AreaRef,String LoginToken, String LoginDeviceId) {
@@ -196,7 +166,6 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                 public void onControlTypeClicked(GuestControls control) {
                                     Log.d("ControlAdapter", "Control clicked: " + control.getControlTypeName());
                                     List<Controls> filteredControls = control.getControls();
-
 
                                     guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                                     DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
@@ -231,6 +200,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         return sharedPreferences.getLong(PREF_SELECTED_AREA_REF, 0L);
     }
 
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -240,8 +211,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 // Handle back button press here
-//                MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
-//                bottomNavigation.show(3, true);
+                MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
+                bottomNavigation.show(3, true);
                 requireActivity().onBackPressed();
                 return true; // Consumes the back button press event
             }
