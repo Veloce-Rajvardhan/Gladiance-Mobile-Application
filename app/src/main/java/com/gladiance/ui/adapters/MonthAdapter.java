@@ -31,6 +31,72 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
         this.selectionState = new boolean[months.size()];
     }
 
+    public void updateCheckedStatusMonths(List<Boolean> checkedStatus, List<String> months) {
+        for (int i = 0; i < checkedStatus.size(); i++) {
+            selectionState[i] = checkedStatus.get(i);
+            String month = months.get(i);
+            //  days.set(i, String.valueOf(checkedStatus.get(i)));
+
+            if (month.equals("Jan")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Feb")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Mar")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Apr")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("May")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Jun")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Jul")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Aug")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Sep")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Oct")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Nov")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (month.equals("Dec")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+
+//            String day = days.get(i);
+//            boolean isChecked = checkedStatus.get(i);
+//
+//            // Associate the day with its checked status
+//            dayCheckedStatusMap.put(day, isChecked);
+
+        }
+        notifyDataSetChanged();
+    }
+
+
     @NonNull
     @Override
     public MonthViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +109,10 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MonthViewHol
         String month = months.get(position);
         holder.textViewMonth.setText(month);
         holder.textViewMonth.setSelected(selectionState[position]);
+
+        int textColor = selectionState[position] ? ContextCompat.getColor(holder.itemView.getContext(), R.color.link_color) : ContextCompat.getColor(holder.itemView.getContext(), R.color.white);
+        holder.textViewMonth.setTextColor(textColor);
+
     }
 
     @Override

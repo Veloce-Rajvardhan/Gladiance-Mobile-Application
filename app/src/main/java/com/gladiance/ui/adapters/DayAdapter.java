@@ -37,9 +37,48 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         this.selectionState = new boolean[days.size()];
     }
 
-    public void updateCheckedStatus(List<Boolean> checkedStatus) {
+    public void updateCheckedStatus(List<Boolean> checkedStatus, List<String> days) {
         for (int i = 0; i < checkedStatus.size(); i++) {
             selectionState[i] = checkedStatus.get(i);
+            String day = days.get(i);
+          //  days.set(i, String.valueOf(checkedStatus.get(i)));
+
+            if (day.equals("Sunday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Monday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Tuesday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Wednesday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Thursday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Friday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+            if (day.equals("Saturday")) {
+                // If it's Sunday, set its value in checkedStatus
+                checkedStatus.set(i, true);
+            }
+
+
+//            String day = days.get(i);
+//            boolean isChecked = checkedStatus.get(i);
+//
+//            // Associate the day with its checked status
+//            dayCheckedStatusMap.put(day, isChecked);
+
         }
         notifyDataSetChanged();
     }
@@ -56,6 +95,10 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         String day = days.get(position);
         holder.textViewDay.setText(day);
         holder.textViewDay.setSelected(selectionState[position]);
+
+        // Set text color based on selection state
+        int textColor = selectionState[position] ? ContextCompat.getColor(holder.itemView.getContext(), R.color.link_color) : ContextCompat.getColor(holder.itemView.getContext(), R.color.white);
+        holder.textViewDay.setTextColor(textColor);
 
     }
 

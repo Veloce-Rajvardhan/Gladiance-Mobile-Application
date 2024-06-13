@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleCreateViewModel extends ViewModel {
-    private MutableLiveData<List<ObjectSceneCreate>> objectScenesListLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<ObjectScheduleCreate>> objectScenesListLiveData = new MutableLiveData<>();
 
-    public void addObjectScenes(ObjectSceneCreate objectScenes) {
-        List<ObjectSceneCreate> currentList = objectScenesListLiveData.getValue();
+    public void addObjectScenes(ObjectScheduleCreate objectScenes) {
+        List<ObjectScheduleCreate> currentList = objectScenesListLiveData.getValue();
         if (currentList == null) {
             currentList = new ArrayList<>();
         }
@@ -21,7 +22,7 @@ public class ScheduleCreateViewModel extends ViewModel {
         objectScenesListLiveData.setValue(currentList);
     }
 
-    public LiveData<List<ObjectSceneCreate  >> getObjectScenesList() {
+    public LiveData<List<ObjectScheduleCreate  >> getObjectScenesList() {
         return objectScenesListLiveData;
     }
 }

@@ -40,11 +40,15 @@ import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
+import com.gladiance.ui.models.scenelist.EditObjectSchedule;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
+import com.gladiance.ui.viewModels.ScheduleCreateViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -276,17 +280,17 @@ public class ProfileDeviceCardFragment extends Fragment {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
-            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-            // sharedViewModel.setObjectSchedule(objectScenes);
-            sharedViewModel.addObjectScenes(objectScenes);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+            // sharedViewModel.setObjecatSchedule(objectScenes);
+            sharedViewModelEdit.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
@@ -313,40 +317,10 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-            //
-//            AppConstants.projectSpaceTypePlannedDeviceName = name;
-//            AppConstants.powerState = power;
-//            AppConstants.power = String.valueOf(powerState);
-//            Log.d("TAG", "PowerState: " + AppConstants.powerState);
-//            Log.d("TAG", "Power: " + AppConstants.power);
-
-//            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-//            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-//            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-//            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-//            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-//            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-//            Log.e("APPCONSTS",""+AppConstants.powerState);
-//            Log.e("APPCONSTS",""+AppConstants.power);
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-            // sharedViewModel.setObjectSchedule(objectScenes);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-            ///
-
-//            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-//
-//            Log.e(TAG, "sendSwitchState: "+objectSceneCreate.getRef_dyn());
-//            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-//            List<SceneConfig> list = new ArrayList<>();
-//            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-//            list.size();
-//            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
 
         }
         catch (Exception e){
@@ -382,7 +356,11 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
-
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+            sharedViewModel.addObjectSchedule(objectSchedule);
+           // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+//            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+//            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
@@ -419,10 +397,12 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleCreateViewModel.class);
+            sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+
             // sharedViewModel.setObjectSchedule(objectScenes);
-            sharedViewModel.addObjectScenes(objectScenes);
+          //  sharedViewModel.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);

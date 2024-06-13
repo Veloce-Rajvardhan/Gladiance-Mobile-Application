@@ -60,13 +60,16 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
 import com.gladiance.ui.models.scene.Configuration;
+import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
+import com.gladiance.ui.viewModels.SceneCreateViewModel;
 
 
 import java.util.ArrayList;
@@ -632,19 +635,113 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
 
+                /////////////////////////////////////////////////////////////////
+          //     List<SceneConfig> list = new ArrayList<>();
+//                for (int i = 0; i < ConArrayList.size(); i++) {
+//                    if (ConArrayList.get(i).isChecked() == true) {
+//                        Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
+//                        list.add(new SceneConfig(
+//                                Long.parseLong(AppConstants.Create_SceneRef),
+//                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef(),
+//                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName(),
+//                                AppConstants.Create_powerState,
+//                                AppConstants.Create_power
+//                        ));
+//                    }
+//                }
+
+                //////
+//
+//                SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+//                LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
+//                objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
+//                    @Override
+//                    public void onChanged(List<ObjectSceneCreate> objectScenesList) {
+////                        for(int i = 0; i <ConArrayList.size(); i++) {
+////                            if (ConArrayList.get(i).isChecked() == true) {
+////                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+//                        if (objectScenesList != null) {
+//                            for (ObjectSceneCreate objectScenes : objectScenesList) {
+//
+//                                list.add(new SceneConfig(
+//                                        Long.parseLong(objectScenes.getSceneRef()),
+//                                        Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
+//                                        objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
+//                                        objectScenes.getNodeConfigParamName(),
+//                                        objectScenes.getValue()
+//                                ));
+//                                Log.d("ObjectScenes2", objectScenes.getSceneRef());
+//                                Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
+//                                Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+//                                Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
+//                                Log.d("getValue", objectScenes.getValue());
+//                            }
+//
+//                            // Remember to remove the observer if necessary
+//                            objectScenesListLiveData.removeObserver(this);
+//                        }
+//                        //   }
+//                        //}
+//                    }
+//                });
+                ///////////////////////////////////////////////////////////////////
+
+
                 List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
+                ScheduleViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+                LiveData<List<ObjectSchedule>> objectScenesListLiveData = scheduleViewModel.getObjectScenesList();
+                objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSchedule>>() {
+                    @Override
+                    public void onChanged(List<ObjectSchedule> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        if (objectScenesList != null) {
+                            for (ObjectSchedule objectScenes : objectScenesList) {
+                                list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+                                        Long.parseLong(objectScenes.getSceneRef()),
+                                        Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
+                                        objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
+                                        objectScenes.getNodeConfigParamName(),
+                                        objectScenes.getValue()
+                                ));
+
+//                                list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+//                                        Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
+//                                        Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule),
+//                                        AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,
+////                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+////                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+//                                        AppConstants.Create_powerState_Schedule,
+//                                        AppConstants.Create_power_Schedule
+//                                ));
+                                Log.d("ObjectScenes2", objectScenes.getSceneRef());
+                                Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
+                                Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+                                Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
+                                Log.d("getValue", objectScenes.getValue());
+                            }
+
+                            // Remember to remove the observer if necessary
+                            objectScenesListLiveData.removeObserver(this);
+                        }
+                        //   }
+                        //}
+                    }
+                });
+
 //                for(int i = 0; i <ConArrayList.size(); i++){
 //                    if(ConArrayList.get(i).isChecked() == true){
                 //    Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
-                        Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
-                        Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule),
-                        AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,
-//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
-//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-                        AppConstants.Create_powerState_Schedule,
-                        AppConstants.Create_power_Schedule
-                ));
+//                list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+//                        Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),
+//                        Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule),
+//                        AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,
+////                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+////                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+//                        AppConstants.Create_powerState_Schedule,
+//                        AppConstants.Create_power_Schedule
+//                ));
 //                    }
 //                }
 
