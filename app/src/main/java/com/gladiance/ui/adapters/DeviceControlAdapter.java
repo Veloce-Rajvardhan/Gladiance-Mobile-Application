@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,81 +47,101 @@ import retrofit2.Call;
 public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdapter.ViewHolder> {
     private List<Controls> controls;
     private Context context;
+    private NetworkApiManager networkApiManager;
+    private EspApplication espApp;
+
 
 
     public DeviceControlAdapter(List<Controls> controls, Context context) {
         this.controls = controls;
         this.context = context;
-    }
+        this.espApp = new EspApplication(context.getApplicationContext());
+        this.networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
+    }
 
     @NonNull
     @Override
-    public DeviceControlAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
+    public DeviceControlAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_guest_control, parent, false);
         return new DeviceControlAdapter.ViewHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull DeviceControlAdapter.ViewHolder holder, int position) {
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                if (control.getInternalDeviceName().equals("Switch 1")) {
+                    control.setPowerState(!control.isPowerState());
+                    updateUI(holder, control.isPowerState());
 
-                Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor3 = sharedPreferences.edit();
-                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-                editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-                editor3.apply();
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = control.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
 
-                String Label = control.getLabel();
-                SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                Log.e(TAG, "Label: " + Label);
-                editor1.putString("KEY_USERNAMEs", Label);
-                editor1.apply();
+                    String name = control.getInternalDeviceName();
 
-                String nodeId = control.getNodeId();
-                SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences2.edit();
-                Log.e(TAG, "Node Id: " + nodeId);
-                editor.putString("KEY_USERNAMEs", nodeId);
-                editor.apply();
+                    sendSwitchState(control.isPowerState(), name, nodeId);
+                } else {
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
+                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor3 = sharedPreferences.edit();
+                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
+                    editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
+                    editor3.apply();
 
-                // holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), DeviceCardActivity.class));
+                    String Label = control.getLabel();
+                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    Log.e(TAG, "Label: " + Label);
+                    editor1.putString("KEY_USERNAMEs", Label);
+                    editor1.apply();
 
+                    String nodeId = control.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
 
-                FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                DeviceCardFragment newFragment = new DeviceCardFragment();
-                transaction.replace(R.id.DeviceCard, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-
+                    FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    DeviceCardFragment newFragment = new DeviceCardFragment();
+                    transaction.replace(R.id.DeviceCard, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
 
             }
         });
     }
 
-
+    private void updateUI(ViewHolder holder, boolean powerState) {
+        int borderColorRes = powerState ? R.drawable.transparent_orange_switch_bg : R.drawable.transparent_backgraund;
+        holder.llGuestControl.setBackground(ContextCompat.getDrawable(context, borderColorRes));
+    }
 
     @Override
     public int getItemCount() {
         return controls.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceNameTextView;
         LinearLayout llGuestControl;
-        public ViewHolder(@NonNull View itemView ) {
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             deviceNameTextView = itemView.findViewById(R.id.btnTitle);
             llGuestControl = itemView.findViewById(R.id.llGuestControl);
@@ -132,8 +154,29 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         }
     }
 
+    public void sendSwitchState(boolean powerState,String name,String nodeId) {
+        String commandBody = "{\"" + name + "\": {\"" + "Power" + "\": " + powerState + "}}";
+        String message = powerState ? "on" : "off";
+        Toast.makeText(context, "Switch is " + message, Toast.LENGTH_SHORT).show();
+        boolean shPowerState = powerState;
+        SharedPreferences sharedPreferencesPowerState = context.getSharedPreferences("MyPreferencesPS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesPowerState.edit();
+        editor.putBoolean("PowerState", shPowerState);
+        editor.apply();
+        Log.e(TAG, "Device Fragment PowerState:" + shPowerState);
 
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+
+        String remoteCommandTopic = "node/" + nodeId + "/params/remote";
+        Log.e(TAG, "Device Fragment Node Id:" + nodeId);
+
+        networkApiManager.updateParamValue(nodeId, commandBody, apiService, remoteCommandTopic);
+    }
 }
+
+
+
+
 
 
 

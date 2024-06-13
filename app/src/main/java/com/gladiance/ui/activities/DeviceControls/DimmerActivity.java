@@ -3,6 +3,7 @@ package com.gladiance.ui.activities.DeviceControls;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.fragment.RoomControl.DeviceLandingFragment;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
 import com.gladiance.ui.models.saveScene.SceneConfig;
@@ -483,4 +485,6 @@ public class DimmerActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

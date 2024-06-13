@@ -44,10 +44,45 @@ public class AreaLandingAdapter extends RecyclerView.Adapter<AreaLandingAdapter.
         return new AreaLandingAdapter.ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull AreaLandingAdapter.ViewHolder holder, int position) {
         Area area = arraylist.get(position);
         holder.AreaNameTextView.setText(area.getGAAProjectSpaceTypeAreaName());
+
+        if (arraylist.size() == 1) {
+            applySelectedState(holder.AreaNameTextView);
+            selectedPosition = position;
+        } else {
+            if (selectedPosition == RecyclerView.NO_POSITION) {
+                if (position == 0) {
+                    applySelectedState(holder.AreaNameTextView);
+                    selectedPosition = position;
+                } else {
+                    applyDefaultState(holder.AreaNameTextView);
+                }
+            } else {
+                if (selectedPosition == position) {
+                    applySelectedState(holder.AreaNameTextView);
+                } else {
+                    applyDefaultState(holder.AreaNameTextView);
+                }
+            }
+        }
+    }
+
+    // Helper method to apply the selected state to the TextView
+    private void applySelectedState(TextView textView) {
+        boolean isNightModeEnabled = isNightModeEnabled(context);
+        textView.setBackgroundResource(isNightModeEnabled ? R.drawable.white_button_bg_round : R.drawable.black_button_bg_round);
+        textView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.color_black : R.color.white));
+    }
+
+    // Helper method to apply the default state to the TextView
+    private void applyDefaultState(TextView textView) {
+        boolean isNightModeEnabled = isNightModeEnabled(context);
+        textView.setBackgroundResource(isNightModeEnabled ? R.drawable.black_button_bg_round : R.drawable.white_button_bg_round);
+        textView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.white : R.color.color_black));
     }
 
     @Override
@@ -70,33 +105,23 @@ public class AreaLandingAdapter extends RecyclerView.Adapter<AreaLandingAdapter.
                         Area clickedCard = arraylist.get(position);
                         String typeRef = String.valueOf(clickedCard.getGAAProjectSpaceTypeAreaRef());
 
-
+                        // Save the reference to SharedPreferences
                         SharedPreferences sharedPreferences1 = view.getContext().getSharedPreferences("MyPrefsPSAR", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                         editor1.putString("Project_Space_Area_Ref", typeRef);
                         editor1.apply();
 
+                        // Notify the adapter to update the selected state
+                        notifyItemChanged(selectedPosition);
+                        selectedPosition = position;
+                        notifyItemChanged(selectedPosition);
 
-                        AreaNameTextView.setBackground(getDrawableForTheme(view.getContext(), R.drawable.transparent_button_background));
-                        boolean isNightModeEnabled = true;
-                        AreaNameTextView.setBackgroundResource(isNightModeEnabled ? R.drawable.white_button_bg_round : R.drawable.black_button_bg_round);
-                        AreaNameTextView.setTextColor(ContextCompat.getColor(context, isNightModeEnabled ? R.color.color_black : R.color.white));
-
-                        // Change text color of clicked text view based on theme
-                        int textColor = view.getContext().getResources().getColor(R.color.white);
-                        if (isNightModeEnabled(view.getContext())) {
-                            textColor = view.getContext().getResources().getColor(R.color.color_black);
-                        }
-                        AreaNameTextView.setTextColor(textColor);
-
-
-                        Fragment newFragment = new DeviceLandingFragment(); // Replace YourNewFragment with the fragment you want to navigate to
+                        // Navigate to the DeviceLandingFragment
+                        Fragment newFragment = new DeviceLandingFragment();
                         FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container, newFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-
-
                     }
                 }
             });
