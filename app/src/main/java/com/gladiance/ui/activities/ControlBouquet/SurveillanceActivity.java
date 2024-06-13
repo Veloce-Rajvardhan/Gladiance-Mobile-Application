@@ -25,32 +25,32 @@ public class SurveillanceActivity extends AppCompatActivity {
         cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SurveillanceCameraActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), CameraDetailActivity.class);
+                startActivity(i);
             }
         });
 
         cardView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SurveillanceCameraActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), CameraDetailActivity.class);
+                startActivity(i);
             }
         });
 
         cardView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SurveillanceCameraActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), CameraDetailActivity.class);
+                startActivity(i);
             }
         });
 
         cardView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SurveillanceCameraActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), CameraDetailActivity.class);
+                startActivity(i);
             }
         });
 

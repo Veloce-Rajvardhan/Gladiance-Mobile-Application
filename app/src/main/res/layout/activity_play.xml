@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gladiance.ui.activities.Home.PlayActivity">
+    tools:context=".ui.activities.ControlBouquet.PlayActivity">
 
     <FrameLayout
         android:id="@+id/video_surface_frame"
@@ -33,5 +33,6 @@
             android:id="@+id/texture_stub" />
 
     </FrameLayout>
+
 
 </FrameLayout>
