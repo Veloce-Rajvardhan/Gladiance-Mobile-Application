@@ -76,7 +76,7 @@
 
     <SeekBar
                 android:id="@+id/seekBarDimmer"
-                style="@style/CustomSeekBar"
+                style="@style/CustomSeekBarRGB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -169,7 +169,7 @@
 
     <SeekBar
                 android:id="@+id/seekBarSaturation"
-                style="@style/CustomSeekBar"
+                style="@style/CustomSeekBarRGB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -212,7 +212,7 @@
 
             <SeekBar
                 android:id="@+id/seekBarCCT"
-                style="@style/CustomSeekBar"
+                style="@style/CustomSeekBarRGB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -254,7 +254,7 @@
             <SeekBar
                 android:id="@+id/seekBarWhiteBrightness"
                 android:layout_width="match_parent"
-                style="@style/CustomSeekBar"
+                style="@style/CustomSeekBarRGB"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:max="100"

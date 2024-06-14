@@ -22,6 +22,11 @@
         <item name="android:thumb">@drawable/custom_seekbar_thumb_black</item>
     </style>
 
+    <style name="CustomSeekBarRGB" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/custom_seekbar_progress_black_rgb</item>
+        <item name="android:thumb">@drawable/custom_seekbar_thumb_black</item>
+    </style>
+
     <style name="CustomSeekBarRGBHue" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressDrawable">@drawable/rgb_hue_custom_progress_bar</item>
         <item name="android:thumb">@drawable/custom_seekbar_thumb_black</item>

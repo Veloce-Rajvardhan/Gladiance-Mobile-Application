@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -473,8 +474,6 @@ public class DimmerActivity extends AppCompatActivity {
     private void enableSeekBars() {
         seekBar.setEnabled(true);
     }
-
-
 
 
 
