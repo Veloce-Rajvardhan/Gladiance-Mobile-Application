@@ -103,13 +103,14 @@ public class AreaLandingAdapter extends RecyclerView.Adapter<AreaLandingAdapter.
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Area clickedCard = arraylist.get(position);
-                        String typeRef = String.valueOf(clickedCard.getGAAProjectSpaceTypeAreaRef());
+                        Long typeRef = Long.valueOf(clickedCard.getGAAProjectSpaceTypeAreaRef());
 
                         // Save the reference to SharedPreferences
                         SharedPreferences sharedPreferences1 = view.getContext().getSharedPreferences("MyPrefsPSAR", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                        editor1.putString("Project_Space_Area_Ref", typeRef);
+                        editor1.putLong("Project_Space_Area_Ref", typeRef);
                         editor1.apply();
+
 
                         // Notify the adapter to update the selected state
                         notifyItemChanged(selectedPosition);
