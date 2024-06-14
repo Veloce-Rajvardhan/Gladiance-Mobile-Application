@@ -99,8 +99,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
         arrayList2 = new ArrayList<>();
         spinner = view.findViewById(R.id.sceneAreaSpinner);
         buttonSave = view.findViewById(R.id.saveBtn);
-        editTextProjectName = view.findViewById(R.id.SMProjectName);
-        editTextSpaceName = view.findViewById(R.id.SMSpaceName);
+        editTextProjectName = view.findViewById(R.id.CMProjectName);
         editTextSceneName = view.findViewById(R.id.SceneName);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
 
@@ -114,6 +113,11 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
         String savedLoginToken = sharedPreferences2.getString("LoginToken", "");
         Log.e(TAG, "SceneList Login Token: " + savedLoginToken);
         String loginToken = savedLoginToken.trim();
+
+        SharedPreferences sharedPreferences6 = requireContext().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+        String saveProjectName = sharedPreferences6.getString("ProjectName", "");
+        editTextProjectName.setText(saveProjectName);
+        Log.e(ContentValues.TAG, "Create Mood Fragment Project Name : "+saveProjectName );
 
         SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");

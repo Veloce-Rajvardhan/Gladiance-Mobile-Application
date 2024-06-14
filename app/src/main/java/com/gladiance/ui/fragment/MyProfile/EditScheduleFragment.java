@@ -1134,6 +1134,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             // Handle successful response
                             SceneResModel sceneResModel = response.body();
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                            Log.e("Successful", "Success: " + sceneResModel.getMessage());
                             Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
                             // ObjectTag objectTag = SceneResModel.getObjectTag();

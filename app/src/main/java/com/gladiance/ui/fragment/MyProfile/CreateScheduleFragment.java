@@ -81,7 +81,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapter.OnAreaSelectedListener {
 
     private RecyclerView recyclerViewDay,recyclerViewMonth;
@@ -277,7 +276,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
         // Initialize minute picker
-       // NumberPicker datePicker = view.findViewById(R.id.DatePicker);
+        // NumberPicker datePicker = view.findViewById(R.id.DatePicker);
         datePicker.setMinValue(0);
         datePicker.setMaxValue(31); // 60 minutes
         // Set initial value
@@ -385,56 +384,56 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
             }
 
             private void logDataList() {
-                    List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
-                    for (Pair<String, Boolean> pair : dataList) {
-                        Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
+                List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();
+                for (Pair<String, Boolean> pair : dataList) {
+                    Log.e(TAG, "Day: " + pair.first + ", isChecked: " + pair.second);
 
-                        String day = pair.first;
-                        boolean isChecked = pair.second;
-                        Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-                        // Set the corresponding field in the Trigger object based on the day name
-                        switch (day) {
-                            case "Monday":
-                                trigger.setMonday(isChecked);
-                                AppConstants.Monday = trigger.getMonday();
-                                Log.e(TAG, "logDataList: "+ trigger.getMonday());
-                                break;
-                            case "Tuesday":
-                                trigger.setTuesday(isChecked);
-                                AppConstants.Tuesday = trigger.getTuesday();
+                    String day = pair.first;
+                    boolean isChecked = pair.second;
+                    Trigger trigger = new Trigger(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                    // Set the corresponding field in the Trigger object based on the day name
+                    switch (day) {
+                        case "Monday":
+                            trigger.setMonday(isChecked);
+                            AppConstants.Monday = trigger.getMonday();
+                            Log.e(TAG, "logDataList: "+ trigger.getMonday());
+                            break;
+                        case "Tuesday":
+                            trigger.setTuesday(isChecked);
+                            AppConstants.Tuesday = trigger.getTuesday();
 
-                                break;
-                            case "Wednesday":
-                                trigger.setWednesday(isChecked);
-                                AppConstants.Wednesday = trigger.getWednesday();
+                            break;
+                        case "Wednesday":
+                            trigger.setWednesday(isChecked);
+                            AppConstants.Wednesday = trigger.getWednesday();
 
-                                break;
-                            case "Thursday":
-                                trigger.setThursday(isChecked);
-                                AppConstants.Thursday = trigger.getThursday();
+                            break;
+                        case "Thursday":
+                            trigger.setThursday(isChecked);
+                            AppConstants.Thursday = trigger.getThursday();
 
-                                break;
-                            case "Friday":
-                                trigger.setFriday(isChecked);
-                                AppConstants.Friday = trigger.getFriday();
+                            break;
+                        case "Friday":
+                            trigger.setFriday(isChecked);
+                            AppConstants.Friday = trigger.getFriday();
 
-                                break;
-                            case "Saturday":
-                                trigger.setSaturday(isChecked);
-                                AppConstants.Saturday = trigger.getSaturday();
+                            break;
+                        case "Saturday":
+                            trigger.setSaturday(isChecked);
+                            AppConstants.Saturday = trigger.getSaturday();
 
-                                break;
-                            case "Sunday":
-                                trigger.setSunday(isChecked);
-                                AppConstants.Sunday = trigger.getSunday();
+                            break;
+                        case "Sunday":
+                            trigger.setSunday(isChecked);
+                            AppConstants.Sunday = trigger.getSunday();
 
-                                break;
-                            default:
-                                // Handle if necessary
-                                break;
-                        }
-
+                            break;
+                        default:
+                            // Handle if necessary
+                            break;
                     }
+
+                }
             }
 
         });
@@ -571,40 +570,40 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     }
 
     // to Get Ref
-        private void getRef() {
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
-            Log.d(TAG, "node id2: " + nodeId3);
-            // Make API call
-            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
-            call.enqueue(new Callback<AllocateSingleIdResponse>() {
-                @Override
-                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
-                    if (response.isSuccessful()) {
-                        AllocateSingleIdResponse responseModel = response.body();
-                        if (responseModel != null) {
-                            boolean success = responseModel.getSuccessful();
-                            String message = responseModel.getMessage();
-                            String Ref = responseModel.getTag();
-                            AppConstants.Create_Ref_dyn_Schedule = responseModel.getTag();
-                            AppConstants.Create_ScheduleRef_Schedule = responseModel.getTag();
+    private void getRef() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "node id2: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+                        AppConstants.Create_Ref_dyn_Schedule = responseModel.getTag();
+                        AppConstants.Create_ScheduleRef_Schedule = responseModel.getTag();
 
-                            Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
+                        Log.d(TAG, "Success: " + success + ", Message: " + message+ " Tag: "+Ref);
 
 
-                        }
-                    } else {
-                        Log.e(TAG, "API call failed with code: " + response.code());
                     }
+                } else {
+                    Log.e(TAG, "API call failed with code: " + response.code());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
-                    Log.e(TAG, "API call failed: " + t.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
 
 
     @Override
@@ -660,7 +659,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
                 /////////////////////////////////////////////////////////////////
-          //     List<SceneConfig> list = new ArrayList<>();
+                //     List<SceneConfig> list = new ArrayList<>();
 //                for (int i = 0; i < ConArrayList.size(); i++) {
 //                    if (ConArrayList.get(i).isChecked() == true) {
 //                        Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
@@ -876,7 +875,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 SaveScheduleRequest saveScene = new SaveScheduleRequest(
                         Long.parseLong(AppConstants.Create_Ref_dyn_Schedule),
                         AppConstants.Create_Name_dyn_Schedule,
-                    //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
+                        //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
                         Long.parseLong(AppConstants.Create_Space_dyn_Schedule),
                         list, triggerList);
                 SaveScheduleRequest(saveScene);

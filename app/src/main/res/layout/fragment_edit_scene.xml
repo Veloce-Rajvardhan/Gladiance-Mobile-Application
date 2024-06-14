@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/SCREEN"
+    android:layout_marginTop="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.EditSceneFragment">
 
@@ -11,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_4sdp"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -33,7 +33,7 @@
 
             <!-- EditText -->
             <EditText
-                android:id="@+id/SMProjectName"
+                android:id="@+id/EMProjectName"
                 style="@style/MyEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -47,32 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_10sdp" />
 
-            <TextView
-                style="@style/TEXT"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/roboto_light"
-                android:gravity="center|left"
-                android:paddingStart="@dimen/_14sdp"
-                android:text="Space Name"
-                android:textSize="@dimen/_13sdp" />
-
-            <!-- EditText -->
-            <EditText
-                android:id="@+id/SMSpaceName"
-                style="@style/MyEditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:paddingStart="@dimen/_5sdp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_10sdp" />
 
             <TextView
                 style="@style/TEXT"

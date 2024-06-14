@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/SCREEN"
+    android:layout_marginTop="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MyProfile.CreateMoodFragment">
 
@@ -31,34 +32,7 @@
 
             <!-- EditText -->
             <EditText
-                android:id="@+id/SMProjectName"
-                style="@style/MyEditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:paddingStart="@dimen/_5sdp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_10sdp" />
-
-            <TextView
-                style="@style/TEXT"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/roboto_light"
-                android:gravity="center|left"
-                android:paddingStart="@dimen/_14sdp"
-                android:text="Space Name"
-                android:textSize="@dimen/_13sdp" />
-
-            <!-- EditText -->
-            <EditText
-                android:id="@+id/SMSpaceName"
+                android:id="@+id/CMProjectName"
                 style="@style/MyEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"

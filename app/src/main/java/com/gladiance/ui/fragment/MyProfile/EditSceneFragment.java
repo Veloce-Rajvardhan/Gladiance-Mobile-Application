@@ -121,8 +121,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         arrayList2 = new ArrayList<>();
         spinner = view.findViewById(R.id.sceneAreaSpinner);
         buttonSave = view.findViewById(R.id.saveBtn);
-        editTextProjectName = view.findViewById(R.id.SMProjectName);
-        editTextSpaceName = view.findViewById(R.id.SMSpaceName);
+        editTextProjectName = view.findViewById(R.id.EMProjectName);
         editTextSceneName = view.findViewById(R.id.SMSceneName);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
 
@@ -144,6 +143,11 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
         Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
         String projectSpaceRef = saveProjectSpaceRef.trim();
+
+        SharedPreferences sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+        String saveProjectName = sharedPreferences4.getString("ProjectName", "");
+        editTextProjectName.setText(saveProjectName);
+        Log.e(TAG, "ProjectSpaceGroupActivity Project Name : "+saveProjectName );
 
         // Retrieve SharedPreferences object (Ref get)
         SharedPreferences sharedPreferences_ref = requireContext().getSharedPreferences("Ref_Dyn", Context.MODE_PRIVATE);
