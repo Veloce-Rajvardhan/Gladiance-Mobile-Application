@@ -108,6 +108,41 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
     private NumberPicker minutePicker;
     private NumberPicker secondsPicker;
     private NumberPicker yearPicker;
+
+
+    // Data to stored into Pojo
+    private Long refData;
+    private String nameData;
+    private Long gAAProjectSpaceTypeRefData;
+    private String codeData;
+    private Integer isSystemDefinedScheduleData;
+    private String gAAProjectSpaceTypeNameData;
+    private Long gAAProjectRefData;
+    private String gAAProjectNameData;
+    private List<com.gladiance.ui.models.scheduleStoreData.Configuration> configurationsData;
+    private List<com.gladiance.ui.models.scheduleStoreData.Trigger> triggersData;
+
+
+    // edit config
+    Long gAAProjectNodeScheduleRef_object;
+    Long gAAProjectSpaceTypeRef_object;
+    Long gAAProjectSpaceTypePlannedDeviceConnectionRef_object;
+    String nodeConfigParamName_object;
+    String value_object;
+    String nodeConfigDeviceName_object;
+    String gAAProjectNodeScheduleName_object;
+    String gAAProjectNodeScheduleCode_object;
+    String gAAProjectSpaceTypeName_object;
+    Integer gAAProjectSpaceTypeAreaRef_object;
+    String gAAProjectSpaceTypeAreaName_object;
+    Long gAAProjectSpaceTypePlannedDeviceRef_object;
+    String gAAProjectSpaceTypePlannedDeviceName_object;
+    String label_object;
+    Long outputDriverChannelRef_object;
+    String outputDriverChannelName_object;
+    Long gAAProjectRef_object;
+    String gAAProjectName_object;
+
     public EditScheduleFragment() {
         // Required empty public constructor
     }
@@ -135,10 +170,13 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
         arrayList2 = new ArrayList<>();
         ConfigArrayList = new ArrayList<>();
 
+        configurationsData = new ArrayList<>();
+
+
         datePicker.setEnabled(false);
         CBMonth.setChecked(false);
-//        recyclerViewMonth.setEnabled(false);
-//        recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+//      recyclerViewMonth.setEnabled(false);
+//      recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
         datePicker.setEnabled(false);
         datePicker.setAlpha(0.3f);
         CBWeek.setChecked(false);
@@ -570,16 +608,33 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                               //  ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
                             //                                                                   public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef,                         String nodeConfigParamName,                 String value, String nodeConfigDeviceName,              String gAAProjectNodeScheduleName,            String gAAProjectNodeScheduleCode,                                   String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef,                                                                 String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
                                 ConfigArrayList.add(new com.gladiance.ui.models.schedule.Configuration(configuration.getGAAProjectNodeScheduleRef(),configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName()));
+                                configurationsData.add(new com.gladiance.ui.models.scheduleStoreData.Configuration(configuration.getGAAProjectNodeScheduleRef(), configuration.getGAAProjectSpaceTypeRef(),
+                                        configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),
+                                        configuration.getNodeConfigParamName(),
+                                        configuration.getValue(),
+                                        configuration.getNodeConfigDeviceName(),
+                                        configuration.getGAAProjectNodeScheduleName(),
+                                        configuration.getGAAProjectNodeScheduleCode(),
+                                        configuration.getGAAProjectSpaceTypeName(),
+                                        configuration.getGAAProjectSpaceTypeAreaRef(),
+                                        configuration.getGAAProjectSpaceTypeAreaName(),
+                                        configuration.getGAAProjectSpaceTypePlannedDeviceRef(),
+                                        configuration.getGAAProjectSpaceTypePlannedDeviceName(),
+                                        configuration.getLabel(),
+                                        configuration.getOutputDriverChannelRef(),
+                                        configuration.getOutputDriverChannelName(),
+                                        configuration.getGAAProjectRef(),
+                                        configuration.getGAAProjectName()));
 
-//                                Long ref;
-//                                String name;
-//                                Long gAAProjectSpaceTypeRef;
-//                                String code;
-//                                Integer isSystemDefinedSchedule;
-//                                String gAAProjectSpaceTypeName; Long gAAProjectRef, String gAAProjectName, List<Configuration> configurations, List<Trigger> triggers
-//                                //
-//                                //start from here
-//                                com.gladiance.ui.models.scheduleStoreData.ObjectTag objectTag = new com.gladiance.ui.models.scheduleStoreData.ObjectTag();
+                                for (com.gladiance.ui.models.scheduleStoreData.Configuration config : configurationsData) {
+                                    // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
+                                    System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());
+                                }
+
+
+                                //
+                                //start from here
+
 
 //                                String ref = String.valueOf(configuration.getGAAProjectRef());
 //                                String name = configuration.getGAAProjectNodeScheduleName();
@@ -698,6 +753,17 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                                 logDataList3(trigger.getGAAProjectNodeScheduleRef(),monday,tuesday, wednesday,thursday,friday,saturday,sunday,trigger.getHour(),trigger.getMinute(),trigger.getSecond(),trigger.getDayOfMonth(),jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec,trigger.getYear(),repeatEveryYear);
 
                             }
+
+//                            com.gladiance.ui.models.scheduleStoreData.ObjectTag objectTag = new com.gladiance.ui.models.scheduleStoreData.ObjectTag(refData, nameData,
+//                                    gAAProjectSpaceTypeRefData,
+//                                    codeData,
+//                                    isSystemDefinedScheduleData,
+//                                    gAAProjectSpaceTypeNameData,
+//                                    gAAProjectRefData,
+//                                    gAAProjectNameData,
+//                                    List<com.gladiance.ui.models.scheduleStoreData.Configuration> configurationsData,
+//                                    //List<com.gladiance.ui.models.scheduleStoreData.Trigger> triggersData
+//                            );
 
                             ///
                             GridLayoutManager gridLayoutManagerMonth = new GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false);

@@ -91,12 +91,13 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     CheckBox CBMonth;
     CheckBox CBYear;
     NumberPicker datePicker;
+    NumberPicker yearPicker;
+
     Button btnSave;
     Trigger trigger;
     EditText scheduleName;
     EditText projectName;
     private View view;
-
     private ArrayList<Configuration> ConfigArrayList;
 
     private ArrayList<Controls> ConArrayList;
@@ -112,6 +113,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
     Spinner spinner;
     Button buttonSave;
+
 
 
     public CreateScheduleFragment() {
@@ -136,6 +138,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         datePicker = view.findViewById(R.id.DatePicker);
         scheduleName = view.findViewById(R.id.ETScheduleName);
         projectName = view.findViewById(R.id.ETProjectName);
+        yearPicker = view.findViewById(R.id.yearPicker);
+
 
         ConArrayList = new ArrayList<>();
         arrayList2 = new ArrayList<>();
@@ -143,13 +147,18 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
         datePicker.setEnabled(false);
         CBMonth.setChecked(false);
-//        recyclerViewMonth.setEnabled(false);
-//        recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+        recyclerViewMonth.setEnabled(false);
+        recyclerViewMonth.setAlpha(0.3f);// To visually show it's disabled
+        yearPicker.setEnabled(false);
+        yearPicker.setAlpha(0.3f);
         datePicker.setEnabled(false);
         datePicker.setAlpha(0.3f);
         CBWeek.setChecked(false);
         recyclerViewDay.setEnabled(false);
         recyclerViewDay.setAlpha(0.5f);
+        CBYear.setEnabled(false);
+        CBYear.setAlpha(0.5f);
+
 
         CBWeek.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -162,6 +171,15 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                     datePicker.setAlpha(0.3f);
                     recyclerViewDay.setEnabled(true);
                     recyclerViewDay.setAlpha(1.0f);
+
+
+
+                    recyclerViewMonth.setEnabled(false);
+                    recyclerViewMonth.setAlpha(0.3f);
+                    yearPicker.setEnabled(false);
+                    yearPicker.setAlpha(0.3f);
+                    CBYear.setEnabled(false);
+                    CBYear.setAlpha(0.3f);
 
                 } else {
                     recyclerViewMonth.setEnabled(true);
@@ -183,6 +201,13 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                    recyclerViewMonth.setAlpha(1.0f);
                     datePicker.setEnabled(true);
                     datePicker.setAlpha(1.0f);
+
+                    recyclerViewMonth.setEnabled(true);
+                    recyclerViewMonth.setAlpha(1.0f);
+                    yearPicker.setEnabled(true);
+                    yearPicker.setAlpha(1.0f);
+                    CBYear.setEnabled(true);
+                    CBYear.setAlpha(1.0f);
                 } else {
                     recyclerViewDay.setEnabled(true);
                     recyclerViewDay.setAlpha(1.0f);
@@ -260,7 +285,6 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
         //For year
         // Initialize year picker
-        NumberPicker yearPicker = view.findViewById(R.id.yearPicker);
 
         // Get current year
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -764,32 +788,32 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             AppConstants.minute,
                             AppConstants.second,
                             AppConstants.dayofmonth = 0,
-//                            AppConstants.January = false,
-//                            AppConstants.February = false,
-//                            AppConstants.March = false,
-//                            AppConstants.April = false,
-//                            AppConstants.May = false,
-//                            AppConstants.June = false,
-//                            AppConstants.July = false,
-//                            AppConstants.August = false,
-//                            AppConstants.September = false,
-//                            AppConstants.October = false,
-//                            AppConstants.November = false,
-//                            AppConstants.December = false,
-                            AppConstants.January,
-                            AppConstants.February,
-                            AppConstants.March,
-                            AppConstants.April,
-                            AppConstants.May,
-                            AppConstants.June,
-                            AppConstants.July,
-                            AppConstants.August,
-                            AppConstants.September,
-                            AppConstants.October,
-                            AppConstants.November,
-                            AppConstants.December,
-                            AppConstants.Year,
-                            AppConstants.RepeatEveryYear
+                            AppConstants.January = false,
+                            AppConstants.February = false,
+                            AppConstants.March = false,
+                            AppConstants.April = false,
+                            AppConstants.May = false,
+                            AppConstants.June = false,
+                            AppConstants.July = false,
+                            AppConstants.August = false,
+                            AppConstants.September = false,
+                            AppConstants.October = false,
+                            AppConstants.November = false,
+                            AppConstants.December = false,
+//                            AppConstants.January,
+//                            AppConstants.February,
+//                            AppConstants.March,
+//                            AppConstants.April,
+//                            AppConstants.May,
+//                            AppConstants.June,
+//                            AppConstants.July,
+//                            AppConstants.August,
+//                            AppConstants.September,
+//                            AppConstants.October,
+//                            AppConstants.November,
+//                            AppConstants.December,
+                            AppConstants.Year=0,
+                            AppConstants.RepeatEveryYear = false
                     ));
                 } else if(CBMonth.isChecked()){
                     triggerList.add(new Trigger(

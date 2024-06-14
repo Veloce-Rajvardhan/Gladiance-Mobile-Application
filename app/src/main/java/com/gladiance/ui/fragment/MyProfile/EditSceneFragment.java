@@ -34,6 +34,7 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
+import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.arealandingmodel.Area;
@@ -83,6 +84,25 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
     Spinner spinner;
     Button buttonSave;
 
+    private List<ConfigurationSceneEditData> configurationSceneEditData;
+    Long gAAProjectSceneRef_object;
+    Long gAAProjectSpaceTypePlannedDeviceConnectionRef_object;
+    String nodeConfigParamName_object;
+    String value_object;
+    String nodeConfigDeviceName_object;
+    String gAAProjectSceneName_object;
+    String gAAProjectSceneCode_object;
+    Long gAAProjectSpaceTypeRef_object;
+    String gAAProjectSpaceTypeName_object;
+    Integer gAAProjectSpaceTypeAreaRef2_object;
+    String gAAProjectSpaceTypeAreaName_object;
+    Long gAAProjectSpaceTypePlannedDeviceRef_object;
+    String gAAProjectSpaceTypePlannedDeviceName_object;
+    String label_object;
+    Long outputDriverChannelRef_object;
+    String outputDriverChannelName_object;
+    Long gAAProjectRef_object;
+    String gAAProjectName_object;
 
 
     public EditSceneFragment() {
@@ -105,6 +125,9 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         editTextSpaceName = view.findViewById(R.id.SMSpaceName);
         editTextSceneName = view.findViewById(R.id.SMSceneName);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
+
+        configurationSceneEditData = new ArrayList<>();
+
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -418,6 +441,54 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             Log.e(TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
 
                             ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+
+                            ////  Data stored
+//                            gAAProjectSceneRef = configuration.getgAAProjectSceneRef();
+//                            gAAProjectSpaceTypePlannedDeviceConnectionRef = configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef();
+//                            nodeConfigParamName = configuration.getNodeConfigParamName();
+//                            value = configuration.getValue();
+//                            nodeConfigDeviceName = configuration.getgAAProjectSpaceTypePlannedDeviceName();
+//                            gAAProjectSceneName = configuration.getgAAProjectSceneName();
+//                            gAAProjectSceneCode = configuration.getgAAProjectSceneCode();
+//                            gAAProjectSpaceTypeRef = configuration.getgAAProjectSpaceTypeRef();
+//                            gAAProjectSpaceTypeName = configuration.getgAAProjectSpaceTypeName();
+//                            gAAProjectSpaceTypeAreaRef = configuration.getgAAProjectSpaceTypeAreaRef();
+//                            gAAProjectSpaceTypeAreaName = configuration.getgAAProjectSpaceTypeAreaName();
+//                            gAAProjectSpaceTypePlannedDeviceRef = configuration.getgAAProjectSpaceTypePlannedDeviceRef();
+//                            gAAProjectSpaceTypePlannedDeviceName = configuration.getgAAProjectSpaceTypePlannedDeviceName();
+//                            label = configuration.getLabel();
+//                            outputDriverChannelRef = configuration.getOutputDriverChannelRef();
+//                            outputDriverChannelName = configuration.getOutputDriverChannelName();
+//                            gAAProjectRef = configuration.getgAAProjectRef();
+//                            gAAProjectName = configuration.getgAAProjectName();
+
+                            configurationSceneEditData.add(new ConfigurationSceneEditData(configuration.getgAAProjectSceneRef(),
+                                    configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),
+                                    configuration.getNodeConfigParamName(),
+                                    configuration.getValue(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+                                    configuration.getgAAProjectSceneName(),
+                                    configuration.getgAAProjectSceneCode(),
+                                    configuration.getgAAProjectSpaceTypeRef(),
+                                    configuration.getgAAProjectSpaceTypeName(),
+                                    configuration.getgAAProjectSpaceTypeAreaRef(),
+                                    configuration.getgAAProjectSpaceTypeAreaName(),
+                                    configuration.getgAAProjectSpaceTypePlannedDeviceRef(),
+                                    configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+                                    configuration.getLabel(),
+                                    configuration.getOutputDriverChannelRef(),
+                                    configuration.getOutputDriverChannelName(),
+                                    configuration.getgAAProjectRef(),
+                                    configuration.getgAAProjectName()));
+
+//                            for (com.gladiance.ui.models.scheduleStoreData.Configuration config : configurationsData) {
+//                                // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
+//                                System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());
+//                            }
+                        }
+
+                        for (ConfigurationSceneEditData config : configurationSceneEditData) {
+                            // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
+                            System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());
                         }
 
 

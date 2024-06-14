@@ -1,15 +1,12 @@
-package com.gladiance.ui.models.scheduleStoreData;
+package com.gladiance.ui.models.SceneStoreData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Configuration {
-    @SerializedName("GAAProjectNodeScheduleRef")
+public class ConfigurationSceneEditData {
+    @SerializedName("GAAProjectSceneRef")
     @Expose
-    private Long gAAProjectNodeScheduleRef;
-    @SerializedName("GAAProjectSpaceTypeRef")
-    @Expose
-    private Long gAAProjectSpaceTypeRef;
+    private Long gAAProjectSceneRef;
     @SerializedName("GAAProjectSpaceTypePlannedDeviceConnectionRef")
     @Expose
     private Long gAAProjectSpaceTypePlannedDeviceConnectionRef;
@@ -22,18 +19,21 @@ public class Configuration {
     @SerializedName("NodeConfigDeviceName")
     @Expose
     private String nodeConfigDeviceName;
-    @SerializedName("GAAProjectNodeScheduleName")
+    @SerializedName("GAAProjectSceneName")
     @Expose
-    private String gAAProjectNodeScheduleName;
-    @SerializedName("GAAProjectNodeScheduleCode")
+    private String gAAProjectSceneName;
+    @SerializedName("GAAProjectSceneCode")
     @Expose
-    private String gAAProjectNodeScheduleCode;
+    private String gAAProjectSceneCode;
+    @SerializedName("GAAProjectSpaceTypeRef")
+    @Expose
+    private Long gAAProjectSpaceTypeRef;
     @SerializedName("GAAProjectSpaceTypeName")
     @Expose
     private String gAAProjectSpaceTypeName;
     @SerializedName("GAAProjectSpaceTypeAreaRef")
     @Expose
-    private Integer gAAProjectSpaceTypeAreaRef;
+    private Long gAAProjectSpaceTypeAreaRef;
     @SerializedName("GAAProjectSpaceTypeAreaName")
     @Expose
     private String gAAProjectSpaceTypeAreaName;
@@ -59,15 +59,15 @@ public class Configuration {
     @Expose
     private String gAAProjectName;
 
-    public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef, String nodeConfigParamName, String value, String nodeConfigDeviceName, String gAAProjectNodeScheduleName, String gAAProjectNodeScheduleCode, String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef, String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
-        this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
-        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
+    public ConfigurationSceneEditData(Long gAAProjectSceneRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef, String nodeConfigParamName, String value, String nodeConfigDeviceName, String gAAProjectSceneName, String gAAProjectSceneCode, Long gAAProjectSpaceTypeRef, String gAAProjectSpaceTypeName, Long gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef, String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
+        this.gAAProjectSceneRef = gAAProjectSceneRef;
         this.gAAProjectSpaceTypePlannedDeviceConnectionRef = gAAProjectSpaceTypePlannedDeviceConnectionRef;
         this.nodeConfigParamName = nodeConfigParamName;
         this.value = value;
         this.nodeConfigDeviceName = nodeConfigDeviceName;
-        this.gAAProjectNodeScheduleName = gAAProjectNodeScheduleName;
-        this.gAAProjectNodeScheduleCode = gAAProjectNodeScheduleCode;
+        this.gAAProjectSceneName = gAAProjectSceneName;
+        this.gAAProjectSceneCode = gAAProjectSceneCode;
+        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
         this.gAAProjectSpaceTypeName = gAAProjectSpaceTypeName;
         this.gAAProjectSpaceTypeAreaRef = gAAProjectSpaceTypeAreaRef;
         this.gAAProjectSpaceTypeAreaName = gAAProjectSpaceTypeAreaName;
@@ -80,20 +80,12 @@ public class Configuration {
         this.gAAProjectName = gAAProjectName;
     }
 
-    public Long getGAAProjectNodeScheduleRef() {
-        return gAAProjectNodeScheduleRef;
+    public Long getGAAProjectSceneRef() {
+        return gAAProjectSceneRef;
     }
 
-    public void setGAAProjectNodeScheduleRef(Long gAAProjectNodeScheduleRef) {
-        this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
-    }
-
-    public Long getGAAProjectSpaceTypeRef() {
-        return gAAProjectSpaceTypeRef;
-    }
-
-    public void setGAAProjectSpaceTypeRef(Long gAAProjectSpaceTypeRef) {
-        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
+    public void setGAAProjectSceneRef(Long gAAProjectSceneRef) {
+        this.gAAProjectSceneRef = gAAProjectSceneRef;
     }
 
     public Long getGAAProjectSpaceTypePlannedDeviceConnectionRef() {
@@ -128,20 +120,28 @@ public class Configuration {
         this.nodeConfigDeviceName = nodeConfigDeviceName;
     }
 
-    public String getGAAProjectNodeScheduleName() {
-        return gAAProjectNodeScheduleName;
+    public String getGAAProjectSceneName() {
+        return gAAProjectSceneName;
     }
 
-    public void setGAAProjectNodeScheduleName(String gAAProjectNodeScheduleName) {
-        this.gAAProjectNodeScheduleName = gAAProjectNodeScheduleName;
+    public void setGAAProjectSceneName(String gAAProjectSceneName) {
+        this.gAAProjectSceneName = gAAProjectSceneName;
     }
 
-    public String getGAAProjectNodeScheduleCode() {
-        return gAAProjectNodeScheduleCode;
+    public String getGAAProjectSceneCode() {
+        return gAAProjectSceneCode;
     }
 
-    public void setGAAProjectNodeScheduleCode(String gAAProjectNodeScheduleCode) {
-        this.gAAProjectNodeScheduleCode = gAAProjectNodeScheduleCode;
+    public void setGAAProjectSceneCode(String gAAProjectSceneCode) {
+        this.gAAProjectSceneCode = gAAProjectSceneCode;
+    }
+
+    public Long getGAAProjectSpaceTypeRef() {
+        return gAAProjectSpaceTypeRef;
+    }
+
+    public void setGAAProjectSpaceTypeRef(Long gAAProjectSpaceTypeRef) {
+        this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
     }
 
     public String getGAAProjectSpaceTypeName() {
@@ -152,11 +152,11 @@ public class Configuration {
         this.gAAProjectSpaceTypeName = gAAProjectSpaceTypeName;
     }
 
-    public Integer getGAAProjectSpaceTypeAreaRef() {
+    public Long getGAAProjectSpaceTypeAreaRef() {
         return gAAProjectSpaceTypeAreaRef;
     }
 
-    public void setGAAProjectSpaceTypeAreaRef(Integer gAAProjectSpaceTypeAreaRef) {
+    public void setGAAProjectSpaceTypeAreaRef(Long gAAProjectSpaceTypeAreaRef) {
         this.gAAProjectSpaceTypeAreaRef = gAAProjectSpaceTypeAreaRef;
     }
 
