@@ -39,7 +39,7 @@ public class CameraDetailActivity extends AppCompatActivity {
         txtIP.setText("192.168.1.59");
         //txtPort.setText("80");
         txtLogin.setText("test");
-        txtPassword.setText("cartoon7028");
+        txtPassword.setText("123456789");
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
