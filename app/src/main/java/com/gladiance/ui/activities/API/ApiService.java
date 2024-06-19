@@ -15,6 +15,8 @@ import com.gladiance.ui.models.ResetResponse;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.ResponseModelNode;
 import com.gladiance.ui.models.SpaceSpaceGroupResModel;
+import com.gladiance.ui.models.ac.Thermostat;
+import com.gladiance.ui.models.ac.ThermostatResponse;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
@@ -45,6 +47,9 @@ public interface ApiService {
 //localcontrolnodeconfig
     @GET("mqtt/nodeconfig/{NodeId}")
     Call<DeviceInfo> getAllData(@Path("NodeId") String NodeId);
+
+    @GET("mqtt/nodestatus/{NodeId}")
+    Call<ThermostatResponse> getNodeStatus(@Path("NodeId") String NodeId);
 
     @GET("mqtt/localcontrolnodeconfig/{NodeId}")
     Call<Object> getAllLocalControlData(@Path("NodeId") String NodeId);

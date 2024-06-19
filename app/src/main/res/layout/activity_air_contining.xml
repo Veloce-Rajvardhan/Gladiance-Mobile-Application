@@ -63,7 +63,7 @@
         android:layout_width="@dimen/_180sdp"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="Ambient Temperature 30°"
+        android:text="Ambient Temperature"
         android:textSize="18dp"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +136,7 @@
         android:layout_marginStart="48dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Auto"
+        android:text="Off"
         android:layout_marginTop="2dp"
         style="@style/TEXT"
         app:layout_constraintTop_toBottomOf="@+id/seekBarAirCond"
@@ -223,9 +223,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
         <ImageView
-            android:id="@+id/imgHot"
-            android:src="@drawable/hot"
+            android:id="@+id/imgCool"
+            android:src="@drawable/cool"
             android:padding="@dimen/_7sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -234,8 +236,8 @@
             android:textSize="@dimen/_15sdp" />
 
         <ImageView
-            android:id="@+id/imgCool"
-            android:src="@drawable/cool"
+            android:id="@+id/imgHot"
+            android:src="@drawable/hot"
             android:padding="@dimen/_7sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"

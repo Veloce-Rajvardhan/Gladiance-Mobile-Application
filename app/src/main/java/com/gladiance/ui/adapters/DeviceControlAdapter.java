@@ -92,7 +92,56 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
                     String name = control.getInternalDeviceName();
 
                     sendSwitchState(control.isPowerState(), name, nodeId);
-                } else {
+                }else if (control.getInternalDeviceName().equals("Light 1")) {
+                        control.setPowerState(!control.isPowerState());
+                        updateUI(holder, control.isPowerState());
+
+                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                        String nodeId = control.getNodeId();
+                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences2.edit();
+                        Log.e(TAG, "Node Id: " + nodeId);
+                        editor.putString("KEY_USERNAMEs", nodeId);
+                        editor.apply();
+
+                        String name = control.getInternalDeviceName();
+
+                        sendSwitchState(control.isPowerState(), name, nodeId);
+
+                }else if (control.getInternalDeviceName().equals("Light 2")) {
+                    control.setPowerState(!control.isPowerState());
+                    updateUI(holder, control.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = control.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = control.getInternalDeviceName();
+
+                    sendSwitchState(control.isPowerState(), name, nodeId);
+
+                }else if (control.getInternalDeviceName().equals("Power Socket 1")) {
+                    control.setPowerState(!control.isPowerState());
+                    updateUI(holder, control.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = control.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = control.getInternalDeviceName();
+
+                    sendSwitchState(control.isPowerState(), name, nodeId);
+
+                }
+                else {
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
                     Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
                     SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);

@@ -9,8 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -45,6 +48,8 @@ public class RGBLightActivity extends AppCompatActivity {
     private EspApplication espApp;
     Context context = this;
     SeekBar seekBar1,seekBar2,seekBar3,seekBar4,seekBar5;
+
+
     TextView textView1,textView2,textView3,textView4,textView5,textView6;
 
     @Override
@@ -88,9 +93,12 @@ public class RGBLightActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
                 Log.d(TAG, "onCheckedChanged: "+isChecked);
+                int progress = 100;
                 rgbLightState(isChecked);
                 if (isChecked) {
                     enableSeekBars();
+                    rgbBrightness(progress);
+                    rgbSaturation(progress);
                 } else {
                     disableSeekBars();
                 }
@@ -102,8 +110,8 @@ public class RGBLightActivity extends AppCompatActivity {
 
         //Seek Bar Brightness
         seekBar1.setMax(99);
-        seekBar1.setProgress(0);
-        textView1.setText("0");
+        seekBar1.setProgress(100);
+        textView1.setText("100");
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -126,7 +134,27 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-        //Seek Bar Hue
+
+  //    Seek Bar Hue
+        int[] colors = {
+                0xFFFF0000, // Red
+                0xFFFF6F00, // Orange
+                0xFFF7FF00, // Yellow
+                0xFF00FF00, // Green
+                0xFF00FFC4, // Cyan
+                0xFF0055FF, // Blue
+                0xFFBB00FF, // Purple
+                0xFFFF0000  // Red (repeated to loop back)
+        };
+
+        // Create the gradient drawable
+        GradientDrawable gradientDrawable = new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT, colors);
+        gradientDrawable.setCornerRadius(10f); // Set corner radius if needed
+
+        // Set the ClipDrawable as the progress drawable for the SeekBar
+        seekBar2.setProgressDrawable(gradientDrawable);
+
         seekBar2.setMax(360);
         seekBar2.setProgress(0);
         textView2.setText("0");
@@ -136,13 +164,6 @@ public class RGBLightActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Display current progress value
                 textView2.setText(String.valueOf(progress + 1));
-                int hue = progress; // Hue ranges from 0 to 360
-                int color = Color.HSVToColor(new float[]{hue, 1, 1}); // Convert to RGB color
-                // Set the thumb color
-                seekBar.getThumb().mutate().setTint(color);
-                // Set the progress bar background color
-                seekBar.getProgressDrawable().mutate().setTint(color);
-                // Send value to server
                 rgbHue(progress + 1);
             }
 
@@ -158,10 +179,12 @@ public class RGBLightActivity extends AppCompatActivity {
         });
 
 
+
+
         //Seek Bar Saturation
         seekBar3.setMax(99);
-        seekBar3.setProgress(1);
-        textView3.setText("0");
+        seekBar3.setProgress(100);
+        textView3.setText("100");
 
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -171,6 +194,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
                 // Send value to server
                 rgbSaturation(progress + 1);
+
             }
 
             @Override

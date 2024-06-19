@@ -1,0 +1,70 @@
+<!-- res/drawable/seekbar_gradient.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#FF0000"
+            android:centerColor="#FFA500"
+            android:centerX="0.2"
+            android:endColor="#FFFF00"
+            android:angle="0"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#FFFF00"
+            android:centerColor="#008000"
+            android:centerX="0.5"
+            android:endColor="#0000FF"
+            android:angle="0"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#0000FF"
+            android:centerColor="#4B0082"
+            android:centerX="0.8"
+            android:endColor="#EE82EE"
+            android:angle="0"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:startColor="#FF0000"
+                android:centerColor="#FFA500"
+                android:centerX="0.2"
+                android:endColor="#FFFF00"
+                android:angle="0"/>
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:startColor="#FFFF00"
+                android:centerColor="#008000"
+                android:centerX="0.5"
+                android:endColor="#0000FF"
+                android:angle="0"/>
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:startColor="#0000FF"
+                android:centerColor="#4B0082"
+                android:centerX="0.8"
+                android:endColor="#EE82EE"
+                android:angle="0"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>
+
