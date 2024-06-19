@@ -17,4 +17,19 @@
     <color name="TextOrangeColor">#FF9800</color>
     <color name="dark_grey">#222222</color>
 
+
+
+        <array name="seek_bar_colors">
+            <item>#FFFFFF</item> <!-- Orange color for progress -->
+            <item>#FF6F00</item> <!-- Red color for progress -->
+            <item>#F7FF00</item> <!-- Green color for progress -->
+            <item>#00FF00</item> <!-- Green color for progress -->
+            <item>#00FFC4</item> <!-- Green color for progress -->
+            <item>#0055FF</item> <!-- Green color for progress -->
+            <item>#BB00FF</item> <!-- Green color for progress -->
+            <item>#FF0000</item> <!-- Green color for progress -->
+            <!-- Add more colors as needed -->
+        </array>
+
+
 </resources>

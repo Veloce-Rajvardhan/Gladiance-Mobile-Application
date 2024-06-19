@@ -18,7 +18,6 @@ import com.gladiance.R;
 
 public class CircularSeekBarFan extends View {
 
-
     public interface OnProgressChangeListener {
         void onProgressChanged(String progressText);
     }
@@ -112,7 +111,7 @@ public class CircularSeekBarFan extends View {
             progressChangeListener.onProgressChanged(text);
         }
 
-        Log.e(TAG, "onDraw: "+text);
+        Log.e(TAG, "onDraw: " + text);
         Rect textBounds = new Rect();
         textPaint.getTextBounds(text, 0, text.length(), textBounds);
         float x = centerX - textBounds.exactCenterX();
@@ -144,15 +143,26 @@ public class CircularSeekBarFan extends View {
                     angle -= 360;
                 }
                 // Convert angle to progress
-                float progress = angle / 360 * (max - min);
-                setProgress(progress);
+                float newProgress = angle / 360 * (max - min);
+
+                // Check if we are at the maximum progress (5)
+                if (progress == (max - min)) {
+                    // Only allow decrementing from 5, not incrementing
+                    if (newProgress > progress) {
+                        // Ignore increments when at max
+                        return true;
+                    }
+                }
+
+                setProgress(newProgress);
                 String text = String.valueOf((int) progress + min);
-                Log.e(TAG, "onTouchEvent: "+text );
+                Log.e(TAG, "onTouchEvent: " + text);
 
                 return true;
         }
         return super.onTouchEvent(event);
     }
+
 
     public void setProgress(float progress) {
         if (progress < 0) {

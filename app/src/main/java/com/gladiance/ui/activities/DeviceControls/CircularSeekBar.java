@@ -3,6 +3,7 @@ package com.gladiance.ui.activities.DeviceControls;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -31,9 +32,12 @@ public class CircularSeekBar extends View {
     private int thumbWidth;
     private int thumbHeight;
 
+
+
     private float progress = 0;
-    private int min = 16;
-    private int max = 31;
+    private int min = 64;
+    private int max = 86;
+
 
     private OnProgressChangeListener progressChangeListener;
 
@@ -55,6 +59,8 @@ public class CircularSeekBar extends View {
     public void setOnProgressChangeListener(OnProgressChangeListener listener) {
         this.progressChangeListener = listener;
     }
+
+
 
     private void init() {
         circlePaint = new Paint();

@@ -139,10 +139,7 @@
         <item name="android:thumb">@drawable/custom_seekbar_thumb</item>
     </style>
 
-    <style name="CustomSeekBarRGBHue" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressDrawable">@drawable/rgb_hue_custom_progress_bar</item>
-        <item name="android:thumb">@drawable/custom_seekbar_thumb</item>
-    </style>
+
 
     <!--  Switch Theme -->
     <style name="MySpinnerStyle">

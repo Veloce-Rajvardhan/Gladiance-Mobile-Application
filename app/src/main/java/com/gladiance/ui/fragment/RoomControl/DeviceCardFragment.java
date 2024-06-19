@@ -29,19 +29,22 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.DeviceControls.AirContiningActivity;
 import com.gladiance.ui.activities.DeviceControls.BellActivity;
+import com.gladiance.ui.activities.DeviceControls.CircularSeekBar;
 import com.gladiance.ui.activities.DeviceControls.CurtainActivity;
 import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
 import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
-import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
-import com.gladiance.ui.fragment.MyProfile.MyMoodFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneViewModel;
-import com.gladiance.ui.models.ScheduleViewModel;
+import com.gladiance.ui.models.ac.Gendb;
+import com.gladiance.ui.models.ac.Gendbarr;
+import com.gladiance.ui.models.ac.SetRange;
+import com.gladiance.ui.models.ac.Thermostat;
+import com.gladiance.ui.models.ac.ThermostatResponse;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
@@ -190,6 +193,8 @@ public class DeviceCardFragment extends Fragment {
                             editor2.putString("Name", name);
                             editor2.apply();
                             startActivity(intent);
+                            fetchThermostatData(nodeId2);
+                            Log.e(TAG, "onResponse DeviceCardFrag NodeId: " + nodeId2 );
                         }else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
@@ -419,21 +424,104 @@ public class DeviceCardFragment extends Fragment {
     };
 
 
-//    private final OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-//        @Override
-//        public void handleOnBackPressed() {
-//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//    public void fetchThermostatData(String nodeId) {
+//        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+//        Call<ThermostatResponse> call = apiService.getNodeStatus(nodeId);
 //
-//// Replace the current fragment with the first fragment
-//            transaction.replace(R.id.set_mood, new EditSceneFragment());
+//        call.enqueue(new Callback<ThermostatResponse>() {
+//            @Override
+//            public void onResponse(Call<ThermostatResponse> call, Response<ThermostatResponse> response) {
+//                if (response.isSuccessful()) {
+//                    Thermostat thermostat = response.body().getThermostat();
+//                    if (thermostat != null) {
+//                        String mode = thermostat.getMode();
+//                        String unit = thermostat.getUnit();
 //
-//// Add the transaction to the back stack
-//            transaction.addToBackStack("EditSceneFragment");
+//                        SharedPreferences sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPref.edit();
+//                        editor.putString("Mode", mode);
+//                        Log.e(TAG, "onResponseMode: " + mode );
+//                        editor.putString("Unit", unit);
 //
-//// Commit the transaction
-//            transaction.commit();
-//            requireActivity().getSupportFragmentManager().popBackStackImmediate();
-//        }
-//    };
+//                        editor.apply();
+//
+//                        Intent intent = new Intent(requireContext(), AirContiningActivity.class);
+//                        startActivity(intent);
+//                    }
+//                } else {
+//                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ThermostatResponse> call, Throwable t) {
+//                Log.e(TAG, "Error: " + t.getMessage());
+//            }
+//        });
+//    }
+
+    public void fetchThermostatData(String nodeId) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<ThermostatResponse> call = apiService.getNodeStatus(nodeId);
+
+        call.enqueue(new Callback<ThermostatResponse>() {
+            @Override
+            public void onResponse(Call<ThermostatResponse> call, Response<ThermostatResponse> response) {
+                if (response.isSuccessful()) {
+                    ThermostatResponse thermostatResponse = response.body();
+                    if (thermostatResponse != null) {
+                        Thermostat thermostat = thermostatResponse.getThermostat();
+                        if (thermostat != null) {
+                            String mode = thermostat.getMode();
+                            String unit = thermostat.getUnit();
+
+                            Gendb gendb = thermostat.getGendb();
+                            if (gendb != null) {
+                                Gendbarr gendbarr = gendb.getGendbarr();
+                                if (gendbarr != null) {
+                                    SetRange setRange = gendbarr.getSetRange();
+                                    if (setRange != null) {
+                                        int min = setRange.getMin();
+                                        int max = setRange.getMax();
+
+                                        SharedPreferences sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putString("Mode", mode);
+                                        editor.putString("Unit", unit);
+                                        editor.apply();
+
+                                        SharedPreferences sharedPrefSetRange = requireContext().getSharedPreferences("MyPrefsRange", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor1 = sharedPrefSetRange.edit();
+                                        editor1.putInt("SetRangeMin", min);
+                                        editor1.putInt("SetRangeMax", max);
+                                        editor1.apply();
+
+                                        Log.e(TAG, "onResponseSetRangeMin: " + min);
+                                        Log.e(TAG, "onResponseSetRangeMax: " + max);
+
+                                        editor.apply();
+
+                                        Intent intent = new Intent(requireContext(), AirContiningActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ThermostatResponse> call, Throwable t) {
+                Log.e(TAG, "Error: " + t.getMessage());
+            }
+        });
+    }
+
+
+
+
+
 }

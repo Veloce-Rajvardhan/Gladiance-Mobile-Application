@@ -5,14 +5,10 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -22,19 +18,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
-import com.gladiance.ui.models.saveScene.SceneConfig;
-import com.gladiance.ui.models.scene.ObjectScenes;
-import com.gladiance.ui.models.scenelist.ObjectSchedule;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AirContiningActivity extends AppCompatActivity implements CircularSeekBar.OnProgressChangeListener{
 
@@ -74,14 +63,42 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         String Label = preferences.getString("KEY_USERNAMEs", "");
         Log.d(TAG, "Label : " +Label);
 
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String mode = sharedPref.getString("Mode", "");
+        String unit = sharedPref.getString("Unit", "");
+
+        Log.e(TAG, "Mode from SharedPreferences: " + mode);
+        Log.e(TAG, "Unit from SharedPreferences: " + unit);
+
+        SharedPreferences sharedPrefRange = getSharedPreferences("MyPrefsRange",Context.MODE_PRIVATE);
+        int min = sharedPrefRange.getInt("SetRangeMin", 0);
+        int max = sharedPrefRange.getInt("SetRangeMax",0);
+
+        Log.e(TAG, "Range Min : " + min);
+        Log.e(TAG, "Range Max: " + max);
+
+        if ("Centigrade".equalsIgnoreCase(mode)) {
+            min = convertCentigradeToFahrenheit(min);
+            max = convertCentigradeToFahrenheit(max);
+
+            Log.e(TAG, "Converted Range Min to Fahrenheit: " + min);
+            Log.e(TAG, "Converted Range Max to Fahrenheit: " + max);
+        }
+
+
+
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
+
+
         circularSeekBar = findViewById(R.id.circularSeekBar);
+
 
         // Example: Set progress to 10
         circularSeekBar.setProgress(0);
         circularSeekBar.setOnProgressChangeListener(this);
+
 
         CircularSeekBar circularSeekBar = findViewById(R.id.circularSeekBar);
         circularSeekBar.setOnProgressChangeListener(this);
@@ -154,345 +171,31 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             }
         });
 
-
+        //Fahrenheit set
         tvCel = findViewById(R.id.tvCel);
         tvFer = findViewById(R.id.tvFer);
+        if(unit.equals("Fahrenheit")){
+            tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
+        }else {
+            tvFer.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+        }
 
-        tvCel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvCel.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
-                String mood = "Centigrade";
-                sendUnit(mood);
-                tvFer.setBackgroundResource(android.R.color.transparent);
-            }
-        });
 
-        tvFer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
-                String mood = "Fahrenheit";
-                sendUnit(mood);
-                tvCel.setBackgroundResource(android.R.color.transparent);
-            }
-        });
-
+        //Hot And Cool Mode Set
         imgHot = findViewById(R.id.imgHot);
         imgCool = findViewById(R.id.imgCool);
+        if(mode.equals("Cool")){
+            imgCool.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+        }else {
+            imgHot.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
+        }
 
-        imgHot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imgHot.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
-                String mood = "Heat";
-                sendMood(mood);
-                imgCool.setBackgroundResource(android.R.color.transparent);
-            }
-        });
 
-        imgCool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imgCool.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
-                String mood = "Cool";
-                sendMood(mood);
-                imgHot.setBackgroundResource(android.R.color.transparent);
-            }
-        });
 
     }
 
 
 
-    //AirCondition Set Mood Method
-    private void sendMood(String mood) {
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
-
-        String commandBody = "{\"" + name + "\": {\"Mode\":\"" + mood + "\"}}";
-
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-        String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-
-        String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
-
-        // Edit Scene
-        try {
-            AppConstants.powerState = "Mode";
-            AppConstants.power = String.valueOf(mood);
-            Log.d("TAG", "PowerState: " + AppConstants.powerState);
-            Log.d("TAG", "Power: " + AppConstants.power);
-
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
-
-
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
-
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-        // Create Scene
-        try {
-            AppConstants.Create_powerState = "Mode";
-            AppConstants.Create_power = String.valueOf(mood);
-            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
-            Log.d("TAG", "Power2: " + AppConstants.Create_power);
-
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_SceneRef);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
-
-//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
-
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
-
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-
-        //// Create Schedule
-        try {
-            AppConstants.Create_powerState_Schedule = "Mode";
-            AppConstants.Create_power_Schedule = String.valueOf(mood);
-            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
-            Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
-
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
-
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-        networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
-
-
-    }
-
-    //AirCondition Unit Method
-    private void sendUnit(String unit) {
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
-        String commandBody = "{\"" + name + "\": {\"Unit\":\"" + unit + "\"}}";
-
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
-        String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
-
-        String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
-
-        // Edit Scene
-        try {
-            AppConstants.powerState = "Unit";
-            AppConstants.power = String.valueOf(unit);
-            Log.d("TAG", "PowerState: " + AppConstants.powerState);
-            Log.d("TAG", "Power: " + AppConstants.power);
-
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
-
-
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
-
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-        // Create Scene
-        try {
-            AppConstants.Create_powerState = "Unit";
-            AppConstants.Create_power = String.valueOf(unit);
-            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
-            Log.d("TAG", "Power2: " + AppConstants.Create_power);
-
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_SceneRef);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
-
-//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
-
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
-
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-
-        //// Create Schedule
-        try {
-            AppConstants.Create_powerState_Schedule = "Unit";
-            AppConstants.Create_power_Schedule = String.valueOf(unit);
-            Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
-            Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
-
-            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
-
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
-
-
-        }
-        catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
-        }
-
-        networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
-
-
-    }
 
     //Air Condition  Progress
     private void airConditioningProgress(String progress1) {
@@ -550,7 +253,6 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
-
     }
 
     private void disableSeekBars() {
@@ -561,6 +263,10 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
     private void enableSeekBars() {
         seekbarAirCond.setEnabled(true);
         circularSeekBar.setEnabled(true);
+    }
+
+    private int convertCentigradeToFahrenheit(int centigrade) {
+        return (int) ((centigrade * 9.0 / 5) + 32);
     }
 
     private void handleApiResponse(ResponseModel responseModel) {
