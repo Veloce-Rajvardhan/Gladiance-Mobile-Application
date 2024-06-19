@@ -28,6 +28,18 @@ public class Controls {
     @Expose
     private boolean isChecked;
 
+    @SerializedName("isCheck")
+    @Expose
+    private boolean isCheckBox = false;
+
+    public boolean isCheckBox() {
+        return isCheckBox;
+    }
+
+    public void setCheckBox(boolean checkBox) {
+        isCheckBox = checkBox;
+    }
+
     private boolean powerState = false;
 
     public boolean isPowerState() {

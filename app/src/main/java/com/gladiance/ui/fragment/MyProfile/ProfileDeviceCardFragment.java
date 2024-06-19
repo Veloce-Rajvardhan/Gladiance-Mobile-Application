@@ -39,6 +39,7 @@ import com.gladiance.ui.adapters.ProfileCardAdapter;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
@@ -71,6 +72,8 @@ public class ProfileDeviceCardFragment extends Fragment {
     private ObjectScenes objectScenes;
 
     private static ProfileDeviceCardFragment instance;
+    private List<ConfigurationSceneEditData> configurationSceneEditData;
+
 
 
     @Override
@@ -260,6 +263,14 @@ public class ProfileDeviceCardFragment extends Fragment {
 //        Log.d(TAG, "node id4: " +nodeId);
 
        // AppConstants.projectSpaceTypePlannedDeviceName = savedValue;
+
+        //Edit Scene Object Data
+//        for (ConfigurationSceneEditData config : configurationSceneEditData) {
+//            // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
+//            System.out.println("dataaa22: "+config.getGAAProjectSpaceTypePlannedDeviceRef());
+//        }
+
+
 
         // Edit Scene
         try {

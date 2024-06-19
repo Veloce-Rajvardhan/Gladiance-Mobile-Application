@@ -421,13 +421,13 @@ public class AppConstants {
 
     //Create Schedule
     public static String Create_Ref_dyn_Schedule = "null"; // We get null ref and to get ref we hit allocateid post api
-    public static String Create_Name_dyn_Schedule;
-    public static String Create_ScheduleRef_Schedule;
-    public static String Create_Space_dyn_Schedule;
-    public static String Create_projectSpaceTypePlannedDeviceName_Schedule;
-    public static String Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule;
-    public static String Create_powerState_Schedule;
-    public static String Create_power_Schedule;
+    public static String Create_Name_dyn_Schedule = "";
+    public static String Create_ScheduleRef_Schedule = "";
+    public static String Create_Space_dyn_Schedule = "";
+    public static String Create_projectSpaceTypePlannedDeviceName_Schedule = "";
+    public static String Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule = "";
+    public static String Create_powerState_Schedule = "";
+    public static String Create_power_Schedule = "";
 
 
     //Edit Schedule
@@ -474,6 +474,7 @@ public class AppConstants {
 
     public static Boolean RepeatEveryYear = false;
 
+    public static Boolean StoredData = false;
 
 //    private static AppConstants instance;
 //    private String yourString;

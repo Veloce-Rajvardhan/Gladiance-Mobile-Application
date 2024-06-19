@@ -61,8 +61,8 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
 
                 AppConstants.Ref_dyn = String.valueOf(Ref_dyn);
                 AppConstants.Name_dyn = Name_dyn;
-                AppConstants.SceneRef = String.valueOf(Ref_dyn);
                 AppConstants.Space_dyn = String.valueOf(Space_dyn);
+                AppConstants.SceneRef = String.valueOf(Ref_dyn);
 
 
                 Log.e(TAG, "onClick: "+Ref_dyn);

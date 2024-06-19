@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +25,16 @@ public class SceneCreateViewModel extends ViewModel {
 
     public LiveData<List<ObjectSceneCreate  >> getObjectScenesList() {
         return objectScenesListLiveData;
+    }
+    public void clearObjectSchedules() {
+        objectScenesListLiveData.setValue(new ArrayList<>());
+    }
+
+    public void removeObjectSchedule(ObjectSceneCreate objectSchedule) {
+        List<ObjectSceneCreate> currentList = objectScenesListLiveData.getValue();
+        if (currentList != null) {
+            currentList.remove(objectSchedule);
+            objectScenesListLiveData.setValue(currentList);
+        }
     }
 }

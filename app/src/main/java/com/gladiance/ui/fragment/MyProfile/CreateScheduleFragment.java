@@ -113,7 +113,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
     Spinner spinner;
     Button buttonSave;
 
-
+    ObjectSchedule objectSchedule;
 
     public CreateScheduleFragment() {
         // Required empty public constructor
@@ -561,7 +561,16 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //            // Handle null bundle
 //        }
 
-        fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+
+        //start here
+
+//        if(AppConstants.StoredData == false){
+            fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+//            AppConstants.StoredData = true;
+//        }else{
+//
+//        }
+
 
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
@@ -912,6 +921,42 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
+
+                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null);
+
+
+// Reset the object using one of the methods above
+                            objectSchedule.clear(); // Option 1
+                            AppConstants.Create_Ref_dyn_Schedule = "null";
+// Or use setters if available
+                            objectSchedule.setRef_dyn("");
+                            objectSchedule.setName_dyn("");
+                            objectSchedule.setSpace_dyn("");
+                            objectSchedule.setSceneRef("");
+                            objectSchedule.setProjectSpaceTypePlannedDeviceName("");
+                            objectSchedule.setGaaProjectSpaceTypePlannedDeviceRef("");
+                            objectSchedule.setNodeConfigParamName("");
+                            objectSchedule.setValue("");
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+                            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+                      //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                            // Example of clearing all ObjectSchedule instances
+                            sharedViewModel.clearObjectSchedules();
+
+// Example of removing a specific ObjectSchedule
+                      //      sharedViewModel.removeObjectSchedule(objectSchedule);
+//                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null);
+//
+////                            if (objectSchedule != null) {
+//                                objectSchedule.clear();
+//                                System.out.println("objectSchedule " + objectSchedule);
+//                            } else {
+//                                // Handle the case where objectSchedule is null
+//                            }
                             // ObjectTag objectTag = SceneResModel.getObjectTag();
                             //  SceneResModel = new SceneResModel.getSuccessful();
                         } else {
@@ -1038,6 +1083,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             for (GuestControls guestControls : controlsList) {
                                 allControls.addAll(guestControls.getControls());
                             }
+                            // Set up ControlTypeName RecyclerView
                             // Set up ControlTypeName RecyclerView
                             recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                             DeviceControlScheduleAdapter deviceControlScheduleAdapter = new DeviceControlScheduleAdapter(allControls, requireContext());

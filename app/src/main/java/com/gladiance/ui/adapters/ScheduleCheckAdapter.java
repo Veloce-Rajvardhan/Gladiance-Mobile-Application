@@ -69,6 +69,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
             if((configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
                 Log.e(TAG, "onBindViewHolder: "+configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
                 holder.deviceNameCheckBox.setChecked(true);
+                return;
             }
         }
 

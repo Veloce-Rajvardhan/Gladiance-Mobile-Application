@@ -469,7 +469,8 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             configurationSceneEditData.add(new ConfigurationSceneEditData(configuration.getgAAProjectSceneRef(),
                                     configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),
                                     configuration.getNodeConfigParamName(),
-                                    configuration.getValue(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+                                    configuration.getValue(),
+                                    configuration.getgAAProjectSpaceTypePlannedDeviceName(),
                                     configuration.getgAAProjectSceneName(),
                                     configuration.getgAAProjectSceneCode(),
                                     configuration.getgAAProjectSpaceTypeRef(),
@@ -484,6 +485,11 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                     configuration.getgAAProjectRef(),
                                     configuration.getgAAProjectName()));
 
+
+                            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+                            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+                            // sharedViewModel.setObjecatSchedule(objectScenes);
+                            sharedViewModelEdit.addObjectScenes(objectScenes);
 //                            for (com.gladiance.ui.models.scheduleStoreData.Configuration config : configurationsData) {
 //                                // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
 //                                System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());

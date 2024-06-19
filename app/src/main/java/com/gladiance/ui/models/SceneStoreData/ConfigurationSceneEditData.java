@@ -3,7 +3,9 @@ package com.gladiance.ui.models.SceneStoreData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ConfigurationSceneEditData {
+import java.io.Serializable;
+
+public class ConfigurationSceneEditData implements Serializable {
     @SerializedName("GAAProjectSceneRef")
     @Expose
     private Long gAAProjectSceneRef;

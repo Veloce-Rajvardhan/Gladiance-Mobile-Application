@@ -48,7 +48,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
    // String nodeId;
     private ProgressBar progressBar;
     private Button incrementButton, decrementButton;
-    private TextView progressTextView,textViewDeviceName;
+    private TextView progressTextView, textViewDeviceName;
     //String nodeId2;
     private int progress = 0;
     Context context = this;

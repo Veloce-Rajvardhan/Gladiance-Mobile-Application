@@ -24,6 +24,19 @@ public class ScheduleViewModel extends ViewModel {
     public LiveData<List<ObjectSchedule  >> getObjectScenesList() {
         return objectScenesListLiveData;
     }
+
+    public void clearObjectSchedules() {
+        objectScenesListLiveData.setValue(new ArrayList<>());
+    }
+
+    public void removeObjectSchedule(ObjectSchedule objectSchedule) {
+        List<ObjectSchedule> currentList = objectScenesListLiveData.getValue();
+        if (currentList != null) {
+            currentList.remove(objectSchedule);
+            objectScenesListLiveData.setValue(currentList);
+        }
+    }
+
 }
 //}
 //    private MutableLiveData<ObjectSchedule> scheduleLiveData = new MutableLiveData<>();

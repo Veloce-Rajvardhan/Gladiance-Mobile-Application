@@ -36,6 +36,7 @@ import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.adapters.SceneCreateAdapter;
 import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
@@ -53,6 +54,7 @@ import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
+import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 
 import java.util.ArrayList;
@@ -379,6 +381,33 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                             // Handle successful response
                             Toast.makeText(getContext().getApplicationContext(), "Scene Created Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Done ");
+
+
+                            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null,null,null,null,null,null,null,null);
+
+
+// Reset the object using one of the methods above
+                            objectSceneCreate.clear(); // Option 1
+                            AppConstants.Create_Ref_dyn = "null";
+// Or use setters if available
+                            objectSceneCreate.setRef_dyn("");
+                            objectSceneCreate.setName_dyn("");
+                            objectSceneCreate.setSpace_dyn("");
+                            objectSceneCreate.setSceneRef("");
+                            objectSceneCreate.setProjectSpaceTypePlannedDeviceName("");
+                            objectSceneCreate.setGaaProjectSpaceTypePlannedDeviceRef("");
+                            objectSceneCreate.setNodeConfigParamName("");
+                            objectSceneCreate.setValue("");
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+                            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                            //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                            // Example of clearing all ObjectSchedule instances
+                            sharedViewModel.clearObjectSchedules();
+
                         } else {
                             // Handle unsuccessful response
                         }

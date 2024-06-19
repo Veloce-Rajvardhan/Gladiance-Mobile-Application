@@ -3,7 +3,9 @@ package com.gladiance.ui.models.SceneStoreData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectSceneEditData {
+import java.io.Serializable;
+
+public class ObjectSceneEditData implements Serializable {
     @SerializedName("Successful")
     @Expose
     private Boolean successful;

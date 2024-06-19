@@ -119,4 +119,15 @@ public class ObjectSchedule implements Serializable {
         Value = value;
     }
 
+    public void clear() {
+        this.Ref_dyn = "";
+        this.Name_dyn = "";
+        this.SceneRef = "";
+        this.Space_dyn = "";
+        this.projectSpaceTypePlannedDeviceName = "";
+        this.gaaProjectSpaceTypePlannedDeviceRef = "";
+        this.NodeConfigParamName = "";
+        this.Value = "";
+    }
+
 }

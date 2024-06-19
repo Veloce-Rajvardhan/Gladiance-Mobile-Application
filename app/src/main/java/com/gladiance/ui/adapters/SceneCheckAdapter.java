@@ -40,6 +40,7 @@ import java.util.List;
 public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.ViewHolder> {
     private List<Controls> ConArrayList;
     private List<Configuration> ConfigArrayList;
+    private SharedPreferences prefs;
 
 
     public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
@@ -66,11 +67,22 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
         for (int i=0;i< ConfigArrayList.size(); i++) {
 
             Configuration configuration = ConfigArrayList.get(i);
-
-
+            holder.deviceNameCheckBox.setChecked(control.isChecked());
+         //   holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
             if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
-                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
+                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+           //     control.isChecked(!control.isPowerState());
+
+              //      control.setCheckBox(!control.isCheckBox());
+
                 holder.deviceNameCheckBox.setChecked(true);
+                return;
+                // control.setChecked(true);
+                // Start from here
+//                if(prefs == null){
+//
+//                }
+
             }
         }
 
@@ -78,10 +90,21 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if(isChecked){
+                    control.setChecked(isChecked);
                     System.out.println("Checked");
                     ConArrayList.get(position).setChecked(isChecked);
+                    Log.e(TAG, "onCheckedChanged2: "+position);
+
+                    try {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isChecked_2" + position, isChecked);
+                        editor.apply();
+                    }
+                    catch (Exception e){
+                        Log.e(TAG, "Exception: "+e);
+                    }
                 } else {
-                    System.out.println("Un-Checked");
+                    System.out.println("Un-Checked2");
                     ConArrayList.get(position).setChecked(isChecked);
                 }
             }
@@ -93,26 +116,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
             public void onClick(View view) {
                 boolean isChecked = holder.deviceNameCheckBox.isChecked();
 
-//                boolean provisionStatus = control.isProvisioned();
-//                SharedPreferences sharedPreferences13 = view.getContext().getSharedPreferences("my_shared_prefty", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor2 = sharedPreferences13.edit();
-//                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + sharedPreferences13);
-//                editor2.putBoolean("KEY_USERNAMEw", provisionStatus);
-//                editor2.apply();
 
-//                if (!control.isProvisioned()) {
-//                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-//                    Long GaaProjectSpaceTypePlannedDeviceRef = control.getGaaProjectSpaceTypePlannedDeviceRef();
-//                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-//                    editor.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-//                    editor.apply();
-
-
-//                    Toast.makeText(inflater.getContext(), "This is a toast message" + control.getGaaProjectSpaceTypePlannedDeviceName(), Toast.LENGTH_SHORT).show();
-//                    holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), AddDeviceActivity.class));
-//                } else {
 
                 if (isChecked) {
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
@@ -150,14 +154,6 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     }
 
 
-//                  SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-//                  SharedPreferences.Editor editor3 = sharedPreferences.edit();
-//                  Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-//                  editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-//                  editor3.apply();
-
-                    //for dynamic GaaProjectSpaceTypePlannedDeviceRef
-                    // Get the SharedPreferences object
                     SharedPreferences sharedPreference_dyn = inflater.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
 
                     // Create an editor for modifying the SharedPreferences
@@ -169,53 +165,6 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     // Apply the changes
                     editor5.apply();
 
-                    // this changes done on 4th may start work from here on monday
-//                    Configuration configuration = ConfigArrayList.get(position);
-//
-//                    Long GAAProjectSceneRef = configuration.getgAAProjectSceneRef();
-//
-//                  //    take a look inside it  //////// (Final dynamic SP)
-//                    SharedPreferences sharedPreference_GaaProjectSpaceTypePlannedDeviceRef = inflater.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor_dyn1 = sharedPreference_GaaProjectSpaceTypePlannedDeviceRef.edit();
-//                    editor_dyn1.putLong("GaaProjectSpaceTypePlannedDeviceRef", GaaProjectSpaceTypePlannedDeviceRef);
-//                    editor_dyn1.apply();
-//                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef Dynamic: "+GaaProjectSpaceTypePlannedDeviceRef );
-//
-//                    SharedPreferences sharedPreference_GAAProjectSceneRef = inflater.getContext().getSharedPreferences("my_shared_pref_dyn_projectScene", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor_projectScene = sharedPreference_GAAProjectSceneRef.edit();
-//                    editor_projectScene.putLong("GAAProjectSceneRef", GAAProjectSceneRef);
-//                    editor_projectScene.apply();
-//                    Log.e(TAG, "GAAProjectSceneRef: "+GAAProjectSceneRef );
-
-
-//                    SharedPreferences sharedPreference_dyn2 = inflater.getContext().getSharedPreferences("my_shared_pref_dyn_projectScene", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor_projectScene = sharedPreference_dyn2.edit();
-//                    editor_projectScene.putLong("dynamic_key_projectScene"+String.valueOf(GAAProjectSceneRef), GAAProjectSceneRef);
-//                    editor_projectScene.apply();
-
-
-                    //  String NodeConfigDeviceName = configuration.getNodeConfigParamName();
-
-                    //take a look inside it
-//                    SharedPreferences sharedPreference_dyn3 = inflater.getContext().getSharedPreferences("my_shared_pref_dyn_nodeConfigDeviceName", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor_nodeConfigDeviceName = sharedPreference_dyn3.edit();
-//                    editor_nodeConfigDeviceName.putString("dynamic_key_nodeConfigDeviceName"+String.valueOf(NodeConfigDeviceName), NodeConfigDeviceName);
-//                    editor_nodeConfigDeviceName.apply();
-
-//                    // Pass the sceneRef to the next fragment using fragment arguments
-//                    Bundle bundle = new Bundle();
-//                    bundle.putStringArrayList("myArrayList", newList);
-//
-//                    // Create the destination fragment instance
-//                    Fragment destinationFragment = new EditSceneFragment();
-//                    destinationFragment.setArguments(bundle);
-
-
-//                    mData.add(String.valueOf(GaaProjectSpaceTypePlannedDeviceRef));
-//                    mData.add(String.valueOf(projectSpaceTypePlannedDeviceName));
-
-                    //AppConstants.addToConstantList(String.valueOf(GaaProjectSpaceTypePlannedDeviceRef));
-                    //AppConstants.addToConstantList(projectSpaceTypePlannedDeviceName);
 
                     AppConstants.GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
                     AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
@@ -230,39 +179,6 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     bundle.putStringArrayList("constantData", AppConstants.MY_CONSTANT_LIST);
 
 
-                   /* keyValuePairs = new KeyValuePair[8];
-                    // Initializing array elements with key-value pairs
-                    keyValuePairs[4] = new KeyValuePair("key1", String.valueOf(GaaProjectSpaceTypePlannedDeviceRef));
-                    keyValuePairs[5] = new KeyValuePair("key1", projectSpaceTypePlannedDeviceName);*/
-
-                    // ObjScenes objScenes = new ObjScenes(null,null,null,null,String.valueOf(GaaProjectSpaceTypePlannedDeviceRef), projectSpaceTypePlannedDeviceName);
-                    /*for (KeyValuePair pair : keyValuePairs) {
-                        if (pair != null) {
-                            System.out.println("Keyyyy: " + pair.getKey() + ", Value: " + pair.getValue());
-                        }
-                    }*/
-
-
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("myArrayList", mData);
-//
-//                    for (String item : mData) {
-//                        System.out.println("BundleArrayData"+item);
-//                    }
-
-
-                    // Retrieve the ArrayList from the Bundle
-                    //     ArrayList<String> newList = getArguments().getStringArrayList("myArrayList");
-
-//// Create an Intent to start the next Activity
-//                    Intent intent = new Intent(getActivity(), NextActivity.class);
-//
-//// Put the ArrayList into the Intent as an extra
-//                    intent.putStringArrayListExtra("myArrayList", newList);
-//
-//// Start the next Activity
-//                    startActivity(intent);
-
                     String nodeId = control.getNodeId();
                     SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences2.edit();
@@ -276,23 +192,8 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     Log.e(TAG, "Label: " + Label);
                     editor1.putString("KEY_USERNAMEs", Label);
                     editor1.apply();
-                    //  intent.putExtra("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
 
-                    //holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), EspMainActivity.class));
-
-
-                    //edit from here
-                    //  Fragment fragment = new DeviceCardFragment();
                     Fragment fragment = new ProfileDeviceCardFragment();
-
-                    //   Bundle bundle = new Bundle();
-                    // Pass the sceneRef to the next fragment using fragment arguments
-                    //   Bundle bundle = new Bundle();
-//                    bundle.putString("SCENE_REF", sceneRefString);
-//                    fragment.setArguments(bundle);
-
-
-                    //   bundle.putStringArrayList("myArrayList", newList);
 
                     // Create the destination fragment instance
                     bundle.putLong("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
@@ -304,28 +205,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     transaction.replace(R.id.set_mood, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
                             .commit();
 
-                    //to here
 
-                    /////---------///////////////------
-
-//                    Intent intent = new Intent(holder.itemView.getContext(), EspMainActivity.class);
-//
-//                    // Put the long value as an extra in the Intent
-//                    intent.putExtra("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
-//                    //  Bundle bundle = new Bundle();
-//                    //    bundle.putSerializable("myArrayList", mDa);
-//
-//// Put the Bundle into the Intent
-//                    intent.putExtras(bundle);
-
-                    //////// -------///////////////////------
-
-                    //intent.putExtra("objScene",objScenes);
-                    // Start EspMainActivity with the Intent
-
-                    //-----------////////
-                    ///   holder.itemView.getContext().startActivity(intent);
-                    /////////-----
                 } else {
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
                     Toast.makeText(inflater.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
