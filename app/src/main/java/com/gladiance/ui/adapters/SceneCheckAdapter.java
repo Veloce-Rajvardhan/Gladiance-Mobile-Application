@@ -63,11 +63,34 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
         Controls control = ConArrayList.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
+        /*if(control.isChecked() == true){
+            holder.deviceNameCheckBox.setChecked(true);
+        }else{
+            holder.deviceNameCheckBox.setChecked(false);
+        }*/
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                control.setChecked(isChecked);
+            }
+        });
+
+        for (int i =0; i< ConfigArrayList.size();i++){
+            Log.e("123","-- "+ConfigArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef()+" -- "+control.getgAAProjectSpaceTypePlannedDeviceRef());
+            if(ConfigArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef() == control.getgAAProjectSpaceTypePlannedDeviceRef()){
+                control.setChecked(true);
+                holder.deviceNameCheckBox.setChecked(true);
+            }else{
+                control.setChecked(false);
+                holder.deviceNameCheckBox.setChecked(false);
+            }
+        }
        // int positions = 0;
-        for (int i=0;i< ConfigArrayList.size(); i++) {
+        /*for (int i=0;i< ConfigArrayList.size(); i++) {
 
             Configuration configuration = ConfigArrayList.get(i);
-            holder.deviceNameCheckBox.setChecked(control.isChecked());
+            //holder.deviceNameCheckBox.setChecked(control.isChecked());
+
          //   holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
             if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
                 Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
@@ -75,7 +98,8 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
               //      control.setCheckBox(!control.isCheckBox());
 
-                holder.deviceNameCheckBox.setChecked(true);
+                //holder.deviceNameCheckBox.setChecked(true);
+                control.setChecked(true);
                 return;
                 // control.setChecked(true);
                 // Start from here
@@ -84,12 +108,13 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 //                }
 
             }
-        }
+        }*/
 
         holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if(isChecked){
+                control.setChecked(isChecked);
+                /*if(isChecked){
                     control.setChecked(isChecked);
                     System.out.println("Checked");
                     ConArrayList.get(position).setChecked(isChecked);
@@ -106,7 +131,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                 } else {
                     System.out.println("Un-Checked2");
                     ConArrayList.get(position).setChecked(isChecked);
-                }
+                }*/
             }
         });
 

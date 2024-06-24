@@ -204,7 +204,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : " + name);
 
-        String commandBody = "{\"" + name + "\": {\"Speed\":\"" + progress1 + "\"}}";
+        String commandBody = "{\"" + name + "\": {\"AC Speed\":\"" + progress1 + "\"}}";
         Log.e(TAG, "sendTemperature: "+commandBody );
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 

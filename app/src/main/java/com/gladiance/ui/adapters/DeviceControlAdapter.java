@@ -1,6 +1,9 @@
 package com.gladiance.ui.adapters;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+
+import static com.gladiance.AppConstants.GaaProjectSpaceTypePlannedDeviceRef;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +36,13 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
+import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.RoomControl.DeviceCardActivity;
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
+import com.gladiance.ui.models.AddSpaceUserFavourite;
 import com.gladiance.ui.models.DeviceInfo;
+import com.gladiance.ui.models.RemoveSpaceUserFavorite;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
@@ -73,7 +80,44 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.fevImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                Long GaaProjectSpaceTypePlannedDeviceConRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceConnectionRef());
+                SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor3 = sharedPreferences.edit();
+                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceConRef);
+                editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceConRef);
+                editor3.apply();
+
+                SharedPreferences sharedPreferencesPSPDR = context.getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                Long gaaProjectSpaceTypePlannedDeviceConRef = sharedPreferencesPSPDR.getLong("KEY_USERNAME", 0);
+                Log.e(TAG, "Retrieved GaaProjectSpaceTypePlannedDeviceRef: " + gaaProjectSpaceTypePlannedDeviceConRef);
+
+                SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+                String GUID = LoginActivity.getUserId(sharedPreferences1);
+                Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+                String loginDeviceId = GUID.trim();
+
+
+                SharedPreferences  sharedPreferences2 = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+                Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+                String loginToken = savedLoginDeviceId.trim();
+
+                SharedPreferences  sharedPreferences3 = context.getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+                String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
+                Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+                String projectSpaceRef = saveProjectSpaceRef.trim();
+
+                callAddSpaceUserFavouriteApi(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceConRef),loginToken,loginDeviceId);
+                //callRemoveSpaceUserFavouriteApi(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceRef),loginToken,loginDeviceId);
+           }
+        });
+
+        holder.deviceNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -189,19 +233,29 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceNameTextView;
         LinearLayout llGuestControl;
+        ImageView fevImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             deviceNameTextView = itemView.findViewById(R.id.btnTitle);
             llGuestControl = itemView.findViewById(R.id.llGuestControl);
+            fevImage = itemView.findViewById(R.id.fev_image);
             deviceNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                }
+            });
 
+            fevImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fevImage.setImageResource(R.drawable.likered);
                 }
             });
         }
     }
+
+
 
     public void sendSwitchState(boolean powerState,String name,String nodeId) {
         String commandBody = "{\"" + name + "\": {\"" + "Power" + "\": " + powerState + "}}";
@@ -221,6 +275,51 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
 
         networkApiManager.updateParamValue(nodeId, commandBody, apiService, remoteCommandTopic);
     }
+
+
+    private void callAddSpaceUserFavouriteApi(String gaaProjectSpaceRef,String gaaProjectSpaceTypePlannedDeviceConnectionRef,String loginToken,String loginDeviceId) {
+
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<AddSpaceUserFavourite> call = apiService.addSpaceUserFavourite(gaaProjectSpaceRef, gaaProjectSpaceTypePlannedDeviceConnectionRef, loginToken, loginDeviceId);
+        call.enqueue(new retrofit2.Callback<AddSpaceUserFavourite>() {
+            @Override
+            public void onResponse(Call<AddSpaceUserFavourite> call, retrofit2.Response<AddSpaceUserFavourite> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Added to favourites successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Failed to add to favourites", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddSpaceUserFavourite> call, Throwable t) {
+                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callRemoveSpaceUserFavouriteApi(String gaaProjectSpaceRef,String gaaProjectSpaceTypePlannedDeviceConnectionRef,String loginToken,String loginDeviceId) {
+
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<RemoveSpaceUserFavorite> call = apiService.removeSpaceUserFavourite(gaaProjectSpaceRef, gaaProjectSpaceTypePlannedDeviceConnectionRef, loginToken, loginDeviceId);
+        call.enqueue(new retrofit2.Callback<RemoveSpaceUserFavorite>() {
+            @Override
+            public void onResponse(Call<RemoveSpaceUserFavorite> call, retrofit2.Response<RemoveSpaceUserFavorite> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Remove to favourites successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Failed to Remove to favourites", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RemoveSpaceUserFavorite> call, Throwable t) {
+                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
 
 
