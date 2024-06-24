@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment  {
 
         arrayList = new ArrayList<>();
         arrayList1 = new ArrayList<>();
+        arrayListFav = new ArrayList<>();
 
 
 
@@ -146,9 +147,8 @@ public class HomeFragment extends Fragment  {
 
         }
 
-       // getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
-        getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
 
+        getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
         getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
 
         return view;
@@ -206,11 +206,11 @@ public class HomeFragment extends Fragment  {
                             arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
                         }
 
-//                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
-//                        recyclerViewFavoriteList.setAdapter(favoriteListAdapter);
-//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-//                        recyclerViewFavoriteList.setLayoutManager(gridLayoutManager1);
-                        //If any error change adapter class
+                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
+                        recyclerViewFavoriteList.setAdapter(favoriteListAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                        recyclerViewFavoriteList.setLayoutManager(gridLayoutManager1);
+
                     } else {
                         Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
                     }
