@@ -50,199 +50,118 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
     @NonNull
     @Override
-    public SceneCheckAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_scene_control_card, parent, false);
-        return new SceneCheckAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
-
-
-
     @Override
-    public void onBindViewHolder(@NonNull SceneCheckAdapter.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Controls control = ConArrayList.get(position);
+
+        // Set device name text
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
-        /*if(control.isChecked() == true){
-            holder.deviceNameCheckBox.setChecked(true);
-        }else{
-            holder.deviceNameCheckBox.setChecked(false);
-        }*/
+
+        // Clear any previous OnCheckedChangeListener to prevent unwanted behavior
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
+
+        // Set checkbox state based on isChecked flag in Controls object
+        holder.deviceNameCheckBox.setChecked(control.isChecked());
+
+        // Update checkbox state based on Configuration list
+        for (Configuration configuration : ConfigArrayList) {
+            if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+                holder.deviceNameCheckBox.setChecked(true);
+                break; // Exit loop once a match is found
+            }
+        }
+
+        // Set OnCheckedChangeListener for checkbox
         holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update isChecked state in Controls object
                 control.setChecked(isChecked);
-            }
-        });
 
-        for (int i =0; i< ConfigArrayList.size();i++){
-            Log.e("123","-- "+ConfigArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef()+" -- "+control.getgAAProjectSpaceTypePlannedDeviceRef());
-            if(ConfigArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef() == control.getgAAProjectSpaceTypePlannedDeviceRef()){
-                control.setChecked(true);
-                holder.deviceNameCheckBox.setChecked(true);
-            }else{
-                control.setChecked(false);
-                holder.deviceNameCheckBox.setChecked(false);
-            }
-        }
-       // int positions = 0;
-        /*for (int i=0;i< ConfigArrayList.size(); i++) {
-
-            Configuration configuration = ConfigArrayList.get(i);
-            //holder.deviceNameCheckBox.setChecked(control.isChecked());
-
-         //   holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
-            if((configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
-                Log.e(TAG, "onBindViewHolder: "+configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
-           //     control.isChecked(!control.isPowerState());
-
-              //      control.setCheckBox(!control.isCheckBox());
-
-                //holder.deviceNameCheckBox.setChecked(true);
-                control.setChecked(true);
-                return;
-                // control.setChecked(true);
-                // Start from here
-//                if(prefs == null){
-//
-//                }
-
-            }
-        }*/
-
-        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                control.setChecked(isChecked);
-                /*if(isChecked){
-                    control.setChecked(isChecked);
-                    System.out.println("Checked");
-                    ConArrayList.get(position).setChecked(isChecked);
-                    Log.e(TAG, "onCheckedChanged2: "+position);
-
-                    try {
+                // Handle saving state or other actions if needed
+                try {
+                    if (prefs != null) {
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("isChecked_2" + position, isChecked);
+                        editor.putBoolean("isChecked_" + position, isChecked);
                         editor.apply();
                     }
-                    catch (Exception e){
-                        Log.e(TAG, "Exception: "+e);
-                    }
-                } else {
-                    System.out.println("Un-Checked2");
-                    ConArrayList.get(position).setChecked(isChecked);
-                }*/
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e);
+                }
             }
         });
 
-
+        // Handle click listener for CardView
         holder.CdScene.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Handle CardView click event here
                 boolean isChecked = holder.deviceNameCheckBox.isChecked();
 
-
-
                 if (isChecked) {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-
+                    // Handle actions when checkbox is checked
                     Long GaaProjectSpaceTypePlannedDeviceRef = control.getgAAProjectSpaceTypePlannedDeviceRef();
+                    String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
 
-                    Log.e(TAG, "www: ");
-
-
-                    // GAAPROJECTSPACETYPEPLANNEDDEVICEREF
-                    SharedPreferences sharedPreference_dyn2 = inflater.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF_Dyn", Context.MODE_PRIVATE);
+                    // Example: Saving data to SharedPreferences
+                    SharedPreferences sharedPreference_dyn2 = view.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn = sharedPreference_dyn2.edit();
                     editor_dyn.putLong("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF", GaaProjectSpaceTypePlannedDeviceRef);
                     editor_dyn.apply();
-                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef: " + GaaProjectSpaceTypePlannedDeviceRef);
 
-
-                    // GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF / NodeConfigDeviceName
-                    String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
-                    SharedPreferences sharedPreference_dyn3 = inflater.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreference_dyn3 = view.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn3 = sharedPreference_dyn3.edit();
                     editor_dyn3.putString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", projectSpaceTypePlannedDeviceName);
                     editor_dyn3.apply();
-                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef SP: " + projectSpaceTypePlannedDeviceName);
 
-
-                    ArrayList<String> newList = new ArrayList<>();
-                    newList.add(String.valueOf(GaaProjectSpaceTypePlannedDeviceRef)); // Convert Long to String if necessary
-                    newList.add(projectSpaceTypePlannedDeviceName);
-
-
-                    // Printing contents of newList to Android log
-                    for (int i = 0; i < newList.size(); i++) {
-                        Log.e("NewListData", "Data at index " + i + ": " + newList.get(i));
-                    }
-
-
-                    SharedPreferences sharedPreference_dyn = inflater.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
-
-                    // Create an editor for modifying the SharedPreferences
+                    // Example: Storing data to a dynamic key in SharedPreferences
+                    SharedPreferences sharedPreference_dyn = view.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor5 = sharedPreference_dyn.edit();
-
-                    // Put the GaaProjectSpaceTypePlannedDeviceRef value into SharedPreferences with the desired key
                     editor5.putLong("dynamic_key_" + String.valueOf(GaaProjectSpaceTypePlannedDeviceRef), GaaProjectSpaceTypePlannedDeviceRef);
-
-                    // Apply the changes
                     editor5.apply();
 
-
+                    // Example: Setting global constants or variables
                     AppConstants.GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
                     AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+                    Log.e(TAG, "Create gaa: "+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
 
-                    //AppConstants.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
-                    for (String item : MY_CONSTANT_LIST) {
-                        System.out.println("NewList2: " + item);
+                    // Example: Logging constant list data
+                    for (String item : AppConstants.MY_CONSTANT_LIST) {
+                        Log.d("NewListData", "Item: " + item);
                     }
 
-                    Bundle bundle = new Bundle();
-                    // Put data from constant ArrayList into the bundle
-                    bundle.putStringArrayList("constantData", AppConstants.MY_CONSTANT_LIST);
-
-
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    // Example: Storing additional data to SharedPreferences
+                    SharedPreferences sharedPreferences2 = view.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.putString("KEY_USERNAMEs", control.getNodeId());
                     editor.apply();
 
-                    String Label = control.getLabel();
-                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences1 = view.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                    Log.e(TAG, "Label: " + Label);
-                    editor1.putString("KEY_USERNAMEs", Label);
+                    editor1.putString("KEY_USERNAMEs", control.getLabel());
                     editor1.apply();
 
-                    Fragment fragment = new ProfileDeviceCardFragment();
-
-                    // Create the destination fragment instance
+                    // Example: Opening a fragment on click
+                    Bundle bundle = new Bundle();
                     bundle.putLong("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
                     Fragment destinationFragment = new DeviceCardFragment();
                     destinationFragment.setArguments(bundle);
-                    //destinationFragment.
 
-                    FragmentTransaction transaction = ((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.set_mood, fragment, String.valueOf(destinationFragment)).addToBackStack(null)
-                            .commit();
-
-
+                    FragmentTransaction transaction = ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.set_mood, destinationFragment, String.valueOf(destinationFragment)).addToBackStack(null).commit();
                 } else {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    Toast.makeText(inflater.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
-
+                    // Handle actions when checkbox is not checked
+                    Toast.makeText(view.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
-
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -254,19 +173,11 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
         CheckBox deviceNameCheckBox;
         CardView CdScene;
 
-        public ViewHolder(@NonNull View itemView ) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             CdScene = itemView.findViewById(R.id.CdScene);
             deviceNameTextView = itemView.findViewById(R.id.Device_name_text_view);
             deviceNameCheckBox = itemView.findViewById(R.id.DN_checkbox);
-            deviceNameTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-                }
-            });
-
         }
     }
 }

@@ -34,22 +34,18 @@ import com.gladiance.ui.activities.DeviceControls.DimmerActivity;
 import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
-import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.adapters.ProfileCardAdapter;
-import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
-import com.gladiance.ui.models.saveScene.SceneConfig;
-import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
-import com.gladiance.ui.models.scenelist.EditObjectSchedule;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
-import com.gladiance.ui.viewModels.ScheduleCreateViewModel;
+import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -283,11 +279,11 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
             Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
             Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
+            Log.e("APPCONSTS4",""+AppConstants.Space_dyn);
+            Log.e("APPCONSTS5",""+AppConstants.projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS6",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS7",""+AppConstants.powerState);
+            Log.e("APPCONSTS8",""+AppConstants.power);
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
@@ -314,19 +310,20 @@ public class ProfileDeviceCardFragment extends Fragment {
         // Create Scene
         try {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
+            Log.e(TAG, "old: "+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             AppConstants.Create_powerState = power;
             AppConstants.Create_power = String.valueOf(powerState);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
             Log.d("TAG", "Power2: " + AppConstants.Create_power);
 
-            Log.e("APPCONSTS2 Create Scene Ref_dyn_Schedule2",""+AppConstants.Create_Ref_dyn);
-            Log.e("APPCONSTS2 Create Name_dyn_Schedule2",""+AppConstants.Create_Name_dyn);
-            Log.e("APPCONSTS2 Space_dyn_Schedule2",""+AppConstants.Create_Space_dyn);
-            Log.e("APPCONSTS2 SceneRef_Schedule2",""+AppConstants.Create_SceneRef);
-            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            Log.e("APPCONSTS9 Create Scene Ref_dyn_Schedule2",""+AppConstants.Create_Ref_dyn);
+            Log.e("APPCONSTS10 Create Name_dyn_Schedule2",""+AppConstants.Create_Name_dyn);
+            Log.e("APPCONSTS11 Space_dyn_Schedule2",""+AppConstants.Create_Space_dyn);
+            Log.e("APPCONSTS12 SceneRef_Schedule2",""+AppConstants.Create_SceneRef);
+            Log.e("APPCONSTS13 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
+            Log.e("APPCONSTS14 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
+            Log.e("APPCONSTS15 powerState_Schedule",""+AppConstants.Create_powerState);
+            Log.e("APPCONSTS16 power_Schedule",""+AppConstants.Create_power);
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
@@ -357,14 +354,14 @@ public class ProfileDeviceCardFragment extends Fragment {
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
 
-            Log.e("APPCONSTS2 Create Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Create Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
-            Log.e("APPCONSTS2 Create Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
-            Log.e("APPCONSTS2 Create SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Create GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS2 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS2 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
-            Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS17 Create Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
+            Log.e("APPCONSTS18 Create Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
+            Log.e("APPCONSTS19 Create Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
+            Log.e("APPCONSTS20 Create SceneRef_Schedule",""+AppConstants.Create_ScheduleRef_Schedule);
+            Log.e("APPCONSTS21 Create GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS22 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS23 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
+            Log.e("APPCONSTS24 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -398,18 +395,18 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.d("TAG", "PowerState: " + AppConstants.Edit_powerState_Schedule);
             Log.d("TAG", "Power: " + AppConstants.Edit_power_Schedule);
 
-            Log.e("APPCONSTS1"," Edit schedule "+AppConstants.Edit_Ref_dyn_Schedule);
-            Log.e("APPCONSTS2"," Edit schedule "+AppConstants.Edit_Name_dyn_Schedule);
-            Log.e("APPCONSTS3", " Edit schedule "+AppConstants.Edit_ScheduleRef_Schedule);
-            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_Space_dyn_Schedule);
-            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule);
-            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_powerState_Schedule);
-            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
+            Log.e("APPCONSTS25"," Edit schedule "+AppConstants.Edit_Ref_dyn_Schedule);
+            Log.e("APPCONSTS26"," Edit schedule "+AppConstants.Edit_Name_dyn_Schedule);
+            Log.e("APPCONSTS27", " Edit schedule "+AppConstants.Edit_ScheduleRef_Schedule);
+            Log.e("APPCONSTS28"," Edit schedule "+AppConstants.Edit_Space_dyn_Schedule);
+            Log.e("APPCONSTS29"," Edit schedule "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS30"," Edit schedule "+AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS31"," Edit schedule "+AppConstants.Edit_powerState_Schedule);
+            Log.e("APPCONSTS32"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);

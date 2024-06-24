@@ -39,29 +39,23 @@ import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
-import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
-import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.adapters.ScheduleCheckAdapter;
-import com.gladiance.ui.models.SceneViewModel;
-import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 //import com.gladiance.ui.models.saveSchedule.Configurations;
-import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
-import com.gladiance.ui.models.saveSchedule.ObjectTagSchedule;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
 //import com.gladiance.ui.models.scene.Configuration;
-import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.schedule.Configuration;
 import com.gladiance.ui.models.schedule.ObjectTag;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
-import com.gladiance.ui.viewModels.ScheduleCreateViewModel;
+import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -948,16 +942,16 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                 /////////////////////////////////////
                 List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
-                ScheduleCreateViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleCreateViewModel.class);
-                LiveData<List<ObjectScheduleCreate>> objectScenesListLiveData = scheduleViewModel.getObjectScenesList();
-                objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectScheduleCreate>>() {
+                ScheduleEditViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
+                LiveData<List<ObjectScheduleEdit>> objectScenesListLiveData = scheduleViewModel.getObjectScenesList();
+                objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectScheduleEdit>>() {
                     @Override
-                    public void onChanged(List<ObjectScheduleCreate> objectScenesList) {
+                    public void onChanged(List<ObjectScheduleEdit> objectScenesList) {
 //                        for(int i = 0; i <ConArrayList.size(); i++) {
 //                            if (ConArrayList.get(i).isChecked() == true) {
 //                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
                         if (objectScenesList != null) {
-                            for (ObjectScheduleCreate objectScenes : objectScenesList) {
+                            for (ObjectScheduleEdit objectScenes : objectScenesList) {
                                 list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
                                         Long.parseLong(objectScenes.getSceneRef()),
                                         Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
@@ -1153,6 +1147,33 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
+                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+
+
+                            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(null,null,null,null,null,null,null,null);
+
+
+// Reset the object using one of the methods above
+                            objectScheduleEdit.clear(); // Option 1
+                            AppConstants.Create_Ref_dyn_Schedule = "null";
+// Or use setters if available
+                            objectScheduleEdit.setRef_dyn("");
+                            objectScheduleEdit.setName_dyn("");
+                            objectScheduleEdit.setSpace_dyn("");
+                            objectScheduleEdit.setSceneRef("");
+                            objectScheduleEdit.setProjectSpaceTypePlannedDeviceName("");
+                            objectScheduleEdit.setGaaProjectSpaceTypePlannedDeviceRef("");
+                            objectScheduleEdit.setNodeConfigParamName("");
+                            objectScheduleEdit.setValue("");
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+                            ScheduleEditViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
+                            //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                            // Example of clearing all ObjectSchedule instances
+                            sharedViewModel.clearObjectEditSchedules();
                             // ObjectTag objectTag = SceneResModel.getObjectTag();
                             //  SceneResModel = new SceneResModel.getSuccessful();
                         } else {

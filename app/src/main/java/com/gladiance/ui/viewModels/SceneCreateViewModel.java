@@ -26,7 +26,7 @@ public class SceneCreateViewModel extends ViewModel {
     public LiveData<List<ObjectSceneCreate  >> getObjectScenesList() {
         return objectScenesListLiveData;
     }
-    public void clearObjectSchedules() {
+    public void clearObjectCreateScene() {
         objectScenesListLiveData.setValue(new ArrayList<>());
     }
 

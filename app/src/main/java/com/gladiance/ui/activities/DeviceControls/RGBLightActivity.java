@@ -6,14 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -29,16 +25,12 @@ import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
-import com.gladiance.ui.models.saveScene.SceneConfig;
-import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
-import com.gladiance.ui.viewModels.ScheduleCreateViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
 public class RGBLightActivity extends AppCompatActivity {
 
@@ -401,8 +393,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
 
@@ -589,8 +581,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -766,8 +758,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -941,8 +933,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -1117,8 +1109,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -1291,8 +1283,8 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleCreate objectScheduleEdit = new ObjectScheduleCreate(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleCreateViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleCreateViewModel.class);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);

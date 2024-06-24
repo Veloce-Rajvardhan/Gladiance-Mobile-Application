@@ -3,12 +3,9 @@ package com.gladiance.ui.activities.DeviceControls;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,22 +16,21 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.API.RetrofitClient;
-import com.gladiance.ui.fragment.RoomControl.DeviceLandingFragment;
-import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
-import com.gladiance.ui.models.saveScene.SceneConfig;
+import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.ScheduleViewModel;
+import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
+import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.gladiance.ui.viewModels.SceneCreateViewModel;
+import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
 public class DimmerActivity extends AppCompatActivity {
 
@@ -197,6 +193,7 @@ public class DimmerActivity extends AppCompatActivity {
 
         // Edit Scene
         try {
+            AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = "Intensity";
             AppConstants.power = String.valueOf(progress);
             Log.d("TAG", "PowerState: " + AppConstants.powerState);
@@ -213,14 +210,11 @@ public class DimmerActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            // sharedViewModel.setObjecatSchedule(objectScenes);
+            sharedViewModelEdit.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
@@ -232,6 +226,7 @@ public class DimmerActivity extends AppCompatActivity {
 
         // Create Scene
         try {
+            AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Intensity";
             AppConstants.Create_power = String.valueOf(progress);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
@@ -255,25 +250,10 @@ public class DimmerActivity extends AppCompatActivity {
 //            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
 
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            sharedViewModel.addObjectScenes(objectSceneCreate);
 
             ////////////
 
@@ -286,6 +266,7 @@ public class DimmerActivity extends AppCompatActivity {
 
         ////Create Schedule
         try {
+            AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Intensity";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
@@ -302,14 +283,54 @@ public class DimmerActivity extends AppCompatActivity {
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
-
+            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            sharedViewModel.addObjectSchedule(objectSchedule);
+            // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+//            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+//            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+        // Edit Schedule
+        try {
+
+            AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule = name;
+            AppConstants.Edit_powerState_Schedule = "Intensity";
+            AppConstants.Edit_power_Schedule = String.valueOf(progress);
+            Log.d("TAG", "PowerState: " + AppConstants.Edit_powerState_Schedule);
+            Log.d("TAG", "Power: " + AppConstants.Edit_power_Schedule);
+
+            Log.e("APPCONSTS1"," Edit schedule "+AppConstants.Edit_Ref_dyn_Schedule);
+            Log.e("APPCONSTS2"," Edit schedule "+AppConstants.Edit_Name_dyn_Schedule);
+            Log.e("APPCONSTS3", " Edit schedule "+AppConstants.Edit_ScheduleRef_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_Space_dyn_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_powerState_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
+
+
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+
+            // sharedViewModel.setObjectSchedule(objectScenes);
+            //  sharedViewModel.addObjectScenes(objectScenes);
+
+          //  Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
@@ -339,6 +360,7 @@ public class DimmerActivity extends AppCompatActivity {
 
         // Edit Scene
         try {
+            AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = "Power";
             AppConstants.power = String.valueOf(powerState);
             Log.d("TAG", "PowerState: " + AppConstants.powerState);
@@ -355,16 +377,11 @@ public class DimmerActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            // sharedViewModel.setObjecatSchedule(objectScenes);
+            sharedViewModelEdit.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
-
-            ////////////
 
 
         }
@@ -374,6 +391,7 @@ public class DimmerActivity extends AppCompatActivity {
 
         // Create Scene
         try {
+            AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Power";
             AppConstants.Create_power = String.valueOf(powerState);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState);
@@ -388,34 +406,9 @@ public class DimmerActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-//            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
-//            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
-//            Log.e("APPCONSTS2 SceneRef_Schedule",""+AppConstants.ScheduleRef_Schedule);
-//            Log.e("APPCONSTS2 Space_dyn_Schedule",""+AppConstants.Space_dyn_Schedule);
-//            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.projectSpaceTypePlannedDeviceName_Schedule);
-//            Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef_Schedule);
-//            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
-//            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
-
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
-
-
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
-
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.Create_SceneRef),Long.parseLong(AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_powerState,AppConstants.Create_power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            sharedViewModel.addObjectScenes(objectSceneCreate);
 
             ////////////
 
@@ -426,8 +419,9 @@ public class DimmerActivity extends AppCompatActivity {
         }
 
 
-        //// Schedule
+        ////Create Schedule
         try {
+            AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Power";
             AppConstants.Create_power_Schedule = String.valueOf(powerState);
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
@@ -444,14 +438,53 @@ public class DimmerActivity extends AppCompatActivity {
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
-
+            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            sharedViewModel.addObjectSchedule(objectSchedule);
+            // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+//            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+//            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            ////////////
+
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "sendSwitchState: "+e);
+        }
+
+        // Edit Schedule
+        try {
+
+            AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule = name;
+            AppConstants.Edit_powerState_Schedule = "Power";
+            AppConstants.Edit_power_Schedule = String.valueOf(powerState);
+            Log.d("TAG", "PowerState: " + AppConstants.Edit_powerState_Schedule);
+            Log.d("TAG", "Power: " + AppConstants.Edit_power_Schedule);
+
+            Log.e("APPCONSTS1"," Edit schedule "+AppConstants.Edit_Ref_dyn_Schedule);
+            Log.e("APPCONSTS2"," Edit schedule "+AppConstants.Edit_Name_dyn_Schedule);
+            Log.e("APPCONSTS3", " Edit schedule "+AppConstants.Edit_ScheduleRef_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_Space_dyn_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_powerState_Schedule);
+            Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
+
+
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+
+            // sharedViewModel.setObjectSchedule(objectScenes);
+            //  sharedViewModel.addObjectScenes(objectScenes);
+
+        //    Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
