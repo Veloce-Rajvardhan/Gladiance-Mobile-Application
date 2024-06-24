@@ -403,6 +403,33 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Done ");
+                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+
+                            ObjectScenes objectScenes = new ObjectScenes(null,null,null,null,null,null,null,null);
+
+
+// Reset the object using one of the methods above
+                            objectScenes.clear(); // Option 1
+                            AppConstants.Create_Ref_dyn_Schedule = "null";
+// Or use setters if available
+                            objectScenes.setRef_dyn("");
+                            objectScenes.setName_dyn("");
+                            objectScenes.setSpace_dyn("");
+                            objectScenes.setSceneRef("");
+                            objectScenes.setProjectSpaceTypePlannedDeviceName("");
+                            objectScenes.setGaaProjectSpaceTypePlannedDeviceRef("");
+                            objectScenes.setNodeConfigParamName("");
+                            objectScenes.setValue("");
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+                            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+                            //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                            // Example of clearing all ObjectSchedule instances
+                            sharedViewModel.clearObjectScene();
+
 
                         } else {
                             // Handle unsuccessful response

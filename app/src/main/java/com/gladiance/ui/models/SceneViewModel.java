@@ -25,6 +25,10 @@ public class SceneViewModel extends ViewModel {
     public LiveData<List<ObjectScenes>> getObjectScenesList() {
         return objectScenesListLiveData;
     }
+    public void clearObjectScene() {
+        objectScenesListLiveData.setValue(new ArrayList<>());
+    }
+
 }
 
 //    private MutableLiveData<ObjectScenes> sceneLiveData = new MutableLiveData<>();

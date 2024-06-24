@@ -6,7 +6,6 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -16,7 +15,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -39,15 +37,10 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
-import com.gladiance.ui.activities.MyProfile.EditScheduleActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
-import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DayAdapter;
-import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.adapters.DeviceControlScheduleAdapter;
 import com.gladiance.ui.adapters.MonthAdapter;
-import com.gladiance.ui.adapters.SceneCheckAdapter;
-import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.Area;
@@ -55,21 +48,11 @@ import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.Controls;
-import com.gladiance.ui.models.lnstallerlandingpage.Data;
-import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
-import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
-import com.gladiance.ui.models.saveScene.SaveSceneRequest;
-import com.gladiance.ui.models.saveScene.SceneConfig;
-import com.gladiance.ui.models.saveSchedule.ObjectScheduleCreate;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.saveSchedule.Trigger;
 import com.gladiance.ui.models.scene.Configuration;
-import com.gladiance.ui.models.scene.ObjectSceneCreate;
-import com.gladiance.ui.models.scene.ObjectScenes;
-import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
-import com.gladiance.ui.viewModels.SceneCreateViewModel;
 
 
 import java.util.ArrayList;
@@ -921,6 +904,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
+                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+
 
                             ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null);
 

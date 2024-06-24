@@ -33,13 +33,8 @@ public class CircularSeekBarFan extends View {
 
     private float progress = 0;
     private int min = 0;
-    private int max = 5;
-    // Constants
-    private static final float ANGLE_PER_SECTION = 60f; // Angle per section (6 sections for 360 degrees)
+    private int max = 6;
 
-    // Other existing fields and methods...
-
-    private float previousAngle = 0; // To track previous touch angle
     private CircularSeekBarFan.OnProgressChangeListener progressChangeListener;
 
     public CircularSeekBarFan(Context context) {
@@ -138,39 +133,44 @@ public class CircularSeekBarFan extends View {
                 if (angle < 0) {
                     angle += 360;
                 }
-
                 // Calculate the angle relative to the start angle
                 float startAngle = -90; // Start from top
                 angle -= startAngle;
                 if (angle < 0) {
                     angle += 360;
                 }
-
+                // Adjust angle to start from the top (12 o'clock position)
+                if (angle > 360) {
+                    angle -= 360;
+                }
                 // Convert angle to progress
-                float newProgress = angle / ANGLE_PER_SECTION; // Calculate progress based on angle per section
+                float progress = angle / 360 * (max - min);
+                setProgress(progress);
+                String text = String.valueOf((int) progress + min);
+                Log.e(TAG, "onTouchEvent: "+text );
 
-                // Update progress
-                setProgress(newProgress);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
-
     public void setProgress(float progress) {
-        if (progress < 0) {
-            this.progress = 0;
-        } else if (progress > max) {
-            this.progress = max;
-        } else {
-            this.progress = progress;
+        // Calculate the circular progress
+        float range = max - min + 1; // +1 because we include both min and max values
+        float normalizedProgress = progress % range;
+        if (normalizedProgress < 0) {
+            normalizedProgress += range;
         }
 
-        // Reset previous angle to start position
-        previousAngle = -90; // Assuming start angle is -90 degrees
+        this.progress = normalizedProgress;
 
-        invalidate(); // Trigger redraw
+        invalidate();
+
+        // Notify listener with the current progress text
+        String text = String.valueOf((int) this.progress + min);
+        if (progressChangeListener != null) {
+            progressChangeListener.onProgressChanged(text);
+        }
     }
-
 
 }

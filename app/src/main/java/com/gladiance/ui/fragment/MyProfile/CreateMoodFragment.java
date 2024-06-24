@@ -305,7 +305,8 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                 Log.e("APPCONSTS", "" + AppConstants.Create_powerState);
                 Log.e("APPCONSTS", "" + AppConstants.Create_power);
 
-                List<SceneConfig> list = new ArrayList<>();
+              //  List<SceneConfig> list = new ArrayList<>();
+
 //                for (int i = 0; i < ConArrayList.size(); i++) {
 //                    if (ConArrayList.get(i).isChecked() == true) {
 //                        Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
@@ -320,7 +321,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
 //                }
 
                 //////
-
+                List<SceneConfig> list = new ArrayList<>();
                 SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
                 LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
                 objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
@@ -379,8 +380,14 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                     public void onResponse(Call<SceneResModel> call, Response<SceneResModel> response) {
                         if (response.isSuccessful()) {
                             // Handle successful response
+                            SceneResModel sceneResModel = response.body();
+
                             Toast.makeText(getContext().getApplicationContext(), "Scene Created Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Done ");
+                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+
+
 
 
                             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null,null,null,null,null,null,null,null);
@@ -406,7 +413,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                             //      sharedViewModel.addObjectSchedule(objectSchedule);
 
                             // Example of clearing all ObjectSchedule instances
-                            sharedViewModel.clearObjectSchedules();
+                            sharedViewModel.clearObjectCreateScene();
 
                         } else {
                             // Handle unsuccessful response

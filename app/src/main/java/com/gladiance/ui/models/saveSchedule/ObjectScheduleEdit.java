@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ObjectScheduleCreate implements Serializable {
+public class ObjectScheduleEdit implements Serializable {
 
-    public ObjectScheduleCreate(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
+    public ObjectScheduleEdit(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
         this.gaaProjectSpaceTypePlannedDeviceRef = gaaProjectSpaceTypePlannedDeviceRef;
         this.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
         this.Ref_dyn = Ref_dyn;
@@ -119,4 +119,14 @@ public class ObjectScheduleCreate implements Serializable {
         Value = value;
     }
 
+    public void clear() {
+        this.Ref_dyn = "";
+        this.Name_dyn = "";
+        this.SceneRef = "";
+        this.Space_dyn = "";
+        this.projectSpaceTypePlannedDeviceName = "";
+        this.gaaProjectSpaceTypePlannedDeviceRef = "";
+        this.NodeConfigParamName = "";
+        this.Value = "";
+    }
 }
