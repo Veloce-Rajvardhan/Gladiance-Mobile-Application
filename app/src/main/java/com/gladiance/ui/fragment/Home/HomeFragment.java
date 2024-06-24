@@ -28,9 +28,11 @@ import android.widget.TextView;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Home.ProjectSpaceLandingActivity;
+import com.gladiance.ui.adapters.FavoriteListAdapter;
 import com.gladiance.ui.adapters.SceneAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.models.SpaceLanding;
+import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 import com.gladiance.R;
@@ -54,7 +56,7 @@ public class HomeFragment extends Fragment  {
 
     Button buttonFavorite;
 
-    RecyclerView recyclerView,recyclerViewSpaceName;
+    RecyclerView recyclerView,recyclerViewFavoriteList;
     private ArrayList<SpaceLanding> arrayList;
 
     GoogleSignInOptions gso;
@@ -62,6 +64,7 @@ public class HomeFragment extends Fragment  {
 
 
     private ArrayList<ObjectTag> arrayList1;
+    private ArrayList<com.gladiance.ui.models.favoritelist.ObjectTag> arrayListFav;
     Context context;
 
     LinearLayout linearLayout;
@@ -83,7 +86,8 @@ public class HomeFragment extends Fragment  {
         textViewSpaceName = view.findViewById(R.id.spaceNameHome);
         textViewUserName = view.findViewById(R.id.tvUserName);
         recyclerView = view.findViewById(R.id.recycler_view_sceneList_home);
-        //recyclerViewSpaceName = view.findViewById(R.id.rVProjectSpaceNameHome);
+        recyclerViewFavoriteList = view.findViewById(R.id.recycler_view_favoriteList_home);
+
 
 
         arrayList = new ArrayList<>();
@@ -123,6 +127,11 @@ public class HomeFragment extends Fragment  {
         Log.e(TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
         String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
+        SharedPreferences  sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+        String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
+        Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+        String projectSpaceRef = saveProjectSpaceRef.trim();
+
 //        SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
 //        String ProjectSpaceGroupRef = sharedPreferences5.getString("SPACE_GROUP_REF", "");
 //        Log.e(TAG, "get Project Space Group Ref: "+ProjectSpaceGroupRef);
@@ -140,46 +149,10 @@ public class HomeFragment extends Fragment  {
        // getSpaceName(ProjectSpaceGroupRef,loginToken,loginDeviceId);
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
 
+        getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
+
         return view;
     }
-
-//    private void  getSpaceName(String ProjectSpaceGroupRef, String loginToken,String loginDeviceId) {
-//
-//        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-//        Call<ProjectSpaceLandingResModel> call = apiService.getSpaceNameData(ProjectSpaceGroupRef, loginToken, loginDeviceId);
-//
-//        call.enqueue(new Callback<ProjectSpaceLandingResModel>() {
-//            @Override
-//            public void onResponse(Call<ProjectSpaceLandingResModel> call, Response<ProjectSpaceLandingResModel> response) {
-//                if (response.isSuccessful()) {
-//                    ProjectSpaceLandingResModel projectSpaceLandingResModel = response.body();
-//                    if (projectSpaceLandingResModel != null && projectSpaceLandingResModel.isSuccessful()) {
-//                        List<ProjectSpaceLandingReqModel.Space> space = projectSpaceLandingResModel.getData().getSpaces();
-//
-//                        for (ProjectSpaceLandingReqModel.Space space1 : space) {
-//                            Log.e(TAG, "onResponse SpaceGroupName: " + space1.getGAAProjectSpaceName());
-//                            Log.e(TAG, "onResponse getGAAProjectSpaceRef: "+space1.getGAAProjectSpaceRef());
-//                            Log.e(TAG, "onResponse getGAAProjectSpaceTypeRef: "+space1.getGAAProjectSpaceTypeRef());
-//
-//                            arrayList.add(new SpaceLanding(space1.getGAAProjectSpaceRef(), space1.getGAAProjectSpaceName(),space1.getGAAProjectSpaceTypeRef(),space1.getGAAProjectSpaceTypeName(), space1.getDisplayOrder(), space1.getDescription()));
-//
-//                        }
-//
-//
-//
-//                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList,getContext());
-//                        recyclerViewSpaceName.setAdapter(projectSpaceNameAdapter);
-//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
-//                        recyclerViewSpaceName.setLayoutManager(gridLayoutManager1);
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ProjectSpaceLandingResModel> call, Throwable t) {
-//            }
-//        });
-//    }
-
 
     private void getSceneList(String gaaProjectSpaceTypeRef,String loginToken,String loginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -210,15 +183,49 @@ public class HomeFragment extends Fragment  {
                     Log.e("MainActivity", "Failed to get response");
                 }
             }
-
             @Override
             public void onFailure(Call<SceneListResModel> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getFavouriteList(String gaaProjectSpaceRef,String loginToken,String loginDeviceId){
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef,loginToken,loginDeviceId);
+
+        call.enqueue(new Callback<FavoriteListRes>() {
+            @Override
+            public void onResponse(Call<FavoriteListRes> call, Response<FavoriteListRes> response) {
+                if(response.isSuccessful()){
+                    FavoriteListRes favoriteListRes = response.body();
+                    if(favoriteListRes != null && favoriteListRes.getSuccessful()){
+                        List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
+
+                        for (com.gladiance.ui.models.favoritelist.ObjectTag objectTag : fevList) {
+                            Log.e(TAG, "onResponse SceneName: " + objectTag.getLabel());
+                            arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
+                        }
+
+//                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
+//                        recyclerViewFavoriteList.setAdapter(favoriteListAdapter);
+//                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+//                        recyclerViewFavoriteList.setLayoutManager(gridLayoutManager1);
+                        //If any error change adapter class
+                    } else {
+                        Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
+                    }
+                } else {
+                    Log.e("MainActivity", "Failed to get response");
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<FavoriteListRes> call, Throwable t) {
 
             }
         });
-
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

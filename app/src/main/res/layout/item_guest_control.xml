@@ -15,35 +15,54 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:id="@+id/llGuestControl"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!-- Image View -->
+            <LinearLayout
+                android:id="@+id/llGuestControl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Image View -->
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="@dimen/_30sdp"
+                    android:src="@drawable/lighting"
+                    android:scaleType="centerCrop" />
+
+                <!-- Text View -->
+                <TextView
+                    android:id="@+id/btnTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/_5sdp"
+                    style="@style/TEXT"
+                    android:text="This is a square card view"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- Small Image on the left side -->
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:padding="@dimen/_30sdp"
-                android:src="@drawable/lighting"
-                android:scaleType="centerCrop" />
+                android:id="@+id/fev_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/likewhite"
+                android:layout_marginStart="@dimen/_90sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-            <!-- Text View -->
-            <TextView
-                android:id="@+id/btnTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="@dimen/_5sdp"
-                style="@style/TEXT"
-                android:text="This is a square card view"
-                android:textSize="18sp" />
-        </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

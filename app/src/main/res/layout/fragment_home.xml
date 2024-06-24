@@ -143,6 +143,14 @@
             android:orientation="horizontal"
             tools:listitem="@layout/item_scene" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_favoriteList_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_guest_control" />
+
+
     </ScrollView>
 
     <FrameLayout

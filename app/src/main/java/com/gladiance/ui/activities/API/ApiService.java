@@ -1,6 +1,7 @@
 package com.gladiance.ui.activities.API;
 
 import com.gladiance.ui.models.ActiveSceneRes;
+import com.gladiance.ui.models.AddSpaceUserFavourite;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.LoginRequestModel;
 import com.gladiance.ui.models.LoginResponseModel;
@@ -10,6 +11,7 @@ import com.gladiance.ui.models.NodeResponseModel;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingResModel;
 import com.gladiance.ui.models.ProjectSpaceResponseModel;
+import com.gladiance.ui.models.RemoveSpaceUserFavorite;
 import com.gladiance.ui.models.RequestModel;
 import com.gladiance.ui.models.ResetResponse;
 import com.gladiance.ui.models.ResponseModel;
@@ -19,6 +21,7 @@ import com.gladiance.ui.models.ac.Thermostat;
 import com.gladiance.ui.models.ac.ThermostatResponse;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
+import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningRequest;
@@ -163,4 +166,28 @@ public interface ApiService {
 
     @POST("request/allocatesingleid/50000102")
     Call<AllocateSingleIdResponse>  allocateSingleId();
+
+    @POST("mobileapp/addspaceuserfavourite/{gaaProjectSpaceRef}/{gaaProjectSpaceTypePlannedDeviceConnectionRef}/{loginToken}/{loginDeviceId}")
+    Call<AddSpaceUserFavourite> addSpaceUserFavourite(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("gaaProjectSpaceTypePlannedDeviceConnectionRef") String gaaProjectSpaceTypePlannedDeviceConnectionRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/removespaceuserfavourite/{gaaProjectSpaceRef}/{gaaProjectSpaceTypePlannedDeviceConnectionRef}/{loginToken}/{loginDeviceId}")
+    Call<RemoveSpaceUserFavorite> removeSpaceUserFavourite(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("gaaProjectSpaceTypePlannedDeviceConnectionRef") String gaaProjectSpaceTypePlannedDeviceConnectionRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/spaceuserfavouritelist/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<FavoriteListRes> getUserFavouriteList(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
 }
+
