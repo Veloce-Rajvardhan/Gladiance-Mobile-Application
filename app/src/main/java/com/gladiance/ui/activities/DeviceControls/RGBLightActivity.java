@@ -147,7 +147,7 @@ public class RGBLightActivity extends AppCompatActivity {
         // Set the ClipDrawable as the progress drawable for the SeekBar
         seekBar2.setProgressDrawable(gradientDrawable);
 
-        seekBar2.setMax(360);
+        seekBar2.setMax(359);
         seekBar2.setProgress(0);
         textView2.setText("0");
 

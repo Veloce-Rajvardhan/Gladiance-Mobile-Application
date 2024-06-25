@@ -38,6 +38,7 @@ import java.util.List;
 public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdapter.ViewHolder> {
     private List<Controls> ConArrayList;
     private List<Configuration> ConfigArrayList;
+    private SharedPreferences prefs;
 
 
     public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
@@ -47,42 +48,64 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 
     @NonNull
     @Override
-    public ScheduleCheckAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_control_card, parent, false);
-        return new ScheduleCheckAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
 
-
-
     @Override
-    public void onBindViewHolder(@NonNull ScheduleCheckAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Controls control = ConArrayList.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
+
+        // Clear any previous OnCheckedChangeListener to prevent unwanted behavior
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
+
+        // Set checkbox state based on isChecked flag in Controls object
+        holder.deviceNameCheckBox.setChecked(control.isChecked());
         // int positions = 0;
-        for (int i=0;i< ConfigArrayList.size(); i++) {
-
-            Configuration configuration = ConfigArrayList.get(i);
-
-
-            if((configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
-                Log.e(TAG, "onBindViewHolder: "+configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
+        for (Configuration configuration : ConfigArrayList){
+            if(configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())){
+                Log.e(TAG, "onBindViewHolder: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
                 holder.deviceNameCheckBox.setChecked(true);
-                return;
+                break; // Exit loop once a match is found
             }
         }
+//        for (int i=0;i< ConfigArrayList.size(); i++) {
+//
+//            Configuration configuration = ConfigArrayList.get(i);
+//
+//
+//            if((configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef()))){
+//                Log.e(TAG, "onBindViewHolder: "+configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef() );
+//                holder.deviceNameCheckBox.setChecked(true);
+//                return;
+//            }
+//        }
 
         holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if(isChecked){
-                    System.out.println("Checked");
-                    ConArrayList.get(position).setChecked(isChecked);
-                } else {
-                    System.out.println("Un-Checked");
-                    ConArrayList.get(position).setChecked(isChecked);
+                control.setChecked(isChecked);
+
+                try {
+                    if (prefs != null) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isChecked_" + position, isChecked);
+                        editor.apply();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e);
                 }
+//                if(isChecked){
+//                    System.out.println("Checked");
+//                    ConArrayList.get(position).setChecked(isChecked);
+//                } else {
+//                    System.out.println("Un-Checked");
+//                    ConArrayList.get(position).setChecked(isChecked);
+//                }
             }
         });
 
@@ -115,7 +138,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
                 boolean isChecked = holder.deviceNameCheckBox.isChecked();
                 if (isChecked) {
 
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                  //  LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
 
                     Long GaaProjectSpaceTypePlannedDeviceRef = control.getgAAProjectSpaceTypePlannedDeviceRef();
 
@@ -123,7 +146,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 
 
                     // GAAPROJECTSPACETYPEPLANNEDDEVICEREF
-                    SharedPreferences sharedPreference_dyn2 = inflater.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF_Dyn", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreference_dyn2 = view.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn = sharedPreference_dyn2.edit();
                     editor_dyn.putLong("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF", GaaProjectSpaceTypePlannedDeviceRef);
                     editor_dyn.apply();
@@ -135,7 +158,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 
                     // GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF / NodeConfigDeviceName
                     String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
-                    SharedPreferences sharedPreference_dyn3 = inflater.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreference_dyn3 = view.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn3 = sharedPreference_dyn3.edit();
                     editor_dyn3.putString("GAA_PROJECT_SPACE_TYPE_PLANNED_DEVICE_NAME_REF", projectSpaceTypePlannedDeviceName);
                     editor_dyn3.apply();
@@ -161,7 +184,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 
                     //for dynamic GaaProjectSpaceTypePlannedDeviceRef
                     // Get the SharedPreferences object
-                    SharedPreferences sharedPreference_dyn = inflater.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreference_dyn = view.getContext().getSharedPreferences("my_shared_pref_dyn", Context.MODE_PRIVATE);
 
                     // Create an editor for modifying the SharedPreferences
                     SharedPreferences.Editor editor5 = sharedPreference_dyn.edit();
@@ -267,14 +290,14 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 //                    startActivity(intent);
 
                     String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences2 = view.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences2.edit();
                     Log.e(TAG, "Node Id: " + nodeId);
                     editor.putString("KEY_USERNAMEs", nodeId);
                     editor.apply();
 
                     String Label = control.getLabel();
-                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences1 = view.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                     Log.e(TAG, "Label: " + Label);
                     editor1.putString("KEY_USERNAMEs", Label);

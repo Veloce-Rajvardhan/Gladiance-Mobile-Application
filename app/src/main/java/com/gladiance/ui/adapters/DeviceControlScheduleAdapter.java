@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,31 +37,53 @@ import java.util.List;
 public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceControlScheduleAdapter.ViewHolder> {
     private List<Controls> controls;
     private Context context;
-
-
-
+    private SharedPreferences prefs;
 
     public DeviceControlScheduleAdapter(List<Controls> controls, Context context) {
         this.controls = controls;
         this.context = context;
     }
 
-
     @NonNull
     @Override
-    public DeviceControlScheduleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType ) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_control_card, parent, false);
-        return new DeviceControlScheduleAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
-
-
     @Override
-    public void onBindViewHolder(@NonNull DeviceControlScheduleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
+
+        // Set checkbox state based on isChecked flag in Controls object
+        holder.deviceNameCheckBox.setChecked(control.isChecked());
+
         String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
+
+
+        // Set OnCheckedChangeListener for checkbox
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update isChecked state in Controls object
+                control.setChecked(isChecked);
+
+                // Handle saving state or other actions if needed
+                try {
+                    if (prefs != null) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isChecked_" + position, isChecked);
+                        editor.apply();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e);
+                }
+            }
+        });
+
 
         holder.scheduleCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +91,12 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
                 boolean isChecked = holder.deviceNameCheckBox.isChecked();
                 if (isChecked) {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                 //   LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
 
                     Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+            //        String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
+
+                    SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor3 = sharedPreferences.edit();
                     Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
                     editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
@@ -91,14 +116,14 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
 
                     String Label = control.getLabel();
-                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences1 = view.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                     Log.e(TAG, "Label: " + Label);
                     editor1.putString("KEY_USERNAMEs", Label);
                     editor1.apply();
 
                     String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences2 = view.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences2.edit();
                     Log.e(TAG, "Node Id: " + nodeId);
                     editor.putString("KEY_USERNAMEs", nodeId);
@@ -134,7 +159,7 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
         return controls.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceNameTextView;
         CardView scheduleCardView;
         CheckBox deviceNameCheckBox;
