@@ -8,6 +8,9 @@ import com.gladiance.ui.models.LoginResponseModel;
 import com.gladiance.ui.models.LogoutRequestModel;
 import com.gladiance.ui.models.LogoutResponseModel;
 import com.gladiance.ui.models.NodeResponseModel;
+import com.gladiance.ui.models.Privacy.PrivacyListRes;
+import com.gladiance.ui.models.PrivacyOnOffResponse;
+import com.gladiance.ui.models.privacystatus.PrivacyStatusResponse;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingResModel;
 import com.gladiance.ui.models.ProjectSpaceResponseModel;
@@ -17,7 +20,6 @@ import com.gladiance.ui.models.ResetResponse;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.ResponseModelNode;
 import com.gladiance.ui.models.SpaceSpaceGroupResModel;
-import com.gladiance.ui.models.ac.Thermostat;
 import com.gladiance.ui.models.ac.ThermostatResponse;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
@@ -185,6 +187,34 @@ public interface ApiService {
 
     @GET("mobileapp/spaceuserfavouritelist/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
     Call<FavoriteListRes> getUserFavouriteList(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/privacymodeavailabilityinformation/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<PrivacyListRes> getPrivacyModeAvailability(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/activateprivacymode/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<PrivacyOnOffResponse> activatePrivacyMode(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/deactivateprivacymode/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<PrivacyOnOffResponse> deactivatePrivacyMode(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/privacystatus/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<PrivacyStatusResponse> getPrivacyStatus(
             @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
