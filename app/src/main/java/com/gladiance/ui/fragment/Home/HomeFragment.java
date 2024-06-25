@@ -25,6 +25,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Home.ProjectSpaceLandingActivity;
@@ -50,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment  {
+public class HomeFragment extends Fragment {
 
     TextView textViewProjectName,textViewUserName,textViewSpaceName;
 
@@ -61,7 +63,6 @@ public class HomeFragment extends Fragment  {
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
-
 
     private ArrayList<ObjectTag> arrayList1;
     private ArrayList<com.gladiance.ui.models.favoritelist.ObjectTag> arrayListFav;
@@ -219,7 +220,6 @@ public class HomeFragment extends Fragment  {
                 }
             }
 
-
             @Override
             public void onFailure(Call<FavoriteListRes> call, Throwable t) {
 
@@ -243,6 +243,9 @@ public class HomeFragment extends Fragment  {
             return false; // Otherwise, let the system handle it
         });
     }
+
+
+
 
 
 

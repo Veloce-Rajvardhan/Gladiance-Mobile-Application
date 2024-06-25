@@ -246,12 +246,6 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
                 }
             });
 
-            fevImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fevImage.setImageResource(R.drawable.likered);
-                }
-            });
         }
     }
 
