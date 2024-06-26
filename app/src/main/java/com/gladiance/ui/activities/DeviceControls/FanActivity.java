@@ -169,10 +169,10 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
-            List<SceneConfig> list = new ArrayList<>();
-            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-            list.size();
-            Log.e(TAG, "List Size: "+list.size());
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
 
@@ -209,8 +209,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider(this).get(SceneCreateViewModel.class);
-
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
 
