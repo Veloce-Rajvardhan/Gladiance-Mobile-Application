@@ -187,14 +187,14 @@ public class BellActivity extends AppCompatActivity {
 //            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-            Log.e("APPCONSTS",""+AppConstants.powerState);
-            Log.e("APPCONSTS",""+AppConstants.power);
+//            Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
+//            Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+//            Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+//            Log.e("APPCONSTS",""+AppConstants.Space_dyn);
+//            Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+//            Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+//            Log.e("APPCONSTS",""+AppConstants.powerState);
+//            Log.e("APPCONSTS",""+AppConstants.power);
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);

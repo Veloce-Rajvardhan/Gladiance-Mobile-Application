@@ -319,19 +319,19 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                 Log.e("APPCONSTS",""+ AppConstants.powerState);
                 Log.e("APPCONSTS",""+AppConstants.power);
 
-                List<SceneConfig> list = new ArrayList<>();
-                for(int i = 0; i <ConArrayList.size(); i++){
-                    if(ConArrayList.get(i).isChecked() == true){
-                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
-                        list.add(new SceneConfig(
-                                Long.parseLong(AppConstants.SceneRef),
-                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef(),
-                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName(),
-                                AppConstants.powerState,
-                                AppConstants.power
-                        ));
-                    }
-                }
+//                List<SceneConfig> list = new ArrayList<>();
+//                for(int i = 0; i <ConArrayList.size(); i++){
+//                    if(ConArrayList.get(i).isChecked() == true){
+//                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName());
+//                        list.add(new SceneConfig(
+//                                Long.parseLong(AppConstants.SceneRef),
+//                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceRef(),
+//                                ConArrayList.get(i).getgAAProjectSpaceTypePlannedDeviceName(),
+//                                AppConstants.powerState,
+//                                AppConstants.power
+//                        ));
+//                    }
+//                }
 
                 //     List<SceneConfig> list = new ArrayList<>();
 //                for(int i = 0; i <ConArrayList.size(); i++){
@@ -347,6 +347,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 //                    }
 //                }
 
+                List<SceneConfig> list = new ArrayList<>();
                 SceneViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
                 LiveData<List<ObjectScenes>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
                 objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectScenes>>() {
@@ -403,7 +404,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
                             Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Done ");
-                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+                            Log.e("Edit Schedule", "Message: " + sceneResModel.getMessage());
 
                             ObjectScenes objectScenes = new ObjectScenes(null,null,null,null,null,null,null,null);
 
@@ -513,10 +514,10 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                     configuration.getgAAProjectName()));
 
 
-                            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
-                            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-                            // sharedViewModel.setObjecatSchedule(objectScenes);
-                            sharedViewModelEdit.addObjectScenes(objectScenes);
+//                            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+//                            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//                            // sharedViewModel.setObjecatSchedule(objectScenes);
+//                            sharedViewModelEdit.addObjectScenes(objectScenes);
 //                            for (com.gladiance.ui.models.scheduleStoreData.Configuration config : configurationsData) {
 //                                // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
 //                                System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());

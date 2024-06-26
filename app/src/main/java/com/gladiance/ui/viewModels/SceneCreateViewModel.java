@@ -23,7 +23,7 @@ public class SceneCreateViewModel extends ViewModel {
         objectScenesListLiveData.setValue(currentList);
     }
 
-    public LiveData<List<ObjectSceneCreate  >> getObjectScenesList() {
+    public LiveData<List<ObjectSceneCreate>> getObjectScenesList() {
         return objectScenesListLiveData;
     }
     public void clearObjectCreateScene() {
