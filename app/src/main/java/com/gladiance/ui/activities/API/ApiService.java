@@ -3,6 +3,7 @@ package com.gladiance.ui.activities.API;
 import com.gladiance.ui.models.ActiveSceneRes;
 import com.gladiance.ui.models.AddSpaceUserFavourite;
 import com.gladiance.ui.models.DeviceInfo;
+import com.gladiance.ui.models.EmergencyResponse;
 import com.gladiance.ui.models.LoginRequestModel;
 import com.gladiance.ui.models.LoginResponseModel;
 import com.gladiance.ui.models.LogoutRequestModel;
@@ -10,6 +11,9 @@ import com.gladiance.ui.models.LogoutResponseModel;
 import com.gladiance.ui.models.NodeResponseModel;
 import com.gladiance.ui.models.Privacy.PrivacyListRes;
 import com.gladiance.ui.models.PrivacyOnOffResponse;
+import com.gladiance.ui.models.SafetyResponse;
+import com.gladiance.ui.models.SecurityResponse;
+import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
 import com.gladiance.ui.models.privacystatus.PrivacyStatusResponse;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingResModel;
@@ -33,6 +37,7 @@ import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
+import com.gladiance.ui.models.securitystatus.SecurityStatusRes;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -219,5 +224,64 @@ public interface ApiService {
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
     );
+
+    @POST("mobileapp/raiseemergencyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<EmergencyResponse> raiseEmergencyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/cancelemergencyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<EmergencyResponse> cancelEmergencyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/pendingemergencyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<EmergencyStatusRes> getPendingEmergencyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/raisesecurityrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SecurityResponse> raiseSecurityRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/cancelsecurityrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SecurityResponse> cancelSecurityRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/pendingsecurityrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SecurityStatusRes> getPendingSecurityRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/raisesafetyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SafetyResponse> raiseSafetyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/cancelsafetyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SafetyResponse> cancelSafetyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+
+
 }
 

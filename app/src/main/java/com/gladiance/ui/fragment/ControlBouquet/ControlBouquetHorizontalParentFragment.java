@@ -1,6 +1,11 @@
 package com.gladiance.ui.fragment.ControlBouquet;
 
+import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,16 +13,19 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.gladiance.ui.activities.API.ApiService;
+import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.ControlBouquet.BillViewActivity;
-import com.gladiance.ui.activities.ControlBouquet.DoorCameraActivity;
 import com.gladiance.ui.activities.ControlBouquet.SurveillanceActivity;
-import com.gladiance.ui.activities.ControlBouquet.EmergencyActivity;
+import com.gladiance.ui.activities.ControlBouquet.SafetyActivity;
 import com.gladiance.ui.activities.ControlBouquet.FeedbackActivity;
 import com.gladiance.ui.activities.ControlBouquet.HotelInfoActivity;
 import com.gladiance.ui.activities.ControlBouquet.HouseKeepingActivity;
@@ -26,18 +34,29 @@ import com.gladiance.ui.activities.ControlBouquet.MessagingActivity;
 import com.gladiance.ui.activities.ControlBouquet.PromotionActivity;
 import com.gladiance.ui.activities.ControlBouquet.RoomServiceActivity;
 import com.gladiance.R;
+import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.models.EmergencyResponse;
+import com.gladiance.ui.models.PrivacyOnOffResponse;
+import com.gladiance.ui.models.SecurityResponse;
+import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
+import com.gladiance.ui.models.securitystatus.SecurityStatusRes;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ControlBouquetHorizontalParentFragment extends Fragment  {
 
     CardView CVHouseKipping,CVRoomService,CVLaundry,CVBillView,CVFeedback,CVHotelInfo,CVPromotion,CVMessaging,CVSurveillance,
-                CVEmergency,CVSafety;
+                CVEmergency,CVSafety,CVSecurity;
+
+    private boolean isEmergencyActive = false;
+    private boolean isSecurityActive = false;
+
     public ControlBouquetHorizontalParentFragment() {
         // Required empty public constructor
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +75,26 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         CVSurveillance = view.findViewById(R.id.surveillance);
         CVEmergency = view.findViewById(R.id.emergency);
         CVSafety = view.findViewById(R.id.safety);
+        CVSecurity = view.findViewById(R.id.security);
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+        String GUID = LoginActivity.getUserId(sharedPreferences);
+        Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+        String loginDeviceId = GUID.trim();
+
+
+        SharedPreferences  sharedPreferences2 = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+        Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+        String loginToken = savedLoginDeviceId.trim();
+
+        SharedPreferences  sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+        String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
+        Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+        String projectSpaceRef = saveProjectSpaceRef.trim();
+
+        getEmergencyStatus(projectSpaceRef,loginToken,loginDeviceId);
+        getSecurityStatus(projectSpaceRef,loginToken,loginDeviceId);
 
         CVHouseKipping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,21 +171,194 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         CVEmergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EmergencyActivity.class);
-                startActivity(intent);
+                if (isEmergencyActive) {
+                    deactivateEmergency(projectSpaceRef, loginToken, loginDeviceId);
+                    CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                } else {
+                    activeEmergency(projectSpaceRef, loginToken, loginDeviceId);
+                    CVEmergency.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                }
+
             }
         });
 
         CVSafety.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EmergencyActivity.class);
+                Intent intent = new Intent(getActivity(), SafetyActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        CVSecurity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isSecurityActive){
+                    deactivateSecurity(projectSpaceRef,loginToken,loginDeviceId);
+                    CVSecurity.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                }else {
+                    activeSecurity(projectSpaceRef,loginToken,loginDeviceId);
+                    CVSecurity.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                }
             }
         });
 
 
         return view;
+    }
+
+    private void activeEmergency(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<EmergencyResponse> call = apiService.raiseEmergencyRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+        call.enqueue(new Callback<EmergencyResponse>() {
+            @Override
+            public void onResponse(Call<EmergencyResponse> call, Response<EmergencyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EmergencyResponse apiResponse = response.body();
+                    if (apiResponse.isSuccessful()) {
+                        Toast.makeText(requireContext(), "Emergency Activated", Toast.LENGTH_SHORT).show();
+                        isEmergencyActive = true;
+                        CVEmergency.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to Activate Emergency", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deactivateEmergency(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<EmergencyResponse> call = apiService.cancelEmergencyRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+        call.enqueue(new Callback<EmergencyResponse>() {
+            @Override
+            public void onResponse(Call<EmergencyResponse> call, Response<EmergencyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EmergencyResponse apiResponse = response.body();
+                    if (apiResponse.isSuccessful()) {
+                        Toast.makeText(requireContext(), "Emergency Deactivated", Toast.LENGTH_SHORT).show();
+                        isEmergencyActive = false;
+                        CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to Deactivate Emergency", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getEmergencyStatus(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<EmergencyStatusRes> call = apiService.getPendingEmergencyRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+
+        call.enqueue(new Callback<EmergencyStatusRes>() {
+            @Override
+            public void onResponse(Call<EmergencyStatusRes> call, Response<EmergencyStatusRes> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EmergencyStatusRes emergencyResponse = response.body();
+                    boolean isTriggered = emergencyResponse.getObjectTag().getTriggered();
+                    if (isTriggered) {
+                        isEmergencyActive = true;
+                        CVEmergency.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                    } else {
+                        isEmergencyActive = false;
+                        CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyStatusRes> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void activeSecurity(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<SecurityResponse> call = apiService.raiseSecurityRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+        call.enqueue(new Callback<SecurityResponse>() {
+            @Override
+            public void onResponse(Call<SecurityResponse> call, Response<SecurityResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SecurityResponse apiResponse = response.body();
+                    if (apiResponse.isSuccessful()) {
+                        Toast.makeText(requireContext(), "Security Activated", Toast.LENGTH_SHORT).show();
+                        isSecurityActive = true;
+                        CVSecurity.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to Activate Security", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SecurityResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deactivateSecurity(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<SecurityResponse> call = apiService.cancelSecurityRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+        call.enqueue(new Callback<SecurityResponse>() {
+            @Override
+            public void onResponse(Call<SecurityResponse> call, Response<SecurityResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SecurityResponse apiResponse = response.body();
+                    if (apiResponse.isSuccessful()) {
+                        Toast.makeText(requireContext(), "Security Deactivated", Toast.LENGTH_SHORT).show();
+                        isSecurityActive = false;
+                        CVSecurity.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to Deactivate Security", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SecurityResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getSecurityStatus(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<SecurityStatusRes> call = apiService.getPendingSecurityRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
+
+        call.enqueue(new Callback<SecurityStatusRes>() {
+            @Override
+            public void onResponse(Call<SecurityStatusRes> call, Response<SecurityStatusRes> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SecurityStatusRes emergencyResponse = response.body();
+                    boolean isTriggered = emergencyResponse.getObjectTag().getTriggered();
+                    if (isTriggered) {
+                        isSecurityActive = true;
+                        CVSecurity.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                    } else {
+                        isSecurityActive = false;
+                        CVSecurity.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SecurityStatusRes> call, Throwable t) {
+                Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -157,11 +369,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         view.requestFocus();
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                // Handle back button press here
-//                Intent intent = new Intent(requireActivity(), HomeFragment.class);
-//                startActivity(intent);
 
-                //ikde lava
                 MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
                 bottomNavigation.show(3, true);

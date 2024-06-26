@@ -109,7 +109,6 @@ public class DoNotDisturbFragment extends Fragment {
     }
 
 
-
     private void activatePrivacyMode(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<PrivacyOnOffResponse> call = apiService.activatePrivacyMode(gaaProjectSpaceRef, loginToken, loginDeviceId);

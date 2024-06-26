@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.ControlBouquet.EmergencyActivity">
+    tools:context=".ui.activities.ControlBouquet.SafetyActivity">
 
     <TextView
         android:id="@+id/title"
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
-        android:text="Emergency"
+        android:text="Safety"
         android:textSize="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"

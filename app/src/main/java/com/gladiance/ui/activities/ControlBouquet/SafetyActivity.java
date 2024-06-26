@@ -12,7 +12,7 @@ import com.gladiance.ui.adapters.EmergencyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmergencyActivity extends AppCompatActivity {
+public class SafetyActivity extends AppCompatActivity {
 
     List<String> tvName = new ArrayList<>();
     List<Integer> imageCall = new ArrayList<>();
@@ -24,7 +24,7 @@ public class EmergencyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_emergency);
+        setContentView(R.layout.activity_sefety);
 
         RecyclerView recyclerViewEmergency = findViewById(R.id.rv_emergency);
 

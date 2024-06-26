@@ -114,7 +114,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activities.ControlBouquet.EmergencyActivity"
+            android:name=".ui.activities.ControlBouquet.SafetyActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
