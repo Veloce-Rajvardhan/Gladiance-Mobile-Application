@@ -18,16 +18,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <Switch
+        android:id="@+id/switchButtonHouseKeeping"
+        android:theme="@style/Theme.AppCompat.Light"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HouseKeeping"
-        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:checked="false"
         android:textSize="25dp"
-        style="@style/TEXT"
+        android:textOn="ON"
+        android:textOff="OFF"
+        android:showText="true"
+        android:thumb="@drawable/switch_thumb2"
+        android:track="@drawable/switch_bg"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.146" />
+
+
+
+    <TextView
+        android:id="@+id/privacy"
+        style="@style/TEXT"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="House Keeping"
+        android:textSize="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchButtonHouseKeeping" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

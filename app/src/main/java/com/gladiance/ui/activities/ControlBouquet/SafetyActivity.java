@@ -41,8 +41,9 @@ import retrofit2.Response;
 public class SafetyActivity extends AppCompatActivity {
 
     TextView textViewPolice;
-    LinearLayout llPolice,llFie,llHospital,llOther;
+    LinearLayout llPolice,llFire,llHospital,llOther;
     private boolean isSafetyActive = false;
+    private String activeSafetyType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class SafetyActivity extends AppCompatActivity {
 
         textViewPolice = findViewById(R.id.TextPolice);
         llPolice = findViewById(R.id.llPolice);
-        llFie = findViewById(R.id.llFire);
+        llFire = findViewById(R.id.llFire);
         llHospital = findViewById(R.id.llHospital);
         llOther = findViewById(R.id.llOther);
 
@@ -79,72 +80,49 @@ public class SafetyActivity extends AppCompatActivity {
         llPolice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isSafetyActive) {
-                    String message = "Are you sure you want to Deactivate Safety";
-                    showCustomDialogBoxEmergency(message);
-                    llPolice.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
-                } else {
-                    activeSafety(projectSpaceRef,"100", loginToken, loginDeviceId);
-                    llPolice.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
-                }
-
+                handleSafetyClick("100", projectSpaceRef, loginToken, loginDeviceId, llPolice);
             }
         });
 
-        llFie.setOnClickListener(new View.OnClickListener() {
+        llFire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isSafetyActive) {
-                    String message = "Are you sure you want to Deactivate Safety";
-                    showCustomDialogBoxEmergency(message);
-                    llFie.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
-                } else {
-                    activeSafety(projectSpaceRef,"200", loginToken, loginDeviceId);
-                    llFie.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
-                }
-
+                handleSafetyClick("200", projectSpaceRef, loginToken, loginDeviceId, llFire);
             }
         });
 
         llHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isSafetyActive) {
-                    String message = "Are you sure you want to Deactivate Safety";
-                    showCustomDialogBoxEmergency(message);
-                    llHospital.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
-                } else {
-                    activeSafety(projectSpaceRef,"300", loginToken, loginDeviceId);
-                    llHospital.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
-                }
-
+                handleSafetyClick("300", projectSpaceRef, loginToken, loginDeviceId, llHospital);
             }
         });
 
         llOther.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isSafetyActive) {
-                    String message = "Are you sure you want to Deactivate Safety";
-                    showCustomDialogBoxEmergency(message);
-                    llOther.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
-                } else {
-                    activeSafety(projectSpaceRef,"0", loginToken, loginDeviceId);
-                    llOther.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
-                }
-
+                handleSafetyClick("0", projectSpaceRef, loginToken, loginDeviceId, llOther);
             }
         });
+
     }
 
 
-    private void activeSafety(String gaaProjectSpaceRef,String safetyRequestType,String loginToken, String loginDeviceId) {
+    private void handleSafetyClick(String safetyType, String projectSpaceRef, String loginToken, String loginDeviceId, LinearLayout clickedLayout) {
+        if (isSafetyActive) {
+            if (safetyType.equals(activeSafetyType)) {
+                showCustomDialogBoxEmergency("Are you sure you want to Deactivate Safety?", clickedLayout);
+            } else {
+                Toast.makeText(SafetyActivity.this, "Deactivate current safety first", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            activeSafety(projectSpaceRef, safetyType, loginToken, loginDeviceId, clickedLayout);
+        }
+    }
+
+    private void activeSafety(String gaaProjectSpaceRef, String safetyRequestType, String loginToken, String loginDeviceId, LinearLayout clickedLayout) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<SafetyResponse> call = apiService.raiseSafetyRequest(gaaProjectSpaceRef,safetyRequestType,loginToken,loginDeviceId);
+        Call<SafetyResponse> call = apiService.raiseSafetyRequest(gaaProjectSpaceRef, safetyRequestType, loginToken, loginDeviceId);
         call.enqueue(new Callback<SafetyResponse>() {
             @Override
             public void onResponse(Call<SafetyResponse> call, Response<SafetyResponse> response) {
@@ -153,6 +131,9 @@ public class SafetyActivity extends AppCompatActivity {
                     if (apiResponse.getSuccessful()) {
                         Toast.makeText(SafetyActivity.this, "Safety Activated", Toast.LENGTH_SHORT).show();
                         isSafetyActive = true;
+                        activeSafetyType = safetyRequestType;
+                        resetAllBackgrounds();
+                        clickedLayout.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
                     } else {
                         Toast.makeText(SafetyActivity.this, "Failed to Activate Safety", Toast.LENGTH_SHORT).show();
                     }
@@ -166,7 +147,7 @@ public class SafetyActivity extends AppCompatActivity {
         });
     }
 
-    private void deactivateSafety(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
+    private void deactivateSafety(String gaaProjectSpaceRef, String loginToken, String loginDeviceId, LinearLayout clickedLayout) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<SafetyResponse> call = apiService.cancelSafetyRequest(gaaProjectSpaceRef, loginToken, loginDeviceId);
         call.enqueue(new Callback<SafetyResponse>() {
@@ -177,12 +158,14 @@ public class SafetyActivity extends AppCompatActivity {
                     if (apiResponse.getSuccessful()) {
                         Toast.makeText(SafetyActivity.this, "Safety Deactivated", Toast.LENGTH_SHORT).show();
                         isSafetyActive = false;
-
+                        resetAllBackgrounds();
+                        activeSafetyType = "";
                     } else {
                         Toast.makeText(SafetyActivity.this, "Failed to Deactivate Safety", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SafetyResponse> call, Throwable t) {
                 Toast.makeText(SafetyActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -204,12 +187,13 @@ public class SafetyActivity extends AppCompatActivity {
 
                     if (isTriggered) {
                         isSafetyActive = true;
+                        activeSafetyType = safetyRequestType;
                         switch (safetyRequestType) {
                             case "100":
                                 llPolice.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
                                 break;
                             case "200":
-                                llFie.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
+                                llFire.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
                                 break;
                             case "300":
                                 llHospital.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
@@ -234,14 +218,16 @@ public class SafetyActivity extends AppCompatActivity {
 
     private void resetAllBackgrounds() {
         llPolice.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
-        llFie.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        llFire.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
         llHospital.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
         llOther.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
     }
+
+
     TextView tvMessage;
     Button btnYes, btnNo;
 
-    private void showCustomDialogBoxEmergency(String message) {
+    private void showCustomDialogBoxEmergency(String message, LinearLayout clickedLayout) {
         final Dialog dialog = new Dialog(SafetyActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -256,7 +242,7 @@ public class SafetyActivity extends AppCompatActivity {
 
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
                 SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
                 String GUID = LoginActivity.getUserId(sharedPreferences1);
@@ -274,15 +260,14 @@ public class SafetyActivity extends AppCompatActivity {
                 Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
                 String projectSpaceRef = saveProjectSpaceRef.trim();
 
-
-                deactivateSafety(projectSpaceRef, loginToken, loginDeviceId);
+                deactivateSafety(projectSpaceRef, loginToken, loginDeviceId, clickedLayout);
                 dialog.dismiss();
             }
         });
 
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
