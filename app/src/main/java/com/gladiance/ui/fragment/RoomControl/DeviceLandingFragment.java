@@ -39,9 +39,11 @@ import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.adapters.ControlAdapter;
 import com.gladiance.ui.adapters.DeviceControlAdapter;
 import com.gladiance.ui.activities.Login.LoginActivity;
+import com.gladiance.ui.adapters.FavoriteListAdapter;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
 import com.gladiance.ui.models.SceneViewModel;
+import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.guestlandingpage.GuestControls;
 import com.gladiance.ui.models.guestlandingpage.Controls;
@@ -72,7 +74,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
     RecyclerView recyclerView, guestRecyclerView;
 
     private ArrayList<Devices> arrayList;
-
+    private ArrayList<com.gladiance.ui.models.favoritelist.ObjectTag> arrayListFav;
     NetworkApiManager networkApiManager;
 
     //ControlAdapter.OnControlTypeClickListener OnControlTypeClickListener ;
@@ -108,6 +110,8 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         List<GuestControls> controlsList = new ArrayList<>();
 
         arrayList = new ArrayList<>();
+        arrayListFav = new ArrayList<>();
+
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -128,19 +132,19 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
      //   changes in device Landing
 
-        SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSAR", MODE_PRIVATE);
-        String saveProjectSpaceAreRef = sharedPreferences3.getString("Project_Space_Area_Ref", "");
-        Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
-        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef);
-
 //        SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSAR", MODE_PRIVATE);
-//        Long saveProjectSpaceAreRef = sharedPreferences3.getLong("Project_Space_Area_Ref", 0l);
+//        String saveProjectSpaceAreRef = sharedPreferences3.getString("Project_Space_Area_Ref", "");
 //        Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
 //        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef);
 
+        SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSAR", MODE_PRIVATE);
+        Long saveProjectSpaceAreRef = sharedPreferences3.getLong("Project_Space_Area_Ref", 0l);
+        Log.e(TAG, "Project Space Area Ref: " + saveProjectSpaceAreRef);
+        Long projectSpaceAreaRef = Long.valueOf(saveProjectSpaceAreRef);
+
 
         fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
-
+        getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
 
         return view;
     }
@@ -208,6 +212,42 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         return sharedPreferences.getLong(PREF_SELECTED_AREA_REF, 0L);
     }
 
+    private void getFavouriteList(String gaaProjectSpaceRef,String loginToken,String loginDeviceId){
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef,loginToken,loginDeviceId);
+
+        call.enqueue(new Callback<FavoriteListRes>() {
+            @Override
+            public void onResponse(Call<FavoriteListRes> call, Response<FavoriteListRes> response) {
+                if(response.isSuccessful()){
+                    FavoriteListRes favoriteListRes = response.body();
+                    if(favoriteListRes != null && favoriteListRes.getSuccessful()){
+                        List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
+
+                        for (com.gladiance.ui.models.favoritelist.ObjectTag objectTag : fevList) {
+                            Log.e(TAG, "onResponse SceneName: " + objectTag.getLabel());
+                            arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
+                        }
+
+                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
+                        guestRecyclerView.setAdapter(favoriteListAdapter);
+                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
+                        guestRecyclerView.setLayoutManager(gridLayoutManager1);
+
+                    } else {
+                        Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
+                    }
+                } else {
+                    Log.e("MainActivity", "Failed to get response");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteListRes> call, Throwable t) {
+
+            }
+        });
+    }
 
 
     @Override

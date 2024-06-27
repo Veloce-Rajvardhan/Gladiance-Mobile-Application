@@ -3,9 +3,12 @@ package com.gladiance.ui.fragment.ControlBouquet;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -172,13 +178,13 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 if (isEmergencyActive) {
-                    deactivateEmergency(projectSpaceRef, loginToken, loginDeviceId);
+                    String message = "Are you sure you want to Deactivate Emergency";
+                    showCustomDialogBoxEmergency(message);
                     CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
                 } else {
                     activeEmergency(projectSpaceRef, loginToken, loginDeviceId);
                     CVEmergency.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
                 }
-
             }
         });
 
@@ -194,7 +200,8 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 if(isSecurityActive){
-                    deactivateSecurity(projectSpaceRef,loginToken,loginDeviceId);
+                    String message = "Are you sure you want to Deactivate Security";
+                    showCustomDialogBoxSecurity(message);
                     CVSecurity.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
                 }else {
                     activeSecurity(projectSpaceRef,loginToken,loginDeviceId);
@@ -359,6 +366,107 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
                 Toast.makeText(requireContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    TextView tvMessage;
+    Button btnYes, btnNo;
+
+    private void showCustomDialogBoxEmergency(String message) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.favorite_custom_dailog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        tvMessage = dialog.findViewById(R.id.tvMessage);
+        btnYes = dialog.findViewById(R.id.btn_Yes);
+        btnNo = dialog.findViewById(R.id.btn_No);
+
+        tvMessage.setText(message);
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences sharedPreferences1 = requireContext().getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+                String GUID = LoginActivity.getUserId(sharedPreferences1);
+                Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+                String loginDeviceId = GUID.trim();
+
+
+                SharedPreferences  sharedPreferences2 = requireContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+                Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+                String loginToken = savedLoginDeviceId.trim();
+
+                SharedPreferences  sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+                String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
+                Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+                String projectSpaceRef = saveProjectSpaceRef.trim();
+
+
+                deactivateEmergency(projectSpaceRef, loginToken, loginDeviceId);
+                dialog.dismiss();
+            }
+        });
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void showCustomDialogBoxSecurity(String message) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.favorite_custom_dailog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        tvMessage = dialog.findViewById(R.id.tvMessage);
+        btnYes = dialog.findViewById(R.id.btn_Yes);
+        btnNo = dialog.findViewById(R.id.btn_No);
+
+        tvMessage.setText(message);
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences sharedPreferences1 = requireContext().getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+                String GUID = LoginActivity.getUserId(sharedPreferences1);
+                Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+                String loginDeviceId = GUID.trim();
+
+
+                SharedPreferences  sharedPreferences2 = requireContext().getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+                Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+                String loginToken = savedLoginDeviceId.trim();
+
+                SharedPreferences  sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+                String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
+                Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+                String projectSpaceRef = saveProjectSpaceRef.trim();
+
+
+                deactivateSecurity(projectSpaceRef, loginToken, loginDeviceId);
+                dialog.dismiss();
+            }
+        });
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

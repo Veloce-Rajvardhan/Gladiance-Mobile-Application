@@ -28,6 +28,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.NetworkApiManager;
@@ -43,6 +44,7 @@ import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.AddSpaceUserFavourite;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.RemoveSpaceUserFavorite;
+import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
@@ -50,6 +52,8 @@ import com.gladiance.R;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdapter.ViewHolder> {
     private List<Controls> controls;
@@ -79,45 +83,22 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
-
         holder.fevImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                Long GaaProjectSpaceTypePlannedDeviceConRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceConnectionRef());
-                SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor3 = sharedPreferences.edit();
-                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceConRef);
-                editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceConRef);
-                editor3.apply();
-
-                SharedPreferences sharedPreferencesPSPDR = context.getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                Long gaaProjectSpaceTypePlannedDeviceConRef = sharedPreferencesPSPDR.getLong("KEY_USERNAME", 0);
-                Log.e(TAG, "Retrieved GaaProjectSpaceTypePlannedDeviceRef: " + gaaProjectSpaceTypePlannedDeviceConRef);
-
-                SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
-                String GUID = LoginActivity.getUserId(sharedPreferences1);
-                Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
-                String loginDeviceId = GUID.trim();
-
-
-                SharedPreferences  sharedPreferences2 = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
-                String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
-                Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
-                String loginToken = savedLoginDeviceId.trim();
-
-                SharedPreferences  sharedPreferences3 = context.getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
-                String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
-                Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
-                String projectSpaceRef = saveProjectSpaceRef.trim();
-
-                callAddSpaceUserFavouriteApi(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceConRef),loginToken,loginDeviceId);
-                //callRemoveSpaceUserFavouriteApi(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceRef),loginToken,loginDeviceId);
-           }
+                control.setPowerState(!control.isPowerState());
+                if (control.isPowerState()) {
+                    callAddSpaceUserFavouriteApi(control, holder);
+                } else {
+                    callRemoveSpaceUserFavouriteApi(control, holder);
+                }
+                updateFevImage(holder.fevImage, control.isPowerState());
+            }
         });
 
-        holder.deviceNameTextView.setOnClickListener(new View.OnClickListener() {
+        updateFevImage(holder.fevImage, control.isPowerState());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -220,6 +201,11 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         });
     }
 
+    private void updateFevImage(ImageView fevImage, boolean isFavorite) {
+        int imageRes = isFavorite ? R.drawable.likered : R.drawable.likewhite;
+        fevImage.setImageResource(imageRes);
+    }
+
     private void updateUI(ViewHolder holder, boolean powerState) {
         int borderColorRes = powerState ? R.drawable.transparent_orange_switch_bg : R.drawable.transparent_backgraund;
         holder.llGuestControl.setBackground(ContextCompat.getDrawable(context, borderColorRes));
@@ -234,6 +220,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         TextView deviceNameTextView;
         LinearLayout llGuestControl;
         ImageView fevImage;
+        //boolean isFavorite = false;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -271,10 +258,31 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
     }
 
 
-    private void callAddSpaceUserFavouriteApi(String gaaProjectSpaceRef,String gaaProjectSpaceTypePlannedDeviceConnectionRef,String loginToken,String loginDeviceId) {
+    private void callAddSpaceUserFavouriteApi(Controls control, ViewHolder holder) {
+        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+        Long GaaProjectSpaceTypePlannedDeviceConRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceConnectionRef());
+        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences.edit();
+        editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceConRef);
+        editor3.apply();
+
+        SharedPreferences sharedPreferencesPSPDR = context.getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        Long gaaProjectSpaceTypePlannedDeviceConRef = sharedPreferencesPSPDR.getLong("KEY_USERNAME", 0);
+
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+        String GUID = LoginActivity.getUserId(sharedPreferences1);
+        String loginDeviceId = GUID.trim();
+
+        SharedPreferences sharedPreferences2 = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+        String loginToken = savedLoginDeviceId.trim();
+
+        SharedPreferences sharedPreferences3 = context.getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+        String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
+        String projectSpaceRef = saveProjectSpaceRef.trim();
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<AddSpaceUserFavourite> call = apiService.addSpaceUserFavourite(gaaProjectSpaceRef, gaaProjectSpaceTypePlannedDeviceConnectionRef, loginToken, loginDeviceId);
+        Call<AddSpaceUserFavourite> call = apiService.addSpaceUserFavourite(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceConRef), loginToken, loginDeviceId);
         call.enqueue(new retrofit2.Callback<AddSpaceUserFavourite>() {
             @Override
             public void onResponse(Call<AddSpaceUserFavourite> call, retrofit2.Response<AddSpaceUserFavourite> response) {
@@ -292,17 +300,38 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         });
     }
 
-    private void callRemoveSpaceUserFavouriteApi(String gaaProjectSpaceRef,String gaaProjectSpaceTypePlannedDeviceConnectionRef,String loginToken,String loginDeviceId) {
+    private void callRemoveSpaceUserFavouriteApi(Controls control, ViewHolder holder) {
+        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+        Long GaaProjectSpaceTypePlannedDeviceConRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceConnectionRef());
+        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences.edit();
+        editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceConRef);
+        editor3.apply();
+
+        SharedPreferences sharedPreferencesPSPDR = context.getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        Long gaaProjectSpaceTypePlannedDeviceConRef = sharedPreferencesPSPDR.getLong("KEY_USERNAME", 0);
+
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+        String GUID = LoginActivity.getUserId(sharedPreferences1);
+        String loginDeviceId = GUID.trim();
+
+        SharedPreferences sharedPreferences2 = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
+        String loginToken = savedLoginDeviceId.trim();
+
+        SharedPreferences sharedPreferences3 = context.getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+        String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
+        String projectSpaceRef = saveProjectSpaceRef.trim();
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<RemoveSpaceUserFavorite> call = apiService.removeSpaceUserFavourite(gaaProjectSpaceRef, gaaProjectSpaceTypePlannedDeviceConnectionRef, loginToken, loginDeviceId);
+        Call<RemoveSpaceUserFavorite> call = apiService.removeSpaceUserFavourite(projectSpaceRef, String.valueOf(gaaProjectSpaceTypePlannedDeviceConRef), loginToken, loginDeviceId);
         call.enqueue(new retrofit2.Callback<RemoveSpaceUserFavorite>() {
             @Override
             public void onResponse(Call<RemoveSpaceUserFavorite> call, retrofit2.Response<RemoveSpaceUserFavorite> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, "Remove to favourites successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Removed from favourites successfully", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Failed to Remove to favourites", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to remove from favourites", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -313,6 +342,33 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         });
     }
 
+    private void getFavouriteList(String gaaProjectSpaceRef,String loginToken,String loginDeviceId){
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef,loginToken,loginDeviceId);
+
+        call.enqueue(new Callback<FavoriteListRes>() {
+            @Override
+            public void onResponse(Call<FavoriteListRes> call, Response<FavoriteListRes> response) {
+                if(response.isSuccessful()){
+                    FavoriteListRes favoriteListRes = response.body();
+                    if(favoriteListRes != null && favoriteListRes.getSuccessful()){
+                        List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
+
+
+                    } else {
+                        Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
+                    }
+                } else {
+                    Log.e("MainActivity", "Failed to get response");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteListRes> call, Throwable t) {
+
+            }
+        });
+    }
 
 }
 

@@ -34,6 +34,7 @@ public class Controls {
 
     @SerializedName("isCheck")
     @Expose
+
     private boolean isCheckBox = false;
 
     public boolean isCheckBox() {

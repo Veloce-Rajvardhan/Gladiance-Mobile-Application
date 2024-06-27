@@ -30,6 +30,16 @@ public class ObjectTag {
     @Expose
     private String internalDeviceName;
 
+    private boolean powerState = false;
+
+    public boolean isPowerState() {
+        return powerState;
+    }
+
+    public void setPowerState(boolean powerState) {
+        this.powerState = powerState;
+    }
+
     public Long getgAAProjectSpaceRef() {
         return gAAProjectSpaceRef;
     }

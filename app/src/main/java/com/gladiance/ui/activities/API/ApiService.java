@@ -32,6 +32,7 @@ import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningRequest;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningResponse;
+import com.gladiance.ui.models.safetystatus.SafetyStatusRes;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
 import com.gladiance.ui.models.scene.SceneResModel;
@@ -267,9 +268,10 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
 
-    @POST("mobileapp/raisesafetyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    @POST("mobileapp/raisesafetyrequest/{gaaProjectSpaceRef}/{safetyRequestType}/{loginToken}/{loginDeviceId}")
     Call<SafetyResponse> raiseSafetyRequest(
             @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("safetyRequestType") String safetyRequestType,
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId
     );
@@ -281,6 +283,12 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
 
+    @GET("mobileapp/pendingsafetyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<SafetyStatusRes> getPendingSafetyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
 
 
 }
