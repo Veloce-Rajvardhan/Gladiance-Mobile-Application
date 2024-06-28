@@ -13,6 +13,7 @@ import com.gladiance.ui.models.Privacy.PrivacyListRes;
 import com.gladiance.ui.models.PrivacyOnOffResponse;
 import com.gladiance.ui.models.SafetyResponse;
 import com.gladiance.ui.models.SecurityResponse;
+import com.gladiance.ui.models.ServiceOnOffResponse;
 import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
 import com.gladiance.ui.models.privacystatus.PrivacyStatusResponse;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
@@ -39,6 +40,7 @@ import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
 import com.gladiance.ui.models.securitystatus.SecurityStatusRes;
+import com.gladiance.ui.models.servicestatus.ServiceStatusResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -285,6 +287,27 @@ public interface ApiService {
 
     @GET("mobileapp/pendingsafetyrequest/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
     Call<SafetyStatusRes> getPendingSafetyRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/activateservicemode/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<ServiceOnOffResponse> activateServiceMode(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("mobileapp/deactivateservicemode/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<ServiceOnOffResponse> deactivateServiceMode(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/servicestatus/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<ServiceStatusResponse> getServiceStatus(
             @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId

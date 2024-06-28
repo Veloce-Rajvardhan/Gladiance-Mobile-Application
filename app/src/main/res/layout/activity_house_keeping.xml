@@ -41,7 +41,7 @@
 
 
     <TextView
-        android:id="@+id/privacy"
+        android:id="@+id/service"
         style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
