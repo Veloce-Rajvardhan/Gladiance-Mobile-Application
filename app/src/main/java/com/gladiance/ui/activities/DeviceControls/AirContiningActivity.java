@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -189,8 +190,25 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         if(unit.equals("Fahrenheit")){
             tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
         }else {
-            tvFer.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+            tvCel.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
         }
+
+        tvCel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvCel.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
+                tvFer.setBackground(null);
+            }
+        });
+
+        tvFer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
+                tvCel.setBackground(null);
+            }
+        });
+
 
 
         //Hot And Cool Mode Set

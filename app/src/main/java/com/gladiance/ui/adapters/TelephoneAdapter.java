@@ -11,33 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
+import com.gladiance.ui.models.telephonenumber.ObjectTag;
 
 import java.util.List;
 
 public class TelephoneAdapter extends RecyclerView.Adapter<TelephoneAdapter.MyViewHolder> {
 
-    private Context context;
-    private List<String> tvtitle;
-    private List<Integer> imgcall;
-    private List<String> tvnumber;
-    private List<Integer> imgthim;
+    private static List<ObjectTag> telephoneList;
 
-    public TelephoneAdapter(Context context, List<String> tvtitle, List<Integer> imgcall, List<String> tvnumber, List<Integer> imgthim) {
-
-        this.context = context;
-        this.tvtitle = tvtitle;
-        this.imgcall = imgcall;
-        this.tvnumber = tvnumber;
-        this.imgthim = imgthim;
+    public TelephoneAdapter(List<ObjectTag> telephoneList) {
+            this.telephoneList = telephoneList;
 
     }
 
     @NonNull
     @Override
     public TelephoneAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = LayoutInflater.from(context).inflate(R.layout.telephone_recycler, parent, false);
-        return new TelephoneAdapter.MyViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.telephone_recycler, parent, false);
+        return new TelephoneAdapter.MyViewHolder(view);
 
     }
 
@@ -45,17 +36,16 @@ public class TelephoneAdapter extends RecyclerView.Adapter<TelephoneAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull TelephoneAdapter.MyViewHolder holder, int position) {
 
-        holder.TextView1.setText(tvtitle.get(position));
-        holder.Image1.setImageResource(imgcall.get(position));
-        holder.TextView2.setText(tvnumber.get(position));
-        holder.Image2.setImageResource(imgthim.get(position));
+        ObjectTag objectTag = telephoneList.get(position);
+        holder.TextView1.setText(objectTag.getName());
+        holder.TextView2.setText(objectTag.getTelephoneNumber());
 
     }
 
 
     @Override
     public int getItemCount() {
-        return tvtitle.size();
+        return telephoneList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

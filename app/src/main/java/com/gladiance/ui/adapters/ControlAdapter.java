@@ -38,6 +38,12 @@ public class ControlAdapter extends RecyclerView.Adapter<ControlAdapter.ViewHold
         notifyItemChanged(selectedPosition);
     }
 
+    public void performItemClick(int position) {
+        if (position >= 0 && position < controls1.size()) {
+            listener.onControlTypeClicked(controls1.get(position));
+        }
+    }
+
 
     @NonNull
     @Override

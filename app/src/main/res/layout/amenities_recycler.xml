@@ -1,121 +1,131 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
->
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fitness Center"
+            android:textSize="18sp"
+            style="@style/TEXT"
+            android:fontFamily="@font/roboto_bold"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            style="@style/MyButtonStyle"
-            android:weightSum="5">
+            android:layout_marginTop="8dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvTimingLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="4dp"
-                android:layout_weight="4">
-
-                <TextView
-                    android:id="@+id/tvtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="start"
-                    android:paddingStart="5dp"
-                    android:text="Fitness Center"
-                    style="@style/TEXT"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/tvtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="start"
-                    android:paddingStart="5dp"
-                    android:text="Time : 05:00 am to 21:00 pm"
-                    style="@style/TEXT"
-                    android:textSize="14dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/imgcall"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="8dp"
-                        style="@style/Call" />
-
-                    <TextView
-                        android:id="@+id/tvNumber"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="start"
-                        android:paddingStart="5dp"
-                        android:text="0231-2522195"
-                        style="@style/TEXT"
-                        android:textSize="12sp" />
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvseemore"
-                    android:layout_width="71dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="start"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:text="see more..."
-                    style="@style/TEXT"
-                    android:textSize="12dp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="109dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="4dp"
-                android:layout_weight="1">
+                style="@style/TEXT"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Timing :- " />
 
-                <ImageView
-                    android:id="@+id/imgthim"
-                    android:layout_width="109dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:contentDescription="Image 2"
-                    android:padding="5dp"
-                    android:src="@drawable/emergancy1" />
+            <TextView
+                android:id="@+id/tvTimingTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TEXT"
+                android:text="05:00 am"
+                android:fontFamily="@font/roboto_medium"/>
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/To"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TEXT"
+                android:text=" To "
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:id="@+id/tvTimingFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TEXT"
+                android:text="21:00 pm"
+                android:fontFamily="@font/roboto_medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/ivPhoneIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TEXT"
+                android:text="Video URL :"
+                android:fontFamily="@font/roboto_medium"/>
+
+
+            <TextView
+                android:id="@+id/tvVideoUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/URLlink_color"
+                style="@style/TEXT"
+                android:text="0251-9278110" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMoreInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vardhan"
+                style="@style/TEXT"
+                android:clickable="true" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/seeMoreAmi"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:text="See More"
+                style="@style/TEXT"
+                android:fontFamily="@font/roboto_bold"
+                android:background="@android:color/transparent"
+                android:gravity="left"
+                android:visibility="visible"/>
+
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@drawable/emergency"
+            android:layout_margin="@dimen/_30sdp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

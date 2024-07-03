@@ -200,6 +200,16 @@ public class DeviceCardFragment extends Fragment {
                             startActivity(intent);
                             fetchThermostatData(nodeId2);
                             Log.e(TAG, "onResponse DeviceCardFrag NodeId: " + nodeId2 );
+                        }else if(arrayList.get(0).getType().equals("esp.device.thermostat")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), AirContiningActivity.class);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
+                            startActivity(intent);
+                            fetchThermostatData(nodeId2);
+                            Log.e(TAG, "onResponse DeviceCardFrag NodeId: " + nodeId2 );
                         }else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);

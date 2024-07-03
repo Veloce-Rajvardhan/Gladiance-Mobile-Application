@@ -12,49 +12,47 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
+import com.gladiance.ui.models.promotionlist.ObjectTag;
 
 import java.util.List;
 
 public class PromotionAdapter extends RecyclerView.Adapter<PromotionAdapter.MyViewHolder>{
 
-    private static Context context;
-    private List<Integer> imgProm;
-    private List<String> txtProm;
+    private static List<ObjectTag> arraylist;
 
-
-    public PromotionAdapter(Context context, List<Integer> imgProm,List<String> txtProm){
-
-        this.context=context;
-        this.imgProm=imgProm;
-        this.txtProm=txtProm;
-
-    }
+   public PromotionAdapter(List<ObjectTag> arraylist){
+       this.arraylist = arraylist;
+   }
 
     @NonNull
     @Override
     public PromotionAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = LayoutInflater.from(context).inflate(R.layout.promotion_recycler,parent,false);
-        return new PromotionAdapter.MyViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.promotion_recycler, parent, false);
+        return new PromotionAdapter.MyViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull PromotionAdapter.MyViewHolder holder, int position) {
-        holder.mImageView.setImageResource(imgProm.get(position));
-        holder.mTextView.setText(txtProm.get(position));
+        ObjectTag objectTag = arraylist.get(position);
+
+        holder.titleName.setText(objectTag.getEventName());
+        holder.mTextView.setText(objectTag.getDescription());
+        holder.textVideoURL.setText(objectTag.getVideoUrl());
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return txtProm.size();
+        return arraylist.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView mImageView;
-        TextView mTextView;
+        TextView mTextView,titleName,textVideoURL;
         Button buttonSeeMore;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +60,8 @@ public class PromotionAdapter extends RecyclerView.Adapter<PromotionAdapter.MyVi
             mImageView = itemView.findViewById(R.id.imgpromotion);
             mTextView = itemView.findViewById(R.id.tvpromoinfo);
             buttonSeeMore = itemView.findViewById(R.id.buttonSeeMore);
+            titleName = itemView.findViewById(R.id.titleName);
+            textVideoURL = itemView.findViewById(R.id.tvVideoURL);
 
             buttonSeeMore.setOnClickListener(new View.OnClickListener() {
                 @Override

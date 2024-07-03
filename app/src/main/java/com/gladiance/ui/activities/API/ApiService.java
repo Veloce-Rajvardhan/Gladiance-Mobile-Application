@@ -14,7 +14,9 @@ import com.gladiance.ui.models.PrivacyOnOffResponse;
 import com.gladiance.ui.models.SafetyResponse;
 import com.gladiance.ui.models.SecurityResponse;
 import com.gladiance.ui.models.ServiceOnOffResponse;
+import com.gladiance.ui.models.amenities.AmenitiesRes;
 import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
+import com.gladiance.ui.models.keycontacts.KeyContactsRes;
 import com.gladiance.ui.models.privacystatus.PrivacyStatusResponse;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingResModel;
@@ -31,6 +33,7 @@ import com.gladiance.ui.models.arealandingmodel.ProjectAreaLandingResModel;
 import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
+import com.gladiance.ui.models.promotionlist.PromotionRes;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningRequest;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningResponse;
 import com.gladiance.ui.models.safetystatus.SafetyStatusRes;
@@ -41,6 +44,9 @@ import com.gladiance.ui.models.scenelist.SceneListResModel;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
 import com.gladiance.ui.models.securitystatus.SecurityStatusRes;
 import com.gladiance.ui.models.servicestatus.ServiceStatusResponse;
+import com.gladiance.ui.models.telephonenumber.TelephoneNumberRes;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -313,6 +319,38 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
 
+    //Hotel In
+    //KeyContacts
+    @GET("mobileapp/keycontacts/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<KeyContactsRes> getKeyContacts(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    //Telephone
+    @GET("mobileapp/telephonenumbers/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<TelephoneNumberRes> getTelephoneNumber(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    //Amenities
+
+    @GET("mobileapp/amenities/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<AmenitiesRes> getAmenities(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("mobileapp/promotions/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<PromotionRes> getPromotion(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
 
 }
 

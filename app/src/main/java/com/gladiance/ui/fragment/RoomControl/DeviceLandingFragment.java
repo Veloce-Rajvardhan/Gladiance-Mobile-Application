@@ -144,7 +144,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
 
         fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
-        getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
+        //getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
 
         return view;
     }
@@ -167,9 +167,9 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                 allControls.addAll(guestControls.getControls());
                             }
                             // Set up DeviceControlName RecyclerView
-                            guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
-                            guestRecyclerView.setAdapter(deviceControlAdapter);
+//                            guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
+//                            DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(allControls, requireContext());
+//                            guestRecyclerView.setAdapter(deviceControlAdapter);
                             // Set up ControlTypeName RecyclerView
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager);
@@ -177,15 +177,15 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                                 @Override
                                 public void onControlTypeClicked(GuestControls control) {
                                     Log.d("ControlAdapter", "Control clicked: " + control.getControlTypeName());
-                                    List<Controls> filteredControls = control.getControls();
 
+                                    List<Controls> filteredControls = control.getControls();
                                     guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
                                     DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
                                     guestRecyclerView.setAdapter(deviceControlAdapter);
                                 }
                             });
                             recyclerView.setAdapter(controlAdapter);
-
+                            controlAdapter.performItemClick(0);
                         }
 
                     }

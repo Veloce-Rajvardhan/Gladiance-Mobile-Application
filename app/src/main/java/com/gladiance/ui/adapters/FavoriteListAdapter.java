@@ -70,6 +70,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
         ObjectTag objectTag = arraylistFav.get(position);
         holder.FavTextView.setText(objectTag.getLabel());
 
+
         holder.ImageFav.setImageResource(R.drawable.likered);
         holder.ImageFav.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,6 +23,19 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <TextView
+                android:id="@+id/titleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:gravity="center"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                style="@style/TEXT"
+                android:fontFamily="@font/roboto_medium"
+                />
+
+
             <ImageView
                 android:id="@+id/imgpromotion"
                 android:layout_width="match_parent"
@@ -30,6 +43,39 @@
                 android:layout_gravity="center"
                 android:contentDescription="Image Description"
                 android:src="@drawable/promotion_img" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:gravity="center|left">
+
+            <TextView
+                android:id="@+id/videoURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video URL :"
+                android:gravity="center"
+                android:textSize="@dimen/_12sdp"
+                style="@style/TEXT"
+                android:fontFamily="@font/roboto_medium" />
+
+                <TextView
+                    android:id="@+id/tvVideoURL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:textSize="@dimen/_12sdp"
+                    style="@style/TEXT"
+                    android:fontFamily="@font/roboto_medium"
+                    />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvpromoinfo"

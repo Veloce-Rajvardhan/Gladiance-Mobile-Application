@@ -56,6 +56,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdapter.ViewHolder> {
+
+    private static final String TAG = "DeviceControlAdapter";
+
     private List<Controls> controls;
     private Context context;
     private NetworkApiManager networkApiManager;
@@ -96,7 +99,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             }
         });
 
-        updateFevImage(holder.fevImage, control.isPowerState());
+       // updateFevImage(holder.fevImage, control.isPowerState());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +214,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         holder.llGuestControl.setBackground(ContextCompat.getDrawable(context, borderColorRes));
     }
 
+
     @Override
     public int getItemCount() {
         return controls.size();
@@ -235,7 +239,6 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
 
         }
     }
-
 
 
     public void sendSwitchState(boolean powerState,String name,String nodeId) {

@@ -22,13 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            style="@style/MyButtonStyle"
             android:weightSum="5"
             >
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="2dp"
                 android:layout_weight="4">
@@ -41,14 +40,13 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="start"
                     android:layout_marginStart="2dp"
-                    android:paddingStart="5dp"
-                    android:paddingTop="15dp"
                     android:text="Reception Desk"
+                    android:padding="@dimen/_4sdp"
                     style="@style/TEXT"
                     android:textSize="18dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:layout_marginStart="2dp"
@@ -56,21 +54,21 @@
 
                     <ImageView
                         android:id="@+id/imgcall"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center"
+                        android:padding="@dimen/_4sdp"
                         android:layout_marginLeft="2dp"
                         style="@style/Call" />
 
                     <TextView
                         android:id="@+id/tvnumber"
-                        android:layout_width="71dp"
-                        android:layout_height="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_italic"
                         android:gravity="start"
                         android:paddingStart="5dp"
-                        android:paddingTop="7dp"
                         android:text="1000"
                         style="@style/TEXT"
                         android:textSize="18dp" />

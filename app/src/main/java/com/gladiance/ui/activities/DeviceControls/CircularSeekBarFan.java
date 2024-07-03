@@ -32,7 +32,7 @@ public class CircularSeekBarFan extends View {
     private int thumbHeight;
 
     private float progress = 0;
-    private int min = 0;
+    private int min = 1;
     private int max = 6;
 
     private CircularSeekBarFan.OnProgressChangeListener progressChangeListener;

@@ -94,7 +94,7 @@
                     android:contentDescription="Image 1"
                     android:paddingStart="@dimen/_1sdp"
                     android:paddingTop="@dimen/_2sdp"
-                    android:src="@drawable/map" />
+                    android:src="@drawable/gmap" />
 
             </LinearLayout>
 
@@ -189,7 +189,7 @@
                     android:contentDescription="Image 1"
                     android:paddingStart="@dimen/_1sdp"
                     android:paddingTop="@dimen/_2sdp"
-                    android:src="@drawable/map" />
+                    android:src="@drawable/gmap" />
 
             </LinearLayout>
 
@@ -284,7 +284,7 @@
                     android:contentDescription="Image 1"
                     android:paddingStart="@dimen/_1sdp"
                     android:paddingTop="@dimen/_2sdp"
-                    android:src="@drawable/map" />
+                    android:src="@drawable/gmap" />
 
             </LinearLayout>
 
@@ -379,7 +379,7 @@
                     android:contentDescription="Image 1"
                     android:paddingStart="@dimen/_1sdp"
                     android:paddingTop="@dimen/_2sdp"
-                    android:src="@drawable/map" />
+                    android:src="@drawable/gmap" />
 
             </LinearLayout>
 

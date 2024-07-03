@@ -49,7 +49,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
     private Button incrementButton, decrementButton;
     private TextView progressTextView, textViewDeviceName;
     //String nodeId2;
-    private int progress = 0;
+    private int progress = 1;
     Context context = this;
     private EspApplication espApp;
     private CircularSeekBarFan circularSeekBar;
@@ -86,7 +86,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         circularSeekBar = findViewById(R.id.circularSeekBar);
 
         // Example: Set progress to 10
-        circularSeekBar.setProgress(0);
+        circularSeekBar.setProgress(2);
         circularSeekBar.setOnProgressChangeListener(this);
 
         CircularSeekBarFan circularSeekBar = findViewById(R.id.circularSeekBar);
