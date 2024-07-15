@@ -378,7 +378,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                         Long.parseLong(AppConstants.Create_Space_dyn),
                         list);
                 if(list!=null) {
-                   // sendSaveSceneRequest(saveScene);
+                    sendSaveSceneRequest(saveScene);
                 }
                 else{
                     Toast.makeText(requireContext(), "List is Empty", Toast.LENGTH_SHORT).show();

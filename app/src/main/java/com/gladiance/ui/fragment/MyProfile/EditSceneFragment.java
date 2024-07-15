@@ -420,7 +420,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         AppConstants.Name_dyn,
                         Long.parseLong(AppConstants.Space_dyn),
                         list);
-           //     sendSaveSceneRequest(saveScene);
+                sendSaveSceneRequest(saveScene);
 
             }
 
