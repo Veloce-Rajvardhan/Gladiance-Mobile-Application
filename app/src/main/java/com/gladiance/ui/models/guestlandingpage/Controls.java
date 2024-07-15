@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Controls {
+    @SerializedName("Ref")
+    @Expose
+    private Long ref;
     @SerializedName("Label")
     @Expose
     private String label;
@@ -36,6 +39,14 @@ public class Controls {
     @Expose
 
     private boolean isCheckBox = false;
+
+    public Long getRef() {
+        return ref;
+    }
+
+    public void setRef(Long ref) {
+        this.ref = ref;
+    }
 
     public boolean isCheckBox() {
         return isCheckBox;

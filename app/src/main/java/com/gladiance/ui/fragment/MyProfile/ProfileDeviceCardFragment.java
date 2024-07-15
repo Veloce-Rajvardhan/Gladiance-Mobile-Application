@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,16 @@ import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.adapters.ProfileCardAdapter;
+import com.gladiance.ui.fragment.DeviceControls.AirConditionerFragment;
+import com.gladiance.ui.fragment.DeviceControls.FanFragment;
+import com.gladiance.ui.fragment.DeviceControls.RGBLightFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
+import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
@@ -47,6 +53,8 @@ import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,22 +148,79 @@ public class ProfileDeviceCardFragment extends Fragment {
                     }
                     if(arrayList.size() == 1){
                         if(arrayList.get(0).getType().equals("esp.device.lightbulb")){
+                            RGBLightFragment rgbLightFragment = new RGBLightFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), RGBLightActivity.class);
-                           // intent.putExtra("extra_name", name);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            rgbLightFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, rgbLightFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), RGBLightActivity.class);
+//                           // intent.putExtra("extra_name", name);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.fan")){
+                            // Create a new instance of the FanFragment
+                            FanFragment fanFragment = new FanFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), FanActivity.class);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            fanFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, fanFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), FanActivity.class);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), CurtainActivity.class);
@@ -182,13 +247,41 @@ public class ProfileDeviceCardFragment extends Fragment {
                             editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.ther")){
+                            AirConditionerFragment airConditionerFragment = new AirConditionerFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), AirContiningActivity.class);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            airConditionerFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, airConditionerFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), AirContiningActivity.class);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
@@ -286,7 +379,7 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS8",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
             SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
@@ -309,6 +402,11 @@ public class ProfileDeviceCardFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             Log.e(TAG, "old: "+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             AppConstants.Create_powerState = power;
@@ -326,10 +424,12 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS16 power_Schedule",""+AppConstants.Create_power);
 
 
-            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
+                }
+            }, 1000);
         }
         catch (Exception e){
             Log.e(TAG, "sendSwitchState: "+e);
@@ -338,6 +438,11 @@ public class ProfileDeviceCardFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = power;
             AppConstants.Create_power_Schedule = String.valueOf(powerState);
@@ -353,7 +458,6 @@ public class ProfileDeviceCardFragment extends Fragment {
 //            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-
             Log.e("APPCONSTS17 Create Ref_dyn_Schedule",""+AppConstants.Create_Ref_dyn_Schedule);
             Log.e("APPCONSTS18 Create Name_dyn_Schedule",""+AppConstants.Create_Name_dyn_Schedule);
             Log.e("APPCONSTS19 Create Space_dyn_Schedule",""+AppConstants.Create_Space_dyn_Schedule);
@@ -363,7 +467,8 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS23 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS24 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
+
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
            // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
@@ -378,7 +483,8 @@ public class ProfileDeviceCardFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -405,7 +511,7 @@ public class ProfileDeviceCardFragment extends Fragment {
             Log.e("APPCONSTS32"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
@@ -432,6 +538,73 @@ public class ProfileDeviceCardFragment extends Fragment {
 
 
 
+    }
+
+    private void getRefObjectValue() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(EventBus.TAG, "node id3: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+
+                        RefObject refObject = new RefObject(Ref);
+                        AppConstants.Create_Ref_Schedule = Ref;
+                        AppConstants.Create_Ref_Scene = Ref;
+
+                        Log.e(TAG, "abcc2: "+AppConstants.Create_Ref_Schedule);
+
+
+
+                        //saveRefToSharedPreferences(Ref);
+
+// Later in your code, fetch the RefValue from SharedPreferences
+//                        String savedRef = getRefFromSharedPreferences();
+//                        if (savedRef != null) {
+//                            Log.d(EventBus.TAG, "Retrieved RefValue from SharedPreferences: " + savedRef);
+//                            // Use savedRef as needed
+//                        } else {
+//                            Log.e(EventBus.TAG, "RefValue not found in SharedPreferences");
+//                            // Handle case where RefValue is not found in SharedPreferences
+//                        }
+                    //    AppConstants.Create_Ref_Schedule = Long.valueOf(responseModel.getTag());
+                        Log.e(EventBus.TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+
+                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);
+
+                    }
+                } else {
+                    Log.e(EventBus.TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+            private String getRefFromSharedPreferences() {
+                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                return preferences.getString("RefValue", null);
+            }
+
+            private void saveRefToSharedPreferences(String refValue) {
+                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("RefValue", refValue);
+                editor.apply(); // Apply changes asynchronously
+                Log.d(EventBus.TAG, "Saved RefValue to SharedPreferences: " + refValue);
+            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(EventBus.TAG, "API call failed: " + t.getMessage());
+            }
+        });
     }
 
 

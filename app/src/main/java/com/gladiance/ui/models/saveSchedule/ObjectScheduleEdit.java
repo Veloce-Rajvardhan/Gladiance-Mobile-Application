@@ -7,11 +7,12 @@ import java.io.Serializable;
 
 public class ObjectScheduleEdit implements Serializable {
 
-    public ObjectScheduleEdit(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
+    public ObjectScheduleEdit(String Ref_dyn, String Name_dyn, Long Ref, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
         this.gaaProjectSpaceTypePlannedDeviceRef = gaaProjectSpaceTypePlannedDeviceRef;
         this.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
         this.Ref_dyn = Ref_dyn;
         this.Name_dyn = Name_dyn;
+        this.Ref = Ref;
         this.SceneRef = SceneRef;
         this.Space_dyn = Space_dyn;
         this.NodeConfigParamName = NodeConfigParamName;
@@ -25,6 +26,10 @@ public class ObjectScheduleEdit implements Serializable {
     @SerializedName("Name_dyn")
     @Expose
     private String Name_dyn;
+
+    @SerializedName("Ref")
+    @Expose
+    private Long Ref;
 
     @SerializedName("SceneRef")
     @Expose
@@ -52,6 +57,13 @@ public class ObjectScheduleEdit implements Serializable {
     @Expose
     private String Value;
 
+    public Long getRef() {
+        return Ref;
+    }
+
+    public void setRef(Long ref) {
+        Ref = ref;
+    }
 
     public String getSpace_dyn() {
         return Space_dyn;

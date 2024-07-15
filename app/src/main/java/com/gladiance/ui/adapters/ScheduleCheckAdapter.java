@@ -153,6 +153,7 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
                     Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef: " + GaaProjectSpaceTypePlannedDeviceRef);
 
                     AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+//                    AppConstants.Edit_Ref_Schedule = Long.valueOf(control.getRef());
 
 
 

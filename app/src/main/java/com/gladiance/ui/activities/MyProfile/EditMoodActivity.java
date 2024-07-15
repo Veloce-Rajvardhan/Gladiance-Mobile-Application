@@ -229,26 +229,26 @@ public class EditMoodActivity extends AppCompatActivity implements AreaSpinnerAd
                 Log.e("APPCONSTS",""+ AppConstants.powerState);
                 Log.e("APPCONSTS",""+AppConstants.power);
 
-                List<SceneConfig> list = new ArrayList<>();
-                for(int i = 0; i <ConArrayList.size(); i++){
-                    if(ConArrayList.get(i).isChecked() == true){
-                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
-                        list.add(new SceneConfig(
-                                Long.parseLong(AppConstants.SceneRef),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
-                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
-                                AppConstants.powerState,
-                                AppConstants.power
-                        ));
-                    }
-                }
-
-                SaveSceneRequest saveScene = new SaveSceneRequest(
-                        Long.parseLong(AppConstants.Ref_dyn),
-                        AppConstants.Name_dyn,
-                        Long.parseLong(AppConstants.SceneRef),
-                        list);
-                sendSaveSceneRequest(saveScene);
+//                List<SceneConfig> list = new ArrayList<>();
+//                for(int i = 0; i <ConArrayList.size(); i++){
+//                    if(ConArrayList.get(i).isChecked() == true){
+//                        Log.e("ConArrayList","Selected -- "+ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+//                        list.add(new SceneConfig(
+//                                Long.parseLong(AppConstants.SceneRef),
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceRef(),
+//                                ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName(),
+//                                AppConstants.powerState,
+//                                AppConstants.power
+//                        ));
+//                    }
+//                }
+//
+//                SaveSceneRequest saveScene = new SaveSceneRequest(
+//                        Long.parseLong(AppConstants.Ref_dyn),
+//                        AppConstants.Name_dyn,
+//                        Long.parseLong(AppConstants.SceneRef),
+//                        list);
+//                sendSaveSceneRequest(saveScene);
             }
 
             private void sendSaveSceneRequest(SaveSceneRequest saveScene) {

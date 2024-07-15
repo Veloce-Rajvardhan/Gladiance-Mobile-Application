@@ -1,16 +1,21 @@
-package com.gladiance.ui.activities.DeviceControls;
+package com.gladiance.ui.fragment.DeviceControls;
 
-import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+import static org.greenrobot.eventbus.EventBus.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -22,11 +27,12 @@ import android.widget.Toast;
 
 import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
-import com.gladiance.ui.activities.API.ApiService;
-import com.gladiance.ui.activities.EspApplication;
-import com.gladiance.ui.activities.API.RetrofitClient;
-import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
+import com.gladiance.ui.activities.API.ApiService;
+import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.DeviceControls.CircularSeekBar;
+import com.gladiance.ui.activities.EspApplication;
+import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
@@ -36,7 +42,8 @@ import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
-public class AirContiningActivity extends AppCompatActivity implements CircularSeekBar.OnProgressChangeListener{
+
+public class AirConditionerFragment extends Fragment implements CircularSeekBar.OnProgressChangeListener {
 
     Switch switchAirConditioning;
 
@@ -44,7 +51,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
     private ProgressBar progressBar;
     private Button incrementButton, decrementButton;
 
-   // private int progress = 64;
+    // private int progress = 64;
     NetworkApiManager networkApiManager;
 
     private CircularSeekBar circularSeekBar;
@@ -58,34 +65,46 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
     Button buttonCool, buttonHeat, buttonCon, buttonfah;
 
-    Context context = this;
+    Context context;
     private EspApplication espApp;
     private ObjectScenes objectScenes;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_air_contining);
+    public AirConditionerFragment(Context context) {
+        // Required empty public constructor
+        this.context = context;
+    }
 
-        SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_air_conditioner, container, false);
+        SharedPreferences preferences2 = context.getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
-        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
         String Label = preferences.getString("KEY_USERNAMEs", "");
-        Log.d(TAG, "Label : " +Label);
+        Log.d(TAG, "Label : " + Label);
 
-        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String mode = sharedPref.getString("Mode", "");
         String unit = sharedPref.getString("Unit", "");
 
         Log.e(TAG, "Mode from SharedPreferences: " + mode);
         Log.e(TAG, "Unit from SharedPreferences: " + unit);
 
-        SharedPreferences sharedPrefRange = getSharedPreferences("MyPrefsRange",Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefRange = context.getSharedPreferences("MyPrefsRange", MODE_PRIVATE);
         int min = sharedPrefRange.getInt("SetRangeMin", 0);
-        int max = sharedPrefRange.getInt("SetRangeMax",0);
+        int max = sharedPrefRange.getInt("SetRangeMax", 0);
 
         Log.e(TAG, "Range Min : " + min);
         Log.e(TAG, "Range Max: " + max);
@@ -98,39 +117,40 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             Log.e(TAG, "Converted Range Max to Fahrenheit: " + max);
         }
 
-
-
-        espApp = new EspApplication(getApplicationContext());
+        espApp = new EspApplication(context.getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
-
-
-        circularSeekBar = findViewById(R.id.circularSeekBar);
-
-
-        // Example: Set progress to 10
-        circularSeekBar.setProgress(0);
+        circularSeekBar = view.findViewById(R.id.circularSeekBar);
+        circularSeekBar.setProgress(progress);
         circularSeekBar.setOnProgressChangeListener(this);
 
+        circularSeekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        // Finger touches the screen
+                        Log.d("Progress", "Progress when touch released: " + progress);
+                        Toast.makeText(context, "Progress when touch released: " + progress, Toast.LENGTH_SHORT).show();
+                        // You can do whatever you want with the progress value here
+                        sendTemperature(progress);
+                        return true;
+                }
+                return false;
+            }
+        });
 
-        CircularSeekBar circularSeekBar = findViewById(R.id.circularSeekBar);
-        circularSeekBar.setOnProgressChangeListener(this);
 
-        textViewDeviceName = findViewById(R.id.DeviceName);
-
+        textViewDeviceName = view.findViewById(R.id.DeviceName);
         textViewDeviceName.setText(Label);
 
-
-        seekbarAirCond = findViewById(R.id.seekBarAirCond);
-
+        seekbarAirCond = view.findViewById(R.id.seekBarAirCond);
         disableSeekBars();
 
-        //Set a AirCondition on the switch button
-        switchAirConditioning = findViewById(R.id.switchButtonAirCon);
+        switchAirConditioning = view.findViewById(R.id.switchButtonAirCon);
         switchAirConditioning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Handle switch state change
                 Log.d(TAG, "onCheckedChanged: " + isChecked);
                 sendSwitchState(isChecked);
                 if (isChecked) {
@@ -141,15 +161,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             }
         });
 
-
-
-
-        //Seek Bar AirCondition
-
-        textView = findViewById(R.id.textViewFan);
-
-        // String progress1;
-
+        textView = view.findViewById(R.id.textViewFan);
         seekbarAirCond.setMax(progressStates.length - 1);
         seekbarAirCond.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -184,12 +196,11 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             }
         });
 
-        //Fahrenheit set
-        tvCel = findViewById(R.id.tvCel);
-        tvFer = findViewById(R.id.tvFer);
-        if(unit.equals("Fahrenheit")){
+        tvCel = view.findViewById(R.id.tvCel);
+        tvFer = view.findViewById(R.id.tvFer);
+        if (unit.equals("Fahrenheit")) {
             tvFer.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
-        }else {
+        } else {
             tvCel.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
         }
 
@@ -209,37 +220,30 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             }
         });
 
-
-
-        //Hot And Cool Mode Set
-        imgHot = findViewById(R.id.imgHot);
-        imgCool = findViewById(R.id.imgCool);
-        if(mode.equals("Cool")){
+        imgHot = view.findViewById(R.id.imgHot);
+        imgCool = view.findViewById(R.id.imgCool);
+        if (mode.equals("Cool")) {
             imgCool.setBackgroundResource(R.drawable.trasparent_orange_top_bg);
-        }else {
+        } else {
             imgHot.setBackgroundResource(R.drawable.trasparent_orange_botton_bg);
         }
 
-
-
+        return view;
     }
-
-
-
 
     //Air Condition  Progress
     private void airConditioningProgress(String progress1) {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
+        Log.e(ContentValues.TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"AC Speed\":\"" + progress1 + "\"}}";
-        Log.e(TAG, "1: "+commandBody );
-        Log.e(TAG, "sendTemperature: "+commandBody );
+        Log.e(ContentValues.TAG, "1: "+commandBody );
+        Log.e(ContentValues.TAG, "sendTemperature: "+commandBody );
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
@@ -263,11 +267,11 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -280,7 +284,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -302,12 +306,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -339,12 +343,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule,  AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -357,7 +361,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -381,13 +385,13 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -400,7 +404,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -411,14 +415,14 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
     //AirCondition Temp Speed Method
     private void sendTemperature(int fanSpeed) {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
+        Log.e(ContentValues.TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Set\": " + fanSpeed + "}}";
-        Log.e(TAG, "sendTemperature: "+commandBody );
+        Log.e(ContentValues.TAG, "sendTemperature: "+commandBody );
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
@@ -441,11 +445,11 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -458,7 +462,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -480,12 +484,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -517,12 +521,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -535,7 +539,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -559,13 +563,13 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -578,7 +582,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -590,15 +594,15 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
     private void sendSwitchState(boolean powerState) {
         // Create a RequestModel with the required data
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : " + name);
+        Log.e(ContentValues.TAG, "Name : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Power\": " + powerState + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/" + nodeId2 + "/params/remote";
 
@@ -621,11 +625,11 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -638,7 +642,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -660,12 +664,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -697,12 +701,12 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -715,7 +719,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -739,13 +743,13 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -758,7 +762,7 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -785,29 +789,29 @@ public class AirContiningActivity extends AppCompatActivity implements CircularS
         if (responseModel != null) {
             // API call was successful
             // Access other fields from responseModel if needed
-            Log.d(TAG, "handleApiResponse: " + responseModel.getSuccessful());
-            Log.d(TAG, "handleApiResponse: " + responseModel.getTag());
+            Log.d(ContentValues.TAG, "handleApiResponse: " + responseModel.getSuccessful());
+            Log.d(ContentValues.TAG, "handleApiResponse: " + responseModel.getTag());
 
-            Toast.makeText(this, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
         } else {
             // Handle unsuccessful response
-            Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed to update switch state", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
-                // Here, you have the progress value when touch is released
-                Log.d("Progress", "Progress when touch released: " + progress);
-                Toast.makeText(this, "Progress when touch released: " + progress, Toast.LENGTH_SHORT).show();
-                // You can do whatever you want with the progress value here
-                sendTemperature(progress);
-                return true;
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_UP:
+//                // Here, you have the progress value when touch is released
+//                Log.d("Progress", "Progress when touch released: " + progress);
+//                Toast.makeText(context, "Progress when touch released: " + progress, Toast.LENGTH_SHORT).show();
+//                // You can do whatever you want with the progress value here
+//                sendTemperature(progress);
+//                return true;
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
     @Override
     public void onProgressChanged(String progressText) {

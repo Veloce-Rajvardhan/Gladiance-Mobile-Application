@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.gladiance.AppConstants;
 import com.gladiance.R;
 import com.gladiance.ui.fragment.MyProfile.CreateScheduleFragment;
 import com.gladiance.ui.fragment.MyProfile.InvitedUserFragment;
@@ -61,6 +62,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 mySchedule.setBackgroundResource(R.drawable.transparent_backgraund);
                 Fragment fragment = new CreateScheduleFragment();
+                AppConstants.CreateScheduleData = false;
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
 

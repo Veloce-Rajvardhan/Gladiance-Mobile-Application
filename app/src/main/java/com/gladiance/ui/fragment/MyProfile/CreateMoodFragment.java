@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -32,6 +33,7 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
+import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.adapters.SceneCreateAdapter;
@@ -85,9 +87,21 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
     Spinner spinner;
     Button buttonSave;
 
+    SetYourMoodActivity setYourMoodActivity;
 
     public CreateMoodFragment() {
         // Required empty public constructor
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof SetYourMoodActivity) {
+            setYourMoodActivity = (SetYourMoodActivity) context;
+        } else {
+            throw new ClassCastException("Activity must be SetYourMoodActivity");
+        }
     }
 
     @Override
@@ -95,6 +109,8 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_mood, container, false);
+
+
 
         ConfigArrayList = new ArrayList<>();
         ConArrayList = new ArrayList<>();
@@ -240,7 +256,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
     @Override
     public void onResume() {
         super.onResume();
-
+        setYourMoodActivity = (SetYourMoodActivity) requireActivity();
         SharedPreferences sharedPreferencesPowerState = requireContext().getSharedPreferences("MyPreferencesPS", Context.MODE_PRIVATE);
         boolean PowerState = sharedPreferencesPowerState.getBoolean("PowerState", false);
         Log.e(TAG, "EditSceneFragment Power onResume : " + PowerState);
@@ -334,6 +350,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                             for (ObjectSceneCreate objectScenes : objectScenesList) {
 
                                 list.add(new SceneConfig(
+                                        Long.parseLong(objectScenes.getRef()),
                                         Long.parseLong(objectScenes.getSceneRef()),
                                         Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
                                         objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
@@ -360,8 +377,13 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                         AppConstants.Create_Name_dyn,
                         Long.parseLong(AppConstants.Create_Space_dyn),
                         list);
-                sendSaveSceneRequest(saveScene);
-                /////
+                if(list!=null) {
+                   // sendSaveSceneRequest(saveScene);
+                }
+                else{
+                    Toast.makeText(requireContext(), "List is Empty", Toast.LENGTH_SHORT).show();
+
+                }/////
 
 //                SaveSceneRequest saveScene = new SaveSceneRequest(
 //                        Long.parseLong(AppConstants.Create_Ref_dyn),
@@ -390,7 +412,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
 
 
 
-                            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null,null,null,null,null,null,null,null);
+                            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null,null,null,null,null,null,null,null,null);
 
 
 // Reset the object using one of the methods above
@@ -586,7 +608,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList, null, requireContext());
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }

@@ -56,33 +56,51 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
-        holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
+        SharedPreferences prefs = context.getSharedPreferences("your_prefs_name", Context.MODE_PRIVATE);
+
+
+
+//        try {
+//            // Set checkbox state based on isChecked flag in Controls object
+//          //  holder.deviceNameCheckBox.setChecked(control.isChecked());
+//
+//// Retrieve saved state from SharedPreferences and apply
+//            boolean isChecked = prefs.getBoolean("isChecked_2" + position, false); // default to false if key doesn't exist
+//            holder.deviceNameCheckBox.setChecked(isChecked);
+//            Log.e(TAG, "onBindViewHolder23: "+isChecked);
+//        }
+//        catch (Exception e){
+//
+//        }
+
+
+       // holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
 
         // Set checkbox state based on isChecked flag in Controls object
-        holder.deviceNameCheckBox.setChecked(control.isChecked());
+        //holder.deviceNameCheckBox.setChecked(control.isChecked());
 
         String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
 
 
         // Set OnCheckedChangeListener for checkbox
-        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update isChecked state in Controls object
-                control.setChecked(isChecked);
-
-                // Handle saving state or other actions if needed
-                try {
-                    if (prefs != null) {
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("isChecked_" + position, isChecked);
-                        editor.apply();
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Exception: " + e);
-                }
-            }
-        });
+//        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // Update isChecked state in Controls object
+//                control.setChecked(isChecked);
+//
+//                // Handle saving state or other actions if needed
+//                try {
+//                    if (prefs == null) {
+//                        SharedPreferences.Editor editor = prefs.edit();
+//                        editor.putBoolean("isChecked_" + position, isChecked);
+//                        editor.apply();
+//                    }
+//                } catch (Exception e) {
+//                    Log.e(TAG, "Exception: " + e);
+//                }
+//            }
+//        });
 
 
         holder.scheduleCardView.setOnClickListener(new View.OnClickListener() {

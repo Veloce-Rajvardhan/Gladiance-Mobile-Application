@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class SceneConfig {
 
+    @SerializedName("Ref")
+    @Expose
+    private Long ref;
     @SerializedName("GAAProjectSceneRef")
     @Expose
     private Long gAAProjectSceneRef;
@@ -21,12 +24,21 @@ public class SceneConfig {
     @Expose
     private String value;
 
-    public SceneConfig(Long gAAProjectSceneRef, Long gAAProjectSpaceTypePlannedDeviceRef, String nodeConfigDeviceName, String nodeConfigParamName, String value) {
+    public SceneConfig(Long ref, Long gAAProjectSceneRef, Long gAAProjectSpaceTypePlannedDeviceRef, String nodeConfigDeviceName, String nodeConfigParamName, String value) {
+        this.ref = ref;
         this.gAAProjectSceneRef = gAAProjectSceneRef;
         this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
         this.nodeConfigDeviceName = nodeConfigDeviceName;
         this.nodeConfigParamName = nodeConfigParamName;
         this.value = value;
+    }
+
+    public Long getRef() {
+        return ref;
+    }
+
+    public void setRef(Long ref) {
+        this.ref = ref;
     }
 
     public Long getgAAProjectSceneRef() {

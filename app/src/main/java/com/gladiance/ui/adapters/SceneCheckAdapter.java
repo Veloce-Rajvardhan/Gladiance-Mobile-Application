@@ -22,6 +22,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
@@ -31,6 +33,8 @@ import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
+import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
+import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.R;
 
@@ -41,18 +45,54 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
     private List<Controls> ConArrayList;
     private List<Configuration> ConfigArrayList;
     private SharedPreferences prefs;
+    private ConfigurationViewModel viewModel;
+    private Context context;
 
+    private com.gladiance.ui.models.saveScene.Configuration configuration2;
 
-    public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
+    public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, ConfigurationViewModel viewModel, Context context) {
         this.ConArrayList = ConArrayList;
         this.ConfigArrayList = ConfigArrayList;
+        this.viewModel = viewModel;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_scene_control_card, parent, false);
-        return new ViewHolder(view);
+//        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
+//        ConfigurationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner)context).get(ConfigurationViewModel.class);
+//
+//        for (Configuration configuration : ConfigArrayList) {
+//        //    if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+//
+//                // Log the values for debugging
+//              //  Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+//
+//            if(viewModel.getMatchedConfigurations() == null && configuration2.getRef() != configuration.getRef())
+//                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
+//                        configuration.getgAAProjectSceneRef(),
+//                        configuration.getNodeConfigParamName(),
+//                        configuration.getValue(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+//                        configuration.getRef(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
+//                ));
+//
+//                //    viewModel.addMatchedConfiguration(matchedConfigurations);
+//
+//                // Logging the size of matchedConfigurations
+////                int sizeOfMatchedConfigurations = matchedConfigurations.size();
+////                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+//                // Assuming you are doing something with your ViewHolder here
+//              //  holder.deviceNameCheckBox.setChecked(true);
+//
+//                // Exit the loop once a match is found
+//                //   break;
+//     //       }
+//        }
+            return new ViewHolder(view);
     }
 
     @Override
@@ -67,15 +107,66 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
         // Set checkbox state based on isChecked flag in Controls object
         holder.deviceNameCheckBox.setChecked(control.isChecked());
+//        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
+//        viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ConfigurationViewModel.class);
+//
+//        Log.d(TAG, "ConfigArrayList size: " + ConfigArrayList.size());
+//
+//        for (Configuration configuration : ConfigArrayList) {
+//            String configRef = String.valueOf(configuration.getgAAProjectSpaceTypePlannedDeviceRef());
+//            String controlRef = String.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
+//            Log.d(TAG, "Config Ref: " + configRef + ", Control Ref: " + controlRef);
+//
+//            if (configRef.equals(controlRef)) {
+//                matchedConfigurations.add(new com.gladiance.ui.models.saveScene.Configuration(
+//                        configuration.getgAAProjectSceneRef(),
+//                        configuration.getNodeConfigParamName(),
+//                        configuration.getValue(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+//                        configuration.getRef(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
+//                ));
+//            }
+//        }
+//
+//        int sizeOfMatchedConfigurations = matchedConfigurations.size();
+//        Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+//
+//        viewModel.setMatchedConfigurations(matchedConfigurations);
 
         // Update checkbox state based on Configuration list
+        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
+        ConfigurationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner)context).get(ConfigurationViewModel.class);
+
+
         for (Configuration configuration : ConfigArrayList) {
             if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
-                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+
+                // Log the values for debugging
+//                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+//                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
+//                        configuration.getgAAProjectSceneRef(),
+//                        configuration.getNodeConfigParamName(),
+//                        configuration.getValue(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+//                        configuration.getRef(),
+//                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
+//                ));
+            //    viewModel.addMatchedConfiguration(matchedConfigurations);
+
+                // Logging the size of matchedConfigurations
+//                int sizeOfMatchedConfigurations = matchedConfigurations.size();
+//                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+                // Assuming you are doing something with your ViewHolder here
                 holder.deviceNameCheckBox.setChecked(true);
-                break; // Exit loop once a match is found
+
+                // Exit the loop once a match is found
+             //   break;
             }
         }
+ //       int sizeOfMatchedConfigurations = matchedConfigurations.size();
+ //       Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+
 
         // Set OnCheckedChangeListener for checkbox
         holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -83,6 +174,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update isChecked state in Controls object
                 control.setChecked(isChecked);
+                Log.e(TAG, "onCheckedChanged : "+position);
 
                 // Handle saving state or other actions if needed
                 try {
@@ -90,6 +182,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putBoolean("isChecked_" + position, isChecked);
                         editor.apply();
+                        Log.e(TAG, "shared: ");
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Exception: " + e);
@@ -107,8 +200,8 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                 if (isChecked) {
                     // Handle actions when checkbox is checked
                     Long GaaProjectSpaceTypePlannedDeviceRef = control.getgAAProjectSpaceTypePlannedDeviceRef();
-                    String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
 
+                    String projectSpaceTypePlannedDeviceName = control.getgAAProjectSpaceTypePlannedDeviceName();
                     // Example: Saving data to SharedPreferences
                     SharedPreferences sharedPreference_dyn2 = view.getContext().getSharedPreferences("PROJECT_SPACE_TYPE_PLANNED_DEVICE_REF_Dyn", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor_dyn = sharedPreference_dyn2.edit();

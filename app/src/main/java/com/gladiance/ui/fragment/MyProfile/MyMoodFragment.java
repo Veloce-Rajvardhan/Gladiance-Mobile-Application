@@ -26,6 +26,8 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.adapters.SceneConfigAdapter;
+import com.gladiance.ui.models.saveScene.Configuration;
+import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
 import com.gladiance.ui.models.scenelist.ObjectTag;
 import com.gladiance.ui.models.scenelist.SceneListResModel;
 
@@ -47,6 +49,8 @@ public class MyMoodFragment extends Fragment {
     private ArrayList<ObjectTag> arrayList;
     Context context;
     Button setScheduling;
+    private ConfigurationViewModel viewModel;
+
 
 
     public MyMoodFragment() {
@@ -59,6 +63,14 @@ public class MyMoodFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_mood, container, false);
 
+        // get list here
+
+        try {
+          //  List<Configuration> configurations = viewModel.getMatchedConfigurationsLiveData();
+        }
+        catch (Exception e){
+            Log.e(TAG, "onCreateView: "+e );
+        }
       //  setScheduling = view.findViewById(R.id.scheduling);
 //        setScheduling.setOnClickListener(new View.OnClickListener() {
 //            @Override

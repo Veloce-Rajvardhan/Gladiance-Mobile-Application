@@ -98,6 +98,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
     ObjectSchedule objectSchedule;
 
+    private NumberPicker hourPicker;
+    private NumberPicker minutePicker;
+    private NumberPicker secondsPicker;
+
     public CreateScheduleFragment() {
         // Required empty public constructor
     }
@@ -236,7 +240,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
         /// time ///
         // Initialize hour picker
-        NumberPicker hourPicker = view.findViewById(R.id.hourPicker);
+        hourPicker = view.findViewById(R.id.hourPicker);
         hourPicker.setMinValue(0);
         hourPicker.setMaxValue(23); // 24 hours format
         // Set initial value
@@ -244,14 +248,14 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
 
         // Initialize minute picker
-        NumberPicker minutePicker = view.findViewById(R.id.minutePicker);
+        minutePicker = view.findViewById(R.id.minutePicker);
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59); // 60 minutes
         // Set initial value
         minutePicker.setValue(0); // Default value 0
 
         // Initialize Second picker
-        NumberPicker secondsPicker = view.findViewById(R.id.secondsPicker);
+        secondsPicker = view.findViewById(R.id.secondsPicker);
         secondsPicker.setMinValue(0);
         secondsPicker.setMaxValue(59); // 60 minutes
         // Set initial value
@@ -527,7 +531,16 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 
         long gAAProjectSpaceTypeAreaRef = getSelectedAreaRefFromPreferences();
         Bundle bundle = getArguments();
+        if(AppConstants.CreateScheduleData == false) {
+            fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+            AppConstants.CreateScheduleData = true;
 
+        } else {
+            fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+            getLocalData();
+            Log.e(TAG, "Api not called!");
+
+        }
         // Bundle bundle = getArguments();
 //        if (bundle != null) {
 //            String sceneRefString = bundle.getString("SCENE_REF");
@@ -561,6 +574,89 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         return view;
     }
 
+    private void getLocalData() {
+        hourPicker.setValue(AppConstants.hour);
+        minutePicker.setValue(AppConstants.minute);
+        secondsPicker.setValue(AppConstants.second);
+        datePicker.setValue(AppConstants.dayofmonth);
+        yearPicker.setValue(AppConstants.Year);
+
+        if (AppConstants.RepeatEveryYear == true) {
+            // If checked, set the value to true
+            CBYear.setChecked(true);
+            CBYear.setEnabled(true);
+        } else {
+            // If unchecked, set the value to false
+            CBYear.setChecked(false);
+            CBYear.setEnabled(false);
+        }
+
+        if(AppConstants.Monday == true || AppConstants.Tuesday == true || AppConstants.Wednesday == true || AppConstants.Thursday == true || AppConstants.Friday == true || AppConstants.Saturday == true || AppConstants.Sunday== true ){
+            CBWeek.setChecked(true);
+            CBWeek.setEnabled(true);
+        } else {
+            CBWeek.setChecked(false);
+            CBWeek.setEnabled(false);
+            CBWeek.setChecked(true);
+            CBWeek.setEnabled(true);
+        }
+
+        List<String> daysList = new ArrayList<>();
+
+        daysList.add("Sunday");
+        daysList.add("Monday");
+        daysList.add("Tuesday");
+        daysList.add("Wednesday");
+        daysList.add("Thursday");
+        daysList.add("Friday");
+        daysList.add("Saturday");
+
+        List<String> monthsList = new ArrayList<>();
+
+        monthsList.add("Jan");
+        monthsList.add("Feb");
+        monthsList.add("Mar");
+        monthsList.add("Apr");
+        monthsList.add("May");
+        monthsList.add("Jun");
+        monthsList.add("Jul");
+        monthsList.add("Aug");
+        monthsList.add("Sep");
+        monthsList.add("Oct");
+        monthsList.add("Nov");
+        monthsList.add("Dec");
+
+        recyclerViewDay.setEnabled(true);
+        //   recyclerViewDay.setAlpha(0.5f);
+        recyclerViewDay.setAlpha(1.0f);
+
+        List<Boolean> apiCheckedStatus = new ArrayList<>();
+        apiCheckedStatus.add(AppConstants.Sunday);
+        apiCheckedStatus.add(AppConstants.Monday);
+        apiCheckedStatus.add(AppConstants.Tuesday);
+        apiCheckedStatus.add(AppConstants.Wednesday);
+        apiCheckedStatus.add(AppConstants.Thursday);
+        apiCheckedStatus.add(AppConstants.Friday);
+        apiCheckedStatus.add(AppConstants.Saturday);
+        dayAdapter.updateCheckedStatus(apiCheckedStatus, daysList);
+
+        List<Boolean> apiCheckedStatusMonths = new ArrayList<>();
+        apiCheckedStatusMonths.add(AppConstants.January);
+        apiCheckedStatusMonths.add(AppConstants.February);
+        apiCheckedStatusMonths.add(AppConstants.March);
+        apiCheckedStatusMonths.add(AppConstants.April);
+        apiCheckedStatusMonths.add(AppConstants.May);
+        apiCheckedStatusMonths.add(AppConstants.June);
+        apiCheckedStatusMonths.add(AppConstants.July);
+        apiCheckedStatusMonths.add(AppConstants.August);
+        apiCheckedStatusMonths.add(AppConstants.September);
+        apiCheckedStatusMonths.add(AppConstants.October);
+        apiCheckedStatusMonths.add(AppConstants.November);
+        apiCheckedStatusMonths.add(AppConstants.December);
+
+        monthAdapter.updateCheckedStatusMonths(apiCheckedStatusMonths, monthsList);
+    }
+
     // to Get Ref
     private void getRef() {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -588,6 +684,64 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 } else {
                     Log.e(TAG, "API call failed with code: " + response.code());
                 }
+            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
+
+    private void getRefObjectValue() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(TAG, "node id3: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+                        saveRefToSharedPreferences(Ref);
+
+// Later in your code, fetch the RefValue from SharedPreferences
+                        String savedRef = getRefFromSharedPreferences();
+                        if (savedRef != null) {
+                            Log.d(TAG, "Retrieved RefValue from SharedPreferences: " + savedRef);
+                            // Use savedRef as needed
+                        } else {
+                            Log.e(TAG, "RefValue not found in SharedPreferences");
+                            // Handle case where RefValue is not found in SharedPreferences
+                        }
+                        //AppConstants.Create_Ref_Schedule = Long.valueOf(responseModel.getTag());
+                        Log.e(TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+
+                        Log.d(TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);
+
+                    }
+                } else {
+                    Log.e(TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+            private String getRefFromSharedPreferences() {
+                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                return preferences.getString("RefValue", null);
+            }
+
+            private void saveRefToSharedPreferences(String refValue) {
+                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("RefValue", refValue);
+                editor.apply(); // Apply changes asynchronously
+                Log.d(TAG, "Saved RefValue to SharedPreferences: " + refValue);
             }
 
             @Override
@@ -647,6 +801,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 Log.e("APPCONSTS_SH"," "+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
                 Log.e("APPCONSTS_SH"," "+AppConstants.Create_powerState_Schedule);
                 Log.e("APPCONSTS_SH"," "+AppConstants.Create_power_Schedule);
+                Log.e("APPCONSTS_SH"," "+AppConstants.Create_Ref_dyn);
+
 
 
 
@@ -702,6 +858,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                 ///////////////////////////////////////////////////////////////////
 
 
+
                 List<com.gladiance.ui.models.saveSchedule.Configuration> list = new ArrayList<>();
                 ScheduleViewModel scheduleViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
                 LiveData<List<ObjectSchedule>> objectScenesListLiveData = scheduleViewModel.getObjectScenesList();
@@ -713,7 +870,13 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
                         if (objectScenesList != null) {
                             for (ObjectSchedule objectScenes : objectScenesList) {
+                              //  getRefObjectValue();
+                              //  String savedRef = getRefFromSharedPreferences2();
+                             //   long a = Long.parseLong(savedRef);
+                           //     AppConstants.Create_Ref_Schedule = a;
+                        //        Log.e(TAG, "onChanged222222222: "+a );
                                 list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
+                                        Long.parseLong(objectScenes.getRefObject()),
                                         Long.parseLong(objectScenes.getSceneRef()),
                                         Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
                                         objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
@@ -730,6 +893,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                                        AppConstants.Create_powerState_Schedule,
 //                                        AppConstants.Create_power_Schedule
 //                                ));
+                                Log.e(TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+                                Log.d("New Ref", String.valueOf(AppConstants.Create_Ref_Schedule));
                                 Log.d("ObjectScenes2", objectScenes.getSceneRef());
                                 Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
                                 Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
@@ -907,7 +1072,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
 
 
-                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null);
+                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null,null);
 
 
 // Reset the object using one of the methods above
@@ -922,6 +1087,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             objectSchedule.setGaaProjectSpaceTypePlannedDeviceRef("");
                             objectSchedule.setNodeConfigParamName("");
                             objectSchedule.setValue("");
+                            objectSchedule.setRefObject("");
 
 // Set other fields as needed
 
@@ -959,6 +1125,10 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         });
     }
 
+    private String getRefFromSharedPreferences2() {
+        SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        return preferences.getString("RefValue", null);
+    }
 
 
     // For Area

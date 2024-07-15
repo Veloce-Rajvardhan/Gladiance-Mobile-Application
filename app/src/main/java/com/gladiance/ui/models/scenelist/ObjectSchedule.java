@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class ObjectSchedule implements Serializable {
 
-    public ObjectSchedule(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
+    public ObjectSchedule(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value, String RefObject) {
         this.gaaProjectSpaceTypePlannedDeviceRef = gaaProjectSpaceTypePlannedDeviceRef;
         this.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
         this.Ref_dyn = Ref_dyn;
@@ -16,6 +16,7 @@ public class ObjectSchedule implements Serializable {
         this.Space_dyn = Space_dyn;
         this.NodeConfigParamName = NodeConfigParamName;
         this.Value = value;
+        this.RefObject = RefObject;
     }
 
     @SerializedName("Ref_dyn")
@@ -51,6 +52,10 @@ public class ObjectSchedule implements Serializable {
     @SerializedName("Value")
     @Expose
     private String Value;
+
+    @SerializedName("RefObject")
+    @Expose
+    private String RefObject;
 
 
     public String getSpace_dyn() {
@@ -119,6 +124,14 @@ public class ObjectSchedule implements Serializable {
         Value = value;
     }
 
+    public String getRefObject() {
+        return RefObject;
+    }
+
+    public void setRefObject(String refObject) {
+        RefObject = refObject;
+    }
+
     public void clear() {
         this.Ref_dyn = "";
         this.Name_dyn = "";
@@ -128,6 +141,7 @@ public class ObjectSchedule implements Serializable {
         this.gaaProjectSpaceTypePlannedDeviceRef = "";
         this.NodeConfigParamName = "";
         this.Value = "";
+        this.RefObject = "";
     }
 
 }

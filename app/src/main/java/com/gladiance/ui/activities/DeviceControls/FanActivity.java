@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -23,10 +24,13 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
+import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
+import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
@@ -35,8 +39,14 @@ import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FanActivity extends AppCompatActivity implements CircularSeekBarFan.OnProgressChangeListener{
 
@@ -51,18 +61,30 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
     //String nodeId2;
     private int progress = 1;
     Context context = this;
+
+    Context context2;
     private EspApplication espApp;
     private CircularSeekBarFan circularSeekBar;
     private ObjectScenes objectScenes;
 
+    SetYourMoodActivity setYourMoodActivity;
 
 
+    SceneCreateViewModel sharedViewModel;
     NetworkApiManager networkApiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fan);
+
+        // Assuming you have an instance of SetYourMoodActivity
+        setYourMoodActivity = new SetYourMoodActivity();
+
+        // Assign the context of SetYourMoodActivity to the context variable
+        context2 = setYourMoodActivity;
+
+
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferencesPDR", Context.MODE_PRIVATE);
@@ -79,8 +101,17 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         fanswitch = findViewById(R.id.switchButtonFan);
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
+//        new Handler().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Now use setYourMoodActivity as the ViewModelStoreOwner
+//                sharedViewModel = new ViewModelProvider(setYourMoodActivity).get(SceneCreateViewModel.class);
+//
+//                // Now you can use sharedViewModel as needed
+//            }
+//        });
 
-       textViewDeviceName.setText(Label);
+        textViewDeviceName.setText(Label);
 
 
         circularSeekBar = findViewById(R.id.circularSeekBar);
@@ -161,7 +192,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
             SceneViewModel sharedViewModelEdit = new ViewModelProvider(this).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
@@ -184,6 +215,11 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
         // Create Scene
         try {
+            getRefObjectValue();
+//
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Speed";
             AppConstants.Create_power = String.valueOf(shFanSpeed);
@@ -208,10 +244,12 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 //            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+            sharedViewModel = new ViewModelProvider(this).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
+//                }
+//            }, 1000);
 
             ////////////
 
@@ -239,7 +277,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(this).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
@@ -276,7 +314,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(this).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
@@ -338,7 +376,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
             SceneViewModel sharedViewModelEdit = new ViewModelProvider(this).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
@@ -355,6 +393,13 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
         // Create Scene
         try {
+
+
+                getRefObjectValue();
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Power";
             AppConstants.Create_power = String.valueOf(powerState);
@@ -379,10 +424,13 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 //            Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
-            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(this).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
+//
+//                    }
+//                }, 1000);
             ////////////
 
         }
@@ -409,7 +457,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(this).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
@@ -444,7 +492,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
             Log.e("APPCONSTS"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(this).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
@@ -470,6 +518,71 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
 
+    }
+
+    private void getRefObjectValue() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+  //      SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+    //    String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+  //      Log.d(EventBus.TAG, "node id3: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+
+                        RefObject refObject = new RefObject(Ref);
+                        AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                        AppConstants.Create_Ref_Scene = responseModel.getTag();
+
+
+
+                   //     saveRefToSharedPreferences(Ref);
+
+// Later in your code, fetch the RefValue from SharedPreferences
+                 //       String savedRef = getRefFromSharedPreferences();
+//                        if (savedRef != null) {
+//                            Log.d(EventBus.TAG, "Retrieved RefValue from SharedPreferences: " + savedRef);
+//                            // Use savedRef as needed
+//                        } else {
+//                            Log.e(EventBus.TAG, "RefValue not found in SharedPreferences");
+//                            // Handle case where RefValue is not found in SharedPreferences
+//                        }
+                        AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                        Log.e(EventBus.TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+
+                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);
+
+                    }
+                } else {
+                    Log.e(EventBus.TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+//            private String getRefFromSharedPreferences() {
+//                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+//                return preferences.getString("RefValue", null);
+//            }
+//
+//            private void saveRefToSharedPreferences(String refValue) {
+//                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putString("RefValue", refValue);
+//                editor.apply(); // Apply changes asynchronously
+//                Log.d(EventBus.TAG, "Saved RefValue to SharedPreferences: " + refValue);
+//            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(EventBus.TAG, "API call failed: " + t.getMessage());
+            }
+        });
     }
 
     private void disableSeekBars() {

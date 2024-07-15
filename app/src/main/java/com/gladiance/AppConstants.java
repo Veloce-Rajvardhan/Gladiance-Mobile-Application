@@ -411,6 +411,7 @@ public class AppConstants {
     public static String Create_Name_dyn;
     public static String Create_SceneRef;
     public static String Create_Space_dyn;
+    public static String Create_Ref_Scene = ""; //new
     public static String Create_projectSpaceTypePlannedDeviceName;
     public static String Create_GaaProjectSpaceTypePlannedDeviceRef;
     public static String Create_powerState;
@@ -423,6 +424,7 @@ public class AppConstants {
     public static String Create_Ref_dyn_Schedule = "null"; // We get null ref and to get ref we hit allocateid post api
     public static String Create_Name_dyn_Schedule = "";
     public static String Create_ScheduleRef_Schedule = "";
+    public static String Create_Ref_Schedule; //new
     public static String Create_Space_dyn_Schedule = "";
     public static String Create_projectSpaceTypePlannedDeviceName_Schedule = "";
     public static String Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule = "";
@@ -435,10 +437,19 @@ public class AppConstants {
     public static String Edit_Name_dyn_Schedule;
     public static String Edit_ScheduleRef_Schedule;
     public static String Edit_Space_dyn_Schedule;
+    public static Long Edit_Ref_Schedule = null; //new
     public static String Edit_projectSpaceTypePlannedDeviceName_Schedule;
     public static String Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule;
     public static String Edit_powerState_Schedule;
     public static String Edit_power_Schedule;
+
+    //for EditSchedule Local Data
+    public static boolean Data;
+
+    //for CreateSchedule Local Data
+    public static boolean CreateScheduleData;
+
+
 
     public static final ArrayList<String> MY_CONSTANT_LIST_SCHEDULE = new ArrayList<String>();
 

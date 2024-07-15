@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class ObjectScenes implements Serializable {
 
-    public ObjectScenes(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value) {
+    public ObjectScenes(String Ref_dyn, String Name_dyn, String SceneRef, String Space_dyn, String gaaProjectSpaceTypePlannedDeviceRef, String projectSpaceTypePlannedDeviceName, String NodeConfigParamName, String value, String Ref) {
         this.gaaProjectSpaceTypePlannedDeviceRef = gaaProjectSpaceTypePlannedDeviceRef;
         this.projectSpaceTypePlannedDeviceName = projectSpaceTypePlannedDeviceName;
         this.Ref_dyn = Ref_dyn;
@@ -16,6 +16,7 @@ public class ObjectScenes implements Serializable {
         this.Space_dyn = Space_dyn;
         this.NodeConfigParamName = NodeConfigParamName;
         this.Value = value;
+        this.Ref = Ref;
     }
 
     @SerializedName("Ref_dyn")
@@ -52,6 +53,9 @@ public class ObjectScenes implements Serializable {
     @Expose
     private String Value;
 
+    @SerializedName("Ref")
+    @Expose
+    private String Ref;
 
     public String getSpace_dyn() {
         return Space_dyn;
@@ -119,6 +123,14 @@ public class ObjectScenes implements Serializable {
         Value = value;
     }
 
+    public String getRef() {
+        return Ref;
+    }
+
+    public void setRef(String ref) {
+        Ref = ref;
+    }
+
     public void clear() {
         this.Ref_dyn = "";
         this.Name_dyn = "";
@@ -128,5 +140,6 @@ public class ObjectScenes implements Serializable {
         this.gaaProjectSpaceTypePlannedDeviceRef = "";
         this.NodeConfigParamName = "";
         this.Value = "";
+        this.Ref = "";
     }
 }

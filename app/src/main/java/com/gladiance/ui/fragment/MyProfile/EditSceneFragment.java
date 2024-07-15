@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +46,7 @@ import com.gladiance.ui.models.guestlandingpage.GuestLandingResModel;
 import com.gladiance.ui.models.lnstallerlandingpage.Data;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerControl;
 import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
+import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
@@ -104,6 +106,10 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
     Long gAAProjectRef_object;
     String gAAProjectName_object;
 
+    private com.gladiance.ui.models.saveScene.Configuration configuration2;
+
+
+    private ConfigurationViewModel viewModel;
 
     public EditSceneFragment() {
         // Required empty public constructor
@@ -127,6 +133,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
         configurationSceneEditData = new ArrayList<>();
 
+        viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -212,6 +219,8 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
         fetchAreas(projectSpaceRef,loginToken,loginDeviceId);
 
+
+
         return view;
     }
 
@@ -219,6 +228,20 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
     @Override
     public void onResume() {
         super.onResume();
+
+        // Added data of Configuration
+        viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
+
+        viewModel.getMatchedConfigurations().observe(getViewLifecycleOwner(), configurations -> {
+            // Log the size of configurations
+            Log.d("", "Configurations size: " + configurations.size());
+
+            // Iterate through configurations and print each one
+            for (com.gladiance.ui.models.saveScene.Configuration configuration : configurations) {
+                Log.d("ConfigurationFragment", "Configuration: " + configuration.toString());
+            }
+        });
+
 
         SharedPreferences sharedPreferencesPowerState = requireContext().getSharedPreferences("MyPreferencesPS", Context.MODE_PRIVATE);
         boolean PowerState = sharedPreferencesPowerState.getBoolean("PowerState", false);
@@ -266,6 +289,16 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 //                        }
 //                    }
 //                });
+
+                viewModel.getMatchedConfigurations().observe(getViewLifecycleOwner(), configurations -> {
+                    Log.d(TAG, "onChanged triggered with configurations size: " + configurations.size());
+                    for (com.gladiance.ui.models.saveScene.Configuration configuration : configurations) {
+                        Log.d(TAG, "Configuration: " + configuration.toString());
+                        Log.d(TAG, "Configuration22: " + configuration.getRef());
+
+                    }
+                });
+
 
                 // Retrieve the arguments bundle
                 Bundle args = getArguments();
@@ -360,6 +393,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             for (ObjectScenes objectScenes : objectScenesList) {
 
                                 list.add(new SceneConfig(
+                                        Long.parseLong(objectScenes.getRef()),
                                         Long.parseLong(objectScenes.getSceneRef()),
                                         Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
                                         objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
@@ -386,7 +420,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         AppConstants.Name_dyn,
                         Long.parseLong(AppConstants.Space_dyn),
                         list);
-                sendSaveSceneRequest(saveScene);
+           //     sendSaveSceneRequest(saveScene);
 
             }
 
@@ -406,7 +440,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             Log.e(TAG, "Done ");
                             Log.e("Edit Schedule", "Message: " + sceneResModel.getMessage());
 
-                            ObjectScenes objectScenes = new ObjectScenes(null,null,null,null,null,null,null,null);
+                            ObjectScenes objectScenes = new ObjectScenes(null,null,null,null,null,null,null,null,null);
 
 
 // Reset the object using one of the methods above
@@ -472,7 +506,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         for (Configuration configuration : configurations) {
                             Log.e(TAG, "Scene Planed Device Name: " + configuration.getgAAProjectSpaceTypePlannedDeviceName());
 
-                            ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
+                            ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName(), configuration.getRef()));
 
                             ////  Data stored
 //                            gAAProjectSceneRef = configuration.getgAAProjectSceneRef();
@@ -557,7 +591,40 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+
+                        ConfigurationViewModel viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
+
+                        for (Configuration configuration : ConfigArrayList) {
+                            //    if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+
+                            // Log the values for debugging
+                            //  Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+
+                //            if (viewModel.getMatchedConfigurations() == null) {
+                                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
+                                        configuration.getgAAProjectSceneRef(),
+                                        configuration.getNodeConfigParamName(),
+                                        configuration.getValue(),
+                                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+                                        configuration.getRef(),
+                                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
+                                ));
+
+                                //    viewModel.addMatchedConfiguration(matchedConfigurations);
+
+                                // Logging the size of matchedConfigurations
+//                int sizeOfMatchedConfigurations = matchedConfigurations.size();
+//                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+                                // Assuming you are doing something with your ViewHolder here
+                                //  holder.deviceNameCheckBox.setChecked(true);
+
+                                // Exit the loop once a match is found
+                                //   break;
+                                //       }
+                    //        }
+                        }
+
+                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext());
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }
@@ -591,7 +658,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
-                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList);
+                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext());
                             recyclerView.setAdapter(sceneCheckAdapter);
 
                         }

@@ -48,27 +48,21 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
                 checkedStatus.set(i, true);
             }
             if (day.equals("Monday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
             if (day.equals("Tuesday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
             if (day.equals("Wednesday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
             if (day.equals("Thursday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
             if (day.equals("Friday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
             if (day.equals("Saturday")) {
-                // If it's Sunday, set its value in checkedStatus
                 checkedStatus.set(i, true);
             }
 

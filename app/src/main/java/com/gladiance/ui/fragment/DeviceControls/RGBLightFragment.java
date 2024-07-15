@@ -1,15 +1,21 @@
-package com.gladiance.ui.activities.DeviceControls;
+package com.gladiance.ui.fragment.DeviceControls;
 
-import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+import static org.greenrobot.eventbus.EventBus.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -32,57 +38,64 @@ import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
-public class RGBLightActivity extends AppCompatActivity {
 
+public class RGBLightFragment extends Fragment {
     Switch rgbLightSwitch;
     String nodeId;
     NetworkApiManager networkApiManager;
     private EspApplication espApp;
-    Context context = this;
     SeekBar seekBar1,seekBar2,seekBar3,seekBar4,seekBar5;
-
-
     TextView textView1,textView2,textView3,textView4,textView5,textView6;
+    private View view;
+
+    private Context context;
+    public RGBLightFragment(Context context) {
+        this.context = context;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rgblight);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_r_g_b_light, container, false);
 
-        espApp = new EspApplication(getApplicationContext());
+
+        espApp = new EspApplication(context.getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
-        SharedPreferences preferences2 = getSharedPreferences("MyPrefse", MODE_PRIVATE);
+
+        // Load preferences
+        SharedPreferences preferences2 = requireActivity().getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
 
-        SharedPreferences preferences = getSharedPreferences("my_shared_prefe_label", MODE_PRIVATE);
-        String Label = preferences.getString("KEY_USERNAMEs", "");
-        Log.d(TAG, "Label : " +Label);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String Label = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + Label);
 
-        rgbLightSwitch = findViewById(R.id.switchButtonFan);
-        seekBar1 = findViewById(R.id.seekBarDimmer);
-        seekBar2 = findViewById(R.id.seekBarHue);
-        seekBar3 = findViewById(R.id.seekBarSaturation);
-        seekBar4 = findViewById(R.id.seekBarCCT);
-        seekBar5 = findViewById(R.id.seekBarWhiteBrightness);
+        rgbLightSwitch = view.findViewById(R.id.switchButtonFan);
+        seekBar1 = view.findViewById(R.id.seekBarDimmer);
+        seekBar2 = view.findViewById(R.id.seekBarHue);
+        seekBar3 = view.findViewById(R.id.seekBarSaturation);
+        seekBar4 = view.findViewById(R.id.seekBarCCT);
+        seekBar5 = view.findViewById(R.id.seekBarWhiteBrightness);
 
-        textView1 = findViewById(R.id.tv_brightness);
-        textView2= findViewById(R.id.tv_hue);
-        textView3 = findViewById(R.id.tv_saturation);
-        textView4 = findViewById(R.id.tv_CCT);
-        textView5 = findViewById(R.id.tv_Whitebrightness);
-        textView6 = findViewById(R.id.DeviceName);
+        textView1 = view.findViewById(R.id.tv_brightness);
+        textView2 = view.findViewById(R.id.tv_hue);
+        textView3 = view.findViewById(R.id.tv_saturation);
+        textView4 = view.findViewById(R.id.tv_CCT);
+        textView5 = view.findViewById(R.id.tv_Whitebrightness);
+        textView6 = view.findViewById(R.id.DeviceName);
 
         textView6.setText(Label);
 
         disableSeekBars();
 
-        //Dimmer ON/OFF Code
+        // Dimmer ON/OFF Code
         rgbLightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
-                Log.d(TAG, "onCheckedChanged: "+isChecked);
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
                 int progress = 100;
                 rgbLightState(isChecked);
                 if (isChecked) {
@@ -92,13 +105,10 @@ public class RGBLightActivity extends AppCompatActivity {
                 } else {
                     disableSeekBars();
                 }
-
-
             }
         });
 
-
-        //Seek Bar Brightness
+        // Seek Bar Brightness
         seekBar1.setMax(99);
         seekBar1.setProgress(100);
         textView1.setText("100");
@@ -124,8 +134,7 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-
-  //    Seek Bar Hue
+        // Seek Bar Hue
         int[] colors = {
                 0xFFFF0000, // Red
                 0xFFFF6F00, // Orange
@@ -137,14 +146,11 @@ public class RGBLightActivity extends AppCompatActivity {
                 0xFFFF0000  // Red (repeated to loop back)
         };
 
-        // Create the gradient drawable
         GradientDrawable gradientDrawable = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colors);
-        gradientDrawable.setCornerRadius(10f); // Set corner radius if needed
+        gradientDrawable.setCornerRadius(10f);
 
-        // Set the ClipDrawable as the progress drawable for the SeekBar
         seekBar2.setProgressDrawable(gradientDrawable);
-
         seekBar2.setMax(359);
         seekBar2.setProgress(0);
         textView2.setText("0");
@@ -152,7 +158,6 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView2.setText(String.valueOf(progress + 1));
                 rgbHue(progress + 1);
             }
@@ -168,10 +173,7 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        //Seek Bar Saturation
+        // Seek Bar Saturation
         seekBar3.setMax(99);
         seekBar3.setProgress(100);
         textView3.setText("100");
@@ -179,12 +181,8 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView3.setText(String.valueOf(progress + 1));
-
-                // Send value to server
                 rgbSaturation(progress + 1);
-
             }
 
             @Override
@@ -198,7 +196,7 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-        //Seek Bar CCT
+        // Seek Bar CCT
         seekBar4.setMax(6500);
         seekBar4.setProgress(2700);
         textView4.setText("0");
@@ -206,10 +204,7 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView4.setText(String.valueOf(progress + 1));
-
-                // Send value to server
                 rgbCCT(progress + 1);
             }
 
@@ -224,7 +219,7 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-        //Seek White Brightness
+        // Seek White Brightness
         seekBar5.setMax(99);
         seekBar5.setProgress(0);
         textView5.setText("0");
@@ -232,10 +227,7 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView5.setText(String.valueOf(progress + 1));
-
-                // Send value to server
                 rgbWhiteBrightness(progress + 1);
             }
 
@@ -250,20 +242,20 @@ public class RGBLightActivity extends AppCompatActivity {
             }
         });
 
-
+        return view;
     }
 
     //RGB ON/OFF
     private void rgbLightState(boolean powerState) {
         // Create a RequestModel with the required data
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Power\": "+powerState+"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
@@ -287,7 +279,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
@@ -296,7 +288,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -326,7 +318,7 @@ public class RGBLightActivity extends AppCompatActivity {
 //            Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
             ////////////
@@ -334,7 +326,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -357,19 +349,19 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
 
             ////////////
 
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Edit Schedule
@@ -392,7 +384,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
 
@@ -408,7 +400,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
@@ -419,13 +411,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"Brightness\": " + progress + "}}";
 
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
 
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
@@ -449,15 +441,15 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -478,7 +470,7 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 //            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
 //            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
@@ -514,7 +506,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -536,12 +528,12 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
 //            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
 //
 //            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
@@ -557,7 +549,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Edit Schedule
@@ -580,7 +572,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -599,7 +591,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -610,13 +602,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
     private void rgbHue(int progress){
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Hue\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -639,11 +631,11 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -656,7 +648,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -678,12 +670,12 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -715,12 +707,12 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -733,7 +725,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -757,13 +749,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
 
-          //  Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //  Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -776,7 +768,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
@@ -785,13 +777,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
     private void rgbSaturation(int progress){
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Saturation\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -814,11 +806,11 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -831,7 +823,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -853,12 +845,12 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -890,12 +882,12 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -908,7 +900,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -932,7 +924,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -951,7 +943,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -960,14 +952,14 @@ public class RGBLightActivity extends AppCompatActivity {
     }
 
     private void rgbCCT(int progress){
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"CCT\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -990,11 +982,11 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -1007,7 +999,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -1029,12 +1021,12 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -1066,12 +1058,12 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -1084,7 +1076,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -1108,13 +1100,13 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
 
-          //  Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            //  Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -1127,21 +1119,21 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
     }
 
     private void rgbWhiteBrightness(int progress){
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
-        Log.e(TAG, "Name : "+name);
+        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"White Brightness\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        SharedPreferences preferences9 = getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
         String nodeId2 = preferences9.getString("KEY_USERNAMEs", "");
         String remoteCommandTopic = "node/"+ nodeId2 +"/params/remote";
 
@@ -1164,11 +1156,11 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
+            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
             // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
-            Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -1181,7 +1173,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         // Create Scene
@@ -1203,12 +1195,12 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-            SceneCreateViewModel sharedViewModel = new ViewModelProvider((this)).get(SceneCreateViewModel.class);
+            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -1240,12 +1232,12 @@ public class RGBLightActivity extends AppCompatActivity {
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
-            ScheduleViewModel sharedViewModel = new ViewModelProvider((this)).get(ScheduleViewModel.class);
+            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
-            Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
@@ -1258,7 +1250,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
 
@@ -1282,7 +1274,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
 
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
-            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(ScheduleEditViewModel.class);
+            ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
@@ -1301,7 +1293,7 @@ public class RGBLightActivity extends AppCompatActivity {
 
         }
         catch (Exception e){
-            Log.e(TAG, "sendSwitchState: "+e);
+            Log.e(ContentValues.TAG, "sendSwitchState: "+e);
         }
 
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
@@ -1317,7 +1309,6 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar5.setEnabled(false);
     }
 
-    // Function to enable all SeekBars
     private void enableSeekBars() {
         seekBar1.setEnabled(true);
         seekBar2.setEnabled(true);
@@ -1326,20 +1317,4 @@ public class RGBLightActivity extends AppCompatActivity {
         seekBar5.setEnabled(true);
     }
 
-
-
-    private void handleApiResponse(ResponseModel responseModel) {
-        // Handle the response as needed
-        if (responseModel != null) {
-            // API call was successful
-            // Access other fields from responseModel if needed
-            Log.d(TAG, "handleApiResponse: " +responseModel.getSuccessful());
-            Log.d(TAG, "handleApiResponse: " +responseModel.getTag());
-
-            Toast.makeText(this, "Switch state updated successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            // Handle unsuccessful response
-            Toast.makeText(this, "Failed to update switch state", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

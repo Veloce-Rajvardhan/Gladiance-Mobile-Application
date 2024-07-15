@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.gladiance.ui.adapters.CardAdapter;
 import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.Devices;
+import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.ac.Gendb;
@@ -46,6 +48,7 @@ import com.gladiance.ui.models.ac.Gendbarr;
 import com.gladiance.ui.models.ac.SetRange;
 import com.gladiance.ui.models.ac.Thermostat;
 import com.gladiance.ui.models.ac.ThermostatResponse;
+import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
@@ -54,6 +57,8 @@ import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -226,7 +231,18 @@ public class DeviceCardFragment extends Fragment {
                             editor2.putString("Name", name);
                             editor2.apply();
                             startActivity(intent);
-                        }else {
+                        }
+                        else if(arrayList.get(0).getType().equals("esp.device.bellui")){
+                            String name = arrayList.get(0).getName();
+                            Intent intent = new Intent(requireContext(), BellActivity.class);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+                            editor2.putString("Name", name);
+                            editor2.apply();
+                            startActivity(intent);
+                        }
+
+                        else {
                             CardAdapter cardAdapter = new CardAdapter(arrayList);
                             recyclerView.setAdapter(cardAdapter);
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
@@ -273,6 +289,11 @@ public class DeviceCardFragment extends Fragment {
 
         // Edit Scene
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = power;
             AppConstants.power = String.valueOf(powerState);
@@ -289,7 +310,7 @@ public class DeviceCardFragment extends Fragment {
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
+            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
             SceneViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
            // sharedViewModel.setObjectSchedule(objectScenes);
             sharedViewModel1.addObjectScenes(objectScenes);
@@ -303,7 +324,8 @@ public class DeviceCardFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -312,6 +334,11 @@ public class DeviceCardFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = power;
             AppConstants.Create_power = String.valueOf(powerState);
@@ -346,12 +373,13 @@ public class DeviceCardFragment extends Fragment {
 //            Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
+            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel2 = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel2.addObjectScenes(objectSceneCreate);
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -376,8 +404,10 @@ public class DeviceCardFragment extends Fragment {
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
 
+        //    getRefObjectValue();
+            Log.e(TAG, "blah: "+AppConstants.Create_Ref_Schedule);
 
-            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule);
+            ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule,  AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel3 = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
             sharedViewModel3.addObjectSchedule(objectSchedule);
             // ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power);
@@ -402,6 +432,7 @@ public class DeviceCardFragment extends Fragment {
 
             Log.e("APPCONSTS25"," Edit schedule "+AppConstants.Edit_Ref_dyn_Schedule);
             Log.e("APPCONSTS26"," Edit schedule "+AppConstants.Edit_Name_dyn_Schedule);
+            Log.e("APPCONSTS26"," Edit schedule Ref "+AppConstants.Edit_Ref_Schedule);
             Log.e("APPCONSTS27", " Edit schedule "+AppConstants.Edit_ScheduleRef_Schedule);
             Log.e("APPCONSTS28"," Edit schedule "+AppConstants.Edit_Space_dyn_Schedule);
             Log.e("APPCONSTS29"," Edit schedule "+AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
@@ -410,7 +441,7 @@ public class DeviceCardFragment extends Fragment {
             Log.e("APPCONSTS32"," Edit schedule "+AppConstants.Edit_power_Schedule);
 
 
-            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
+            ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
 
@@ -436,6 +467,73 @@ public class DeviceCardFragment extends Fragment {
         networkApiManager.updateParamValue(nodeId2, commandBody, apiService, remoteCommandTopic);
 
 
+
+    }
+
+
+        private void getRefObjectValue() {
+            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+            String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+            Log.d(EventBus.TAG, "node id3: " + nodeId3);
+            // Make API call
+            Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+            call.enqueue(new Callback<AllocateSingleIdResponse>() {
+                @Override
+                public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                    if (response.isSuccessful()) {
+                        AllocateSingleIdResponse responseModel = response.body();
+                        if (responseModel != null) {
+                            boolean success = responseModel.getSuccessful();
+                            String message = responseModel.getMessage();
+                            String Ref = responseModel.getTag();
+
+                            RefObject refObject = new RefObject(Ref);
+                            AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                            AppConstants.Create_Ref_Scene = responseModel.getTag();
+
+
+
+                            saveRefToSharedPreferences(Ref);
+
+// Later in your code, fetch the RefValue from SharedPreferences
+                            String savedRef = getRefFromSharedPreferences();
+                            if (savedRef != null) {
+                                Log.d(EventBus.TAG, "Retrieved RefValue from SharedPreferences: " + savedRef);
+                                // Use savedRef as needed
+                            } else {
+                                Log.e(EventBus.TAG, "RefValue not found in SharedPreferences");
+                                // Handle case where RefValue is not found in SharedPreferences
+                            }
+                            AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                            Log.e(EventBus.TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+
+                            Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);
+
+                        }
+                    } else {
+                        Log.e(EventBus.TAG, "API call failed with code: " + response.code());
+                    }
+                }
+
+                private String getRefFromSharedPreferences() {
+                    SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                    return preferences.getString("RefValue", null);
+                }
+
+                private void saveRefToSharedPreferences(String refValue) {
+                    SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("RefValue", refValue);
+                    editor.apply(); // Apply changes asynchronously
+                    Log.d(EventBus.TAG, "Saved RefValue to SharedPreferences: " + refValue);
+                }
+
+                @Override
+                public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                    Log.e(EventBus.TAG, "API call failed: " + t.getMessage());
+                }
+            });
 
     }
 //    // Handle onBackPressed

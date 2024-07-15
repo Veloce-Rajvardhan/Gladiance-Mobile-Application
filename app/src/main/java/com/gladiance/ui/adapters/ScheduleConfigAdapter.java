@@ -111,7 +111,9 @@ public class ScheduleConfigAdapter extends RecyclerView.Adapter<ScheduleConfigAd
                 Long sceneRef = scene.getRef();
                 String sceneRefString = String.valueOf(sceneRef);
 
+
                 Fragment fragment = new EditScheduleFragment();
+                AppConstants.Data = false;
 
                 Bundle bundle = new Bundle();
                 // Pass the sceneRef to the next fragment using fragment arguments
