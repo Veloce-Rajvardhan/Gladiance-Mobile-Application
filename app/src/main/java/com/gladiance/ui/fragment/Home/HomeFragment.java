@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -89,6 +90,8 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_sceneList_home);
         recyclerViewFavoriteList = view.findViewById(R.id.recycler_view_favoriteList_home);
 
+        //SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
+
 
 
         arrayList = new ArrayList<>();
@@ -150,6 +153,17 @@ public class HomeFragment extends Fragment {
 
 
         getSceneList(gaaProjectSpaceTypeRef,loginToken,loginDeviceId);
+
+//        swipeRefreshLayout.setOnRefreshListener(
+//                new SwipeRefreshLayout.OnRefreshListener() {
+//                    @Override
+//                    public void onRefresh() {
+//                        getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                }
+//        );
+
         getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
 
         return view;

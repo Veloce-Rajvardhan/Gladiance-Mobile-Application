@@ -112,6 +112,14 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
     }
 
+    private void disableSeekBars() {
+        circularSeekBar.setEnabled(false);
+    }
+
+    private void enableSeekBars() {
+        circularSeekBar.setEnabled(true);
+    }
+
 
     private void updateProgressText() {
         progressTextView.setText("" + progress + "");
@@ -472,15 +480,6 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
     }
 
-    private void disableSeekBars() {
-
-
-    }
-
-    private void enableSeekBars() {
-
-
-    }
 
 
     private void handleApiResponse(ResponseModel responseModel) {

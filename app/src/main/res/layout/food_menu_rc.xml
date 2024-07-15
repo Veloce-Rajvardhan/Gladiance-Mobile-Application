@@ -21,28 +21,45 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
             <LinearLayout
                 android:layout_width="231dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="4dp">
 
-                <!-- First Text View -->
+                <LinearLayout
+                    android:layout_width="231dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
-                <!-- First Image View -->
                 <ImageView
-                    android:id="@+id/imgVegNonveg"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:id="@+id/imgVegNonVeg"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
                     android:contentDescription="Image 1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
+                    android:padding="@dimen/_2sdp"
                     android:src="@drawable/menu_ic" />
 
+                    <View
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_26sdp"/>
+
+                    <ImageView
+                        android:id="@+id/imgSweetSpicy"
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:contentDescription="Image 1"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/menu_ic" />
+
+                </LinearLayout>
+
                 <TextView
-                    android:id="@+id/tvmenu_name"
-                    android:layout_width="225dp"
-                    android:layout_height="13dp"
+                    android:id="@+id/tv_menu_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="start"
@@ -54,8 +71,8 @@
 
                 <!-- Second Text View -->
                 <TextView
-                    android:id="@+id/tvmenu_price"
-                    android:layout_width="72dp"
+                    android:id="@+id/tv_menu_price"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
@@ -65,6 +82,8 @@
                     android:text="Rs 200"
                     style="@style/TEXT"
                     android:textSize="18dp" />
+
+
 
             </LinearLayout>
 

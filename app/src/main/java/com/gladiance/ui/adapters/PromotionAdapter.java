@@ -1,6 +1,8 @@
 package com.gladiance.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,12 @@ public class PromotionAdapter extends RecyclerView.Adapter<PromotionAdapter.MyVi
         holder.mTextView.setText(objectTag.getDescription());
         holder.textVideoURL.setText(objectTag.getVideoUrl());
 
+        holder.textVideoURL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openUrl(v.getContext(), objectTag.getVideoUrl());
+            }
+        });
 
 
     }
@@ -83,6 +91,12 @@ public class PromotionAdapter extends RecyclerView.Adapter<PromotionAdapter.MyVi
             textView.setMaxLines(3);
             button.setText("See More...");
         }
+    }
+
+    private void openUrl(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        context.startActivity(intent);
     }
 
 }

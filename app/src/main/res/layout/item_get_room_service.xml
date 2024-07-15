@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_40sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp">
+
+    <TextView
+        android:id="@+id/tv_sr_no"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:text="1"
+        android:gravity="center|left"
+        android:textSize="@dimen/_14sdp"
+        style="@style/TEXT" />
+
+    <TextView
+        android:id="@+id/tv_item"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:text="Chicken Dum Biryani"
+        android:gravity="center|left"
+        android:textSize="@dimen/_14sdp"
+        style="@style/TEXT" />
+
+    <TextView
+        android:id="@+id/tv_amount_item"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_weight="1"
+        android:text="300"
+        android:paddingStart="@dimen/_5sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_14sdp"
+        style="@style/TEXT" />
+
+    <TextView
+        android:id="@+id/tv_Quantity_item"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_weight="1"
+        android:text="1"
+        android:padding="@dimen/_10sdp"
+        style="@style/TransperantBg"
+        android:gravity="center"
+        android:textSize="@dimen/_14sdp"
+        />
+
+</LinearLayout>

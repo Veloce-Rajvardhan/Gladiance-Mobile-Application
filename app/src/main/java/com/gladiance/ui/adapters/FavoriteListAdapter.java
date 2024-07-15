@@ -160,12 +160,102 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
                 }
                 else {
                     LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-//                    Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(objectTag.getgAAProjectSpaceTypePlannedDeviceRef());
-//                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor3 = sharedPreferences.edit();
-//                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-//                    editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-//                    editor3.apply();
+
+                    String Label = objectTag.getLabel();
+                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    Log.e(TAG, "Label: " + Label);
+                    editor1.putString("KEY_USERNAMEs", Label);
+                    editor1.apply();
+
+                    String nodeId = objectTag.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    DeviceCardFragment newFragment = new DeviceCardFragment();
+                    transaction.replace(R.id.favoriteContainer, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+
+            }
+        });
+
+        holder.FavTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (objectTag.getInternalDeviceName().equals("Switch 1")) {
+                    objectTag.setPowerState(!objectTag.isPowerState());
+                    updateUI(holder, objectTag.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = objectTag.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = objectTag.getInternalDeviceName();
+
+                    sendSwitchState(objectTag.isPowerState(), name, nodeId);
+                }else if (objectTag.getInternalDeviceName().equals("Light 1")) {
+                    objectTag.setPowerState(!objectTag.isPowerState());
+                    updateUI(holder, objectTag.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = objectTag.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = objectTag.getInternalDeviceName();
+
+                    sendSwitchState(objectTag.isPowerState(), name, nodeId);
+
+                }else if (objectTag.getInternalDeviceName().equals("Light 2")) {
+                    objectTag.setPowerState(!objectTag.isPowerState());
+                    updateUI(holder, objectTag.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = objectTag.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = objectTag.getInternalDeviceName();
+
+                    sendSwitchState(objectTag.isPowerState(), name, nodeId);
+
+                }else if (objectTag.getInternalDeviceName().equals("Power Socket 1")) {
+                    objectTag.setPowerState(!objectTag.isPowerState());
+                    updateUI(holder, objectTag.isPowerState());
+
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    String nodeId = objectTag.getNodeId();
+                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences2.edit();
+                    Log.e(TAG, "Node Id: " + nodeId);
+                    editor.putString("KEY_USERNAMEs", nodeId);
+                    editor.apply();
+
+                    String name = objectTag.getInternalDeviceName();
+
+                    sendSwitchState(objectTag.isPowerState(), name, nodeId);
+
+                }
+                else {
+                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
 
                     String Label = objectTag.getLabel();
                     SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
