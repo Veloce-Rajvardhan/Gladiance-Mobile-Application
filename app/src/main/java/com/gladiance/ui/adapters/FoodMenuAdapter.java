@@ -14,77 +14,79 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.ui.fragment.ControlBouquet.AddFoodItemFragment;
 import com.gladiance.R;
+import com.gladiance.ui.models.foodmoodlist.ObjectTag;
 
 import java.util.List;
 
-public class FoodMenuAdapter extends RecyclerView.Adapter<FoodMenuAdapter.MyViewHolder> {
+public class FoodMenuAdapter extends RecyclerView.Adapter<FoodMenuAdapter.ViewHolder> {
+    private List<ObjectTag> foodItemList;
 
-    private static Context context;
-    private List<Integer> imageVegNonveg;
-    private List<String> tvMemuName;
-    private List<String> tvMemuPrice;
-    private List<Integer> imageMenu;
-    private List<String> btnAdd;
-
-
-    public FoodMenuAdapter(Context context, List<Integer> imageVegNonveg, List<String> tvMemuName, List<String> tvMemuPrice, List<Integer> imageMenu, List<String> btnAdd) {
-
-        this.context = context;
-        this.imageVegNonveg = imageVegNonveg;
-        this.tvMemuName = tvMemuName;
-        this.tvMemuPrice = tvMemuPrice;
-        this.imageMenu = imageMenu;
-        this.btnAdd = btnAdd;
+    public FoodMenuAdapter(List<ObjectTag> foodItemList) {
+        this.foodItemList = foodItemList;
     }
-
 
     @NonNull
     @Override
-    public FoodMenuAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = LayoutInflater.from(context).inflate(R.layout.food_menu_rc, parent, false);
-        return new FoodMenuAdapter.MyViewHolder(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_menu_rc, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FoodMenuAdapter.MyViewHolder holder, int position) {
-        holder.Image1.setImageResource(imageVegNonveg.get(position));
-        holder.TextView1.setText(tvMemuName.get(position));
-        holder.TextView2.setText(tvMemuPrice.get(position));
-        holder.Image2.setImageResource(imageMenu.get(position));
-        holder.button.setText(btnAdd.get(position));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ObjectTag foodItem = foodItemList.get(position);
+        holder.tvMenuName.setText(foodItem.getName());
+        holder.tvMenuPrice.setText(String.valueOf(foodItem.getPrice()));
+
+        // Set the Veg/Non-Veg image
+        boolean isVeg = foodItem.getgAAProjectRBItemCategoryName().equalsIgnoreCase("Veg");
+        if (isVeg) {
+            holder.imgVegNonVeg.setImageResource(R.drawable.vegimg);
+        } else {
+            holder.imgVegNonVeg.setImageResource(R.drawable.nonvegimg);
+        }
+
+        // Set the Spicy/Sweet image
+        if (foodItem.getgAAProjectRBItemTasteName().equalsIgnoreCase("Sweet")) {
+            holder.imgSpicySweet.setImageResource(R.drawable.sweet);
+        } else {
+            holder.imgSpicySweet.setImageResource(R.drawable.spicy);
+        }
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Show the bottom sheet
-                AddFoodItemFragment addFoodItemFragment = new AddFoodItemFragment();
+                Context context = view.getContext();
+                AddFoodItemFragment addFoodItemFragment = AddFoodItemFragment.newInstance(
+                        foodItem.getName(),
+                        foodItem.getDescription(),
+                        String.valueOf(foodItem.getPrice()),
+                        foodItem.getVideoURL(),
+                        isVeg
+                );
                 addFoodItemFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), addFoodItemFragment.getTag());
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return tvMemuName.size();
+        return foodItemList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView Image1, Image2;
-        TextView TextView1, TextView2;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMenuName, tvMenuPrice;
+        ImageView imgMenu, imgVegNonVeg, imgSpicySweet;
         Button button;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            Image1 = itemView.findViewById(R.id.imgVegNonveg);
-            TextView1 = itemView.findViewById(R.id.tvmenu_name);
-            TextView2 = itemView.findViewById(R.id.tvmenu_price);
-            Image2 = itemView.findViewById(R.id.imgmenu);
+            tvMenuName = itemView.findViewById(R.id.tv_menu_name);
+            tvMenuPrice = itemView.findViewById(R.id.tv_menu_price);
+            imgMenu = itemView.findViewById(R.id.imgmenu);
+            imgVegNonVeg = itemView.findViewById(R.id.imgVegNonVeg);
+            imgSpicySweet = itemView.findViewById(R.id.imgSweetSpicy);
             button = itemView.findViewById(R.id.btnAddItem);
-
         }
     }
 }

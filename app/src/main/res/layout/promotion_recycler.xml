@@ -69,6 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name"
+                    android:textColor="@color/URLlink_color"
                     android:paddingStart="@dimen/_5sdp"
                     android:textSize="@dimen/_12sdp"
                     style="@style/TEXT"

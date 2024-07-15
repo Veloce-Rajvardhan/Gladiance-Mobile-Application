@@ -29,20 +29,21 @@ import android.widget.Toast;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.ControlBouquet.AddLaundryRequestActivity;
 import com.gladiance.ui.activities.ControlBouquet.BillViewActivity;
+import com.gladiance.ui.activities.ControlBouquet.LaundryActivity;
+import com.gladiance.ui.activities.ControlBouquet.RoomServiceDetailsActivity;
+import com.gladiance.ui.activities.ControlBouquet.RoomServiceListActivity;
 import com.gladiance.ui.activities.ControlBouquet.SurveillanceActivity;
 import com.gladiance.ui.activities.ControlBouquet.SafetyActivity;
 import com.gladiance.ui.activities.ControlBouquet.FeedbackActivity;
 import com.gladiance.ui.activities.ControlBouquet.HotelInfoActivity;
 import com.gladiance.ui.activities.ControlBouquet.HouseKeepingActivity;
-import com.gladiance.ui.activities.ControlBouquet.LaundryActivity;
 import com.gladiance.ui.activities.ControlBouquet.MessagingActivity;
 import com.gladiance.ui.activities.ControlBouquet.PromotionActivity;
-import com.gladiance.ui.activities.ControlBouquet.RoomServiceActivity;
 import com.gladiance.R;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.models.EmergencyResponse;
-import com.gladiance.ui.models.PrivacyOnOffResponse;
 import com.gladiance.ui.models.SecurityResponse;
 import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
 import com.gladiance.ui.models.securitystatus.SecurityStatusRes;
@@ -113,7 +114,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
         CVRoomService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RoomServiceActivity.class);
+                Intent intent = new Intent(getActivity(), RoomServiceListActivity.class);
                 startActivity(intent);
             }
         });

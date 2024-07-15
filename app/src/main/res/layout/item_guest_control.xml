@@ -47,6 +47,7 @@
                     android:gravity="center"
                     android:paddingBottom="@dimen/_5sdp"
                     style="@style/TEXT"
+                    android:clickable="true"
                     android:text="This is a square card view"
                     android:textSize="18sp" />
             </LinearLayout>

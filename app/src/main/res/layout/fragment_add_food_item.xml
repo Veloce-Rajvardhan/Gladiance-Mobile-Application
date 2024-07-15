@@ -8,7 +8,7 @@
     tools:context="com.gladiance.ui.fragment.ControlBouquet.AddFoodItemFragment">
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -32,66 +32,88 @@
         android:src="@drawable/biryaniimg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintStart_toEndOf="@+id/textViewName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:id="@+id/imageViewVegNonVeg"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:padding="@dimen/_3sdp"
         android:src="@drawable/nonveg_img"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_20sdp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto_bold"
         android:text="Dinner"
         android:textColor="@color/white"
         android:textSize="@dimen/_14sdp"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewVegNonVeg"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
-        android:id="@+id/textView17"
-        android:layout_width="338dp"
-        android:layout_height="37dp"
+        android:id="@+id/textViewDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="35dp"
         android:fontFamily="@font/roboto_light"
         android:text="Chicken Pieces on the bones cooked in dum style with selected basmati rice in a handi"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12sdp"
+        android:textSize="@dimen/_14sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
+    <TextView
+        android:id="@+id/textViewVideoUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="35dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Chicken Pieces on the bones cooked in dum style with selected basmati rice in a handi"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+
+
+    <LinearLayout
+        android:id="@+id/llFM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewVideoUrl"
+        app:layout_constraintEnd_toEndOf="parent">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="130dp"
         android:layout_height="40dp"
-        android:layout_marginTop="22dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="4"
-        android:background="@drawable/common_text_bg"
-        android:layout_marginLeft="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_8sdp"
-        app:layout_constraintVertical_bias="0.078">
+        android:layout_marginStart="@dimen/_20sdp"
+        android:background="@drawable/common_text_bg">
 
         <ImageView
             android:id="@+id/decrementButton"
@@ -125,24 +147,78 @@
             android:textColor="@color/white"
             android:src="@drawable/increment"/>
 
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:background="@drawable/common_text_bg">
+
+            <TextView
+                android:id="@+id/tv_TotalFM"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Total :"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+            <View
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/textViewRate"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="110"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_add_item"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/orange_button_background"
-        android:text="Add Item Rs 400"
-        android:textAllCaps="false"
-        android:textSize="@dimen/_12sdp"
-        android:fontFamily="@font/roboto_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.045"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_8sdp"/>
+    <LinearLayout
+        android:id="@+id/llFM1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llFM"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_order"
+            style="@style/TEXT"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_80sdp"
+            android:background="@drawable/orange_button_background"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Add Menu" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llFM1"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

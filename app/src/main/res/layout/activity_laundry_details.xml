@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/SCREEN"
+    tools:context=".ui.activities.ControlBouquet.LaundryDetailsActivity">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TEXT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Laundry"
+        android:gravity="center"
+        android:textSize="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewLS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/delivery_image"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/laundry" /> <!-- Replace with your image resource -->
+
+            <TextView
+                android:id="@+id/ready_to_deliver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/delivery_image"
+                android:layout_marginStart="8dp"
+                android:text="Laundry Requested"
+                android:textColor="#FF7E00"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ready_to_deliver"
+                android:layout_toEndOf="@id/delivery_image"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Request Id :"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_Doc_No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ready_to_deliver"
+                android:layout_toEndOf="@id/tv_order"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="IDR/20240705/11"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/requested_on_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_order"
+                android:layout_toEndOf="@id/delivery_image"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Requested on :"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/requested_on_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_Doc_No"
+                android:layout_toEndOf="@id/requested_on_label"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="5/07/2024 - 7.30pm"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textviewSelectItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center|left"
+        android:paddingStart="@dimen/_20sdp"
+        android:text="Select Item"
+        style="@style/TEXT"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewLS" />
+
+    <LinearLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textviewSelectItem">
+
+        <TextView
+            android:id="@+id/tv_sr_no"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="wrap_content"
+            android:text="item"
+            android:gravity="center|left"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+
+        <TextView
+            android:id="@+id/tv_request_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Amt"
+            android:gravity="center"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+
+        <TextView
+            android:id="@+id/tv_requested_on"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Qty"
+            android:gravity="center"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLaundrySingleDetails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_240sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/llTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_laundry_card_details"/>
+
+    <LinearLayout
+        android:id="@+id/llTotalQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewLaundrySingleDetails">
+
+        <TextView
+            android:id="@+id/tv_TotalQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Total Quantity"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/_20sdp"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+
+        <TextView
+            android:id="@+id/tv_TotalQuantityNO"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="3 Nos."
+            android:gravity="center|right"
+            android:paddingEnd="@dimen/_20sdp"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTotalQuantity">
+
+        <TextView
+            android:id="@+id/tv_GrandTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Grand Total"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/_20sdp"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+
+        <TextView
+            android:id="@+id/tv_TotalAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="400"
+            android:gravity="center|right"
+            android:paddingEnd="@dimen/_20sdp"
+            android:textSize="@dimen/_14sdp"
+            style="@style/TEXT" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/LaundryCancelRequest"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/orange_button_background"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Cancel Request"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTotalAmount" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

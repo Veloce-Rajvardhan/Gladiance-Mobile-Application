@@ -2,6 +2,8 @@ package com.gladiance.ui.activities.API;
 
 import com.gladiance.ui.models.ActiveSceneRes;
 import com.gladiance.ui.models.AddSpaceUserFavourite;
+import com.gladiance.ui.models.CancelLaundryResponse;
+import com.gladiance.ui.models.CancelRoomServiceResponse;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.EmergencyResponse;
 import com.gladiance.ui.models.LoginRequestModel;
@@ -16,7 +18,11 @@ import com.gladiance.ui.models.SecurityResponse;
 import com.gladiance.ui.models.ServiceOnOffResponse;
 import com.gladiance.ui.models.amenities.AmenitiesRes;
 import com.gladiance.ui.models.emergencystatus.EmergencyStatusRes;
+import com.gladiance.ui.models.foodmoodlist.FoodMenuResponse;
 import com.gladiance.ui.models.keycontacts.KeyContactsRes;
+import com.gladiance.ui.models.laundryItemHotel.LaundryItemListResponse;
+import com.gladiance.ui.models.laundrylist.LaundryRes;
+import com.gladiance.ui.models.laundrysinglelist.LaundrySingleRes;
 import com.gladiance.ui.models.privacystatus.PrivacyStatusResponse;
 import com.gladiance.ui.models.ProjectSpaceGroupResModel;
 import com.gladiance.ui.models.ProjectSpaceLandingResModel;
@@ -36,6 +42,8 @@ import com.gladiance.ui.models.lnstallerlandingpage.InstallerLandingResModel;
 import com.gladiance.ui.models.promotionlist.PromotionRes;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningRequest;
 import com.gladiance.ui.models.provisioninglabel.ProvisioningResponse;
+import com.gladiance.ui.models.roomservicelist.RoomServiceResponse;
+import com.gladiance.ui.models.roomservicesingleitemlist.RoomServiceSingleItemRes;
 import com.gladiance.ui.models.safetystatus.SafetyStatusRes;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveSchedule.SaveScheduleRequest;
@@ -347,6 +355,71 @@ public interface ApiService {
 
     @GET("mobileapp/promotions/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
     Call<PromotionRes> getPromotion(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    //Laundry
+    @GET("laundryrequest/currentlaundryrequestlist/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<LaundryRes> getLaundryRequest(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("laundryrequest/laundryrequest/{laundryRequestRef}/{loginToken}/{loginDeviceId}")
+    Call<LaundrySingleRes> getSingleLaundryRequest(
+            @Path("laundryRequestRef") String laundryRequestRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("laundryrequest/cancellaundryrequest/{laundryRequestRef}/{loginToken}/{loginDeviceId}")
+    Call<CancelLaundryResponse> cancelLaundryRequest(
+            @Path("laundryRequestRef") String laundryRequestRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("laundryrequest/laundryitemlist/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<LaundryItemListResponse> getLaundryItemList(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("laundryrequest/laundryitemlist/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<LaundryItemListResponse> getLaundryItemHotelList(
+            @Path("gaaProjectRef") String gaaProjectRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    //RoomService
+    @GET("inroomdiningrequest/currentinroomdiningrequestlist/{gaaProjectSpaceRef}/{loginToken}/{loginDeviceId}")
+    Call<RoomServiceResponse> getInRoomServiceRequests(
+            @Path("gaaProjectSpaceRef") String gaaProjectSpaceRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("inroomdiningrequest/inroomdiningrequest/{inRoomDiningRequestRef}/{loginToken}/{loginDeviceId}")
+    Call<RoomServiceSingleItemRes> getInRoomServiceSingleRequest(
+            @Path("inRoomDiningRequestRef") String inRoomDiningRequestRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @POST("inroomdiningrequest/cancelinroomdiningrequest/{inRoomDiningRequestRef}/{loginToken}/{loginDeviceId}")
+    Call<CancelRoomServiceResponse> cancelInRoomDiningRequest(
+            @Path("inRoomDiningRequestRef") String inRoomDiningRequestRef,
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId
+    );
+
+    @GET("inroomdiningrequest/rbitemlist/{gaaProjectRef}/{loginToken}/{loginDeviceId}")
+    Call<FoodMenuResponse> getFoodMenu(
             @Path("gaaProjectRef") String gaaProjectRef,
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId

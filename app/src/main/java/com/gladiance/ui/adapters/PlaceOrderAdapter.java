@@ -11,69 +11,51 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.R;
+import com.gladiance.ui.models.PlaceOrderItem;
 
 import java.util.List;
 
-public class PlaceOrderAdapter extends  RecyclerView.Adapter<PlaceOrderAdapter.MyViewHolder> {
+public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.ViewHolder> {
 
-    private static Context context;
-    private List<Integer> imageVegNonveg;
-    private List<String> tvMemuName;
-    private List<String> tvMemuPrice;
-    private List<String> tvtype;
-    private List<Integer> imageMenu;
+    private List<PlaceOrderItem> orderList;
 
-    public PlaceOrderAdapter(Context context, List<Integer> imageVegNonveg, List<String> tvMemuName, List<String> tvMemuPrice, List<String> tvtype, List<Integer> imageMenu) {
-        this.context = context;
-        this.imageVegNonveg = imageVegNonveg;
-        this.tvMemuName = tvMemuName;
-        this.tvMemuPrice = tvMemuPrice;
-        this.tvtype = tvtype;
-        this.imageMenu = imageMenu;
+    public PlaceOrderAdapter(List<PlaceOrderItem> orderList) {
+        this.orderList = orderList;
     }
 
     @NonNull
     @Override
-    public PlaceOrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = LayoutInflater.from(context).inflate(R.layout.place_order_rv, parent, false);
-        return new PlaceOrderAdapter.MyViewHolder(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_order_rv, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlaceOrderAdapter.MyViewHolder holder, int position) {
-
-        holder.Image1.setImageResource(imageVegNonveg.get(position));
-        holder.TextView1.setText(tvMemuName.get(position));
-        holder.TextView2.setText(tvMemuPrice.get(position));
-        holder.TextView3.setText(tvtype.get(position));
-        holder.Image2.setImageResource(imageMenu.get(position));
-
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        PlaceOrderItem item = orderList.get(position);
+        holder.textViewName.setText(item.getName());
+        holder.textViewRate.setText(item.getRate());
+        if (item.isVeg()) {
+            holder.imageViewVegNonVeg.setImageResource(R.drawable.vegimg);
+        } else {
+            holder.imageViewVegNonVeg.setImageResource(R.drawable.nonvegimg);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return tvMemuName.size();
+        return orderList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewName, textViewRate;
+        ImageView imageViewVegNonVeg;
 
-        ImageView Image1, Image2;
-        TextView TextView1, TextView2, TextView3;
-
-
-        public MyViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            Image1 = itemView.findViewById(R.id.imgVegNonveg);
-            TextView1 = itemView.findViewById(R.id.tvtitle);
-            TextView2 = itemView.findViewById(R.id.tvprice);
-            TextView3 = itemView.findViewById(R.id.tvtype);
-            Image2 = itemView.findViewById(R.id.imgthim);
-
-
+            textViewName = itemView.findViewById(R.id.tvTitleName);
+            textViewRate = itemView.findViewById(R.id.tvPriceFM);
+            imageViewVegNonVeg = itemView.findViewById(R.id.imgVegNonVegPO);
         }
     }
 }
