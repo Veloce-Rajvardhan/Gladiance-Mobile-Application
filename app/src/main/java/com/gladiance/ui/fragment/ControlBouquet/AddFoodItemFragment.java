@@ -27,6 +27,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
     private String name;
     private String description;
     private String rate;
+    private String quantity;
     private String videoUrl;
     private boolean isVeg;
 
@@ -74,7 +75,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
     int score = 1;
     ImageView incrementButton, decrementButton;
     Button addItem;
-    TextView textViewName, textViewDescription, textViewRate, textViewVideoUrl;
+    TextView textViewName, textViewDescription, textViewRate, textViewVideoUrl,textViewQuantity;
     ImageView imgVegNonVeg;
 
     @Override
@@ -93,6 +94,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
         textViewRate = view.findViewById(R.id.textViewRate);
         textViewVideoUrl = view.findViewById(R.id.textViewVideoUrl);
         imgVegNonVeg = view.findViewById(R.id.imageViewVegNonVeg);
+
 
         addItem = view.findViewById(R.id.btn_add_order);
 
@@ -153,7 +155,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
                 // Send data back to the activity
                 double finalRate = baseRate * score;
                 if (mListener != null) {
-                    mListener.onAddFoodItem(new PlaceOrderItem(name, String.valueOf(finalRate), isVeg));
+                    mListener.onAddFoodItem(new PlaceOrderItem(name, String.valueOf(finalRate),String.valueOf(score),isVeg));
                     dismiss();
                 }
             }

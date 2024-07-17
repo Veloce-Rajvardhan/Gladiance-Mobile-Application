@@ -6,6 +6,8 @@ import com.gladiance.ui.models.CancelLaundryResponse;
 import com.gladiance.ui.models.CancelRoomServiceResponse;
 import com.gladiance.ui.models.DeviceInfo;
 import com.gladiance.ui.models.EmergencyResponse;
+import com.gladiance.ui.models.LaundryApiResponse;
+import com.gladiance.ui.models.LaundryRequest;
 import com.gladiance.ui.models.LoginRequestModel;
 import com.gladiance.ui.models.LoginResponseModel;
 import com.gladiance.ui.models.LogoutRequestModel;
@@ -425,5 +427,11 @@ public interface ApiService {
             @Path("loginDeviceId") String loginDeviceId
     );
 
+    @POST("laundryrequest/raiselaundryrequest/{loginToken}/{loginDeviceId}")
+    Call<LaundryApiResponse> raiseLaundryRequest(
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId,
+            @Body LaundryRequest laundryRequest
+    );
 }
 

@@ -47,6 +47,17 @@
                 android:textSize="@dimen/_14sdp"
                 style="@style/TEXT" />
 
+            <TextView
+                android:id="@+id/tv_item_remove"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="wrap_content"
+                android:text="Remove"
+                android:gravity="center|right"
+                android:paddingStart="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_14sdp"
+                style="@style/TEXT" />
+
         </LinearLayout>
 
             <LinearLayout
@@ -58,7 +69,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBox"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
@@ -121,8 +132,6 @@
                         android:layout_height="40dp"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
-                        android:inputType="number"
-                        android:maxLength="1"
                         android:text="0"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
@@ -132,7 +141,6 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:gravity="center"
-                        android:onClick="decrement"
                         android:textColor="@color/white"
                         android:src="@drawable/increment"/>
 
@@ -150,7 +158,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp">
 
-                <CheckBox
+                <RadioButton
                     android:id="@+id/checkBoxPress"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"

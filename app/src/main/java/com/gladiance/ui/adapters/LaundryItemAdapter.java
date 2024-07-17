@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.gladiance.R;
 
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class LaundryItemAdapter extends ArrayAdapter<String> {
 
     private ArrayList<String> items;
-    private ArrayList<String> selectedItems;
     private Context context;
     private OnItemSelectionChangedListener selectionChangedListener;
 
@@ -22,7 +21,6 @@ public class LaundryItemAdapter extends ArrayAdapter<String> {
         super(context, textViewResourceId, items);
         this.context = context;
         this.items = items;
-        this.selectedItems = new ArrayList<>();
     }
 
     public void setOnItemSelectionChangedListener(OnItemSelectionChangedListener listener) {
@@ -42,30 +40,22 @@ public class LaundryItemAdapter extends ArrayAdapter<String> {
     private View getCustomView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View row = inflater.inflate(R.layout.dropdown_item_laundry, parent, false);
-        final CheckBox checkBox = row.findViewById(R.id.checkbox);
+        TextView textView = row.findViewById(R.id.textviewLaundryItem);
 
-        checkBox.setText(items.get(position));
-        checkBox.setChecked(selectedItems.contains(items.get(position)));
+        textView.setText(items.get(position));
 
-        checkBox.setOnClickListener(new View.OnClickListener() {
+        row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked()) {
-                    selectedItems.add(items.get(position));
-                } else {
-                    selectedItems.remove(items.get(position));
-                }
                 if (selectionChangedListener != null) {
-                    selectionChangedListener.onItemSelectionChanged(selectedItems);
+                    ArrayList<String> selectedItem = new ArrayList<>();
+                    selectedItem.add(items.get(position));
+                    selectionChangedListener.onItemSelectionChanged(selectedItem);
                 }
             }
         });
 
         return row;
-    }
-
-    public ArrayList<String> getSelectedItems() {
-        return selectedItems;
     }
 
     public interface OnItemSelectionChangedListener {
