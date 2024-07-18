@@ -492,8 +492,10 @@ public class AppConstants {
 
     public static String LaundryRef;
     public static String LineItemRef;
-    public static String GAAProjectSpaceLaundryRequestRef;
-    public static String CustomerLaundryItemRef;
+
+    //Room Service Post
+    public static String RoomServiceRef;
+    public static String LineItemRoomServiceRef;
 
 
 //    private static AppConstants instance;

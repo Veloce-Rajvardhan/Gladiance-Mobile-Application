@@ -15,6 +15,8 @@ import com.gladiance.ui.models.LogoutResponseModel;
 import com.gladiance.ui.models.NodeResponseModel;
 import com.gladiance.ui.models.Privacy.PrivacyListRes;
 import com.gladiance.ui.models.PrivacyOnOffResponse;
+import com.gladiance.ui.models.RoomServiceApiResponse;
+import com.gladiance.ui.models.RoomServiceRequest;
 import com.gladiance.ui.models.SafetyResponse;
 import com.gladiance.ui.models.SecurityResponse;
 import com.gladiance.ui.models.ServiceOnOffResponse;
@@ -432,6 +434,13 @@ public interface ApiService {
             @Path("loginToken") String loginToken,
             @Path("loginDeviceId") String loginDeviceId,
             @Body LaundryRequest laundryRequest
+    );
+
+    @POST("inroomdiningrequest/raiseinroomdiningrequest/{loginToken}/{loginDeviceId}")
+    Call<RoomServiceApiResponse> raiseRoomServiceRequest(
+            @Path("loginToken") String loginToken,
+            @Path("loginDeviceId") String loginDeviceId,
+            @Body RoomServiceRequest roomServiceRequest
     );
 }
 

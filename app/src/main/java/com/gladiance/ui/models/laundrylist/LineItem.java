@@ -7,10 +7,10 @@ public class LineItem {
 
     @SerializedName("Ref")
     @Expose
-    private Integer ref;
+    private Long ref;
     @SerializedName("GAAProjectSpaceLaundryRequestRef")
     @Expose
-    private Integer gAAProjectSpaceLaundryRequestRef;
+    private Long gAAProjectSpaceLaundryRequestRef;
     @SerializedName("CustomerLaundryItemRef")
     @Expose
     private Long customerLaundryItemRef;
@@ -42,19 +42,19 @@ public class LineItem {
     @Expose
     private Double rate;
 
-    public Integer getRef() {
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(Integer ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 
-    public Integer getgAAProjectSpaceLaundryRequestRef() {
+    public Long getgAAProjectSpaceLaundryRequestRef() {
         return gAAProjectSpaceLaundryRequestRef;
     }
 
-    public void setgAAProjectSpaceLaundryRequestRef(Integer gAAProjectSpaceLaundryRequestRef) {
+    public void setgAAProjectSpaceLaundryRequestRef(Long gAAProjectSpaceLaundryRequestRef) {
         this.gAAProjectSpaceLaundryRequestRef = gAAProjectSpaceLaundryRequestRef;
     }
 
@@ -138,7 +138,7 @@ public class LineItem {
         this.rate = rate;
     }
 
-    public LineItem(Integer ref, Integer gAAProjectSpaceLaundryRequestRef, Long customerLaundryItemRef, Integer laundryServiceType, Double quantity, Long gAAProjectRef, String gAAProjectName, Long gAAProjectSpaceRef, String gAAProjectSpaceName, String customerLaundryItemName, String laundryServiceTypeName, Double rate) {
+    public LineItem(Long ref, Long gAAProjectSpaceLaundryRequestRef, Long customerLaundryItemRef, Integer laundryServiceType, Double quantity, Long gAAProjectRef, String gAAProjectName, Long gAAProjectSpaceRef, String gAAProjectSpaceName, String customerLaundryItemName, String laundryServiceTypeName, Double rate) {
         this.ref = ref;
         this.gAAProjectSpaceLaundryRequestRef = gAAProjectSpaceLaundryRequestRef;
         this.customerLaundryItemRef = customerLaundryItemRef;

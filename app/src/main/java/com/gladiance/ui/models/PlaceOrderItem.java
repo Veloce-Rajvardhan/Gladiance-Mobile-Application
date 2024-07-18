@@ -5,12 +5,14 @@ public class PlaceOrderItem {
     private String rate;
     private String quantity;
     private boolean isVeg;
+    private Long ref;
 
-    public PlaceOrderItem(String name, String rate, String quantity,boolean isVeg) {
+    public PlaceOrderItem(String name, String rate, String quantity,boolean isVeg,Long ref) {
         this.name = name;
         this.rate = rate;
         this.quantity = quantity;
         this.isVeg = isVeg;
+        this.ref = ref;
     }
 
     public String getName() {
@@ -43,5 +45,13 @@ public class PlaceOrderItem {
 
     public void setVeg(boolean veg) {
         isVeg = veg;
+    }
+
+    public Long getRef() {
+        return ref;
+    }
+
+    public void setRef(Long ref) {
+        this.ref = ref;
     }
 }

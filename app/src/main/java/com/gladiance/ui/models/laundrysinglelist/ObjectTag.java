@@ -9,7 +9,7 @@ public class ObjectTag {
 
     @SerializedName("Ref")
     @Expose
-    private Integer ref;
+    private Long ref;
     @SerializedName("GAAProjectSpaceRef")
     @Expose
     private Long gAAProjectSpaceRef;
@@ -80,11 +80,11 @@ public class ObjectTag {
     @Expose
     private List<LineItem> lineItems;
 
-    public Integer getRef() {
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(Integer ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 
@@ -272,7 +272,7 @@ public class ObjectTag {
         this.lineItems = lineItems;
     }
 
-    public ObjectTag(Integer ref, Long gAAProjectSpaceRef, String docNo, Integer serialNumberWithinDate, Long requestedByUserRef, String requestedAtDateTime, Integer markedAsPickedUpByUserRef, String markedAsPickedUpAtDateTime, Integer markedAsDeliveredByUserRef, String markedAsDeliveredAtDateTime, Integer cancelledByUserRef, String cancelledAtDateTime, Integer requestStatus, String pickupRequestedFromDateTime, String pickupRequestedUptoDateTime, String gAAProjectSpaceName, Long gAAProjectRef, String gAAProjectName, String requestedByUserName, String markedAsPickedUpByUserName, String markedAsDeliveredByUserName, String cancelledByUserName, String requestStatusName, List<LineItem> lineItems) {
+    public ObjectTag(Long ref, Long gAAProjectSpaceRef, String docNo, Integer serialNumberWithinDate, Long requestedByUserRef, String requestedAtDateTime, Integer markedAsPickedUpByUserRef, String markedAsPickedUpAtDateTime, Integer markedAsDeliveredByUserRef, String markedAsDeliveredAtDateTime, Integer cancelledByUserRef, String cancelledAtDateTime, Integer requestStatus, String pickupRequestedFromDateTime, String pickupRequestedUptoDateTime, String gAAProjectSpaceName, Long gAAProjectRef, String gAAProjectName, String requestedByUserName, String markedAsPickedUpByUserName, String markedAsDeliveredByUserName, String cancelledByUserName, String requestStatusName, List<LineItem> lineItems) {
         this.ref = ref;
         this.gAAProjectSpaceRef = gAAProjectSpaceRef;
         this.docNo = docNo;
@@ -299,3 +299,4 @@ public class ObjectTag {
         this.lineItems = lineItems;
     }
 }
+
