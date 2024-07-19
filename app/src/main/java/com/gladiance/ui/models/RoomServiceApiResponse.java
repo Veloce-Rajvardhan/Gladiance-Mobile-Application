@@ -1,11 +1,10 @@
-package com.gladiance.ui.models.roomservicelist;
+package com.gladiance.ui.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+public class RoomServiceApiResponse {
 
-public class RoomServiceResponse {
     @SerializedName("Successful")
     @Expose
     private Boolean successful;
@@ -23,7 +22,7 @@ public class RoomServiceResponse {
     private String processToken;
     @SerializedName("ObjectTag")
     @Expose
-    private List<ObjectTag> objectTag;
+    private Object objectTag;
 
     public Boolean getSuccessful() {
         return successful;
@@ -65,15 +64,15 @@ public class RoomServiceResponse {
         this.processToken = processToken;
     }
 
-    public List<ObjectTag> getObjectTag() {
+    public Object getObjectTag() {
         return objectTag;
     }
 
-    public void setObjectTag(List<ObjectTag> objectTag) {
+    public void setObjectTag(Object objectTag) {
         this.objectTag = objectTag;
     }
 
-    public RoomServiceResponse(Boolean successful, String message, String tag, String tagType, String processToken, List<ObjectTag> objectTag) {
+    public RoomServiceApiResponse(Boolean successful, String message, String tag, String tagType, String processToken, Object objectTag) {
         this.successful = successful;
         this.message = message;
         this.tag = tag;
@@ -81,4 +80,5 @@ public class RoomServiceResponse {
         this.processToken = processToken;
         this.objectTag = objectTag;
     }
+
 }

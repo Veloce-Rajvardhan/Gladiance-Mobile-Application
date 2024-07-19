@@ -4,13 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LineItem {
-
     @SerializedName("Ref")
     @Expose
-    private Integer ref;
+    private Long ref;
     @SerializedName("GAAProjectSpaceInRoomDiningRequestRef")
     @Expose
-    private Integer gAAProjectSpaceInRoomDiningRequestRef;
+    private Long gAAProjectSpaceInRoomDiningRequestRef;
     @SerializedName("RBItemRef")
     @Expose
     private Long rBItemRef;
@@ -36,19 +35,19 @@ public class LineItem {
     @Expose
     private Double rate;
 
-    public Integer getRef() {
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(Integer ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 
-    public Integer getgAAProjectSpaceInRoomDiningRequestRef() {
+    public Long getgAAProjectSpaceInRoomDiningRequestRef() {
         return gAAProjectSpaceInRoomDiningRequestRef;
     }
 
-    public void setgAAProjectSpaceInRoomDiningRequestRef(Integer gAAProjectSpaceInRoomDiningRequestRef) {
+    public void setgAAProjectSpaceInRoomDiningRequestRef(Long gAAProjectSpaceInRoomDiningRequestRef) {
         this.gAAProjectSpaceInRoomDiningRequestRef = gAAProjectSpaceInRoomDiningRequestRef;
     }
 
@@ -116,7 +115,7 @@ public class LineItem {
         this.rate = rate;
     }
 
-    public LineItem(Integer ref, Integer gAAProjectSpaceInRoomDiningRequestRef, Long rBItemRef, Double quantity, Long gAAProjectRef, String gAAProjectName, Long gAAProjectSpaceRef, String gAAProjectSpaceName, String rBItemName, Double rate) {
+    public LineItem(Long ref, Long gAAProjectSpaceInRoomDiningRequestRef, Long rBItemRef, Double quantity, Long gAAProjectRef, String gAAProjectName, Long gAAProjectSpaceRef, String gAAProjectSpaceName, String rBItemName, Double rate) {
         this.ref = ref;
         this.gAAProjectSpaceInRoomDiningRequestRef = gAAProjectSpaceInRoomDiningRequestRef;
         this.rBItemRef = rBItemRef;

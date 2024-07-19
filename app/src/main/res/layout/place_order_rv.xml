@@ -103,7 +103,7 @@
                     android:textSize="22dp" />
 
                 <TextView
-                    android:id="@+id/scoreText"
+                    android:id="@+id/quantityText"
                     android:layout_width="35dp"
                     android:layout_height="40dp"
                     android:fontFamily="@font/roboto_medium"

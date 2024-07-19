@@ -69,7 +69,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewLaundryListItem"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_350sdp"
+        android:layout_height="@dimen/_390sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
@@ -82,7 +82,7 @@
         android:id="@+id/AddLaundryRequest"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_38sdp"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/orange_button_background"
         android:fontFamily="@font/roboto_medium"
         android:text="Add Laundry Request"

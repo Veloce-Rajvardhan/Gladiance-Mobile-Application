@@ -62,6 +62,7 @@ public class FoodMenuAdapter extends RecyclerView.Adapter<FoodMenuAdapter.ViewHo
                         foodItem.getDescription(),
                         String.valueOf(foodItem.getPrice()),
                         foodItem.getVideoURL(),
+                        String.valueOf(foodItem.getRef()),
                         isVeg
                 );
                 addFoodItemFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), addFoodItemFragment.getTag());

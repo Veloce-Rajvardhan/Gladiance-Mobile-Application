@@ -9,7 +9,7 @@ public class ObjectTag {
 
     @SerializedName("Ref")
     @Expose
-    private Integer ref;
+    private Long ref;
     @SerializedName("GAAProjectSpaceRef")
     @Expose
     private Long gAAProjectSpaceRef;
@@ -21,7 +21,7 @@ public class ObjectTag {
     private Integer serialNumberWithinDate;
     @SerializedName("RequestedByUserRef")
     @Expose
-    private Integer requestedByUserRef;
+    private Long requestedByUserRef;
     @SerializedName("RequestedAtDateTime")
     @Expose
     private String requestedAtDateTime;
@@ -83,11 +83,11 @@ public class ObjectTag {
     @Expose
     private List<LineItem> lineItems;
 
-    public Integer getRef() {
+    public Long getRef() {
         return ref;
     }
 
-    public void setRef(Integer ref) {
+    public void setRef(Long ref) {
         this.ref = ref;
     }
 
@@ -115,11 +115,11 @@ public class ObjectTag {
         this.serialNumberWithinDate = serialNumberWithinDate;
     }
 
-    public Integer getRequestedByUserRef() {
+    public Long getRequestedByUserRef() {
         return requestedByUserRef;
     }
 
-    public void setRequestedByUserRef(Integer requestedByUserRef) {
+    public void setRequestedByUserRef(Long requestedByUserRef) {
         this.requestedByUserRef = requestedByUserRef;
     }
 
@@ -283,7 +283,7 @@ public class ObjectTag {
         this.lineItems = lineItems;
     }
 
-    public ObjectTag(Integer ref, Long gAAProjectSpaceRef, String docNo, Integer serialNumberWithinDate, Integer requestedByUserRef, String requestedAtDateTime, Integer markedAsAcceptedByUserRef, String markedAsAcceptedAtDateTime, Integer markedAsReadyToDeliverByUserRef, String markedAsReadyToDeliverAtDateTime, Integer markedAsDeliveredByUserRef, String markedAsDeliveredAtDateTime, Integer cancelledByUserRef, String cancelledAtDateTime, Integer requestStatus, String gAAProjectSpaceName, Long gAAProjectRef, String gAAProjectName, String requestedByUserName, String markedAsAcceptedByUserName, String markedAsReadyToDeliverByUserName, String markedAsDeliveredByUserName, String cancelledByUserName, String requestStatusName, List<LineItem> lineItems) {
+    public ObjectTag(Long ref, Long gAAProjectSpaceRef, String docNo, Integer serialNumberWithinDate, Long requestedByUserRef, String requestedAtDateTime, Integer markedAsAcceptedByUserRef, String markedAsAcceptedAtDateTime, Integer markedAsReadyToDeliverByUserRef, String markedAsReadyToDeliverAtDateTime, Integer markedAsDeliveredByUserRef, String markedAsDeliveredAtDateTime, Integer cancelledByUserRef, String cancelledAtDateTime, Integer requestStatus, String gAAProjectSpaceName, Long gAAProjectRef, String gAAProjectName, String requestedByUserName, String markedAsAcceptedByUserName, String markedAsReadyToDeliverByUserName, String markedAsDeliveredByUserName, String cancelledByUserName, String requestStatusName, List<LineItem> lineItems) {
         this.ref = ref;
         this.gAAProjectSpaceRef = gAAProjectSpaceRef;
         this.docNo = docNo;

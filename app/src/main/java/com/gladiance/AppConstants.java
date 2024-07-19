@@ -417,6 +417,7 @@ public class AppConstants {
     public static String Create_powerState;
     public static String Create_power;
 
+
     public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();
 
 
@@ -486,6 +487,16 @@ public class AppConstants {
     public static Boolean RepeatEveryYear = false;
 
     public static Boolean StoredData = false;
+
+    //Laundry Post
+
+    public static String LaundryRef;
+    public static String LineItemRef;
+
+    //Room Service Post
+    public static String RoomServiceRef;
+    public static String LineItemRoomServiceRef;
+
 
 //    private static AppConstants instance;
 //    private String yourString;

@@ -23,24 +23,29 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
     private static final String ARG_RATE = "rate";
     private static final String ARG_VIDEO_URL = "video_url";
     private static final String ARG_IS_VEG = "is_veg";
+    private static final String ARG_REF = "ref";
+
 
     private String name;
     private String description;
     private String rate;
+    private String quantity;
     private String videoUrl;
+    private Long ref;
     private boolean isVeg;
 
     public AddFoodItemFragment() {
         // Required empty public constructor
     }
 
-    public static AddFoodItemFragment newInstance(String name, String description, String rate, String videoUrl, boolean isVeg) {
+    public static AddFoodItemFragment newInstance(String name, String description, String rate, String videoUrl,String ref ,boolean isVeg) {
         AddFoodItemFragment fragment = new AddFoodItemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
         args.putString(ARG_DESCRIPTION, description);
         args.putString(ARG_RATE, rate);
         args.putString(ARG_VIDEO_URL, videoUrl);
+        args.putString(ARG_REF, ref);
         args.putBoolean(ARG_IS_VEG, isVeg);
         fragment.setArguments(args);
         return fragment;
@@ -66,6 +71,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
             description = getArguments().getString(ARG_DESCRIPTION);
             rate = getArguments().getString(ARG_RATE);
             videoUrl = getArguments().getString(ARG_VIDEO_URL);
+            ref = Long.valueOf(getArguments().getString(ARG_REF));
             isVeg = getArguments().getBoolean(ARG_IS_VEG);
         }
     }
@@ -74,7 +80,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
     int score = 1;
     ImageView incrementButton, decrementButton;
     Button addItem;
-    TextView textViewName, textViewDescription, textViewRate, textViewVideoUrl;
+    TextView textViewName, textViewDescription, textViewRate, textViewVideoUrl,textViewQuantity;
     ImageView imgVegNonVeg;
 
     @Override
@@ -93,6 +99,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
         textViewRate = view.findViewById(R.id.textViewRate);
         textViewVideoUrl = view.findViewById(R.id.textViewVideoUrl);
         imgVegNonVeg = view.findViewById(R.id.imageViewVegNonVeg);
+
 
         addItem = view.findViewById(R.id.btn_add_order);
 
@@ -153,7 +160,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
                 // Send data back to the activity
                 double finalRate = baseRate * score;
                 if (mListener != null) {
-                    mListener.onAddFoodItem(new PlaceOrderItem(name, String.valueOf(finalRate), isVeg));
+                    mListener.onAddFoodItem(new PlaceOrderItem(name, String.valueOf(finalRate),String.valueOf(score),isVeg,ref));
                     dismiss();
                 }
             }
