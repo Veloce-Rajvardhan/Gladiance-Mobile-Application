@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -141,7 +142,8 @@ public class LaundryDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     CancelLaundryResponse cancelRes = response.body();
                     if (cancelRes.isSuccessful()) {
-                        // Handle successful cancellation
+                        Intent intent = new Intent(LaundryDetailsActivity.this,LaundryActivity.class);
+                        startActivity(intent);
                         Log.d(TAG, "Laundry request cancelled successfully");
                     } else {
                         // Handle unsuccessful cancellation

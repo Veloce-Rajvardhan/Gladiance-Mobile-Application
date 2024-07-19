@@ -18,7 +18,11 @@ import com.gladiance.R;
 import com.gladiance.ui.activities.ControlBouquet.LaundryDetailsActivity;
 import com.gladiance.ui.models.laundrylist.ObjectTag;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemListAdapter.ViewHolder> {
 
@@ -39,7 +43,25 @@ public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemList
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ObjectTag laundryRes = arraylist.get(position);
         holder.tvRequestNo.setText(laundryRes.getDocNo());
-        holder.tvRequestedOnDateTime.setText(laundryRes.getRequestedAtDateTime());
+
+        // Correct pattern based on the example "2024-07-18-18-19-19-865"
+        String dateTimeString = laundryRes.getRequestedAtDateTime();
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        String formattedDate = "";
+        try {
+            Date date = originalFormat.parse(dateTimeString);
+            formattedDate = dateFormat.format(date);
+            Log.d(TAG, "Parsed date-time: " + date.toString());
+            Log.d(TAG, "Formatted date: " + formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Date parsing error: " + e.getMessage());
+        }
+
+        holder.tvRequestedOnDateTime.setText(formattedDate);
+
         holder.tvStatus.setText(laundryRes.getRequestStatusName());
 
         holder.tvRequestNo.setOnClickListener(new View.OnClickListener() {
@@ -54,12 +76,22 @@ public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemList
                 editor.putString("KEY_DOC_No", DocNo);
                 editor.apply();
 
-                String DateTime = laundryRes.getRequestedAtDateTime();
+                String dateTime = laundryRes.getRequestedAtDateTime();
                 SharedPreferences sharedPreferencesDate = inflater.getContext().getSharedPreferences("my_shared_prefe_Date", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = sharedPreferencesDate.edit();
-                Log.e(TAG, "Date : " + DateTime);
-                editor1.putString("KEY_DATE", DateTime);
-                editor1.apply();
+
+                try {
+                    SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    Date date = originalFormat.parse(dateTime);
+                    String formattedDate = dateFormat.format(date);
+                    Log.e(TAG, "Formatted Date: " + formattedDate);
+                    editor1.putString("KEY_DATE", formattedDate);
+                    editor1.apply();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "Failed to parse date: " + dateTime);
+                }
 
                 Long Ref = laundryRes.getRef();
                 SharedPreferences sharedPreferencesRef = inflater.getContext().getSharedPreferences("my_shared_prefe_Ref", Context.MODE_PRIVATE);

@@ -1,13 +1,17 @@
 package com.gladiance.ui.models;
 
-public class PlaceOrderItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PlaceOrderItem implements Parcelable {
     private String name;
     private String rate;
     private String quantity;
     private boolean isVeg;
     private Long ref;
 
-    public PlaceOrderItem(String name, String rate, String quantity,boolean isVeg,Long ref) {
+    // Constructor
+    public PlaceOrderItem(String name, String rate, String quantity, boolean isVeg, Long ref) {
         this.name = name;
         this.rate = rate;
         this.quantity = quantity;
@@ -15,6 +19,7 @@ public class PlaceOrderItem {
         this.ref = ref;
     }
 
+    // Getter and Setter methods
     public String getName() {
         return name;
     }
@@ -53,5 +58,49 @@ public class PlaceOrderItem {
 
     public void setRef(Long ref) {
         this.ref = ref;
+    }
+
+    // Parcelable implementation
+    protected PlaceOrderItem(Parcel in) {
+        name = in.readString();
+        rate = in.readString();
+        quantity = in.readString();
+        isVeg = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            ref = null;
+        } else {
+            ref = in.readLong();
+        }
+    }
+
+    public static final Creator<PlaceOrderItem> CREATOR = new Creator<PlaceOrderItem>() {
+        @Override
+        public PlaceOrderItem createFromParcel(Parcel in) {
+            return new PlaceOrderItem(in);
+        }
+
+        @Override
+        public PlaceOrderItem[] newArray(int size) {
+            return new PlaceOrderItem[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(rate);
+        dest.writeString(quantity);
+        dest.writeByte((byte) (isVeg ? 1 : 0));
+        if (ref == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(ref);
+        }
     }
 }

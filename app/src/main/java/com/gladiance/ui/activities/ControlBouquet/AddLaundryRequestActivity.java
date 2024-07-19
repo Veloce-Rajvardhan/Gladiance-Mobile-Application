@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,7 @@ public class AddLaundryRequestActivity extends AppCompatActivity implements Laun
     private List<ObjectTag> allLaundryItems;
     private LaundryHotelItemAdapter laundryHotelItemAdapter;
     Button buttonAddLaundryRequest;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class AddLaundryRequestActivity extends AppCompatActivity implements Laun
         items = new ArrayList<>();
         arrayList = new ArrayList<>();
         allLaundryItems = new ArrayList<>();
+
+        progressBar = findViewById(R.id.progressBar);
 
         adapter = new LaundryItemAdapter(this, android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setOnItemSelectionChangedListener(this);
@@ -91,7 +96,7 @@ public class AddLaundryRequestActivity extends AppCompatActivity implements Laun
         buttonAddLaundryRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Fetch the necessary references and make the API call
+                progressBar.setVisibility(View.VISIBLE);
                 gatherReferencesAndMakeApiCall();
             }
         });
@@ -160,6 +165,8 @@ public class AddLaundryRequestActivity extends AppCompatActivity implements Laun
             @Override
             public void onResponse(Call<LaundryApiResponse> call, Response<LaundryApiResponse> response) {
                 if (response.isSuccessful()) {
+                    Intent intent = new Intent(AddLaundryRequestActivity.this, LaundryActivity.class);
+                    startActivity(intent);
                     Toast.makeText(AddLaundryRequestActivity.this, "Request raised successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AddLaundryRequestActivity.this, "Failed to raise request", Toast.LENGTH_SHORT).show();
