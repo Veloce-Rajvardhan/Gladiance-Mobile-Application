@@ -58,7 +58,31 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
         SharedPreferences prefs = context.getSharedPreferences("your_prefs_name", Context.MODE_PRIVATE);
 
+        Log.e(TAG, "onBindViewHolder: "+control.isChecked());
 
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(null);
+        holder.deviceNameCheckBox.setChecked(control.isChecked());
+
+        holder.deviceNameCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update isChecked state in Controls object
+                control.setChecked(isChecked);
+                Log.e(TAG, "onCheckedChanged : "+position);
+
+                // Handle saving state or other actions if needed
+                try {
+                    if (prefs != null) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isChecked_" + position, isChecked);
+                        editor.apply();
+                        Log.e(TAG, "shared: ");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e);
+                }
+            }
+        });
 
 //        try {
 //            // Set checkbox state based on isChecked flag in Controls object
@@ -162,8 +186,8 @@ public class DeviceControlScheduleAdapter extends RecyclerView.Adapter<DeviceCon
 
                 }
                 else {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    Toast.makeText(inflater.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
+                 //   LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+                    Toast.makeText(view.getContext(), "Checkbox is not checked!", Toast.LENGTH_SHORT).show();
                 }
 
             }

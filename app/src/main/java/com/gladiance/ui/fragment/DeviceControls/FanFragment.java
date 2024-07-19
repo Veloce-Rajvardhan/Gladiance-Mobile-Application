@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -80,6 +81,14 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
         fanswitch = rootView.findViewById(R.id.switchButtonFan);
         circularSeekBar = rootView.findViewById(R.id.circularSeekBar);
 
+        // Example usage of SharedPreferences
+        sharedPreferences = context.getSharedPreferences("MyPreferencesPDR", MODE_PRIVATE);
+        String DeviceRef = sharedPreferences.getString("SpaceTypePlannedDeviceRef", "");
+        Log.e(TAG, "Space Type Planned DeviceRef : " + DeviceRef);
+
+        SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String Label = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + Label);
 
 
         // Example: Set progress to 10
@@ -123,18 +132,8 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
             }
         });
 
-        // Assuming you have an instance of SetYourMoodActivity
-        SetYourMoodActivity setYourMoodActivity = new SetYourMoodActivity();
-        Context context2 = setYourMoodActivity;
 
-        // Example usage of SharedPreferences
-        sharedPreferences = requireActivity().getSharedPreferences("MyPreferencesPDR", MODE_PRIVATE);
-        String DeviceRef = sharedPreferences.getString("SpaceTypePlannedDeviceRef", "");
-        Log.e(TAG, "Space Type Planned DeviceRef : " + DeviceRef);
 
-        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
-        String Label = preferences.getString("LABEL_NAME", "");
-        Log.d(TAG, "Label : " + Label);
 
         textViewDeviceName.setText(Label);
 
@@ -148,9 +147,13 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
 //Fan Speed Method
 public void sendFanSpeed(int fanSpeed){
 
-    SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-    String name = sharedPreferences.getString("Name", "");
-    Log.e(ContentValues.TAG, "Name : "+name);
+//    SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//    String name = sharedPreferences.getString("Name", "");
+//    Log.e(ContentValues.TAG, "Name : "+name);
+
+    SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+    String name = preferences.getString("LABEL_NAME", "");
+    Log.d(TAG, "Label : " + name);
 
 
     SharedPreferences preferences9 = context.getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
@@ -179,14 +182,14 @@ public void sendFanSpeed(int fanSpeed){
         Log.d("TAG", "PowerState: " + AppConstants.powerState);
         Log.d("TAG", "Power: " + AppConstants.power);
 
-        Log.e("APPCONSTS1",""+AppConstants.Ref_dyn);
-        Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
-        Log.e("APPCONSTS3",""+AppConstants.SceneRef);
-        Log.e("APPCONSTS",""+AppConstants.Space_dyn);
-        Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
-        Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
-        Log.e("APPCONSTS",""+AppConstants.powerState);
-        Log.e("APPCONSTS",""+AppConstants.power);
+        Log.e("APPCONSTS1"," "+AppConstants.Ref_dyn);
+        Log.e("APPCONSTS2"," "+AppConstants.Name_dyn);
+        Log.e("APPCONSTS3"," "+AppConstants.SceneRef);
+        Log.e("APPCONSTS"," "+AppConstants.Space_dyn);
+        Log.e("APPCONSTS"," "+AppConstants.projectSpaceTypePlannedDeviceName);
+        Log.e("APPCONSTS"," "+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+        Log.e("APPCONSTS"," "+AppConstants.powerState);
+        Log.e("APPCONSTS"," "+AppConstants.power);
 
 
         ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
@@ -214,9 +217,9 @@ public void sendFanSpeed(int fanSpeed){
     try {
         getRefObjectValue();
 //
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
         AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
         AppConstants.Create_powerState = "Speed";
         AppConstants.Create_power = String.valueOf(shFanSpeed);
@@ -231,6 +234,7 @@ public void sendFanSpeed(int fanSpeed){
         Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
         Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
         Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+        Log.e("APPCONSTS2 Object_Ref",""+AppConstants.Create_Ref_Scene);
 
 //            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
 //            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
@@ -245,8 +249,8 @@ public void sendFanSpeed(int fanSpeed){
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
         sharedViewModel.addObjectScenes(objectSceneCreate);
 
-//                }
-//            }, 1000);
+                }
+            }, 1000);
 
         ////////////
 
@@ -259,6 +263,11 @@ public void sendFanSpeed(int fanSpeed){
 
     //// Create Schedule
     try {
+        getRefObjectValue();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
         AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
         AppConstants.Create_powerState_Schedule = "Speed";
         AppConstants.Create_power_Schedule = String.valueOf(shFanSpeed);
@@ -273,6 +282,7 @@ public void sendFanSpeed(int fanSpeed){
         Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
         Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
         Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
+        Log.e("APPCONSTS2 Create_Schedule_Object_Ref",""+AppConstants.Create_Ref_Schedule);
 
         ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
         ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -281,11 +291,8 @@ public void sendFanSpeed(int fanSpeed){
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
         Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-
-
-
-        ////////////
-
+            }
+        }, 1000);
 
     }
     catch (Exception e){
@@ -339,9 +346,13 @@ public void sendFanSpeed(int fanSpeed){
 }
 
     private void sendSwitchState(boolean powerState) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : " + name);
+
+        SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
 
         String commandBody = "{\"" + name + "\": {\"Power\": " + powerState + "}}";
 
@@ -387,13 +398,10 @@ public void sendFanSpeed(int fanSpeed){
 
         // Create Scene
         try {
-
-
             getRefObjectValue();
-
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Power";
             AppConstants.Create_power = String.valueOf(powerState);
@@ -408,6 +416,7 @@ public void sendFanSpeed(int fanSpeed){
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule", "" + AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
             Log.e("APPCONSTS2 powerState_Schedule", "" + AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule", "" + AppConstants.Create_power);
+            Log.e("APPCONSTS2 Object Ref", "" +   AppConstants.Create_Ref_Scene);
 
 //            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
 //            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
@@ -423,8 +432,8 @@ public void sendFanSpeed(int fanSpeed){
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
 //
-//                    }
-//                }, 1000);
+                    }
+                }, 1000);
             ////////////
 
         } catch (Exception e) {
@@ -434,6 +443,11 @@ public void sendFanSpeed(int fanSpeed){
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Power";
             AppConstants.Create_power_Schedule = String.valueOf(powerState);
@@ -448,6 +462,7 @@ public void sendFanSpeed(int fanSpeed){
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule", "" + AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
             Log.e("APPCONSTS2 powerState_Schedule", "" + AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 power_Schedule", "" + AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Object_Ref", "" + AppConstants.Create_Ref_Schedule);
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule, AppConstants.Create_Name_dyn_Schedule, AppConstants.Create_ScheduleRef_Schedule, AppConstants.Create_Space_dyn_Schedule, AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule, AppConstants.Create_powerState_Schedule, AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
@@ -457,8 +472,8 @@ public void sendFanSpeed(int fanSpeed){
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: " + objectSchedule.getRef_dyn());
-
-            ////////////
+        }
+    }, 1000);
 
 
         } catch (Exception e) {

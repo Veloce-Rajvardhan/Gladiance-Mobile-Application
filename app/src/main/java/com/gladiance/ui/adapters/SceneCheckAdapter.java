@@ -61,37 +61,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_scene_control_card, parent, false);
-//        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
-//        ConfigurationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner)context).get(ConfigurationViewModel.class);
-//
-//        for (Configuration configuration : ConfigArrayList) {
-//        //    if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
-//
-//                // Log the values for debugging
-//              //  Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
-//
-//            if(viewModel.getMatchedConfigurations() == null && configuration2.getRef() != configuration.getRef())
-//                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
-//                        configuration.getgAAProjectSceneRef(),
-//                        configuration.getNodeConfigParamName(),
-//                        configuration.getValue(),
-//                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
-//                        configuration.getRef(),
-//                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
-//                ));
-//
-//                //    viewModel.addMatchedConfiguration(matchedConfigurations);
-//
-//                // Logging the size of matchedConfigurations
-////                int sizeOfMatchedConfigurations = matchedConfigurations.size();
-////                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
-//                // Assuming you are doing something with your ViewHolder here
-//              //  holder.deviceNameCheckBox.setChecked(true);
-//
-//                // Exit the loop once a match is found
-//                //   break;
-//     //       }
-//        }
+
             return new ViewHolder(view);
     }
 

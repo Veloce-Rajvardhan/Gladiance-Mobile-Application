@@ -837,6 +837,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             AppConstants.dayofmonth = trigger.getDayOfMonth();
                             yearPicker.setValue(trigger.getYear());
                             AppConstants.Year = trigger.getYear();
+                            AppConstants.RepeatEveryYear = repeatEveryYear;
 
                             Log.e(TAG, "Monday: "+monday);
                             Log.e(TAG, "Sunday: "+sunday);
@@ -974,11 +975,15 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                 if(AppConstants.Monday == true || AppConstants.Tuesday == true || AppConstants.Wednesday == true || AppConstants.Thursday == true || AppConstants.Friday == true || AppConstants.Saturday == true || AppConstants.Sunday== true ){
                     CBWeek.setChecked(true);
                     CBWeek.setEnabled(true);
+                    CBMonth.setChecked(false);
+                    CBMonth.setEnabled(false);
                 } else {
                     CBWeek.setChecked(false);
                     CBWeek.setEnabled(false);
-                    CBWeek.setChecked(true);
-                    CBWeek.setEnabled(true);
+                    CBMonth.setChecked(true);
+                    CBMonth.setEnabled(true);
+//                    CBWeek.setChecked(true);
+//                    CBWeek.setEnabled(true);
                 }
 
                 List<Pair<String, Boolean>> dataList = dayAdapter.getAllDataWithCheckedStatus();

@@ -62,9 +62,6 @@ public class DimmerActivity extends AppCompatActivity {
         espApp = new EspApplication(getApplicationContext());
         networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
 
-
-
-
         textViewDeviceName = findViewById(R.id.DeviceName);
         dimmerswitch = findViewById(R.id.switchButtonDimmer);
         seekBar = findViewById(R.id.seekBarDimmer);

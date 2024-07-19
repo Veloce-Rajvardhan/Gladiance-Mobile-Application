@@ -37,6 +37,8 @@ import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.adapters.ProfileCardAdapter;
 import com.gladiance.ui.fragment.DeviceControls.AirConditionerFragment;
+import com.gladiance.ui.fragment.DeviceControls.CurtainFragment;
+import com.gladiance.ui.fragment.DeviceControls.DimmerFragment;
 import com.gladiance.ui.fragment.DeviceControls.FanFragment;
 import com.gladiance.ui.fragment.DeviceControls.RGBLightFragment;
 import com.gladiance.ui.models.DeviceInfo;
@@ -222,22 +224,78 @@ public class ProfileDeviceCardFragment extends Fragment {
 //                            editor2.apply();
 //                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.curtain")){
+                            CurtainFragment curtainFragment = new CurtainFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            curtainFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, curtainFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.light")){
+                            DimmerFragment dimmerFragment = new DimmerFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), DimmerActivity.class);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            Log.e(TAG, "Device Card Fragment : "+ name);
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            dimmerFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, dimmerFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), DimmerActivity.class);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            Log.e(TAG, "Device Card Fragment : "+ name);
+//                            startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.bellcontrol")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
@@ -291,13 +349,41 @@ public class ProfileDeviceCardFragment extends Fragment {
                             editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("e.d.curt")){
+                            CurtainFragment curtainFragment = new CurtainFragment(getContext());
                             String name = arrayList.get(0).getName();
-                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
-                            editor2.putString("Name", name);
-                            editor2.apply();
-                            startActivity(intent);
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            curtainFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, curtainFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+//                            String name = arrayList.get(0).getName();
+//                            Intent intent = new Intent(requireContext(), CurtainActivity.class);
+//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor editor2 = sharedPreferences.edit();
+//                            editor2.putString("Name", name);
+//                            editor2.apply();
+//                            startActivity(intent);
                         }else {
                             ProfileCardAdapter profileCardAdapter = new ProfileCardAdapter(arrayList);
                             recyclerView.setAdapter(profileCardAdapter);

@@ -876,7 +876,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                            //     AppConstants.Create_Ref_Schedule = a;
                         //        Log.e(TAG, "onChanged222222222: "+a );
                                 list.add(new com.gladiance.ui.models.saveSchedule.Configuration(
-                                        Long.parseLong(objectScenes.getRefObject()),
+                                        Long.parseLong(objectScenes.getRefObject()), // satrt here it is null
                                         Long.parseLong(objectScenes.getSceneRef()),
                                         Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
                                         objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
@@ -894,7 +894,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
 //                                        AppConstants.Create_power_Schedule
 //                                ));
                                 Log.e(TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
-                                Log.d("New Ref", String.valueOf(AppConstants.Create_Ref_Schedule));
+                                Log.d("New Ref", String.valueOf(AppConstants.Create_Ref_dyn_Schedule));
                                 Log.d("ObjectScenes2", objectScenes.getSceneRef());
                                 Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
                                 Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
@@ -1035,6 +1035,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                         //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
                         Long.parseLong(AppConstants.Create_Space_dyn_Schedule),
                         list, triggerList);
+                // uncomment to call api
                 SaveScheduleRequest(saveScene);
 
 //                    }
@@ -1067,7 +1068,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                             // Handle successful response
                             SceneResModel sceneResModel = response.body();
                             Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
-                            Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext().getApplicationContext(), "Schedule Created Successfully!", Toast.LENGTH_SHORT).show();
                             Log.e(ContentValues.TAG, "Done ");
                             Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
 

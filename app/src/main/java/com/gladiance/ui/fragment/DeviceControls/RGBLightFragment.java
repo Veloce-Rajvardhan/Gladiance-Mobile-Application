@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +29,23 @@ import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.EspApplication;
+import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
+import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
+
+import org.greenrobot.eventbus.EventBus;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RGBLightFragment extends Fragment {
@@ -248,9 +257,12 @@ public class RGBLightFragment extends Fragment {
     //RGB ON/OFF
     private void rgbLightState(boolean powerState) {
         // Create a RequestModel with the required data
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Power\": "+powerState+"}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -293,6 +305,11 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+//
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Power";
             AppConstants.Create_power = String.valueOf(powerState);
@@ -307,6 +324,8 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            Log.e("APPCONSTS2 Object_Ref",""+AppConstants.Create_Ref_Scene);
+            Log.e("APPCONSTS2 Object_Ref",""+AppConstants.Create_Ref_Scene);
 
 //            Log.e("APPCONSTS2 Ref_dyn_Schedule",""+AppConstants.Ref_dyn_Schedule);
 //            Log.e("APPCONSTS2 Name_dyn_Schedule",""+AppConstants.Name_dyn_Schedule);
@@ -320,9 +339,8 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
-            ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -332,6 +350,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Power";
             AppConstants.Create_power_Schedule = String.valueOf(powerState);
@@ -346,6 +369,7 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule",""+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Create_Schedule_Object_Ref",""+AppConstants.Create_Ref_Schedule);
 
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
@@ -357,7 +381,8 @@ public class RGBLightFragment extends Fragment {
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -407,13 +432,82 @@ public class RGBLightFragment extends Fragment {
 
     }
 
+    private void getRefObjectValue() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        //      SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        //    String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        //      Log.d(EventBus.TAG, "node id3: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        String Ref = responseModel.getTag();
+
+                        RefObject refObject = new RefObject(Ref);
+                        AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                        AppConstants.Create_Ref_Scene = responseModel.getTag();
+
+
+
+                        //     saveRefToSharedPreferences(Ref);
+
+// Later in your code, fetch the RefValue from SharedPreferences
+                        //       String savedRef = getRefFromSharedPreferences();
+//                        if (savedRef != null) {
+//                            Log.d(EventBus.TAG, "Retrieved RefValue from SharedPreferences: " + savedRef);
+//                            // Use savedRef as needed
+//                        } else {
+//                            Log.e(EventBus.TAG, "RefValue not found in SharedPreferences");
+//                            // Handle case where RefValue is not found in SharedPreferences
+//                        }
+                        AppConstants.Create_Ref_Schedule = responseModel.getTag();
+                        Log.e(EventBus.TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
+
+                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);
+
+                    }
+                } else {
+                    Log.e(EventBus.TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+//            private String getRefFromSharedPreferences() {
+//                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+//                return preferences.getString("RefValue", null);
+//            }
+//
+//            private void saveRefToSharedPreferences(String refValue) {
+//                SharedPreferences preferences = getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putString("RefValue", refValue);
+//                editor.apply(); // Apply changes asynchronously
+//                Log.d(EventBus.TAG, "Saved RefValue to SharedPreferences: " + refValue);
+//            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(EventBus.TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
+
+
     private void rgbBrightness(int progress){
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"Brightness\": " + progress + "}}";
 
@@ -454,6 +548,11 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+//
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Brightness";
             AppConstants.Create_power = String.valueOf(progress);
@@ -502,7 +601,8 @@ public class RGBLightFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -512,6 +612,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Brightness";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
@@ -545,7 +650,8 @@ public class RGBLightFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -601,10 +707,12 @@ public class RGBLightFragment extends Fragment {
     }
 
     private void rgbHue(int progress){
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Hue\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -653,6 +761,11 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+//
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Hue";
             AppConstants.Create_power = String.valueOf(progress);
@@ -672,7 +785,8 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
+                }
+            }, 1000);
         }
         catch (Exception e){
             Log.e(ContentValues.TAG, "sendSwitchState: "+e);
@@ -681,6 +795,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Hue";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
@@ -705,6 +824,7 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
             Log.e("APPCONSTS2 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Object_Ref", "" + AppConstants.Create_Ref_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -721,7 +841,8 @@ public class RGBLightFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
-
+                }
+            }, 1000);
 
         }
         catch (Exception e){
@@ -776,10 +897,12 @@ public class RGBLightFragment extends Fragment {
     }
 
     private void rgbSaturation(int progress){
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
         String commandBody = "{\""+ name +"\": {\"Saturation\": " + progress + "}}";
 
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -828,6 +951,10 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Saturation";
             AppConstants.Create_power = String.valueOf(progress);
@@ -842,12 +969,14 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            Log.e("APPCONSTS2 Object Ref", "" +   AppConstants.Create_Ref_Scene);
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
+                }
+            }, 1000);
         }
         catch (Exception e){
             Log.e(ContentValues.TAG, "sendSwitchState: "+e);
@@ -856,6 +985,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "Saturation";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
@@ -880,6 +1014,7 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
             Log.e("APPCONSTS2 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Object_Ref", "" + AppConstants.Create_Ref_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -896,6 +1031,8 @@ public class RGBLightFragment extends Fragment {
 //            Log.e(TAG, "List Size: "+list.size());
 
             ////////////
+                }
+            }, 1000);
 
 
         }
@@ -952,9 +1089,12 @@ public class RGBLightFragment extends Fragment {
     }
 
     private void rgbCCT(int progress){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"CCT\": " + progress + "}}";
 
@@ -1004,6 +1144,10 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "CCT";
             AppConstants.Create_power = String.valueOf(progress);
@@ -1018,12 +1162,14 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            Log.e("APPCONSTS2 Object Ref", "" +   AppConstants.Create_Ref_Scene);
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
+                }
+            }, 1000);
         }
         catch (Exception e){
             Log.e(ContentValues.TAG, "sendSwitchState: "+e);
@@ -1032,6 +1178,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "CCT";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
@@ -1056,6 +1207,7 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
             Log.e("APPCONSTS2 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Object_Ref", "" + AppConstants.Create_Ref_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -1070,7 +1222,8 @@ public class RGBLightFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
-
+                }
+            }, 1000);
             ////////////
 
 
@@ -1126,9 +1279,12 @@ public class RGBLightFragment extends Fragment {
     }
 
     private void rgbWhiteBrightness(int progress){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
-        String name = sharedPreferences.getString("Name", "");
-        Log.e(ContentValues.TAG, "Name : "+name);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
+        String name = preferences.getString("LABEL_NAME", "");
+        Log.d(TAG, "Label : " + name);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
+//        String name = sharedPreferences.getString("Name", "");
+//        Log.e(ContentValues.TAG, "Name : "+name);
 
         String commandBody = "{\""+ name +"\": {\"White Brightness\": " + progress + "}}";
 
@@ -1178,6 +1334,11 @@ public class RGBLightFragment extends Fragment {
 
         // Create Scene
         try {
+            getRefObjectValue();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "White Brightness";
             AppConstants.Create_power = String.valueOf(progress);
@@ -1192,12 +1353,14 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule2",""+AppConstants.Create_projectSpaceTypePlannedDeviceName);
             Log.e("APPCONSTS2 powerState_Schedule",""+AppConstants.Create_powerState);
             Log.e("APPCONSTS2 power_Schedule",""+AppConstants.Create_power);
+            Log.e("APPCONSTS2 Object Ref", "" +   AppConstants.Create_Ref_Scene);
 
 
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-
+                }
+            }, 1000);
         }
         catch (Exception e){
             Log.e(ContentValues.TAG, "sendSwitchState: "+e);
@@ -1206,6 +1369,11 @@ public class RGBLightFragment extends Fragment {
 
         //// Create Schedule
         try {
+            getRefObjectValue();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule = name;
             AppConstants.Create_powerState_Schedule = "White Brightness";
             AppConstants.Create_power_Schedule = String.valueOf(progress);
@@ -1230,6 +1398,7 @@ public class RGBLightFragment extends Fragment {
             Log.e("APPCONSTS2 Create projectSpaceTypePlannedDeviceName_Schedule",""+AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
             Log.e("APPCONSTS2 Create powerState_Schedule",""+AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 Create power_Schedule",""+AppConstants.Create_power_Schedule);
+            Log.e("APPCONSTS2 Object_Ref", "" + AppConstants.Create_Ref_Schedule);
 
             ObjectSchedule objectSchedule = new ObjectSchedule(AppConstants.Create_Ref_dyn_Schedule,AppConstants.Create_Name_dyn_Schedule,AppConstants.Create_ScheduleRef_Schedule,AppConstants.Create_Space_dyn_Schedule,AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Create_powerState_Schedule,AppConstants.Create_power_Schedule, AppConstants.Create_Ref_Schedule);
             ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
@@ -1244,7 +1413,8 @@ public class RGBLightFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
-
+                }
+            }, 1000);
             ////////////
 
 
