@@ -17,6 +17,9 @@ public class Configuration {
     @SerializedName("NodeConfigParamName")
     @Expose
     private String nodeConfigParamName;
+    @SerializedName("NodeConfigDeviceName")
+    @Expose
+    private String nodeConfigDeviceName;
     @SerializedName("Value")
     @Expose
     private String value;
@@ -64,6 +67,13 @@ public class Configuration {
     @Expose
     private Long ref;
 
+    public String getNodeConfigDeviceName() {
+        return nodeConfigDeviceName;
+    }
+
+    public void setNodeConfigDeviceName(String nodeConfigDeviceName) {
+        this.nodeConfigDeviceName = nodeConfigDeviceName;
+    }
 
     public Long getgAAProjectSceneRef() {
         return gAAProjectSceneRef;

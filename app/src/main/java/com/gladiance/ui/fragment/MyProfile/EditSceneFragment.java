@@ -36,6 +36,7 @@ import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
+import com.gladiance.ui.models.SceneStoreData.ObjectSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.arealandingmodel.Area;
@@ -50,10 +51,13 @@ import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
 import com.gladiance.ui.models.saveScene.SaveSceneRequest;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
+import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
 import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
+import com.gladiance.ui.viewModels.SceneCreateViewModel;
+import com.gladiance.ui.viewModels.SceneEditDataViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -87,6 +91,8 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
     Button buttonSave;
 
     private List<ConfigurationSceneEditData> configurationSceneEditData;
+    private List<com.gladiance.ui.models.sceneEdit.Configuration> configurationData;
+
     Long gAAProjectSceneRef_object;
     Long gAAProjectSpaceTypePlannedDeviceConnectionRef_object;
     String nodeConfigParamName_object;
@@ -132,6 +138,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
 
         configurationSceneEditData = new ArrayList<>();
+        configurationData = new ArrayList<>();
 
         viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
 
@@ -228,6 +235,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
     @Override
     public void onResume() {
         super.onResume();
+
 
         // Added data of Configuration
         viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
@@ -415,11 +423,46 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                     }
                 });
 
+                SceneEditDataViewModel sceneViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                LiveData<List<com.gladiance.ui.models.sceneEdit.Configuration>> objectScenesListLiveData1 = sceneViewModel1.getObjectScenesList();
+                objectScenesListLiveData1.observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.sceneEdit.Configuration>>() {
+                    @Override
+                    public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                        if (objectScenesList != null) {
+                            for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
+
+//                        list.add(new SceneConfig(
+//                                Long.parseLong(objectScenes.getRef()),
+//                                Long.parseLong(objectScenes.getSceneRef()),
+//                                Long.parseLong(objectScenes.getProjectSpaceTypePlannedDeviceName()),
+//                                objectScenes.getGaaProjectSpaceTypePlannedDeviceRef(),
+//                                objectScenes.getNodeConfigParamName(),
+//                                objectScenes.getValue()
+//                        ));
+                                Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+//                        Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
+//                        Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+//                        Log.d("getNodeConfigParamName", objectScenes.getNodeConfigParamName());
+//                        Log.d("getValue", objectScenes.getValue());
+                            }
+
+                            // Remember to remove the observer if necessary
+                            objectScenesListLiveData1.removeObserver(this);
+                        }
+                        //   }
+                        //}
+                    }
+                });
+
                 SaveSceneRequest saveScene = new SaveSceneRequest(
                         Long.parseLong(AppConstants.Ref_dyn),
                         AppConstants.Name_dyn,
                         Long.parseLong(AppConstants.Space_dyn),
                         list);
+                // uncomment to hit api
                 sendSaveSceneRequest(saveScene);
 
             }
@@ -548,6 +591,25 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                     configuration.getgAAProjectName()));
 
 
+//                            configurationData.add(new com.gladiance.ui.models.sceneEdit.Configuration(configuration.getRef(),
+//                                    configuration.getgAAProjectSceneRef(),
+//                                    configuration.getgAAProjectSpaceTypePlannedDeviceRef(),
+//                                    configuration.getNodeConfigDeviceName(),
+//                                    configuration.getNodeConfigParamName(),
+//                                    configuration.getValue()));
+
+                            com.gladiance.ui.models.sceneEdit.Configuration configuration1 = new com.gladiance.ui.models.sceneEdit.Configuration(configuration.getRef(),
+                                    configuration.getgAAProjectSceneRef(),
+                                    configuration.getgAAProjectSpaceTypePlannedDeviceRef(),
+                                    configuration.getNodeConfigDeviceName(),
+                                    configuration.getNodeConfigParamName(),
+                                    configuration.getValue());
+
+                            SceneEditDataViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                            // sharedViewModel.setObjecatSchedule(objectScenes);
+                            sharedViewModelEdit.addObjectEditScenes(configuration1);
+                            Log.e(TAG, "ssss: "+configuration1.getRef());
+
 //                            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power);
 //                            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
 //                            // sharedViewModel.setObjecatSchedule(objectScenes);
@@ -623,6 +685,20 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                 //       }
                     //        }
                         }
+
+//                        SceneEditDataViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+//                        LiveData<List<ObjectSceneEditData>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
+//                        objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
+//                            @Override
+//                            public void onChanged(List<ObjectSceneCreate> objectScenesList) {
+////                        for(int i = 0; i <ConArrayList.size(); i++) {
+////                            if (ConArrayList.get(i).isChecked() == true) {
+////                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+//                                if (objectScenesList != null) {
+//                                    for (ObjectSceneCreate objectScenes : objectScenesList) {
+//
+//                                    }
+
 
                         SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext());
                         recyclerView.setAdapter(sceneCheckAdapter);
