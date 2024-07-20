@@ -90,6 +90,13 @@ public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.Vi
                 logTotalSum();
             }
         });
+
+        holder.imgDeleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(position);
+            }
+        });
     }
 
     @Override
@@ -108,9 +115,11 @@ public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.Vi
         }
     }
 
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewRate, textViewQuantity;
-        ImageView imageViewVegNonVeg, incrementButton, decrementButton;
+        ImageView imageViewVegNonVeg, incrementButton, decrementButton,imgDeleteItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +129,17 @@ public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.Vi
             textViewQuantity = itemView.findViewById(R.id.quantityText);
             incrementButton = itemView.findViewById(R.id.incrementButton);
             decrementButton = itemView.findViewById(R.id.decrementButton);
+            imgDeleteItem = itemView.findViewById(R.id.imgDeleteItem);
+
         }
+    }
+
+    public void removeItem(int position) {
+        if (position < 0 || position >= orderList.size()) {
+            return;
+        }
+        orderList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, orderList.size());
     }
 }

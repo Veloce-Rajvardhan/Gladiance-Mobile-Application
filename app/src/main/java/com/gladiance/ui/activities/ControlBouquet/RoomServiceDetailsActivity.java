@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,10 +57,10 @@ public class RoomServiceDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "Doc No : " +DocNo);
         textViewOrderNo.setText(DocNo);
 
-        SharedPreferences preferencesDate = getSharedPreferences("my_shared_prefe_Date", MODE_PRIVATE);
-        String DateTime = preferencesDate.getString("KEY_DATE", "");
-        Log.d(TAG, "Date and Time : " +DateTime);
-        textViewDateTime.setText(DateTime);
+        SharedPreferences preferencesDate = getSharedPreferences("my_shared_prefe_Date", Context.MODE_PRIVATE);
+        String dateTime = preferencesDate.getString("KEY_DATE", "");
+        Log.d(TAG, "Date and Time: " + dateTime);
+        textViewDateTime.setText(dateTime);
 
         SharedPreferences preferencesRef = getSharedPreferences("my_shared_prefe_Ref", MODE_PRIVATE);
         Long laundryRequestRef = preferencesRef.getLong("KEY_REF", 0L);
@@ -130,6 +131,8 @@ public class RoomServiceDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<CancelRoomServiceResponse> call, Response<CancelRoomServiceResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d("MainActivity", "Request cancelled successfully");
+                    Intent intent = new Intent(RoomServiceDetailsActivity.this,RoomServiceListActivity.class);
+                    startActivity(intent);
                 } else {
                     Log.e("MainActivity", "Failed to cancel request: " + response.code());
                 }

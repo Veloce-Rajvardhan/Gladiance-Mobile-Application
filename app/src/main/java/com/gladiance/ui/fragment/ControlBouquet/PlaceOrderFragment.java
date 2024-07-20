@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,8 @@ import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.ControlBouquet.AddLaundryRequestActivity;
+import com.gladiance.ui.activities.ControlBouquet.RoomServiceDetailsActivity;
+import com.gladiance.ui.activities.ControlBouquet.RoomServiceListActivity;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.PlaceOrderAdapter;
 import com.gladiance.ui.models.LaundryApiResponse;
@@ -49,12 +53,13 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
 
     private List<PlaceOrderItem> orderList;
     private TextView textViewGrandTotalFM;
-    Button buttonPlaceRoomServiceOrder;
+    private Button buttonPlaceRoomServiceOrder;
+    private ProgressBar progressBar;
 
     public static PlaceOrderFragment newInstance(ArrayList<PlaceOrderItem> orderList) {
         PlaceOrderFragment fragment = new PlaceOrderFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_ORDER_LIST, orderList);
+        args.putParcelableArrayList(ARG_ORDER_LIST, orderList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +68,7 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            orderList = (List<PlaceOrderItem>) getArguments().getSerializable(ARG_ORDER_LIST);
+            orderList = getArguments().getParcelableArrayList(ARG_ORDER_LIST);
         }
     }
 
@@ -75,11 +80,14 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
 
         textViewGrandTotalFM = view.findViewById(R.id.tv_GrandTotalFM);
         buttonPlaceRoomServiceOrder = view.findViewById(R.id.buttonPlaceRoomServiceOrder);
+        progressBar = view.findViewById(R.id.progressBar);  // Initialize ProgressBar
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_place_order);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         PlaceOrderAdapter adapter = new PlaceOrderAdapter(orderList, this);
         recyclerView.setAdapter(adapter);
+
+
 
         // Calculate the initial total sum and set it to the TextView
         updateGrandTotal();
@@ -87,9 +95,12 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
         buttonPlaceRoomServiceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);  // Show ProgressBar
                 gatherReferencesAndMakeApiCall();
             }
         });
+
+
 
         return view;
     }
@@ -106,6 +117,7 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
         }
         textViewGrandTotalFM.setText(String.valueOf(totalSum));
     }
+
 
     private void gatherReferencesAndMakeApiCall() {
         getRoomServiceRef();
@@ -132,16 +144,14 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
         List<RoomServiceRequest.LineItem> lineItems = new ArrayList<>();
         int index = 0;
         for (PlaceOrderItem item : orderList) {
+            RoomServiceRequest.LineItem lineItem = new RoomServiceRequest.LineItem();
+            lineItem.setRef(lineItemRoomServiceRefs.get(index)); // Use unique reference from the list
+            lineItem.setGAAProjectSpaceInRoomDiningRequestRef(AppConstants.RoomServiceRef);
+            lineItem.setRBItemRef(String.valueOf(item.getRef()));
+            lineItem.setQuantity(Double.parseDouble(item.getQuantity()));
 
-                RoomServiceRequest.LineItem lineItem = new RoomServiceRequest.LineItem();
-                lineItem.setRef(lineItemRoomServiceRefs.get(index)); // Use unique reference from the list
-                lineItem.setGAAProjectSpaceInRoomDiningRequestRef(AppConstants.RoomServiceRef);
-                lineItem.setRBItemRef(String.valueOf(item.getRef()));
-                lineItem.setQuantity(Double.parseDouble(item.getQuantity()));
-
-                lineItems.add(lineItem);
-                index++;
-
+            lineItems.add(lineItem);
+            index++;
         }
         SharedPreferences sharedPreferences3 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences3.getString("Project_Space_Ref", "");
@@ -160,8 +170,12 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
         call.enqueue(new Callback<RoomServiceApiResponse>() {
             @Override
             public void onResponse(Call<RoomServiceApiResponse> call, Response<RoomServiceApiResponse> response) {
+                progressBar.setVisibility(View.GONE);  // Hide ProgressBar
                 if (response.isSuccessful()) {
                     Toast.makeText(requireContext(), "Request raised successfully", Toast.LENGTH_SHORT).show();
+                    // Navigate to RoomServiceDetailedActivity
+                    Intent intent = new Intent(getContext(), RoomServiceListActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(requireContext(), "Failed to raise request", Toast.LENGTH_SHORT).show();
                 }
@@ -169,6 +183,7 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
 
             @Override
             public void onFailure(Call<RoomServiceApiResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);  // Hide ProgressBar
                 Toast.makeText(requireContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -234,5 +249,4 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
             });
         }
     }
-
 }

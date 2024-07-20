@@ -3,6 +3,7 @@ package com.gladiance.ui.activities.ControlBouquet;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
@@ -36,6 +38,8 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
 
     RecyclerView recyclerViewFood;
     ImageView imageViewPlaceOrder;
+    TextView textViewItemCount;
+    CardView buttonVeg,buttonNonVeg;
     private ArrayList<ObjectTag> arrayList;
     private List<PlaceOrderItem> orderList = new ArrayList<>();
 
@@ -46,14 +50,15 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
 
         recyclerViewFood = findViewById(R.id.rv_food_menu);
         imageViewPlaceOrder = findViewById(R.id.imageViewPlaceOrder);
-        
+        textViewItemCount = findViewById(R.id.textViewItemCount);
+        buttonVeg = findViewById(R.id.button_Veg);
+        buttonNonVeg = findViewById(R.id.button_Veg_NonVeg);
         arrayList = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
         String loginDeviceId = GUID.trim();
-
 
         SharedPreferences  sharedPreferences2 = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
@@ -63,6 +68,7 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
         SharedPreferences sharedPreferences5 = getSharedPreferences("MyPrefsPR", Context.MODE_PRIVATE);
         String ProjectRef = sharedPreferences5.getString("ProjectRef", "");
         String gAAProjectRef = ProjectRef.trim();
+        Log.e(TAG, "Project Ref : "+gAAProjectRef );
 
         
         fetchFoodMenu(gAAProjectRef,loginToken,loginDeviceId);
@@ -74,6 +80,7 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
             }
         });
 
+        updateItemCount();
 
     }
 
@@ -110,9 +117,20 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
         });
     }
 
+    private void updateItemCount() {
+        int itemCount = orderList.size();
+        if (itemCount > 0) {
+            textViewItemCount.setText(String.valueOf(itemCount));
+            textViewItemCount.setVisibility(View.VISIBLE);
+        } else {
+            textViewItemCount.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onAddFoodItem(PlaceOrderItem item) {
         orderList.add(item);
+        updateItemCount();
     }
 
     private void openPlaceOrderFragment() {
