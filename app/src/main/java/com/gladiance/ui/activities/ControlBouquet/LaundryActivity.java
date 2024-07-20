@@ -21,6 +21,7 @@ import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.LaundryItemAdapter;
 import com.gladiance.ui.adapters.LaundryItemListAdapter;
+import com.gladiance.ui.fragment.ControlBouquet.ControlBouquetHorizontalParentFragment;
 import com.gladiance.ui.models.ProjectSpaceGroupReqModel;
 import com.gladiance.ui.models.SpaceGroup;
 import com.gladiance.ui.models.laundrylist.LaundryRes;
@@ -111,5 +112,14 @@ public class LaundryActivity extends AppCompatActivity {
                 Log.e("API Error", t.getMessage(), t);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Navigate back to ControlBouquetHorizontalParentFragment
+        Intent intent = new Intent(LaundryActivity.this, ControlBouquetHorizontalParentFragment.class);
+        startActivity(intent);
+        finish(); // Finish the current activity to remove it from the back stack
     }
 }

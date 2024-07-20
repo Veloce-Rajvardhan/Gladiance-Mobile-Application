@@ -20,6 +20,7 @@ import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.LaundryItemListAdapter;
 import com.gladiance.ui.adapters.RoomServiceAdapter;
+import com.gladiance.ui.fragment.ControlBouquet.ControlBouquetHorizontalParentFragment;
 import com.gladiance.ui.models.roomservicelist.ObjectTag;
 import com.gladiance.ui.models.roomservicelist.RoomServiceResponse;
 
@@ -104,6 +105,15 @@ public class RoomServiceListActivity extends AppCompatActivity {
                 Log.e("MainActivity", "onFailure: ", t);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Navigate back to ControlBouquetHorizontalParentFragment
+        Intent intent = new Intent(RoomServiceListActivity.this, ControlBouquetHorizontalParentFragment.class);
+        startActivity(intent);
+        finish(); // Finish the current activity to remove it from the back stack
     }
 
 }

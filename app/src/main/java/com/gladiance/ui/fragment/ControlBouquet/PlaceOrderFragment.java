@@ -88,7 +88,6 @@ public class PlaceOrderFragment extends BottomSheetDialogFragment implements Pla
         recyclerView.setAdapter(adapter);
 
 
-
         // Calculate the initial total sum and set it to the TextView
         updateGrandTotal();
 
