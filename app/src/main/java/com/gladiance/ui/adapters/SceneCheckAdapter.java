@@ -31,6 +31,7 @@ import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 //import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
+import com.gladiance.ui.fragment.MyProfile.SceneDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
@@ -213,7 +214,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
                     // Example: Opening a fragment on click
                     Bundle bundle = new Bundle();
                     bundle.putLong("LONG_VALUE_KEY", GaaProjectSpaceTypePlannedDeviceRef);
-                    Fragment destinationFragment = new DeviceCardFragment();
+                    Fragment destinationFragment = new SceneDeviceCardFragment();
                     destinationFragment.setArguments(bundle);
 
                     FragmentTransaction transaction = ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
