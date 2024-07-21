@@ -77,7 +77,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
     }
 
     TextView scoreText;
-    int score = 1;
+    int score = 0;
     ImageView incrementButton, decrementButton;
     Button addItem;
     TextView textViewName, textViewDescription, textViewRate, textViewVideoUrl,textViewQuantity;
@@ -133,7 +133,7 @@ public class AddFoodItemFragment extends BottomSheetDialogFragment {
         decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (score > 1) {  // Ensuring the score doesn't go below 1
+                if (score > 0) {  // Ensuring the score doesn't go below 1
                     score--;
                     scoreText.setText(String.valueOf(score));
 

@@ -1,5 +1,4 @@
 package com.gladiance.ui.activities.ControlBouquet;
-
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gladiance.R;
@@ -20,7 +20,6 @@ import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.FoodMenuAdapter;
-import com.gladiance.ui.adapters.LaundryItemListAdapter;
 import com.gladiance.ui.fragment.ControlBouquet.AddFoodItemFragment;
 import com.gladiance.ui.fragment.ControlBouquet.PlaceOrderFragment;
 import com.gladiance.ui.models.PlaceOrderItem;
@@ -39,9 +38,11 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
     RecyclerView recyclerViewFood;
     ImageView imageViewPlaceOrder;
     TextView textViewItemCount;
-    CardView buttonVeg,buttonNonVeg;
+    LinearLayout buttonVeg, buttonNonVeg;
     private ArrayList<ObjectTag> arrayList;
+    private List<ObjectTag> fullMenuList;  // To store the complete menu list
     private List<PlaceOrderItem> orderList = new ArrayList<>();
+    private FoodMenuAdapter foodMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,24 +55,24 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
         buttonVeg = findViewById(R.id.button_Veg);
         buttonNonVeg = findViewById(R.id.button_Veg_NonVeg);
         arrayList = new ArrayList<>();
+        fullMenuList = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
-        Log.e(TAG, "Project Space GUID/LoginDeviceId: "+ GUID);
+        Log.e(TAG, "Project Space GUID/LoginDeviceId: " + GUID);
         String loginDeviceId = GUID.trim();
 
-        SharedPreferences  sharedPreferences2 = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences2 = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
-        Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
+        Log.e(TAG, "Project Space loginToken: " + savedLoginDeviceId);
         String loginToken = savedLoginDeviceId.trim();
 
         SharedPreferences sharedPreferences5 = getSharedPreferences("MyPrefsPR", Context.MODE_PRIVATE);
         String ProjectRef = sharedPreferences5.getString("ProjectRef", "");
         String gAAProjectRef = ProjectRef.trim();
-        Log.e(TAG, "Project Ref : "+gAAProjectRef );
+        Log.e(TAG, "Project Ref : " + gAAProjectRef);
 
-        
-        fetchFoodMenu(gAAProjectRef,loginToken,loginDeviceId);
+        fetchFoodMenu(gAAProjectRef, loginToken, loginDeviceId);
 
         imageViewPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +81,22 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
             }
         });
 
+        buttonVeg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterMenu("Veg");
+            }
+        });
+
+        buttonNonVeg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterMenu("NonVeg");
+            }
+        });
+
         updateItemCount();
-
     }
-
 
     private void fetchFoodMenu(String gaaProjectRef, String loginToken, String loginDeviceId) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -93,28 +106,40 @@ public class RoomServiceActivity extends AppCompatActivity implements AddFoodIte
             public void onResponse(Call<FoodMenuResponse> call, Response<FoodMenuResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<ObjectTag> foodItemList = response.body().getObjectTag();
-                    
-                    for(ObjectTag objectTag : foodItemList){
+
+                    for (ObjectTag objectTag : foodItemList) {
                         Log.e(TAG, "onResponse Food Name: " + objectTag.getName());
-                        arrayList.add(new ObjectTag(objectTag.getRef(),objectTag.getName(),objectTag.getVideoURL(),objectTag.getgAAProjectRBItemCategory(),objectTag.getgAAProjectRBItemTaste(),objectTag.getSpiceOrSweetLevel(),objectTag.getDescription(),objectTag.getPrice(),objectTag.getgAAProjectRef(),objectTag.getgAAProjectName(),objectTag.getgAAProjectRBItemTasteName(),objectTag.getgAAProjectRBItemCategoryName()));
+                        fullMenuList.add(new ObjectTag(objectTag.getRef(), objectTag.getName(), objectTag.getVideoURL(), objectTag.getgAAProjectRBItemCategory(), objectTag.getgAAProjectRBItemTaste(), objectTag.getSpiceOrSweetLevel(), objectTag.getDescription(), objectTag.getPrice(), objectTag.getgAAProjectRef(), objectTag.getgAAProjectName(), objectTag.getgAAProjectRBItemTasteName(), objectTag.getgAAProjectRBItemCategoryName()));
                     }
 
-                    FoodMenuAdapter foodMenuAdapter = new FoodMenuAdapter(arrayList);
+                    arrayList.addAll(fullMenuList);
+                    foodMenuAdapter = new FoodMenuAdapter(arrayList);
                     recyclerViewFood.setAdapter(foodMenuAdapter);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(RoomServiceActivity.this,1, GridLayoutManager.VERTICAL,false);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(RoomServiceActivity.this, 1, GridLayoutManager.VERTICAL, false);
                     recyclerViewFood.setLayoutManager(gridLayoutManager);
 
-
                 } else {
-                    Log.e("MainActivity", "Failed to fetch data: " + response.code());
+                    Log.e("RoomServiceActivity", "Failed to fetch data: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<FoodMenuResponse> call, Throwable t) {
-                Log.e("MainActivity", "Error: " + t.getMessage());
+                Log.e("RoomServiceActivity", "Error: " + t.getMessage());
             }
         });
+    }
+
+    private void filterMenu(String category) {
+        arrayList.clear();
+        for (ObjectTag item : fullMenuList) {
+            if (category.equalsIgnoreCase("Veg") && item.getgAAProjectRBItemCategoryName().equalsIgnoreCase("Veg")) {
+                arrayList.add(item);
+            } else if (category.equalsIgnoreCase("NonVeg") && !item.getgAAProjectRBItemCategoryName().equalsIgnoreCase("Veg")) {
+                arrayList.add(item);
+            }
+        }
+        foodMenuAdapter.notifyDataSetChanged();
     }
 
     private void updateItemCount() {

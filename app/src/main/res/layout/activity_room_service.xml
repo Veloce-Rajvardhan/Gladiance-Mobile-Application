@@ -98,7 +98,6 @@
 
     <!-- Third CardView -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/button_Veg"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_rowWeight="1"
@@ -110,6 +109,7 @@
         app:cardElevation="0dp"> <!-- Replace with your image resource -->
 
       <LinearLayout
+          android:id="@+id/button_Veg"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           style="@style/MyButtonStyle"
@@ -204,7 +204,6 @@
 
     <!-- Sixth CardView (similar to the first) -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/button_Veg_NonVeg"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_rowWeight="1"
@@ -216,6 +215,7 @@
         app:cardElevation="0dp"> <!-- Replace with your image resource -->
 
       <LinearLayout
+          android:id="@+id/button_Veg_NonVeg"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           style="@style/MyButtonStyle"
