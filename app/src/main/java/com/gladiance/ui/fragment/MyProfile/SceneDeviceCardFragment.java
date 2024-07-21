@@ -36,6 +36,8 @@ import com.gladiance.ui.activities.DeviceControls.FanActivity;
 import com.gladiance.ui.activities.DeviceControls.RGBLightActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.adapters.CardAdapter;
+import com.gladiance.ui.adapters.ProfileCardAdapter;
+import com.gladiance.ui.adapters.SceneCardAdapter;
 import com.gladiance.ui.fragment.DeviceControls.AirConditionerFragment;
 import com.gladiance.ui.fragment.DeviceControls.CurtainFragment;
 import com.gladiance.ui.fragment.DeviceControls.DimmerFragment;
@@ -441,16 +443,16 @@ public class SceneDeviceCardFragment extends Fragment {
                         }
 
                         else {
-                            CardAdapter cardAdapter = new CardAdapter(arrayList);
-                            recyclerView.setAdapter(cardAdapter);
+                            SceneCardAdapter sceneCardAdapter = new SceneCardAdapter(arrayList);
+                            recyclerView.setAdapter(sceneCardAdapter);
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
                         }
 
                     }
                     else {
-                        CardAdapter cardAdapter = new CardAdapter(arrayList);
-                        recyclerView.setAdapter(cardAdapter);
+                        SceneCardAdapter sceneCardAdapter = new SceneCardAdapter(arrayList);
+                        recyclerView.setAdapter(sceneCardAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
                     }
