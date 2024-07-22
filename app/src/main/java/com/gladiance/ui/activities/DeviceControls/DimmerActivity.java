@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -42,6 +43,10 @@ public class DimmerActivity extends AppCompatActivity {
     ImageView lampImg;
     Context context = this;
     private EspApplication espApp;
+
+    private Handler handler = new Handler();
+    private Runnable dimmerRunnable;
+    private static final long DELAY_MS = 1000;
 
 
     @Override
@@ -103,7 +108,8 @@ public class DimmerActivity extends AppCompatActivity {
         seekBar.setProgress(0);
         textView.setText("0");
 
-        // SeekBar change listener
+
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -114,69 +120,93 @@ public class DimmerActivity extends AppCompatActivity {
                 // Check if it's night mode (dark theme)
                 boolean isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
                 if (isDarkTheme) {
-                if (progress % 10 == 0) {
+                    if (progress % 10 == 0) {
+                        if (progress == 0) {
+                            lampImg.setImageResource(R.drawable.lamp1);
+                        } else if (progress == 10) {
+                            lampImg.setImageResource(R.drawable.lamp2);
+                        } else if (progress == 20) {
+                            lampImg.setImageResource(R.drawable.lamp3);
+                        } else if (progress == 30) {
+                            lampImg.setImageResource(R.drawable.lamp4);
+                        } else if (progress == 40) {
+                            lampImg.setImageResource(R.drawable.lamp5);
+                        } else if (progress == 50) {
+                            lampImg.setImageResource(R.drawable.lamp6);
+                        } else if (progress == 60) {
+                            lampImg.setImageResource(R.drawable.lamp7);
+                        } else if (progress == 70) {
+                            lampImg.setImageResource(R.drawable.lamp8);
+                        } else if (progress == 80) {
+                            lampImg.setImageResource(R.drawable.lamp9);
+                        } else if (progress == 90) {
+                            lampImg.setImageResource(R.drawable.lamp10);
+                        }
+                    }
+                } else {
                     if (progress == 0) {
-                        lampImg.setImageResource(R.drawable.lamp1);
+                        lampImg.setImageResource(R.drawable.lampblack1);
                     } else if (progress == 10) {
-                        lampImg.setImageResource(R.drawable.lamp2);
+                        lampImg.setImageResource(R.drawable.lampblack2);
                     } else if (progress == 20) {
-                        lampImg.setImageResource(R.drawable.lamp3);
+                        lampImg.setImageResource(R.drawable.lampblack3);
                     } else if (progress == 30) {
-                        lampImg.setImageResource(R.drawable.lamp4);
+                        lampImg.setImageResource(R.drawable.lampblack4);
                     } else if (progress == 40) {
-                        lampImg.setImageResource(R.drawable.lamp5);
-                    }else if (progress == 50) {
-                        lampImg.setImageResource(R.drawable.lamp6);
+                        lampImg.setImageResource(R.drawable.lampblack5);
+                    } else if (progress == 50) {
+                        lampImg.setImageResource(R.drawable.lampblack6);
                     } else if (progress == 60) {
-                        lampImg.setImageResource(R.drawable.lamp7);
+                        lampImg.setImageResource(R.drawable.lampblack7);
                     } else if (progress == 70) {
-                        lampImg.setImageResource(R.drawable.lamp8);
-                    }else if (progress == 80) {
-                        lampImg.setImageResource(R.drawable.lamp9);
+                        lampImg.setImageResource(R.drawable.lampblack8);
+                    } else if (progress == 80) {
+                        lampImg.setImageResource(R.drawable.lampblack9);
                     } else if (progress == 90) {
-                        lampImg.setImageResource(R.drawable.lamp10);
+                        lampImg.setImageResource(R.drawable.lampblack10);
                     }
                 }
-                }else
-                if (progress == 0) {
-                    lampImg.setImageResource(R.drawable.lampblack1);
-                }else if (progress == 10) {
-                    lampImg.setImageResource(R.drawable.lampblack2);
-                }else if (progress == 20) {
-                    lampImg.setImageResource(R.drawable.lampblack3);
-                } else if (progress == 30) {
-                    lampImg.setImageResource(R.drawable.lampblack4);
-                } else if (progress == 40) {
-                    lampImg.setImageResource(R.drawable.lampblack5);
-                }else if (progress == 50) {
-                    lampImg.setImageResource(R.drawable.lampblack6);
-                } else if (progress == 60) {
-                    lampImg.setImageResource(R.drawable.lampblack7);
-                } else if (progress == 70) {
-                    lampImg.setImageResource(R.drawable.lampblack8);
-                }else if (progress == 80) {
-                    lampImg.setImageResource(R.drawable.lampblack9);
-                } else if (progress == 90) {
-                    lampImg.setImageResource(R.drawable.lampblack10);
+
+                // Cancel any previously scheduled dimmerProgress call
+                if (dimmerRunnable != null) {
+                    handler.removeCallbacks(dimmerRunnable);
                 }
-                dimmerProgress(progress);
+
+                // Schedule dimmerProgress to be called after a delay
+                dimmerRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        dimmerProgress(progress);
+                    }
+                };
+                handler.postDelayed(dimmerRunnable, DELAY_MS);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                // Cancel any previously scheduled dimmerProgress call
+                if (dimmerRunnable != null) {
+                    handler.removeCallbacks(dimmerRunnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                // Schedule dimmerProgress to be called after a delay
+                dimmerRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        dimmerProgress(seekBar.getProgress());
+                    }
+                };
+                handler.postDelayed(dimmerRunnable, DELAY_MS);
             }
         });
 
     }
 
     //Dimmer Progress Method 1 to 100
-    private void dimmerProgress(int progress){
+        private void dimmerProgress(int progress){
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
         Log.e(TAG, "Name : "+name);
@@ -208,7 +238,6 @@ public class DimmerActivity extends AppCompatActivity {
 
             ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
             SceneViewModel sharedViewModelEdit = new ViewModelProvider((this)).get(SceneViewModel.class);
-            // sharedViewModel.setObjecatSchedule(objectScenes);
             sharedViewModelEdit.addObjectScenes(objectScenes);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
