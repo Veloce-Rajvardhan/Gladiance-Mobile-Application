@@ -3,6 +3,9 @@ package com.gladiance.ui.activities.ControlBouquet;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +20,7 @@ import android.widget.Button;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceGroupActivity;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.LaundryItemAdapter;
@@ -44,6 +48,7 @@ public class LaundryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laundry);
+
 
         recyclerViewLaundryReq = findViewById(R.id.recyclerViewLaundryListItem);
         buttonAddLaundryRequest = findViewById(R.id.AddLaundryRequest);
@@ -116,10 +121,12 @@ public class LaundryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Navigate to BackActivity when back button is pressed
         super.onBackPressed();
-        // Navigate back to ControlBouquetHorizontalParentFragment
-        Intent intent = new Intent(LaundryActivity.this, ControlBouquetHorizontalParentFragment.class);
+        Intent intent = new Intent(LaundryActivity.this, NavBarActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-        finish(); // Finish the current activity to remove it from the back stack
+        finish();  // Finish LaundryActivity to remove it from the back stack
     }
+
 }
