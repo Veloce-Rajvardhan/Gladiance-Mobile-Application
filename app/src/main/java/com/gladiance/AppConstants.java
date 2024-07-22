@@ -401,10 +401,16 @@ public class AppConstants {
     public static String Name_dyn;
     public static String SceneRef;
     public static String Space_dyn;
+    public static String Ref_Scene_Object = ""; //new
     public static String projectSpaceTypePlannedDeviceName;
     public static String GaaProjectSpaceTypePlannedDeviceRef;
     public static String powerState;
     public static String power;
+    public static boolean DataEdit;
+    public static boolean DataEnterIntoViewModel;
+
+
+
 
     // Create Scene
     public static String Create_Ref_dyn = "null"; // We get null ref and to get ref we hit allocateid post api

@@ -113,7 +113,7 @@ public class SceneConfigAdapter extends RecyclerView.Adapter<SceneConfigAdapter.
 
                 Long sceneRef = scene.getRef();
                 String sceneRefString = String.valueOf(sceneRef);
-
+                AppConstants.DataEnterIntoViewModel = true;
                 Fragment fragment = new EditSceneFragment();
 
                 Bundle bundle = new Bundle();
