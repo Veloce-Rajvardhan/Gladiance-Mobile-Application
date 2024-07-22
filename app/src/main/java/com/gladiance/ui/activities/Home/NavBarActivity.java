@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gladiance.ui.fragment.ControlBouquet.ControlBouquetHorizontalParentFragment;
@@ -21,23 +24,20 @@ import kotlin.jvm.functions.Function1;
 public class NavBarActivity extends AppCompatActivity {
 
     MeowBottomNavigation bottomNavigation;
+    ProgressBar progressBar; // Add ProgressBar field
 
-    TextView userIdTextView;
-
-    private static final String PREFS_NAME = "MyPrefsFile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_bar);
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
+        progressBar = findViewById(R.id.progressBar); // Initialize ProgressBar
 
-
+        // Replace with HomeFragment initially
         replace(new HomeFragment());
 
-
         bottomNavigation.show(3, true);
-
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.privacy));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.smartphone));
@@ -51,35 +51,45 @@ public class NavBarActivity extends AppCompatActivity {
 
                 switch (model.getId()) {
                     case 1:
-                        replace(new DoNotDisturbFragment());
+                        handleFragmentChange(new DoNotDisturbFragment());
                         break;
                     case 2:
-                        replace(new AreaLandingFragment());
+                        handleFragmentChange(new AreaLandingFragment());
                         break;
                     case 3:
-                        replace(new HomeFragment());
+                        handleFragmentChange(new HomeFragment());
                         break;
                     case 4:
-                        replace(new ControlBouquetHorizontalParentFragment());
+                        handleFragmentChange(new ControlBouquetHorizontalParentFragment());
                         break;
                     case 5:
-                        replace(new MyProfileFragment());
+                        handleFragmentChange(new MyProfileFragment());
                         break;
                 }
 
                 return null;
             }
         });
-
-
-
     }
 
-    private void replace(Fragment fragment){
+    private void handleFragmentChange(final Fragment fragment) {
+        // Show the progress bar
+        progressBar.setVisibility(View.VISIBLE);
+
+        // Delay the fragment replacement by 2 seconds
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                replace(fragment);
+                // Hide the progress bar after replacing the fragment
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+
+    private void replace(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,fragment).addToBackStack(null);
+        transaction.replace(R.id.framelayout, fragment).addToBackStack(null);
         transaction.commit();
     }
-
-
 }

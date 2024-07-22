@@ -11,22 +11,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
@@ -44,7 +39,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,8 +160,14 @@ public class HomeFragment extends Fragment {
 
         getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
 
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerViewFavoriteList.setNestedScrollingEnabled(false);
+
+
         return view;
     }
+
+
 
     private void getSceneList(String gaaProjectSpaceTypeRef,String loginToken,String loginDeviceId) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -186,11 +186,11 @@ public class HomeFragment extends Fragment {
                             arrayList1.add(new ObjectTag(objectTag.getRef(),objectTag.getName(),objectTag.getgAAProjectRef(),objectTag.getCode(),objectTag.getIsSystemDefinedScene(),objectTag.getgAAProjectSpaceTypeRef(),objectTag.getgAAProjectSpaceTypeName(),objectTag.getgAAProjectName(),objectTag.getConfigurations()));
                         }
 
-                        SceneAdapter spaceAdapter = new SceneAdapter(arrayList1,getContext());
+                        SceneAdapter spaceAdapter = new SceneAdapter(arrayList1, getContext());
                         recyclerView.setAdapter(spaceAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        //If any error change adapter class
+
                     } else {
                         Log.e("MainActivity", "Unsuccessful response: " + sceneListResModel.getMessage());
                     }
@@ -221,7 +221,7 @@ public class HomeFragment extends Fragment {
                             arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
                         }
 
-                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
+                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav, getContext());
                         recyclerViewFavoriteList.setAdapter(favoriteListAdapter);
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerViewFavoriteList.setLayoutManager(gridLayoutManager1);
@@ -257,10 +257,5 @@ public class HomeFragment extends Fragment {
             return false; // Otherwise, let the system handle it
         });
     }
-
-
-
-
-
 
 }

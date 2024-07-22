@@ -164,7 +164,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -181,8 +181,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_below="@+id/recycler_view_sceneList_home"
                 tools:listitem="@layout/item_guest_control" />
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
 <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->

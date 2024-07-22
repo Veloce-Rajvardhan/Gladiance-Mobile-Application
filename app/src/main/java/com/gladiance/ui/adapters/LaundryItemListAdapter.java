@@ -61,8 +61,10 @@ public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemList
         }
 
         holder.tvRequestedOnDateTime.setText(formattedDate);
-
         holder.tvStatus.setText(laundryRes.getRequestStatusName());
+
+        // Set serial number
+        holder.tvSrNo.setText(String.valueOf(position + 1));
 
         holder.tvRequestNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,11 +104,8 @@ public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemList
 
                 Intent intent = new Intent(context, LaundryDetailsActivity.class);
                 context.startActivity(intent);
-
-
             }
         });
-
     }
 
     @Override
@@ -118,12 +117,14 @@ public class LaundryItemListAdapter extends RecyclerView.Adapter<LaundryItemList
         public TextView tvRequestNo;
         public TextView tvRequestedOnDateTime;
         public TextView tvStatus;
+        public TextView tvSrNo;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvRequestNo = itemView.findViewById(R.id.tv_request_no);
             tvRequestedOnDateTime = itemView.findViewById(R.id.tv_requested_on_date_time);
             tvStatus = itemView.findViewById(R.id.tv_status);
+            tvSrNo = itemView.findViewById(R.id.tv_sr_no);
         }
     }
 }

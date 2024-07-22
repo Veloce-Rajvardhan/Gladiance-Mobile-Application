@@ -64,7 +64,7 @@ public class RoomServiceAdapter extends RecyclerView.Adapter<RoomServiceAdapter.
         holder.tvRequestedOnDate.setText(formattedDate);
         holder.tvStatus.setText(request.getRequestStatusName());
 
-        holder.tvStatus.setText(request.getRequestStatusName());
+        holder.tvSrNo.setText(String.valueOf(position + 1));
 
         holder.tvRequestNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,13 +118,14 @@ public class RoomServiceAdapter extends RecyclerView.Adapter<RoomServiceAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvRequestNo, tvRequestedOnDate, tvRequestedOnTime, tvStatus;
+        TextView tvRequestNo, tvRequestedOnDate, tvSrNo, tvStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvRequestNo = itemView.findViewById(R.id.tv_request_no);
             tvRequestedOnDate = itemView.findViewById(R.id.tv_requested_on_datetime);
             tvStatus = itemView.findViewById(R.id.tv_status_roomService);
+            tvSrNo = itemView.findViewById(R.id.tv_sr_no_RS);
         }
     }
 }

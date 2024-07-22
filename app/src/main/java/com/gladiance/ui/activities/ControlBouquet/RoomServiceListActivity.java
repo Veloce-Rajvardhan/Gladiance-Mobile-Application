@@ -17,6 +17,7 @@ import android.widget.Button;
 import com.gladiance.R;
 import com.gladiance.ui.activities.API.ApiService;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.adapters.LaundryItemListAdapter;
 import com.gladiance.ui.adapters.RoomServiceAdapter;
@@ -109,11 +110,12 @@ public class RoomServiceListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Navigate to BackActivity when back button is pressed
         super.onBackPressed();
-        // Navigate back to ControlBouquetHorizontalParentFragment
-        Intent intent = new Intent(RoomServiceListActivity.this, ControlBouquetHorizontalParentFragment.class);
+        Intent intent = new Intent(RoomServiceListActivity.this, NavBarActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-        finish(); // Finish the current activity to remove it from the back stack
+        finish();  // Finish LaundryActivity to remove it from the back stack
     }
 
 }
