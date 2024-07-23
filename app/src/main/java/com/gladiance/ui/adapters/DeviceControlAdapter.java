@@ -63,15 +63,22 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
     private Context context;
     private NetworkApiManager networkApiManager;
     private EspApplication espApp;
+    private List<com.gladiance.ui.models.favoritelist.ObjectTag> favoriteList;
 
 
 
-    public DeviceControlAdapter(List<Controls> controls, Context context) {
+    public DeviceControlAdapter(List<Controls> controls, Context context,List<com.gladiance.ui.models.favoritelist.ObjectTag> favoriteList) {
         this.controls = controls;
         this.context = context;
         this.espApp = new EspApplication(context.getApplicationContext());
         this.networkApiManager = new NetworkApiManager(context.getApplicationContext(), espApp);
+        this.favoriteList = favoriteList;
 
+    }
+
+    public void updateFavoriteList(List<com.gladiance.ui.models.favoritelist.ObjectTag> newFavoriteList) {
+        this.favoriteList = newFavoriteList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -81,230 +88,83 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         return new DeviceControlAdapter.ViewHolder(view);
     }
 
+    private void handleDeviceClick(Controls control, ViewHolder holder) {
+        control.setPowerState(!control.isPowerState());
+        updateUI(holder, control.isPowerState());
+
+        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+        String nodeId = control.getNodeId();
+        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Log.e(TAG, "Node Id: " + nodeId);
+        editor.putString("KEY_USERNAMEs", nodeId);
+        editor.apply();
+
+        String name = control.getInternalDeviceName();
+        sendSwitchState(control.isPowerState(), name, nodeId);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull DeviceControlAdapter.ViewHolder holder, int position) {
         Controls control = controls.get(position);
         holder.deviceNameTextView.setText(control.getgAAProjectSpaceTypePlannedDeviceName());
 
+        final boolean[] isFavorite = {false};
+        for (com.gladiance.ui.models.favoritelist.ObjectTag favorite : favoriteList) {
+            if (favorite.getNodeId().equals(control.getNodeId())) {
+                isFavorite[0] = true;
+                break;
+            }
+        }
+        if (isFavorite[0]) {
+            holder.fevImage.setImageResource(R.drawable.likered); // Set favorite image
+        } else {
+            holder.fevImage.setImageResource(R.drawable.likewhite); // Set non-favorite image
+        }
+
         holder.fevImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                control.setPowerState(!control.isPowerState());
-                if (control.isPowerState()) {
-                    callAddSpaceUserFavouriteApi(control, holder);
-                } else {
+                if (isFavorite[0]) {
                     callRemoveSpaceUserFavouriteApi(control, holder);
+                } else {
+                    callAddSpaceUserFavouriteApi(control, holder);
                 }
-                updateFevImage(holder.fevImage, control.isPowerState());
+                // Update the favorite state after API call
+                isFavorite[0] = !isFavorite[0];
+                updateFevImage(holder.fevImage, isFavorite[0]);
             }
         });
-
-       // updateFevImage(holder.fevImage, control.isPowerState());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (control.getInternalDeviceName().equals("Switch 1")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-                }else if (control.getInternalDeviceName().equals("Light 1")) {
-                        control.setPowerState(!control.isPowerState());
-                        updateUI(holder, control.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = control.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = control.getInternalDeviceName();
-
-                        sendSwitchState(control.isPowerState(), name, nodeId);
-
-                }else if (control.getInternalDeviceName().equals("Light 2")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-
-                }else if (control.getInternalDeviceName().equals("Power Socket 1")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-
+                if (control.getInternalDeviceName().equals("Switch 1") ||
+                        control.getInternalDeviceName().equals("Light 1") ||
+                        control.getInternalDeviceName().equals("Light 2") ||
+                        control.getInternalDeviceName().equals("Power Socket 1")) {
+                    handleDeviceClick(control, holder);
+                } else {
+                    navigateToDeviceCardFragment(view, control);
                 }
-                else {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor3 = sharedPreferences.edit();
-                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-                    editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-                    editor3.apply();
-
-                    String Label = control.getLabel();
-                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                    Log.e(TAG, "Label: " + Label);
-                    editor1.putString("KEY_USERNAMEs", Label);
-                    editor1.apply();
-
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    DeviceCardFragment newFragment = new DeviceCardFragment();
-                    transaction.replace(R.id.DeviceCard, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-
             }
         });
 
         holder.deviceNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (control.getInternalDeviceName().equals("Switch 1")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-                }else if (control.getInternalDeviceName().equals("Light 1")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-
-                }else if (control.getInternalDeviceName().equals("Light 2")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-
-                }else if (control.getInternalDeviceName().equals("Power Socket 1")) {
-                    control.setPowerState(!control.isPowerState());
-                    updateUI(holder, control.isPowerState());
-
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    String name = control.getInternalDeviceName();
-
-                    sendSwitchState(control.isPowerState(), name, nodeId);
-
+                if (control.getInternalDeviceName().equals("Switch 1") ||
+                        control.getInternalDeviceName().equals("Light 1") ||
+                        control.getInternalDeviceName().equals("Light 2") ||
+                        control.getInternalDeviceName().equals("Power Socket 1")) {
+                    handleDeviceClick(control, holder);
+                } else {
+                    navigateToDeviceCardFragment(view, control);
                 }
-                else {
-                    LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                    Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                    SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor3 = sharedPreferences.edit();
-                    Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceName11: " + GaaProjectSpaceTypePlannedDeviceRef);
-                    editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
-                    editor3.apply();
-
-                    String Label = control.getLabel();
-                    SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                    Log.e(TAG, "Label: " + Label);
-                    editor1.putString("KEY_USERNAMEs", Label);
-                    editor1.apply();
-
-                    String nodeId = control.getNodeId();
-                    SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences2.edit();
-                    Log.e(TAG, "Node Id: " + nodeId);
-                    editor.putString("KEY_USERNAMEs", nodeId);
-                    editor.apply();
-
-                    FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    DeviceCardFragment newFragment = new DeviceCardFragment();
-                    transaction.replace(R.id.DeviceCard, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-
             }
         });
     }
+
 
     private void updateFevImage(ImageView fevImage, boolean isFavorite) {
         int imageRes = isFavorite ? R.drawable.likered : R.drawable.likewhite;
@@ -449,6 +309,33 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         });
     }
 
+    private void navigateToDeviceCardFragment(View view, Controls control) {
+        LayoutInflater inflater = LayoutInflater.from(view.getContext());
+        Long GaaProjectSpaceTypePlannedDeviceRef = Long.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
+        SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("my_shared_pref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences.edit();
+        editor3.putLong("KEY_USERNAME", GaaProjectSpaceTypePlannedDeviceRef);
+        editor3.apply();
+
+        String label = control.getLabel();
+        SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+        editor1.putString("KEY_USERNAMEs", label);
+        editor1.apply();
+
+        String nodeId = control.getNodeId();
+        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+        editor2.putString("KEY_USERNAMEs", nodeId);
+        editor2.apply();
+
+        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        DeviceCardFragment newFragment = new DeviceCardFragment();
+        transaction.replace(R.id.DeviceCard, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
 
 }

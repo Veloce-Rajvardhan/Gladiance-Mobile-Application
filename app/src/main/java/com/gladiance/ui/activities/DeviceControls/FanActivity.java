@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
@@ -28,6 +29,7 @@ import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.API.RetrofitClient;
 import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
+import com.gladiance.ui.fragment.RoomControl.DeviceLandingFragment;
 import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.ResponseModel;
 import com.gladiance.R;
@@ -56,6 +58,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
     EspMainActivity espMainActivity;
     private SharedPreferences sharedPreferences;
 
+
     Switch fanswitch;
    // String nodeId;
     private ProgressBar progressBar;
@@ -69,7 +72,7 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
     private EspApplication espApp;
     private CircularSeekBarFan circularSeekBar;
     private ObjectScenes objectScenes;
-
+    private String source;
     SetYourMoodActivity setYourMoodActivity;
 
 
@@ -86,9 +89,6 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
 
         // Assign the context of SetYourMoodActivity to the context variable
         context2 = setYourMoodActivity;
-
-
-
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferencesPDR", Context.MODE_PRIVATE);
         String DeviceRef = sharedPreferences.getString("SpaceTypePlannedDeviceRef", "");
@@ -640,14 +640,5 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Navigate to BackActivity when back button is pressed
-        super.onBackPressed();
-        Intent intent = new Intent(FanActivity.this, NavBarActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();  // Finish LaundryActivity to remove it from the back stack
-    }
 
 }

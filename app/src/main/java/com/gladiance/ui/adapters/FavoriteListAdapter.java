@@ -37,6 +37,7 @@
     import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
     import com.gladiance.ui.models.RemoveSpaceUserFavorite;
     import com.gladiance.ui.models.favoritelist.ObjectTag;
+    import com.gladiance.ui.models.guestlandingpage.Controls;
 
     import java.util.ArrayList;
     import java.util.List;
@@ -51,6 +52,7 @@
         private NetworkApiManager networkApiManager;
         private EspApplication espApp;
 
+
         public FavoriteListAdapter(ArrayList<ObjectTag> arraylistFav, Context context) {
             this.arraylistFav = arraylistFav;
             this.context = context;
@@ -63,6 +65,25 @@
         public FavoriteListAdapter.FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_guest_control, parent, false);
             return new FavoriteListAdapter.FavoriteViewHolder(view);
+        }
+
+        public void handleDeviceClick(ObjectTag objectTag,FavoriteViewHolder favoriteViewHolder){
+
+            objectTag.setPowerState(!objectTag.isPowerState());
+            updateUI(favoriteViewHolder, objectTag.isPowerState());
+
+            LayoutInflater inflater = LayoutInflater.from(favoriteViewHolder.itemView.getContext());
+            String nodeId = objectTag.getNodeId();
+            SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences2.edit();
+            Log.e(TAG, "Node Id: " + nodeId);
+            editor.putString("KEY_USERNAMEs", nodeId);
+            editor.apply();
+
+            String name = objectTag.getInternalDeviceName();
+
+            sendSwitchState(objectTag.isPowerState(), name, nodeId);
+
         }
 
         @Override
@@ -95,92 +116,16 @@
                 public void onClick(View view) {
 
                     if (objectTag.getInternalDeviceName().equals("Switch 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Light 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Light 2")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Power Socket 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }
                     else {
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-
-                        String Label = objectTag.getLabel();
-                        SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                        Log.e(TAG, "Label: " + Label);
-                        editor1.putString("KEY_USERNAMEs", Label);
-                        editor1.apply();
-
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        DeviceCardFragment newFragment = new DeviceCardFragment();
-                        transaction.replace(R.id.favoriteContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        navigateToDeviceCardFragment(view,objectTag);
                     }
 
                 }
@@ -191,92 +136,16 @@
                 public void onClick(View view) {
 
                     if (objectTag.getInternalDeviceName().equals("Switch 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Light 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Light 2")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }else if (objectTag.getInternalDeviceName().equals("Power Socket 1")) {
-                        objectTag.setPowerState(!objectTag.isPowerState());
-                        updateUI(holder, objectTag.isPowerState());
-
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        String name = objectTag.getInternalDeviceName();
-
-                        sendSwitchState(objectTag.isPowerState(), name, nodeId);
-
+                        handleDeviceClick(objectTag,holder);
                     }
                     else {
-                        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
-
-                        String Label = objectTag.getLabel();
-                        SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-                        Log.e(TAG, "Label: " + Label);
-                        editor1.putString("KEY_USERNAMEs", Label);
-                        editor1.apply();
-
-                        String nodeId = objectTag.getNodeId();
-                        SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences2.edit();
-                        Log.e(TAG, "Node Id: " + nodeId);
-                        editor.putString("KEY_USERNAMEs", nodeId);
-                        editor.apply();
-
-                        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        DeviceCardFragment newFragment = new DeviceCardFragment();
-                        transaction.replace(R.id.favoriteContainer, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        navigateToDeviceCardFragment(view,objectTag);
                     }
 
                 }
@@ -405,6 +274,31 @@
             Log.e(TAG, "Device Fragment Node Id:" + nodeId);
 
             networkApiManager.updateParamValue(nodeId, commandBody, apiService, remoteCommandTopic);
+        }
+
+        private void navigateToDeviceCardFragment(View view, ObjectTag objectTag) {
+            LayoutInflater inflater = LayoutInflater.from(view.getContext());
+
+            String Label = objectTag.getLabel();
+            SharedPreferences sharedPreferences1 = inflater.getContext().getSharedPreferences("my_shared_prefe_label", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+            Log.e(TAG, "Label: " + Label);
+            editor1.putString("KEY_USERNAMEs", Label);
+            editor1.apply();
+
+            String nodeId = objectTag.getNodeId();
+            SharedPreferences sharedPreferences2 = inflater.getContext().getSharedPreferences("my_shared_prefe", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences2.edit();
+            Log.e(TAG, "Node Id: " + nodeId);
+            editor.putString("KEY_USERNAMEs", nodeId);
+            editor.apply();
+
+            FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            DeviceCardFragment newFragment = new DeviceCardFragment();
+            transaction.replace(R.id.favoriteContainer, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
 
     }
