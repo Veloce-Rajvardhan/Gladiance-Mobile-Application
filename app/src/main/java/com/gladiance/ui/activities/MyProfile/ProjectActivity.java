@@ -37,6 +37,8 @@ public class ProjectActivity extends AppCompatActivity {
         // Load the FirstFragment by default
         myProject.setBackgroundResource(R.drawable.orange_transperant_bg_left);
 
+        createProject.setBackgroundResource(R.drawable.transparent_backgraund_right);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.project_fragment, new MyProjectFragment())
                 .commit();
@@ -47,7 +49,7 @@ public class ProjectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 myProject.setBackgroundResource(R.drawable.orange_transperant_bg_left);
 
-                createProject.setBackgroundResource(R.drawable.transparent_backgraund);
+                createProject.setBackgroundResource(R.drawable.transparent_backgraund_right);
 
                 Fragment fragment = new MyProjectFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
@@ -66,7 +68,7 @@ public class ProjectActivity extends AppCompatActivity {
 
                 createProject.setBackgroundResource(R.drawable.orange_transperant_bg_right);
 
-                myProject.setBackgroundResource(R.drawable.transparent_backgraund);
+                myProject.setBackgroundResource(R.drawable.transparent_backgraund_left);
 
 
                 Fragment fragment = new CreateProjectFragment();

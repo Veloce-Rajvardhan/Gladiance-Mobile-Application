@@ -449,33 +449,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
         });
     }
 
-    private void getFavouriteList(String gaaProjectSpaceRef,String loginToken,String loginDeviceId){
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef,loginToken,loginDeviceId);
 
-        call.enqueue(new Callback<FavoriteListRes>() {
-            @Override
-            public void onResponse(Call<FavoriteListRes> call, Response<FavoriteListRes> response) {
-                if(response.isSuccessful()){
-                    FavoriteListRes favoriteListRes = response.body();
-                    if(favoriteListRes != null && favoriteListRes.getSuccessful()){
-                        List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
-
-
-                    } else {
-                        Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
-                    }
-                } else {
-                    Log.e("MainActivity", "Failed to get response");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FavoriteListRes> call, Throwable t) {
-
-            }
-        });
-    }
 
 }
 

@@ -160,34 +160,6 @@ public class DeviceCardFragment extends Fragment {
                     }
                     if(arrayList.size() == 1){
                         if(arrayList.get(0).getType().equals("esp.device.lightbulb")){
-//                            RGBLightFragment rgbLightFragment = new RGBLightFragment(getContext());
-//                            String name = arrayList.get(0).getName();
-//                            // Get SharedPreferences instance
-//                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
-//
-//// Obtain an editor to modify SharedPreferences
-//                            SharedPreferences.Editor editor3 = preferences.edit();
-//
-//// Example: Storing a String with key "KEY_USERNAMEs"
-//                            String newValue = "New Value"; // Replace with the value you want to store
-//                            editor3.putString("LABEL_NAME", name);
-//
-//// Apply changes
-//                            editor3.apply();
-//                            // Pass data to the fragment using arguments
-//                            Bundle args = new Bundle();
-//                            args.putString("Name", name);
-//                            rgbLightFragment.setArguments(args);
-//
-//                            // Perform fragment transaction to replace current fragment or add it
-//                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-//
-//                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
-//                            transaction.replace(R.id.set_mood, rgbLightFragment);
-//                            // or transaction.add(R.id.container_id, fanFragment);
-//
-//                            // Commit the transaction
-//                            transaction.commit();
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), RGBLightActivity.class);
                             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
@@ -196,34 +168,6 @@ public class DeviceCardFragment extends Fragment {
                             editor2.apply();
                             startActivity(intent);
                         }else if(arrayList.get(0).getType().equals("esp.device.fan")){
-//                            FanFragment fanFragment = new FanFragment(getContext());
-//                            String name = arrayList.get(0).getName();
-//                            // Get SharedPreferences instance
-//                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
-//
-//// Obtain an editor to modify SharedPreferences
-//                            SharedPreferences.Editor editor3 = preferences.edit();
-//
-//// Example: Storing a String with key "KEY_USERNAMEs"
-//                            String newValue = "New Value"; // Replace with the value you want to store
-//                            editor3.putString("LABEL_NAME", name);
-//
-//// Apply changes
-//                            editor3.apply();
-//                            // Pass data to the fragment using arguments
-//                            Bundle args = new Bundle();
-//                            args.putString("Name", name);
-//                            fanFragment.setArguments(args);
-//
-//                            // Perform fragment transaction to replace current fragment or add it
-//                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-//
-//                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
-//                            transaction.replace(R.id.set_mood, fanFragment);
-//                            // or transaction.add(R.id.container_id, fanFragment);
-//
-//                            // Commit the transaction
-//                            transaction.commit();
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), FanActivity.class);
                             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
@@ -628,41 +572,6 @@ public class DeviceCardFragment extends Fragment {
     };
 
 
-//    public void fetchThermostatData(String nodeId) {
-//        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-//        Call<ThermostatResponse> call = apiService.getNodeStatus(nodeId);
-//
-//        call.enqueue(new Callback<ThermostatResponse>() {
-//            @Override
-//            public void onResponse(Call<ThermostatResponse> call, Response<ThermostatResponse> response) {
-//                if (response.isSuccessful()) {
-//                    Thermostat thermostat = response.body().getThermostat();
-//                    if (thermostat != null) {
-//                        String mode = thermostat.getMode();
-//                        String unit = thermostat.getUnit();
-//
-//                        SharedPreferences sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPref.edit();
-//                        editor.putString("Mode", mode);
-//                        Log.e(TAG, "onResponseMode: " + mode );
-//                        editor.putString("Unit", unit);
-//
-//                        editor.apply();
-//
-//                        Intent intent = new Intent(requireContext(), AirContiningActivity.class);
-//                        startActivity(intent);
-//                    }
-//                } else {
-//                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ThermostatResponse> call, Throwable t) {
-//                Log.e(TAG, "Error: " + t.getMessage());
-//            }
-//        });
-//    }
 
     public void fetchThermostatData(String nodeId) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);

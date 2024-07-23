@@ -6,7 +6,7 @@
     android:layout_marginEnd="@dimen/_10sdp">
 
     <TextView
-        android:id="@+id/tv_sr_no"
+        android:id="@+id/tv_sr_no_RS"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_40sdp"
         android:text="1"

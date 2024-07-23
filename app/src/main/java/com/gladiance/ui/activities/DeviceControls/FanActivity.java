@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,9 +22,11 @@ import android.widget.Toast;
 import com.gladiance.AppConstants;
 import com.gladiance.NetworkApiManager;
 import com.gladiance.ui.activities.API.ApiService;
+import com.gladiance.ui.activities.ControlBouquet.LaundryActivity;
 import com.gladiance.ui.activities.EspApplication;
 import com.gladiance.ui.activities.EspMainActivity;
 import com.gladiance.ui.activities.API.RetrofitClient;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
 import com.gladiance.ui.models.RefObject;
 import com.gladiance.ui.models.ResponseModel;
@@ -635,6 +638,16 @@ public class FanActivity extends AppCompatActivity implements CircularSeekBarFan
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Navigate to BackActivity when back button is pressed
+        super.onBackPressed();
+        Intent intent = new Intent(FanActivity.this, NavBarActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();  // Finish LaundryActivity to remove it from the back stack
     }
 
 }
