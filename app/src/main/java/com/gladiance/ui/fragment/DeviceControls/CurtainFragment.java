@@ -405,6 +405,7 @@ public class CurtainFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
@@ -441,6 +442,7 @@ public class CurtainFragment extends Fragment {
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
+            progressBar.setVisibility(View.GONE);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -670,6 +672,7 @@ public class CurtainFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
 
                 }
             }, 1000);
@@ -718,7 +721,9 @@ public class CurtainFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
+
+                    //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -760,6 +765,7 @@ public class CurtainFragment extends Fragment {
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
+            progressBar.setVisibility(View.GONE);
 
             Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);

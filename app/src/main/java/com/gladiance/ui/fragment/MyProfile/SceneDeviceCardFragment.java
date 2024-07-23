@@ -749,6 +749,7 @@ public class SceneDeviceCardFragment extends Fragment {
 
                 // sharedViewModel.setObjectSchedule(objectScenes);
                 //  sharedViewModel.addObjectScenes(objectScenes);
+                progressBar.setVisibility(View.GONE);
 
                 Log.e(TAG, "sendSwitchState: " + objectScenes.getRef_dyn());
                 //   objScenes.setRef_dyn(AppConstants.Ref_dyn);

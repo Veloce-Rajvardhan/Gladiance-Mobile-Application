@@ -491,6 +491,7 @@ public class RGBLightFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
@@ -523,6 +524,7 @@ public class RGBLightFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
 
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -1131,6 +1133,7 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
                 }
             }, 1000);
         }
@@ -1185,6 +1188,7 @@ public class RGBLightFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
@@ -1218,6 +1222,7 @@ public class RGBLightFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
@@ -1421,6 +1426,8 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
         }
@@ -1475,6 +1482,7 @@ public class RGBLightFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
@@ -1509,6 +1517,7 @@ public class RGBLightFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
@@ -1713,6 +1722,8 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
         }
@@ -1761,7 +1772,9 @@ public class RGBLightFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
+
+                    //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -1800,6 +1813,8 @@ public class RGBLightFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
+
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
@@ -2004,6 +2019,8 @@ public class RGBLightFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+            progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
         }
@@ -2053,6 +2070,7 @@ public class RGBLightFragment extends Fragment {
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -2091,6 +2109,7 @@ public class RGBLightFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);

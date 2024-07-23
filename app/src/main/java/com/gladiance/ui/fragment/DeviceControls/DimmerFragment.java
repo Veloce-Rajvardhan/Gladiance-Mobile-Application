@@ -427,6 +427,8 @@ public class DimmerFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
 
@@ -457,6 +459,7 @@ public class DimmerFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
@@ -587,6 +590,8 @@ public class DimmerFragment extends Fragment {
     }
 
     private void dimmerProgress(int progress) {
+        progressBar.setVisibility(View.VISIBLE);
+
         SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
         String name = preferences.getString("LABEL_NAME", "");
         Log.d(TAG, "Label : " + name);
@@ -768,6 +773,8 @@ public class DimmerFragment extends Fragment {
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
             ////////////
@@ -809,6 +816,7 @@ public class DimmerFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
@@ -841,6 +849,7 @@ public class DimmerFragment extends Fragment {
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);

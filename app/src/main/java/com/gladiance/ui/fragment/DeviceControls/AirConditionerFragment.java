@@ -339,10 +339,6 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
 //                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
                                         }
-                                        else{
-
-                                        }
-
 
 //
                                         Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
@@ -432,7 +428,8 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-                                          }
+            progressBar.setVisibility(View.GONE);
+              }
             }, 1000);
         }
         catch (Exception e){
@@ -480,7 +477,9 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
+
+                    //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -522,6 +521,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
+            progressBar.setVisibility(View.GONE);
 
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
             //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
@@ -803,7 +803,9 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
-        }
+                    progressBar.setVisibility(View.GONE);
+
+                }
     }, 1000);
         }
         catch (Exception e){
@@ -851,7 +853,9 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
+
+                    //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -890,6 +894,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
@@ -918,6 +923,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
     private void sendSwitchState(boolean powerState) {
         // Create a RequestModel with the required data
+        progressBar.setVisibility(View.VISIBLE);
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefsName", MODE_PRIVATE);
         String name = sharedPreferences.getString("Name", "");
@@ -1096,6 +1102,8 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn,AppConstants.Create_Name_dyn,AppConstants.Create_SceneRef,AppConstants.Create_Space_dyn,AppConstants.Create_projectSpaceTypePlannedDeviceName,AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef,AppConstants.Create_powerState,AppConstants.Create_power, AppConstants.Create_Ref_Scene);
             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
             sharedViewModel.addObjectScenes(objectSceneCreate);
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
 
@@ -1145,7 +1153,9 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(ContentValues.TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                    progressBar.setVisibility(View.GONE);
+
+                    //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
@@ -1184,6 +1194,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(AppConstants.Edit_Ref_dyn_Schedule,AppConstants.Edit_Name_dyn_Schedule,AppConstants.Edit_Ref_Schedule,AppConstants.Edit_ScheduleRef_Schedule,AppConstants.Edit_Space_dyn_Schedule,AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
             ScheduleEditViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
             sharedViewModelEdit.addObjectScenes(objectScheduleEdit);
+            progressBar.setVisibility(View.GONE);
 
             // sharedViewModel.setObjectSchedule(objectScenes);
             //  sharedViewModel.addObjectScenes(objectScenes);
