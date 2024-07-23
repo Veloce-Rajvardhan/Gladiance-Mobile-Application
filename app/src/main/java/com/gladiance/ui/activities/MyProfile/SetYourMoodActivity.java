@@ -33,6 +33,7 @@ public class SetYourMoodActivity extends AppCompatActivity {
 
         // Load the FirstFragment by default
         inviteUser.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+        invitedUser.setBackgroundResource(R.drawable.transparent_backgraund_right);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.set_mood, new MyMoodFragment())
@@ -44,7 +45,7 @@ public class SetYourMoodActivity extends AppCompatActivity {
             public void onClick(View v) {
                 inviteUser.setBackgroundResource(R.drawable.orange_transperant_bg_left);
 
-                invitedUser.setBackgroundResource(R.drawable.transparent_backgraund);
+                invitedUser.setBackgroundResource(R.drawable.transparent_backgraund_right);
 
                 Fragment fragment = new MyMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager()
@@ -70,7 +71,7 @@ public class SetYourMoodActivity extends AppCompatActivity {
 
                 invitedUser.setBackgroundResource(R.drawable.orange_transperant_bg_right);
 
-                inviteUser.setBackgroundResource(R.drawable.transparent_backgraund);
+                inviteUser.setBackgroundResource(R.drawable.transparent_backgraund_left);
 
                 Fragment fragment = new CreateMoodFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
