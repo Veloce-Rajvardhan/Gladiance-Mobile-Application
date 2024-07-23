@@ -499,7 +499,7 @@ public class SceneDeviceCardFragment extends Fragment {
         // Edit Scene
         try {
             if(AppConstants.Ref_dyn != null){
-            getRefObjectValue();
+      //      getRefObjectValue();
 
             new Handler().postDelayed(new Runnable() {
                 @Override

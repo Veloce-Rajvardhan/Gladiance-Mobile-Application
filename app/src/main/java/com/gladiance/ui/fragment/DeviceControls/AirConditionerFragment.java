@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
@@ -41,11 +43,15 @@ import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
 import com.gladiance.ui.models.saveSchedule.ObjectScheduleEdit;
 import com.gladiance.ui.models.scene.ObjectSceneCreate;
 import com.gladiance.ui.models.scene.ObjectScenes;
+import com.gladiance.ui.models.sceneEdit.Configuration;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
+import com.gladiance.ui.viewModels.SceneEditDataViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,6 +105,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
         SharedPreferences preferences2 = context.getSharedPreferences("MyPrefse", MODE_PRIVATE);
         nodeId = preferences2.getString("nodeId", "");
         Log.d(TAG, "Fannodeee: " + nodeId);
+        progressBar = view.findViewById(R.id.progressBar); // Initialize ProgressBar
 
         SharedPreferences preferences = context.getSharedPreferences("my_shared_prefe_labelname", MODE_PRIVATE);
         String Label = preferences.getString("LABEL_NAME", "");
@@ -261,6 +268,12 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
         // Edit Scene
         try {
+            if(AppConstants.Ref_dyn != null){
+              //  getRefObjectValue();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
             AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = "Speed";
             AppConstants.power = progress1;
@@ -277,19 +290,112 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-            // sharedViewModel.setObjecatSchedule(objectScenes);
-            sharedViewModelEdit.addObjectScenes(objectScenes);
+//            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
+//            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//            // sharedViewModel.setObjecatSchedule(objectScenes);
+//            sharedViewModelEdit.addObjectScenes(objectScenes);
+//
+//            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+//            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+//
+////            List<SceneConfig> list = new ArrayList<>();
+////            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+////            list.size();
+////            Log.e(TAG, "List Size: "+list.size());
+                        SceneEditDataViewModel sceneViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                        LiveData<List<Configuration>> objectScenesListLiveData1 = sceneViewModel1.getObjectScenesList();
+                        objectScenesListLiveData1.observe(getViewLifecycleOwner(), new Observer<List<Configuration>>() {
+                            @Override
+                            public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                                if (objectScenesList != null) {
+                                    AppConstants.DataEdit = true;
+                                    for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
 
-            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()){
+                                            objectScenes.getRef();
+                                            Log.e(ContentValues.TAG, "Before edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "Before Edit power1: "+ objectScenes.getValue());
+                                            // objectScenes.modify();
+//                                        this.ref = ref;
+//                                        this.gAAProjectSceneRef = gAAProjectSceneRef;
+//                                        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+//                                        this.nodeConfigDeviceName = nodeConfigDeviceName;
+//                                        this.nodeConfigParamName = nodeConfigParamName;
+//                                        this.value = value;
+//
+                                            // objectScenes.setRef();
+//                                        objectScenes.setgAAProjectSceneRef();
+//                                        objectScenes.setgAAProjectSpaceTypePlannedDeviceRef();
+//                                        objectScenes.setNodeConfigDeviceName();
+                                            // objectScenes.setNodeConfigParamName(AppConstants.powerState);
+                                            objectScenes.setValue(AppConstants.power);
 
+                                            Log.e(ContentValues.TAG, "After edit NodeConfigParamName: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "After Edit power: "+ objectScenes.getValue());
+                                            AppConstants.DataEdit = false;
+
+//                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
+                                        }
+                                        else{
+
+                                        }
+
+
+//
+                                        Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+//
+                                    }
+                                    if(AppConstants.DataEdit == true){
+                                        getRefObjectValueConfigRef();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.e(ContentValues.TAG, "Create new Ref Because the device is not present into Configuration");
+                                                Configuration objectScenes1 = new Configuration(Long.parseLong(AppConstants.Ref_Scene_Object),Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power);
+                                                SceneEditDataViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                                                // sharedViewModel.setObjectSchedule(objectScenes);
+                                                sharedViewModel1.addObjectEditScenes(objectScenes1);
+                                            }
+                                        }, 1000);
+                                    }
+
+                                    progressBar.setVisibility(View.GONE);
+
+
+                                    // Remember to remove the observer if necessary
+                                    objectScenesListLiveData1.removeObserver(this);
+                                }
+                                //   }
+                                //}
+                            }
+
+
+                        });
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+//                    ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
+//                    SceneViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//                    // sharedViewModel.setObjectSchedule(objectScenes);
+//                    sharedViewModel1.addObjectScenes(objectScenes);
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+//                    Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+                        //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+//
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
 
+                        ////////////
+                    }
+                }, 1000);
+            }
             ////////////
 
 
@@ -438,6 +544,37 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
     }
 
+    private void getRefObjectValueConfigRef() {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
+        String nodeId3 = preferences9.getString("KEY_USERNAMEs", "");
+        Log.d(EventBus.TAG, "node id3: " + nodeId3);
+        // Make API call
+        Call<AllocateSingleIdResponse> call = apiService.allocateSingleId();
+        call.enqueue(new Callback<AllocateSingleIdResponse>() {
+            @Override
+            public void onResponse(Call<AllocateSingleIdResponse> call, Response<AllocateSingleIdResponse> response) {
+                if (response.isSuccessful()) {
+                    AllocateSingleIdResponse responseModel = response.body();
+                    if (responseModel != null) {
+                        boolean success = responseModel.getSuccessful();
+                        String message = responseModel.getMessage();
+                        AppConstants.Ref_Scene_Object = responseModel.getTag();
+                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Ref_Scene_Object);
+
+                    }
+                } else {
+                    Log.e(EventBus.TAG, "API call failed with code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllocateSingleIdResponse> call, Throwable t) {
+                Log.e(EventBus.TAG, "API call failed: " + t.getMessage());
+            }
+        });
+    }
+
     private void getRefObjectValue() {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         //      SharedPreferences preferences9 = getContext().getSharedPreferences("my_shared_prefe", MODE_PRIVATE);
@@ -521,6 +658,11 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
         // Edit Scene
         try {
+            if(AppConstants.Ref_dyn != null){
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
             AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = "Set";
             AppConstants.power = String.valueOf(fanSpeed);
@@ -537,18 +679,93 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-            // sharedViewModel.setObjecatSchedule(objectScenes);
-            sharedViewModelEdit.addObjectScenes(objectScenes);
+//            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
+//            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//            // sharedViewModel.setObjecatSchedule(objectScenes);
+//            sharedViewModelEdit.addObjectScenes(objectScenes);
+//
+//            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+//            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+//
+////            List<SceneConfig> list = new ArrayList<>();
+////            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+////            list.size();
+////            Log.e(TAG, "List Size: "+list.size());
+                        SceneEditDataViewModel sceneViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                        LiveData<List<Configuration>> objectScenesListLiveData1 = sceneViewModel1.getObjectScenesList();
+                        objectScenesListLiveData1.observe(getViewLifecycleOwner(), new Observer<List<Configuration>>() {
+                            @Override
+                            public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                                if (objectScenesList != null) {
+                                    AppConstants.DataEdit = true;
+                                    for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
 
-            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()){
+                                            objectScenes.getRef();
+                                            Log.e(ContentValues.TAG, "Before edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "Before Edit power1: "+ objectScenes.getValue());
+                                            // objectScenes.modify();
+//                                        this.ref = ref;
+//                                        this.gAAProjectSceneRef = gAAProjectSceneRef;
+//                                        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+//                                        this.nodeConfigDeviceName = nodeConfigDeviceName;
+//                                        this.nodeConfigParamName = nodeConfigParamName;
+//                                        this.value = value;
+//
+                                            // objectScenes.setRef();
+//                                        objectScenes.setgAAProjectSceneRef();
+//                                        objectScenes.setgAAProjectSpaceTypePlannedDeviceRef();
+//                                        objectScenes.setNodeConfigDeviceName();
+                                            // objectScenes.setNodeConfigParamName(AppConstants.powerState);
+                                            objectScenes.setValue(AppConstants.power);
 
-//            List<SceneConfig> list = new ArrayList<>();
-//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
-//            list.size();
-//            Log.e(TAG, "List Size: "+list.size());
+                                            Log.e(ContentValues.TAG, "After edit NodeConfigParamName: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "After Edit power: "+ objectScenes.getValue());
+                                            AppConstants.DataEdit = false;
+
+//                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
+                                        }
+                                        else{
+
+                                        }
+
+
+//
+                                        Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+//
+                                    }
+                                    if(AppConstants.DataEdit == true){
+                                        getRefObjectValueConfigRef();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.e(ContentValues.TAG, "Create new Ref Because the device is not present into Configuration");
+                                                Configuration objectScenes1 = new Configuration(Long.parseLong(AppConstants.Ref_Scene_Object),Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power);
+                                                SceneEditDataViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                                                // sharedViewModel.setObjectSchedule(objectScenes);
+                                                sharedViewModel1.addObjectEditScenes(objectScenes1);
+                                            }
+                                        }, 1000);
+                                    }
+
+                                    progressBar.setVisibility(View.GONE);
+
+
+                                    // Remember to remove the observer if necessary
+                                    objectScenesListLiveData1.removeObserver(this);
+                                }
+                                //   }
+                                //}
+                            }
+
+
+                        });
+                    }
+                }, 1000);
+            }
 
             ////////////
 
@@ -716,6 +933,12 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
 
         // Edit Scene
         try {
+            if(AppConstants.Ref_dyn != null){
+                //      getRefObjectValue();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
             AppConstants.projectSpaceTypePlannedDeviceName = name;
             AppConstants.powerState = "Power";
             AppConstants.power = String.valueOf(powerState);
@@ -732,19 +955,112 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
             Log.e("APPCONSTS",""+AppConstants.power);
 
 
-            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
-            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-            // sharedViewModel.setObjecatSchedule(objectScenes);
-            sharedViewModelEdit.addObjectScenes(objectScenes);
-
-            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
-            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+//            ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
+//            SceneViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//            // sharedViewModel.setObjecatSchedule(objectScenes);
+//            sharedViewModelEdit.addObjectScenes(objectScenes);
+//
+//            Log.e(ContentValues.TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+//            //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
 
 //            List<SceneConfig> list = new ArrayList<>();
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
+                        SceneEditDataViewModel sceneViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                        LiveData<List<Configuration>> objectScenesListLiveData1 = sceneViewModel1.getObjectScenesList();
+                        objectScenesListLiveData1.observe(getViewLifecycleOwner(), new Observer<List<Configuration>>() {
+                            @Override
+                            public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                                if (objectScenesList != null) {
+                                    AppConstants.DataEdit = true;
+                                    for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
 
+                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()){
+                                            objectScenes.getRef();
+                                            Log.e(ContentValues.TAG, "Before edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "Before Edit power1: "+ objectScenes.getValue());
+                                            // objectScenes.modify();
+//                                        this.ref = ref;
+//                                        this.gAAProjectSceneRef = gAAProjectSceneRef;
+//                                        this.gAAProjectSpaceTypePlannedDeviceRef = gAAProjectSpaceTypePlannedDeviceRef;
+//                                        this.nodeConfigDeviceName = nodeConfigDeviceName;
+//                                        this.nodeConfigParamName = nodeConfigParamName;
+//                                        this.value = value;
+//
+                                            // objectScenes.setRef();
+//                                        objectScenes.setgAAProjectSceneRef();
+//                                        objectScenes.setgAAProjectSpaceTypePlannedDeviceRef();
+//                                        objectScenes.setNodeConfigDeviceName();
+                                            // objectScenes.setNodeConfigParamName(AppConstants.powerState);
+                                            objectScenes.setValue(AppConstants.power);
+
+                                            Log.e(ContentValues.TAG, "After edit NodeConfigParamName: "+ objectScenes.getNodeConfigParamName());
+                                            Log.e(ContentValues.TAG, "After Edit power: "+ objectScenes.getValue());
+                                            AppConstants.DataEdit = false;
+
+//                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
+                                        }
+                                        else{
+
+                                        }
+
+
+//
+                                        Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+//
+                                    }
+                                    if(AppConstants.DataEdit == true){
+                                        getRefObjectValueConfigRef();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.e(ContentValues.TAG, "Create new Ref Because the device is not present into Configuration");
+                                                Configuration objectScenes1 = new Configuration(Long.parseLong(AppConstants.Ref_Scene_Object),Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power);
+                                                SceneEditDataViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                                                // sharedViewModel.setObjectSchedule(objectScenes);
+                                                sharedViewModel1.addObjectEditScenes(objectScenes1);
+                                            }
+                                        }, 1000);
+                                    }
+
+                                    progressBar.setVisibility(View.GONE);
+
+
+                                    // Remember to remove the observer if necessary
+                                    objectScenesListLiveData1.removeObserver(this);
+                                }
+                                //   }
+                                //}
+                            }
+
+
+                        });
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+//                    ObjectScenes objectScenes = new ObjectScenes(AppConstants.Ref_dyn,AppConstants.Name_dyn,AppConstants.SceneRef,AppConstants.Space_dyn,AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.GaaProjectSpaceTypePlannedDeviceRef,AppConstants.powerState,AppConstants.power, AppConstants.Create_Ref_Scene);
+//                    SceneViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+//                    // sharedViewModel.setObjectSchedule(objectScenes);
+//                    sharedViewModel1.addObjectScenes(objectScenes);
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+//                    Log.e(TAG, "sendSwitchState: "+objectScenes.getRef_dyn());
+                        //   objScenes.setRef_dyn(AppConstants.Ref_dyn);
+//
+//            List<SceneConfig> list = new ArrayList<>();
+//            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
+//            list.size();
+//            Log.e(TAG, "List Size: "+list.size());
+
+                        ////////////
+                    }
+                }, 1000);
+            }
             ////////////
 
 
