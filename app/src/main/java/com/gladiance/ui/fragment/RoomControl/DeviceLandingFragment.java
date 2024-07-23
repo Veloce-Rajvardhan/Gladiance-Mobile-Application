@@ -145,10 +145,26 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
 
         fetchGuestControlsType(projectSpaceRef, projectSpaceAreaRef, loginToken, loginDeviceId);
-        //getFavouriteList(projectSpaceRef,loginToken,loginDeviceId);
+
+        getFavouriteList(projectSpaceRef, loginToken, loginDeviceId, new OnFavoriteListFetchedListener() {
+            @Override
+            public void onFavoriteListFetched(List<com.gladiance.ui.models.favoritelist.ObjectTag> favoriteList) {
+                arrayListFav.clear();
+                arrayListFav.addAll(favoriteList);
+
+                // If you need to update the adapter with the fetched favorite list, you can do it here
+                // For example, if you have an adapter for the guestRecyclerView:
+                if (guestRecyclerView.getAdapter() != null && guestRecyclerView.getAdapter() instanceof DeviceControlAdapter) {
+                    DeviceControlAdapter adapter = (DeviceControlAdapter) guestRecyclerView.getAdapter();
+                    adapter.updateFavoriteList(arrayListFav);
+                }
+            }
+        });
 
         return view;
     }
+
+
 
 
     //Call guest controls
@@ -181,7 +197,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
                                     List<Controls> filteredControls = control.getControls();
                                     guestRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false));
-                                    DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext());
+                                    DeviceControlAdapter deviceControlAdapter = new DeviceControlAdapter(filteredControls, requireContext(),arrayListFav);
                                     guestRecyclerView.setAdapter(deviceControlAdapter);
                                 }
                             });
@@ -207,34 +223,25 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
     }
 
-    private long getSelectedAreaRefFromPreferences() {
-        // Get an instance of SharedPreferences
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getLong(PREF_SELECTED_AREA_REF, 0L);
-    }
 
-    private void getFavouriteList(String gaaProjectSpaceRef,String loginToken,String loginDeviceId){
+    private List<com.gladiance.ui.models.favoritelist.ObjectTag> favoriteList = new ArrayList<>();
+
+    private void getFavouriteList(String gaaProjectSpaceRef, String loginToken, String loginDeviceId, final OnFavoriteListFetchedListener listener) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef,loginToken,loginDeviceId);
+        Call<FavoriteListRes> call = apiService.getUserFavouriteList(gaaProjectSpaceRef, loginToken, loginDeviceId);
 
         call.enqueue(new Callback<FavoriteListRes>() {
             @Override
             public void onResponse(Call<FavoriteListRes> call, Response<FavoriteListRes> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     FavoriteListRes favoriteListRes = response.body();
-                    if(favoriteListRes != null && favoriteListRes.getSuccessful()){
-                        List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
+                    if (favoriteListRes != null && favoriteListRes.getSuccessful()) {
+                        favoriteList.clear();
+                        favoriteList.addAll(favoriteListRes.getObjectTag());
 
-                        for (com.gladiance.ui.models.favoritelist.ObjectTag objectTag : fevList) {
-                            Log.e(TAG, "onResponse FavoriteName: " + objectTag.getLabel());
-                            arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
+                        if (listener != null) {
+                            listener.onFavoriteListFetched(favoriteList);
                         }
-
-                        FavoriteListAdapter favoriteListAdapter = new FavoriteListAdapter(arrayListFav,getContext());
-                        guestRecyclerView.setAdapter(favoriteListAdapter);
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
-                        guestRecyclerView.setLayoutManager(gridLayoutManager1);
-
                     } else {
                         Log.e("MainActivity", "Unsuccessful response: " + favoriteListRes.getMessage());
                     }
@@ -245,10 +252,15 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
 
             @Override
             public void onFailure(Call<FavoriteListRes> call, Throwable t) {
-
+                Log.e("API Error", "Error fetching favorite list: " + t.getMessage());
             }
         });
     }
+
+    interface OnFavoriteListFetchedListener {
+        void onFavoriteListFetched(List<com.gladiance.ui.models.favoritelist.ObjectTag> favoriteList);
+    }
+
 
 
     @Override

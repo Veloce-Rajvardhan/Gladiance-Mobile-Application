@@ -415,6 +415,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                CVEmergency.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
             }
         });
 
@@ -464,6 +465,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                CVSecurity.setBackgroundResource(R.drawable.transparent_orange_emergency_bg);
             }
         });
 

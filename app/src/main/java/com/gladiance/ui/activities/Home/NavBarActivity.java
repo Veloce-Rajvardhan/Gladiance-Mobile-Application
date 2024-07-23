@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.gladiance.ui.fragment.ControlBouquet.ControlBouquetHorizontalParentFragment;
 import com.gladiance.ui.fragment.DoNotDisturb.DoNotDisturbFragment;
@@ -25,6 +24,7 @@ public class NavBarActivity extends AppCompatActivity {
 
     MeowBottomNavigation bottomNavigation;
     ProgressBar progressBar; // Add ProgressBar field
+    private boolean isFragmentChangeInProgress = false; // Track fragment change
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +73,41 @@ public class NavBarActivity extends AppCompatActivity {
     }
 
     private void handleFragmentChange(final Fragment fragment) {
-        // Show the progress bar
+        if (isFragmentChangeInProgress) return; // Prevent multiple fragment changes at the same time
+
+        // Show the progress bar and mark the fragment change as in progress
         progressBar.setVisibility(View.VISIBLE);
+        isFragmentChangeInProgress = true;
 
         // Delay the fragment replacement by 2 seconds
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 replace(fragment);
-                // Hide the progress bar after replacing the fragment
+                // Hide the progress bar and mark the fragment change as completed
                 progressBar.setVisibility(View.GONE);
+                isFragmentChangeInProgress = false;
             }
         }, 2000); // 2000 milliseconds = 2 seconds
     }
 
     private void replace(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, fragment).addToBackStack(null);
-        transaction.commit();
+        // Check if the activity is not finishing or being destroyed before committing the transaction
+        if (!isFinishing() && !isDestroyed()) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.framelayout, fragment).addToBackStack(null);
+            transaction.commitAllowingStateLoss(); // Use commitAllowingStateLoss to prevent state loss error
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // If a fragment change is in progress, block the back button press
+        if (isFragmentChangeInProgress) {
+            return;
+        } else {
+            // Otherwise, handle the back button press as usual
+            super.onBackPressed();
+        }
     }
 }
