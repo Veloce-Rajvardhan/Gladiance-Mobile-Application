@@ -113,6 +113,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
         for (Configuration configuration : ConfigArrayList) {
             if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
 
+                configuration.getRef();
                 // Log the values for debugging
 //                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
 //                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
@@ -192,6 +193,7 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
                     // Example: Setting global constants or variables
                     AppConstants.GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
+                  //  AppConstants.Ref_Scene_Object = String.valueOf(control.getRef());
                     AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef = String.valueOf(GaaProjectSpaceTypePlannedDeviceRef);
                     Log.e(TAG, "Create gaa: "+AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef);
 

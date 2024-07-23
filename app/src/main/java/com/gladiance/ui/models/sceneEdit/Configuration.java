@@ -1,5 +1,8 @@
 package com.gladiance.ui.models.sceneEdit;
 
+import android.util.Log;
+
+import com.gladiance.AppConstants;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -81,4 +84,17 @@ public class Configuration implements Serializable{
     public void setValue(String value) {
         this.value = value;
     }
+
+//    public void modify() {
+//        Log.e("APPCONSTS1",""+ AppConstants.Ref_dyn);
+//        Log.e("APPCONSTS2",""+AppConstants.Name_dyn);
+//        Log.e("APPCONSTS3",""+AppConstants.SceneRef);
+//        Log.e("APPCONSTS44",""+AppConstants.Space_dyn);
+//        Log.e("APPCONSTS",""+AppConstants.projectSpaceTypePlannedDeviceName);
+//        Log.e("APPCONSTS",""+AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
+//        Log.e("APPCONSTS",""+AppConstants.powerState);
+//        Log.e("APPCONSTS",""+AppConstants.power);
+//        this.setRef();
+//        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
+//    }
 }
