@@ -29,7 +29,7 @@
                 android:layout_marginStart="@dimen/_10sdp">
 
                 <TextView
-                    android:id="@+id/tv_sr_no"
+                    android:id="@+id/tv_sr_no_LItem"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:text="1"

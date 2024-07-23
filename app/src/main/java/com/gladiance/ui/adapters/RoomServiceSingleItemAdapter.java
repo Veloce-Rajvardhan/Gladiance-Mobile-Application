@@ -35,6 +35,9 @@ public class RoomServiceSingleItemAdapter extends RecyclerView.Adapter<RoomServi
         holder.tvItem.setText(lineItem.getrBItemName());
         holder.tvRequestNo.setText(String.valueOf(lineItem.getRate()));
         holder.tvQuantity.setText(String.valueOf(lineItem.getQuantity()));
+
+        holder.tvSrNo.setText(String.valueOf(position + 1));
+
     }
 
     @Override
@@ -43,13 +46,14 @@ public class RoomServiceSingleItemAdapter extends RecyclerView.Adapter<RoomServi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvRequestNo,tvQuantity;
+        TextView tvItem, tvRequestNo,tvQuantity,tvSrNo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItem = itemView.findViewById(R.id.tv_item);
             tvRequestNo = itemView.findViewById(R.id.tv_amount_item);
             tvQuantity = itemView.findViewById(R.id.tv_Quantity_item);
+            tvSrNo = itemView.findViewById(R.id.tv_sr_no_RS);
         }
     }
 }

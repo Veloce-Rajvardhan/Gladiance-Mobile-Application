@@ -37,6 +37,7 @@ public class LaundrySingleItemAdapter extends RecyclerView.Adapter<LaundrySingle
         holder.tvName.setText(item.getLaundryServiceTypeName());
         holder.tvAmount.setText(String.valueOf(item.getRate()));
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+        holder.tvSrNo.setText(String.valueOf(position + 1));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class LaundrySingleItemAdapter extends RecyclerView.Adapter<LaundrySingle
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvName, tvAmount,tvQuantity;
+        TextView tvItem, tvName, tvAmount,tvQuantity,tvSrNo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,6 +54,7 @@ public class LaundrySingleItemAdapter extends RecyclerView.Adapter<LaundrySingle
             tvName = itemView.findViewById(R.id.tv_name);
             tvAmount = itemView.findViewById(R.id.tv_amount);
             tvQuantity = itemView.findViewById(R.id.tv_Quantity);
+            tvSrNo = itemView.findViewById(R.id.tv_sr_no_LItem);
 
         }
     }

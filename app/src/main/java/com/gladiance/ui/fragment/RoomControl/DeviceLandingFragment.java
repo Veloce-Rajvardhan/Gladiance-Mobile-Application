@@ -226,7 +226,7 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
                         List<com.gladiance.ui.models.favoritelist.ObjectTag> fevList = favoriteListRes.getObjectTag();
 
                         for (com.gladiance.ui.models.favoritelist.ObjectTag objectTag : fevList) {
-                            Log.e(TAG, "onResponse SceneName: " + objectTag.getLabel());
+                            Log.e(TAG, "onResponse FavoriteName: " + objectTag.getLabel());
                             arrayListFav.add(new com.gladiance.ui.models.favoritelist.ObjectTag(objectTag.getgAAProjectSpaceRef(),objectTag.getUserRef(),objectTag.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),objectTag.getgAAProjectSpaceName(),objectTag.getUserName(),objectTag.getLabel(),objectTag.getNodeId(),objectTag.getInternalDeviceName()));
                         }
 
