@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.gladiance.AppConstants;
@@ -87,7 +88,7 @@ public class SceneDeviceCardFragment extends Fragment {
     private ObjectScenes objectScenes;
 
     private static SceneDeviceCardFragment instance;
-
+    ProgressBar progressBar;
     public SceneDeviceCardFragment() {
         // Required empty public constructor
     }
@@ -100,6 +101,8 @@ public class SceneDeviceCardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_scene_device_card, container, false);
         recyclerView = view.findViewById(R.id.recycleViewDeviceCard);
         instance = this;
+        progressBar = view.findViewById(R.id.progressBar); // Initialize ProgressBar
+
 
         espApp = new EspApplication(requireContext());
         networkApiManager = new NetworkApiManager(requireContext().getApplicationContext(), espApp);
@@ -475,6 +478,8 @@ public class SceneDeviceCardFragment extends Fragment {
 
     public void sendSwitchState(boolean powerState,String name,String power) {
 
+        progressBar.setVisibility(View.VISIBLE);
+
         String commandBody = "{\""+name+"\": {\""+power+"\": " + powerState + "}}";
         String message = powerState ? "on" : "off";
         Toast.makeText(requireContext(), "Switch is "+message+".Please wait for second for saving data for schedule", Toast.LENGTH_SHORT).show();
@@ -499,6 +504,7 @@ public class SceneDeviceCardFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
                     AppConstants.projectSpaceTypePlannedDeviceName = name;
                     AppConstants.powerState = power;
                     AppConstants.power = String.valueOf(powerState);
@@ -575,6 +581,9 @@ public class SceneDeviceCardFragment extends Fragment {
                                         }
                                     }, 1000);
                                 }
+
+                                progressBar.setVisibility(View.GONE);
+
 
                                 // Remember to remove the observer if necessary
                                 objectScenesListLiveData1.removeObserver(this);
@@ -658,6 +667,7 @@ public class SceneDeviceCardFragment extends Fragment {
                         ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
                         SceneCreateViewModel sharedViewModel2 = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
                         sharedViewModel2.addObjectScenes(objectSceneCreate);
+                        progressBar.setVisibility(View.GONE);
 
                         ////////////
                     }
@@ -702,6 +712,8 @@ public class SceneDeviceCardFragment extends Fragment {
 //            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 //            sharedViewModel.addObjectScenes(objectSceneCreate);
             Log.e(TAG, "sendSwitchState: "+objectSchedule.getRef_dyn());
+            progressBar.setVisibility(View.GONE);
+
                 }
             }, 1000);
 
