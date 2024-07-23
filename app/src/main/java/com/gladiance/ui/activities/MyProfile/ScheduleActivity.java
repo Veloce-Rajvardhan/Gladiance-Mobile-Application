@@ -34,6 +34,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         // Load the FirstFragment by default
         mySchedule.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+        createSchedule.setBackgroundResource(R.drawable.transparent_backgraund_right);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.FlSchedule, new MyScheduleFragment())

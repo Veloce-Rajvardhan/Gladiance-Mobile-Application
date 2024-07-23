@@ -33,6 +33,7 @@ public class SetYourMoodActivity extends AppCompatActivity {
 
         // Load the FirstFragment by default
         inviteUser.setBackgroundResource(R.drawable.orange_transperant_bg_left);
+        invitedUser.setBackgroundResource(R.drawable.transparent_backgraund_right);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.set_mood, new MyMoodFragment())
