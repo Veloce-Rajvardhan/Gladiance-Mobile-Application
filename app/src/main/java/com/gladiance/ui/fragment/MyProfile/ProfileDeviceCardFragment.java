@@ -745,7 +745,7 @@ public class ProfileDeviceCardFragment extends Fragment {
                     if (responseModel != null) {
                         boolean success = responseModel.getSuccessful();
                         String message = responseModel.getMessage();
-                        AppConstants.Ref_Scene_Object = responseModel.getTag();
+                        AppConstants.Edit_Ref_Schedule = responseModel.getTag();
                         Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Ref_Scene_Object);
 
                     }

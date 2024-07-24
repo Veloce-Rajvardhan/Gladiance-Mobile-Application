@@ -444,7 +444,7 @@ public class AppConstants {
     public static String Edit_Name_dyn_Schedule;
     public static String Edit_ScheduleRef_Schedule;
     public static String Edit_Space_dyn_Schedule;
-    public static Long Edit_Ref_Schedule = null; //new
+    public static String Edit_Ref_Schedule = null; //new
     public static String Edit_projectSpaceTypePlannedDeviceName_Schedule;
     public static String Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule;
     public static String Edit_powerState_Schedule;
