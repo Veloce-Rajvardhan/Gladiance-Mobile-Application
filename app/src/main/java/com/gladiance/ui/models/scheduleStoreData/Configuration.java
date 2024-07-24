@@ -58,8 +58,11 @@ public class Configuration {
     @SerializedName("GAAProjectName")
     @Expose
     private String gAAProjectName;
+    @SerializedName("Ref")
+    @Expose
+    private Long ref;
 
-    public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef, String nodeConfigParamName, String value, String nodeConfigDeviceName, String gAAProjectNodeScheduleName, String gAAProjectNodeScheduleCode, String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef, String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
+    public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef, String nodeConfigParamName, String value, String nodeConfigDeviceName, String gAAProjectNodeScheduleName, String gAAProjectNodeScheduleCode, String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef, String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName, Long ref) {
         this.gAAProjectNodeScheduleRef = gAAProjectNodeScheduleRef;
         this.gAAProjectSpaceTypeRef = gAAProjectSpaceTypeRef;
         this.gAAProjectSpaceTypePlannedDeviceConnectionRef = gAAProjectSpaceTypePlannedDeviceConnectionRef;
@@ -78,6 +81,7 @@ public class Configuration {
         this.outputDriverChannelName = outputDriverChannelName;
         this.gAAProjectRef = gAAProjectRef;
         this.gAAProjectName = gAAProjectName;
+        this.ref = ref;
     }
 
     public Long getGAAProjectNodeScheduleRef() {
@@ -224,4 +228,11 @@ public class Configuration {
         this.gAAProjectName = gAAProjectName;
     }
 
+    public Long getRef() {
+        return ref;
+    }
+
+    public void setRef(Long ref) {
+        this.ref = ref;
+    }
 }

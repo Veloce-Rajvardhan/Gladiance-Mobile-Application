@@ -111,6 +111,7 @@ public class ScheduleConfigAdapter extends RecyclerView.Adapter<ScheduleConfigAd
                 Long sceneRef = scene.getRef();
                 String sceneRefString = String.valueOf(sceneRef);
 
+                AppConstants.DataEnterIntoViewModelEditSchedule = true;
 
                 Fragment fragment = new EditScheduleFragment();
                 AppConstants.Data = false;

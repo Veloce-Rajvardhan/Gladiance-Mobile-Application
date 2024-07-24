@@ -452,9 +452,13 @@ public class AppConstants {
 
     //for EditSchedule Local Data
     public static boolean Data;
+    public static boolean DataEditSchedule;
+
 
     //for CreateSchedule Local Data
     public static boolean CreateScheduleData;
+
+    public static boolean DataEnterIntoViewModelEditSchedule;
 
 
 

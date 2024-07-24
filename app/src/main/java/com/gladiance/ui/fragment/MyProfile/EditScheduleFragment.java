@@ -57,6 +57,8 @@ import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.schedule.Configuration;
 import com.gladiance.ui.models.schedule.ObjectTag;
 import com.gladiance.ui.models.schedule.ScheduleResModel;
+import com.gladiance.ui.viewModels.SceneEditDataViewModel;
+import com.gladiance.ui.viewModels.ScheduleEditDataViewModel;
 import com.gladiance.ui.viewModels.ScheduleEditViewModel;
 
 import java.util.ArrayList;
@@ -578,7 +580,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                     AppConstants.Data = true;
                     getSchedule(sceneRef, loginToken, loginDeviceId);
                 } else {
-                    fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
+               //     fetchGuestControls(projectSpaceRef,gAAProjectSpaceTypeAreaRef,loginToken,loginDeviceId);
                     getLocalData();
                     Log.e(TAG, "Api not called!");
 
@@ -695,7 +697,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
             // Iterate through configurations and print each one
             for (com.gladiance.ui.models.scheduleStoreData.Configuration configuration : configurations) {
                 ConfigArrayList.add(new com.gladiance.ui.models.schedule.Configuration(configuration.getGAAProjectNodeScheduleRef(),
-                        configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName()));
+                        configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName(),configuration.getRef()));
 
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.toString());
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef());
@@ -732,7 +734,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             Log.e(ContentValues.TAG, "Scene Planed Device Name: " + configuration.getGAAProjectSpaceTypePlannedDeviceName());
                             //  ConfigArrayList.add(new Configuration(configuration.getgAAProjectSceneRef(),configuration.getgAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSceneName(),configuration.getgAAProjectSceneCode(),configuration.getgAAProjectSpaceTypeRef(),configuration.getgAAProjectSpaceTypeName(),configuration.getgAAProjectSpaceTypeAreaRef(),configuration.getgAAProjectSpaceTypeAreaName(),configuration.getgAAProjectSpaceTypePlannedDeviceRef(),configuration.getgAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getgAAProjectRef(),configuration.getgAAProjectName()));
                             //                                                                   public Configuration(Long gAAProjectNodeScheduleRef, Long gAAProjectSpaceTypeRef, Long gAAProjectSpaceTypePlannedDeviceConnectionRef,                         String nodeConfigParamName,                 String value, String nodeConfigDeviceName,              String gAAProjectNodeScheduleName,            String gAAProjectNodeScheduleCode,                                   String gAAProjectSpaceTypeName, Integer gAAProjectSpaceTypeAreaRef, String gAAProjectSpaceTypeAreaName, Long gAAProjectSpaceTypePlannedDeviceRef, String gAAProjectSpaceTypePlannedDeviceName, String label, Long outputDriverChannelRef,                                                                 String outputDriverChannelName, Long gAAProjectRef, String gAAProjectName) {
-                            ConfigArrayList.add(new com.gladiance.ui.models.schedule.Configuration(configuration.getGAAProjectNodeScheduleRef(),configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName()));
+                            ConfigArrayList.add(new com.gladiance.ui.models.schedule.Configuration(configuration.getGAAProjectNodeScheduleRef(),configuration.getGAAProjectSpaceTypeRef(),configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),configuration.getNodeConfigParamName(),configuration.getValue(),configuration.getNodeConfigDeviceName(),configuration.getGAAProjectNodeScheduleName(),configuration.getGAAProjectNodeScheduleCode(),configuration.getGAAProjectSpaceTypeName(),configuration.getGAAProjectSpaceTypeAreaRef(),configuration.getGAAProjectSpaceTypeAreaName(),configuration.getGAAProjectSpaceTypePlannedDeviceRef(),configuration.getGAAProjectSpaceTypePlannedDeviceName(),configuration.getLabel(),configuration.getOutputDriverChannelRef(),configuration.getOutputDriverChannelName(),configuration.getGAAProjectRef(),configuration.getGAAProjectName(),configuration.getRef()));
 //                            configurationsData.add(new com.gladiance.ui.models.scheduleStoreData.Configuration(configuration.getGAAProjectNodeScheduleRef(), configuration.getGAAProjectSpaceTypeRef(),
 //                                    configuration.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),
 //                                    configuration.getNodeConfigParamName(),
@@ -750,6 +752,8 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 //                                    configuration.getOutputDriverChannelName(),
 //                                    configuration.getGAAProjectRef(),
 //                                    configuration.getGAAProjectName()));
+
+
 
 
 
@@ -783,6 +787,38 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                             //    Log.d("ObjectScenes", objectScenes.toString());
                         }
+
+
+
+
+                        if(AppConstants.DataEnterIntoViewModelEditSchedule == true) {
+                            for (com.gladiance.ui.models.schedule.Configuration configuration : configurations) {
+
+                                com.gladiance.ui.models.scheduleEdit.Configuration configuration1 = new com.gladiance.ui.models.scheduleEdit.Configuration(
+                                        configuration.getRef(),
+                                        configuration.getGAAProjectNodeScheduleRef(),
+                                        configuration.getGAAProjectSpaceTypePlannedDeviceRef(),
+                                        configuration.getNodeConfigDeviceName(),
+                                        configuration.getNodeConfigParamName(),
+                                        configuration.getValue());
+
+                                ScheduleEditDataViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
+
+                                sharedViewModelEdit.addObjectEditSchedule(configuration1);
+                                Log.e(ContentValues.TAG, "EDIT Sche Ref: " + configuration1.getRef());
+                                Log.e(ContentValues.TAG, "EDIT ScheduleRef: " + configuration1.getGAAProjectNodeScheduleRef());
+                                Log.e(ContentValues.TAG, "V GaaProjectSpaceTypePlannedDeviceRef: " + configuration1.getGAAProjectSpaceTypePlannedDeviceRef());
+                                Log.e(ContentValues.TAG, "V NodeConfigDeviceName: " + configuration1.getNodeConfigDeviceName());
+                                Log.e(ContentValues.TAG, "V NodeConfigParamName: " + configuration1.getNodeConfigParamName());
+                                Log.e(ContentValues.TAG, "V Value: " + configuration1.getValue());
+                                Log.e(ContentValues.TAG, "------------------------------------------------");
+
+
+                            }
+                        }
+
+                        AppConstants.DataEnterIntoViewModelEditSchedule = false;
+
                         viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
 
                         for (Configuration configuration2 : ConfigArrayList) {
@@ -790,8 +826,23 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             viewModel.addMatchedConfiguration(new com.gladiance.ui.models.scheduleStoreData.Configuration(
                                     configuration2.getGAAProjectNodeScheduleRef(),
                                     configuration2.getGAAProjectSpaceTypeRef(),
-                                    configuration2.getGAAProjectSpaceTypePlannedDeviceConnectionRef(), configuration2.getNodeConfigParamName(),configuration2.getValue(),
-                                    configuration2.getNodeConfigDeviceName(),configuration2.getGAAProjectNodeScheduleName(),configuration2.getGAAProjectNodeScheduleCode(),configuration2.getGAAProjectSpaceTypeName(),configuration2.getGAAProjectSpaceTypeAreaRef(),configuration2.getGAAProjectSpaceTypeAreaName(),configuration2.getGAAProjectSpaceTypePlannedDeviceRef(),configuration2.getGAAProjectSpaceTypePlannedDeviceName(),configuration2.getLabel(),configuration2.getOutputDriverChannelRef(),configuration2.getOutputDriverChannelName(),configuration2.getGAAProjectRef(),configuration2.getGAAProjectName()
+                                    configuration2.getGAAProjectSpaceTypePlannedDeviceConnectionRef(),
+                                    configuration2.getNodeConfigParamName(),
+                                    configuration2.getValue(),
+                                    configuration2.getNodeConfigDeviceName(),
+                                    configuration2.getGAAProjectNodeScheduleName(),
+                                    configuration2.getGAAProjectNodeScheduleCode(),
+                                    configuration2.getGAAProjectSpaceTypeName(),
+                                    configuration2.getGAAProjectSpaceTypeAreaRef(),
+                                    configuration2.getGAAProjectSpaceTypeAreaName(),
+                                    configuration2.getGAAProjectSpaceTypePlannedDeviceRef(),
+                                    configuration2.getGAAProjectSpaceTypePlannedDeviceName(),
+                                    configuration2.getLabel(),
+                                    configuration2.getOutputDriverChannelRef(),
+                                    configuration2.getOutputDriverChannelName(),
+                                    configuration2.getGAAProjectRef(),
+                                    configuration2.getGAAProjectName(),
+                                    configuration2.getRef()
                             ));
                         }
 
@@ -1081,6 +1132,25 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
             @Override
             public void onClick(View v) {
 
+                ScheduleEditDataViewModel sceneViewModel2 = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
+                LiveData<List<com.gladiance.ui.models.scheduleEdit.Configuration>> objectScenesListLiveData2 = sceneViewModel2.getObjectScheduleList();
+                objectScenesListLiveData2.observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.scheduleEdit.Configuration>>() {
+                    @Override
+                    public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> objectScenesList) {
+
+                        if (objectScenesList != null) {
+                            for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : objectScenesList) {
+
+                                Log.e(ContentValues.TAG, "Edit Schedule Ref Final: "+objectScenes.getRef());
+
+
+                                objectScenesListLiveData2.removeObserver(this);
+                            }
+
+                        }
+                    }
+                });
+
 ////                boolean januaryValue = trigger.getJanuary();
 //                Log.e(TAG, "onClick: "+januaryValue );
 //
@@ -1275,7 +1345,9 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                         //    Long.parseLong(AppConstants.Create_ScheduleRef_Schedule),Create_Space_dyn
                         Long.parseLong(AppConstants.Edit_Space_dyn_Schedule),
                         list, triggerList);
-                SaveScheduleRequest(saveScene);
+
+                //uncommit to call api
+             //   SaveScheduleRequest(saveScene);
 
 //                    }
 //                }
