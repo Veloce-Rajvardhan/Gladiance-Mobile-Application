@@ -677,7 +677,7 @@ public class ProfileDeviceCardFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             Log.e(TAG, "Create new Ref Because the device is not present into Configuration");
-                                            com.gladiance.ui.models.scheduleEdit.Configuration objectScenes1 = new Configuration(Long.parseLong(AppConstants.Ref_Scene_Object),Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power);
+                                            com.gladiance.ui.models.scheduleEdit.Configuration objectScenes1 = new Configuration(AppConstants.Edit_Ref_Schedule,Long.parseLong(AppConstants.Edit_ScheduleRef_Schedule),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.Edit_projectSpaceTypePlannedDeviceName_Schedule,AppConstants.Edit_powerState_Schedule,AppConstants.Edit_power_Schedule);
                                             ScheduleEditDataViewModel sharedViewModel1 = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
                                             // sharedViewModel.setObjectSchedule(objectScenes);
                                             sharedViewModel1.addObjectEditSchedule(objectScenes1);
@@ -745,8 +745,8 @@ public class ProfileDeviceCardFragment extends Fragment {
                     if (responseModel != null) {
                         boolean success = responseModel.getSuccessful();
                         String message = responseModel.getMessage();
-                        AppConstants.Edit_Ref_Schedule = responseModel.getTag();
-                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Ref_Scene_Object);
+                        AppConstants.Edit_Ref_Schedule = Long.valueOf(responseModel.getTag());
+                        Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Edit_Ref_Schedule);
 
                     }
                 } else {

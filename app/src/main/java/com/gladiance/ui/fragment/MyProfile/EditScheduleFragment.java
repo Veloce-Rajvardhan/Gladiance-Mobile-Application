@@ -1445,7 +1445,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                                 objectScheduleEdit.setGaaProjectSpaceTypePlannedDeviceRef("");
                                 objectScheduleEdit.setNodeConfigParamName("");
                                 objectScheduleEdit.setValue("");
-                                objectScheduleEdit.setRef(Long.valueOf(""));
+                                objectScheduleEdit.setRef(null);
 
 // Set other fields as needed
 
