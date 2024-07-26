@@ -19,7 +19,6 @@ import com.gladiance.R;
 
 public class CircularSeekBar extends View {
 
-
     public interface OnProgressChangeListener {
         void onProgressChanged(String progressText);
     }
