@@ -169,5 +169,10 @@ public class CircularSeekBar extends View {
             this.progress = progress;
         }
         invalidate();
+
+        String text = String.valueOf((int) this.progress + min);
+        if (progressChangeListener != null) {
+            progressChangeListener.onProgressChanged(text);
+        }
     }
 }

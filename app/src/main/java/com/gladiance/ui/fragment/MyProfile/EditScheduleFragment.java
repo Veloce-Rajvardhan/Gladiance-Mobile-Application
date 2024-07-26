@@ -1450,6 +1450,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 // Set other fields as needed
 
 // Add to sharedViewModel
+
                                 ScheduleEditViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
                                 //      sharedViewModel.addObjectSchedule(objectSchedule);
 
@@ -1457,7 +1458,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                                 sharedViewModel.clearObjectEditSchedules();
                             }
                             else{
-                                Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Failed! Please check if everything is filled correctly", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Failed! Please check if everything is filled correctly", Toast.LENGTH_LONG).show();
 
                             }
 

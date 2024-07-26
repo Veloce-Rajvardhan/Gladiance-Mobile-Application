@@ -347,7 +347,36 @@ public class ProfileDeviceCardFragment extends Fragment {
 //                            editor2.putString("Name", name);
 //                            editor2.apply();
 //                            startActivity(intent);
-                        }else if(arrayList.get(0).getType().equals("e.d.bell")){
+                        }else if(arrayList.get(0).getType().equals("esp.device.thermostat")) {
+                            AirConditionerFragment airConditionerFragment = new AirConditionerFragment(getContext());
+                            String name = arrayList.get(0).getName();
+                            // Get SharedPreferences instance
+                            SharedPreferences preferences = requireActivity().getSharedPreferences("my_shared_prefe_labelname", Context.MODE_PRIVATE);
+
+// Obtain an editor to modify SharedPreferences
+                            SharedPreferences.Editor editor3 = preferences.edit();
+
+// Example: Storing a String with key "KEY_USERNAMEs"
+                            String newValue = "New Value"; // Replace with the value you want to store
+                            editor3.putString("LABEL_NAME", name);
+
+// Apply changes
+                            editor3.apply();
+                            // Pass data to the fragment using arguments
+                            Bundle args = new Bundle();
+                            args.putString("Name", name);
+                            airConditionerFragment.setArguments(args);
+
+                            // Perform fragment transaction to replace current fragment or add it
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace or add fragment to the container (assuming you have a container in your layout with id container_id)
+                            transaction.replace(R.id.FlSchedule, airConditionerFragment);
+                            // or transaction.add(R.id.container_id, fanFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+                        } else if(arrayList.get(0).getType().equals("e.d.bell")){
                             String name = arrayList.get(0).getName();
                             Intent intent = new Intent(requireContext(), BellActivity.class);
                             SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefsName", Context.MODE_PRIVATE);
@@ -575,6 +604,7 @@ public class ProfileDeviceCardFragment extends Fragment {
 //            list.add(new SceneConfig(Long.parseLong(AppConstants.SceneRef),Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef),AppConstants.projectSpaceTypePlannedDeviceName,AppConstants.powerState,AppConstants.power));
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
+                    progressBar.setVisibility(View.GONE);
 
             ////////////
                 }
