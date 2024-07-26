@@ -1459,7 +1459,32 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             }
                             else{
                                 Toast.makeText(getContext().getApplicationContext(), "Schedule Edited Failed! Please check if everything is filled correctly", Toast.LENGTH_LONG).show();
+                                ObjectScheduleEdit objectScheduleEdit = new ObjectScheduleEdit(null,null,null,null,null,null,null,null,null);
 
+
+// Reset the object using one of the methods above
+                                objectScheduleEdit.clear(); // Option 1
+                                AppConstants.Create_Ref_dyn_Schedule = "null";
+// Or use setters if available
+                                objectScheduleEdit.setRef_dyn("");
+                                objectScheduleEdit.setName_dyn("");
+                                objectScheduleEdit.setSpace_dyn("");
+                                objectScheduleEdit.setSceneRef("");
+                                objectScheduleEdit.setProjectSpaceTypePlannedDeviceName("");
+                                objectScheduleEdit.setGaaProjectSpaceTypePlannedDeviceRef("");
+                                objectScheduleEdit.setNodeConfigParamName("");
+                                objectScheduleEdit.setValue("");
+                                objectScheduleEdit.setRef(null);
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+
+                                ScheduleEditViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleEditViewModel.class);
+                                //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                                // Example of clearing all ObjectSchedule instances
+                                sharedViewModel.clearObjectEditSchedules();
                             }
 
                             // ObjectTag objectTag = SceneResModel.getObjectTag();
