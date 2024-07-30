@@ -22,6 +22,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,16 +33,20 @@ import com.gladiance.AppConstants;
 import com.gladiance.ui.activities.AddDeviceActivity;
 import com.gladiance.ui.activities.EspMainActivity;
 //import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
+import com.gladiance.ui.fragment.MyProfile.EditSceneFragment;
 import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.MyProfile.SceneDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
+import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 import com.gladiance.ui.models.saveScene.ConfigurationViewModel;
 import com.gladiance.ui.models.saveScene.SceneConfig;
 import com.gladiance.ui.models.scene.Configuration;
 import com.gladiance.R;
+import com.gladiance.ui.viewModels.SceneEditDataViewModel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.ViewHolder> {
@@ -48,14 +55,27 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
     private SharedPreferences prefs;
     private ConfigurationViewModel viewModel;
     private Context context;
+    private EditSceneFragment editFragment;
 
+    private SceneEditDataViewModel sceneEditDataViewModel;
+    private List<com.gladiance.ui.models.sceneEdit.Configuration> con;
+
+    private LifecycleOwner lifecycleOwner;
     private com.gladiance.ui.models.saveScene.Configuration configuration2;
+    private List<ConfigurationSceneEditData> configurationSceneEditData;
+    private List<com.gladiance.ui.models.sceneEdit.Configuration> config;
 
-    public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, ConfigurationViewModel viewModel, Context context) {
+
+    public SceneCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, ConfigurationViewModel viewModel, Context context,EditSceneFragment editSceneFragment,LifecycleOwner lifecycleOwner,SceneEditDataViewModel sceneEditDataViewModel, List<ConfigurationSceneEditData> configurationSceneEditData, List<com.gladiance.ui.models.sceneEdit.Configuration> config) {
         this.ConArrayList = ConArrayList;
         this.ConfigArrayList = ConfigArrayList;
         this.viewModel = viewModel;
         this.context = context;
+        this.editFragment = editSceneFragment;
+        this.lifecycleOwner = lifecycleOwner;
+        this.sceneEditDataViewModel = sceneEditDataViewModel;
+        this.configurationSceneEditData = configurationSceneEditData;
+        this.config = config;
     }
 
     @NonNull
@@ -78,6 +98,20 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 
         // Set checkbox state based on isChecked flag in Controls object
         holder.deviceNameCheckBox.setChecked(control.isChecked());
+        List<SceneEditDataViewModel> config2 = new ArrayList<>();
+        sceneEditDataViewModel.getObjectScenesList().observe(lifecycleOwner, data -> {
+            // Update your UI or process data
+            for (com.gladiance.ui.models.sceneEdit.Configuration sceneEditDataViewModel : data){
+                Log.e(TAG, "blaaa: "+sceneEditDataViewModel.getgAAProjectSpaceTypePlannedDeviceRef());
+                if (sceneEditDataViewModel.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+
+                    //  configuration.getRef();
+                    holder.deviceNameCheckBox.setChecked(true);
+
+                }
+            }
+
+        });
 //        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
 //        viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ConfigurationViewModel.class);
 //
@@ -106,36 +140,55 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
 //        viewModel.setMatchedConfigurations(matchedConfigurations);
 
         // Update checkbox state based on Configuration list
-        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
-        ConfigurationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner)context).get(ConfigurationViewModel.class);
+//        List<com.gladiance.ui.models.saveScene.Configuration> matchedConfigurations = new ArrayList<>();
+//        ConfigurationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner)context).get(ConfigurationViewModel.class);
+//        for(ConfigurationSceneEditData config : configurationSceneEditData) {
+//            if (config.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+//
+//              //  configuration.getRef();
+//                holder.deviceNameCheckBox.setChecked(true);
+//
+//            }
+//        }
 
 
-        for (Configuration configuration : ConfigArrayList) {
-            if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
 
-                configuration.getRef();
-                // Log the values for debugging
-//                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
-//                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
-//                        configuration.getgAAProjectSceneRef(),
-//                        configuration.getNodeConfigParamName(),
-//                        configuration.getValue(),
-//                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
-//                        configuration.getRef(),
-//                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
-//                ));
-            //    viewModel.addMatchedConfiguration(matchedConfigurations);
 
-                // Logging the size of matchedConfigurations
-//                int sizeOfMatchedConfigurations = matchedConfigurations.size();
-//                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
-                // Assuming you are doing something with your ViewHolder here
-                holder.deviceNameCheckBox.setChecked(true);
+///////////////////////////////////////
 
-                // Exit the loop once a match is found
-             //   break;
-            }
-        }
+//        for (Configuration configuration : ConfigArrayList) {
+//            if (configuration.getgAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+//
+//                configuration.getRef();
+//                // Log the values for debugging
+////                Log.e(TAG, "onBindViewHolder: " + configuration.getgAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+////                viewModel.addMatchedConfiguration(new com.gladiance.ui.models.saveScene.Configuration(
+////                        configuration.getgAAProjectSceneRef(),
+////                        configuration.getNodeConfigParamName(),
+////                        configuration.getValue(),
+////                        configuration.getgAAProjectSpaceTypePlannedDeviceName(),
+////                        configuration.getRef(),
+////                        configuration.getgAAProjectSpaceTypePlannedDeviceRef()
+////                ));
+//            //    viewModel.addMatchedConfiguration(matchedConfigurations);
+//
+//                // Logging the size of matchedConfigurations
+////                int sizeOfMatchedConfigurations = matchedConfigurations.size();
+////                Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
+//                // Assuming you are doing something with your ViewHolder here
+//                holder.deviceNameCheckBox.setChecked(true);
+//           //     holder.deviceNameCheckBox.setChecked(control.isChecked());
+//                control.setChecked(true);
+//
+//                // Exit the loop once a match is found
+//             //   break;
+//            }
+//        }
+
+        ///////////////////////////
+
+
+
  //       int sizeOfMatchedConfigurations = matchedConfigurations.size();
  //       Log.d("MatchedConfigurations", "Size of matchedConfigurations list: " + sizeOfMatchedConfigurations);
 
@@ -146,9 +199,45 @@ public class SceneCheckAdapter extends RecyclerView.Adapter<SceneCheckAdapter.Vi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update isChecked state in Controls object
                 control.setChecked(isChecked);
-                Log.e(TAG, "onCheckedChanged : "+position);
+                editFragment = new EditSceneFragment(); // or however you create your fragment
 
-                // Handle saving state or other actions if needed
+                Log.e(TAG, "onCheckedChanged : "+control.isChecked());
+                Log.e(TAG, "onCheckedChanged : "+position);
+                Log.e(TAG, "GAA_P_REF : "+ control.getgAAProjectSpaceTypePlannedDeviceRef());
+                long abc = control.getgAAProjectSpaceTypePlannedDeviceRef();
+                Log.e(TAG, "GAAProjectSpaceTypePlannedDeviceRef: "+abc);
+                if(control.isChecked() == false) {
+                   // editFragment.abc(abc);
+
+                    sceneEditDataViewModel.getObjectScenesList().observe((LifecycleOwner) context, (Observer<? super List<com.gladiance.ui.models.sceneEdit.Configuration>>) new Observer<List<com.gladiance.ui.models.sceneEdit.Configuration>>() {
+                        @Override
+                        public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> objectScenesList) {
+                            if (objectScenesList != null) {
+                                AppConstants.DataEdit = true;
+
+
+                                List<com.gladiance.ui.models.sceneEdit.Configuration> listCopy = new ArrayList<>(objectScenesList);
+
+                                for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : listCopy) {
+                                    Log.e(TAG, abc + " == " + objectScenes.getgAAProjectSpaceTypePlannedDeviceRef());
+
+                                    if (abc == (objectScenes.getgAAProjectSpaceTypePlannedDeviceRef())) {
+                                        Log.e(TAG, abc + " == " + objectScenes.getgAAProjectSpaceTypePlannedDeviceRef());
+
+                                        // Remove the object from the original list
+                                        objectScenesList.remove(objectScenes);
+                                    } else {
+                                        // Handle other cases if needed
+                                    }
+
+                                    Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+                                }
+                                notifyDataSetChanged(); // Notify the adapter of data changes
+                            }
+                        }
+                    });
+                }
+
                 try {
                     if (prefs != null) {
                         SharedPreferences.Editor editor = prefs.edit();

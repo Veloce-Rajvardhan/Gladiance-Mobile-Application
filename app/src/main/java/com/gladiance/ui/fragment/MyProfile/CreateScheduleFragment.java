@@ -245,6 +245,8 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
         hourPicker.setMaxValue(23); // 24 hours format
         // Set initial value
         hourPicker.setValue(12); // Default value 12
+        int hour = hourPicker.getValue();
+        AppConstants.hour = hour;
 
 
         // Initialize minute picker
@@ -1067,38 +1069,43 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                         if (response.isSuccessful()) {
                             // Handle successful response
                             SceneResModel sceneResModel = response.body();
-                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
-                            Toast.makeText(getContext().getApplicationContext(), "Schedule Created Successfully!", Toast.LENGTH_SHORT).show();
-                            Log.e(ContentValues.TAG, "Done ");
-                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+
+                            if(sceneResModel.getSuccessful() == true) {
+                                Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                                Toast.makeText(getContext().getApplicationContext(), "Schedule Created Successfully!", Toast.LENGTH_SHORT).show();
+                                Log.e(ContentValues.TAG, "Done ");
+                                Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
 
 
-                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null,null);
+                                ObjectSchedule objectSchedule = new ObjectSchedule(null, null, null, null, null, null, null, null, null);
 
 
 // Reset the object using one of the methods above
-                            objectSchedule.clear(); // Option 1
-                            AppConstants.Create_Ref_dyn_Schedule = "null";
+                                objectSchedule.clear(); // Option 1
+                                AppConstants.Create_Ref_dyn_Schedule = "null";
 // Or use setters if available
-                            objectSchedule.setRef_dyn("");
-                            objectSchedule.setName_dyn("");
-                            objectSchedule.setSpace_dyn("");
-                            objectSchedule.setSceneRef("");
-                            objectSchedule.setProjectSpaceTypePlannedDeviceName("");
-                            objectSchedule.setGaaProjectSpaceTypePlannedDeviceRef("");
-                            objectSchedule.setNodeConfigParamName("");
-                            objectSchedule.setValue("");
-                            objectSchedule.setRefObject("");
+                                objectSchedule.setRef_dyn("");
+                                objectSchedule.setName_dyn("");
+                                objectSchedule.setSpace_dyn("");
+                                objectSchedule.setSceneRef("");
+                                objectSchedule.setProjectSpaceTypePlannedDeviceName("");
+                                objectSchedule.setGaaProjectSpaceTypePlannedDeviceRef("");
+                                objectSchedule.setNodeConfigParamName("");
+                                objectSchedule.setValue("");
+                                objectSchedule.setRefObject("");
 
 // Set other fields as needed
 
 // Add to sharedViewModel
-                            ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
-                      //      sharedViewModel.addObjectSchedule(objectSchedule);
+                                ScheduleViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(ScheduleViewModel.class);
+                                //      sharedViewModel.addObjectSchedule(objectSchedule);
 
-                            // Example of clearing all ObjectSchedule instances
-                            sharedViewModel.clearObjectSchedules();
+                                // Example of clearing all ObjectSchedule instances
+                                sharedViewModel.clearObjectSchedules();
 
+                            }else{
+
+                            }
 // Example of removing a specific ObjectSchedule
                       //      sharedViewModel.removeObjectSchedule(objectSchedule);
 //                            ObjectSchedule objectSchedule = new ObjectSchedule(null,null,null,null,null,null,null,null);

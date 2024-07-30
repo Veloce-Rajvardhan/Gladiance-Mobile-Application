@@ -37,6 +37,7 @@ import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.adapters.SceneCreateAdapter;
+import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
 import com.gladiance.ui.models.SceneViewModel;
 import com.gladiance.ui.models.ScheduleViewModel;
 import com.gladiance.ui.models.allocateSingleId.AllocateSingleIdResponse;
@@ -58,6 +59,7 @@ import com.gladiance.ui.models.scene.ObjectTag;
 import com.gladiance.ui.models.scene.SceneResModel;
 import com.gladiance.ui.models.scenelist.ObjectSchedule;
 import com.gladiance.ui.viewModels.SceneCreateViewModel;
+import com.gladiance.ui.viewModels.SceneEditDataViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +85,17 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
     EditText editTextProjectName, editTextSpaceName, editTextSceneName;
 
     RecyclerView recyclerView;
+    private List<com.gladiance.ui.models.sceneEdit.Configuration> sharedViewModelEditData;
+
 
     Spinner spinner;
     Button buttonSave;
 
     SetYourMoodActivity setYourMoodActivity;
+    private EditSceneFragment editSceneFragment;
+
+    private SceneEditDataViewModel sceneEditDataViewModel;
+    private List<ConfigurationSceneEditData> configurationSceneEditData;
 
     public CreateMoodFragment() {
         // Required empty public constructor
@@ -608,7 +616,9 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList, null, requireContext());
+                        sceneEditDataViewModel = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+
+                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList, null, requireContext(),editSceneFragment,getViewLifecycleOwner(),sceneEditDataViewModel,configurationSceneEditData,sharedViewModelEditData);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }
