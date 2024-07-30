@@ -233,7 +233,8 @@ public void sendFanSpeed(int fanSpeed){
                                 AppConstants.DataEdit = true;
                                 for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
 
-                                    if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()){
+                                    if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()
+                                            && AppConstants.powerState.equals(objectScenes.getNodeConfigParamName())){
                                         objectScenes.getRef();
                                         Log.e(ContentValues.TAG, "Before edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
                                         Log.e(ContentValues.TAG, "Before Edit power1: "+ objectScenes.getValue());
@@ -627,7 +628,8 @@ public void sendFanSpeed(int fanSpeed){
                                     AppConstants.DataEdit = true;
                                     for (com.gladiance.ui.models.sceneEdit.Configuration objectScenes : objectScenesList) {
 
-                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()){
+                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getgAAProjectSpaceTypePlannedDeviceRef()
+                                                && AppConstants.powerState.equals(objectScenes.getNodeConfigParamName())){
                                             objectScenes.getRef();
                                             Log.e(ContentValues.TAG, "Before edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
                                             Log.e(ContentValues.TAG, "Before Edit power1: "+ objectScenes.getValue());

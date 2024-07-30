@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -89,8 +90,16 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
     Spinner spinner;
     Button buttonSave;
+    ProgressBar progressBar;
+    private SceneEditDataViewModel sceneEditDataViewModel;
 
     private List<ConfigurationSceneEditData> configurationSceneEditData;
+
+    private List<com.gladiance.ui.models.sceneEdit.Configuration> sharedViewModelEditData;
+
+    private SceneEditDataViewModel sharedViewModelEdit;
+
+
     private List<com.gladiance.ui.models.sceneEdit.Configuration> configurationData;
 
     Long gAAProjectSceneRef_object;
@@ -117,6 +126,8 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
     private ConfigurationViewModel viewModel;
 
+    private EditSceneFragment editSceneFragment;
+
     public EditSceneFragment() {
         // Required empty public constructor
     }
@@ -136,9 +147,12 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
         editTextProjectName = view.findViewById(R.id.EMProjectName);
         editTextSceneName = view.findViewById(R.id.SMSceneName);
         recyclerView = view.findViewById(R.id.recycleViewDeviceName);
+        progressBar = view.findViewById(R.id.progressBar); // Initialize ProgressBar
 
         configurationSceneEditData = new ArrayList<>();
         configurationData = new ArrayList<>();
+        sharedViewModelEditData = new ArrayList<>();
+
 
         viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
 
@@ -493,36 +507,40 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         if (response.isSuccessful()) {
                             // Handle successful response
                             SceneResModel sceneResModel = response.body();
-                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
-                            Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Done ");
-                            Log.e("Edit Schedule", "Message: " + sceneResModel.getMessage());
+                            if(sceneResModel.getSuccessful() == true) {
+                                Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                                Toast.makeText(getContext().getApplicationContext(), "Scene Edited Successfully!", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Done ");
+                                Log.e("Edit Schedule", "Message: " + sceneResModel.getMessage());
 
-                            ObjectScenes objectScenes = new ObjectScenes(null,null,null,null,null,null,null,null,null);
+                                ObjectScenes objectScenes = new ObjectScenes(null, null, null, null, null, null, null, null, null);
 
 
 // Reset the object using one of the methods above
-                            objectScenes.clear(); // Option 1
-                            AppConstants.Create_Ref_dyn_Schedule = "null";
+                                objectScenes.clear(); // Option 1
+                                AppConstants.Create_Ref_dyn_Schedule = "null";
 // Or use setters if available
-                            objectScenes.setRef_dyn("");
-                            objectScenes.setName_dyn("");
-                            objectScenes.setSpace_dyn("");
-                            objectScenes.setSceneRef("");
-                            objectScenes.setProjectSpaceTypePlannedDeviceName("");
-                            objectScenes.setGaaProjectSpaceTypePlannedDeviceRef("");
-                            objectScenes.setNodeConfigParamName("");
-                            objectScenes.setValue("");
+                                objectScenes.setRef_dyn("");
+                                objectScenes.setName_dyn("");
+                                objectScenes.setSpace_dyn("");
+                                objectScenes.setSceneRef("");
+                                objectScenes.setProjectSpaceTypePlannedDeviceName("");
+                                objectScenes.setGaaProjectSpaceTypePlannedDeviceRef("");
+                                objectScenes.setNodeConfigParamName("");
+                                objectScenes.setValue("");
 
 // Set other fields as needed
 
 // Add to sharedViewModel
-                            SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
-                            //      sharedViewModel.addObjectSchedule(objectSchedule);
+                                SceneViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneViewModel.class);
+                                //      sharedViewModel.addObjectSchedule(objectSchedule);
 
-                            // Example of clearing all ObjectSchedule instances
-                            sharedViewModel.clearObjectScene();
+                                // Example of clearing all ObjectSchedule instances
+                                sharedViewModel.clearObjectScene();
+                            }else{
+                                Toast.makeText(getContext().getApplicationContext(), "Scene Edited Failed! Something went wrong.", Toast.LENGTH_SHORT).show();
 
+                            }
 
                         } else {
                             // Handle unsuccessful response
@@ -648,7 +666,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         if(AppConstants.DataEnterIntoViewModel == true) {
                             for (Configuration configuration : configurations) {
 
-                                if (AppConstants.DataEnterIntoViewModel == true) {
+                           //     if (AppConstants.DataEnterIntoViewModel == true) {
                                     com.gladiance.ui.models.sceneEdit.Configuration configuration1 = new com.gladiance.ui.models.sceneEdit.Configuration(
                                             configuration.getRef(),
                                             configuration.getgAAProjectSceneRef(),
@@ -657,7 +675,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                             configuration.getNodeConfigParamName(),
                                             configuration.getValue());
 
-                                    SceneEditDataViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                                    sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
 
                                     sharedViewModelEdit.addObjectEditScenes(configuration1);
                                     Log.e(TAG, "V Ref: " + configuration1.getRef());
@@ -668,7 +686,7 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                                     Log.e(TAG, "V Value: " + configuration1.getValue());
                                     Log.e(TAG, "------------------------------------------------");
 
-                                }
+                    //            }
                             }
                         }
 
@@ -678,6 +696,19 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                             // Print the GAAProjectSpaceTypePlannedDeviceRef for each configuration
                             System.out.println("dataaa: "+config.getGAAProjectSpaceTypePlannedDeviceRef());
                         }
+                        SceneEditDataViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+
+                        sharedViewModelEdit.getObjectScenesList().observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.sceneEdit.Configuration>>() {
+                            @Override
+                            public void onChanged(List<com.gladiance.ui.models.sceneEdit.Configuration> configurations) {
+                                // Use the configurations list here
+                                for (com.gladiance.ui.models.sceneEdit.Configuration config2 : sharedViewModelEditData) {
+                                    // Process each configuration
+                                    System.out.println("dataaa2: "+config2.getgAAProjectSpaceTypePlannedDeviceRef());
+
+                                }
+                            }
+                        });
 
 
 //                        Bundle bundleArrayList = getArguments();
@@ -753,8 +784,10 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 //
 //                                    }
 
+                        sceneEditDataViewModel = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                   // use it     configurationSceneEditData
 
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext());
+                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext(),editSceneFragment, getViewLifecycleOwner(), sceneEditDataViewModel,configurationSceneEditData,sharedViewModelEditData);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }
@@ -788,7 +821,9 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
 
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
-                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext());
+                            sceneEditDataViewModel = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+
+                            SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList,viewModel, requireContext(),editSceneFragment,getViewLifecycleOwner(), sceneEditDataViewModel,configurationSceneEditData,sharedViewModelEditData);
                             recyclerView.setAdapter(sceneCheckAdapter);
 
                         }
