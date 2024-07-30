@@ -31,6 +31,10 @@ public class Controls {
     @Expose
     private String gAAProjectSpaceTypePlannedDeviceConnectionRef;
 
+    @SerializedName("ControlTypeName")
+    @Expose
+    private String controlTypeName;
+
     @SerializedName("isChecked")
     @Expose
     private boolean isChecked;
@@ -128,5 +132,13 @@ public class Controls {
 
     public void setgAAProjectSpaceTypePlannedDeviceConnectionRef(String gAAProjectSpaceTypePlannedDeviceConnectionRef) {
         this.gAAProjectSpaceTypePlannedDeviceConnectionRef = gAAProjectSpaceTypePlannedDeviceConnectionRef;
+    }
+
+    public String getControlTypeName() {
+        return controlTypeName;
+    }
+
+    public void setControlTypeName(String controlTypeName) {
+        this.controlTypeName = controlTypeName;
     }
 }

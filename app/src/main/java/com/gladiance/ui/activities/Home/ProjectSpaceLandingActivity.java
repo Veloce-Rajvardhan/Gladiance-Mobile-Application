@@ -102,21 +102,27 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
                     if (projectSpaceLandingResModel != null && projectSpaceLandingResModel.isSuccessful()) {
                         List<ProjectSpaceLandingReqModel.Space> space = projectSpaceLandingResModel.getData().getSpaces();
 
-                        for (ProjectSpaceLandingReqModel.Space space1 : space) {
-                            Log.e(TAG, "onResponse SpaceGroupNameSpaceGroupName: " + space1.getGAAProjectSpaceName());
-                            Log.e(TAG, "onResponse getGAAProjectSpaceRef: "+space1.getGAAProjectSpaceRef());
-                            Log.e(TAG, "onResponse getGAAProjectSpaceTypeRef: "+space1.getGAAProjectSpaceTypeRef());
+                        if (space.size() == 1) {
+                            // If there is only one project, navigate to the next activity directly
+                            navigateToNextActivity(space.get(0).getGAAProjectSpaceRef(), space.get(0).getGAAProjectSpaceName());
+                        } else {
 
-                            arrayList.add(new SpaceLanding(space1.getGAAProjectSpaceRef(), space1.getGAAProjectSpaceName(),space1.getGAAProjectSpaceTypeRef(),space1.getGAAProjectSpaceTypeName(), space1.getDisplayOrder(), space1.getDescription()));
+                            for (ProjectSpaceLandingReqModel.Space space1 : space) {
+                                Log.e(TAG, "onResponse SpaceGroupNameSpaceGroupName: " + space1.getGAAProjectSpaceName());
+                                Log.e(TAG, "onResponse getGAAProjectSpaceRef: " + space1.getGAAProjectSpaceRef());
+                                Log.e(TAG, "onResponse getGAAProjectSpaceTypeRef: " + space1.getGAAProjectSpaceTypeRef());
 
+                                arrayList.add(new SpaceLanding(space1.getGAAProjectSpaceRef(), space1.getGAAProjectSpaceName(), space1.getGAAProjectSpaceTypeRef(), space1.getGAAProjectSpaceTypeName(), space1.getDisplayOrder(), space1.getDescription()));
+
+                            }
+
+                            //add arraylist code and create space group class
+
+                            ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList);
+                            rVSpaceName.setAdapter(projectSpaceNameAdapter);
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceLandingActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                            rVSpaceName.setLayoutManager(gridLayoutManager1);
                         }
-
-                        //add arraylist code and create space group class
-
-                        ProjectSpaceNameAdapter projectSpaceNameAdapter = new ProjectSpaceNameAdapter(arrayList);
-                        rVSpaceName.setAdapter(projectSpaceNameAdapter);
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceLandingActivity.this, 2, GridLayoutManager.VERTICAL, false);
-                        rVSpaceName.setLayoutManager(gridLayoutManager1);
                     }
                 }
             }
@@ -126,6 +132,29 @@ public class ProjectSpaceLandingActivity extends AppCompatActivity  {
         });
     }
 
+
+    private void navigateToNextActivity(String projectRef,String projectName) {
+        storeProjectSpaceRef(projectRef);
+        storeProjectSpaceName(projectName);
+        Intent intent = new Intent(ProjectSpaceLandingActivity.this, NavBarActivity.class);
+        startActivity(intent);
+        // finish();
+
+    }
+
+    private void storeProjectSpaceRef(String projectSpaceRef) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Project_Space_Ref", projectSpaceRef);
+        editor.apply();
+    }
+
+    private void storeProjectSpaceName(String projectName) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsProjectSpaceOne", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("projectSpaceOne", projectName);
+        editor.apply();
+    }
 
     @Override
     public void onBackPressed() {

@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.gladiance.R;
+import com.gladiance.ui.activities.Home.NavBarActivity;
 import com.gladiance.ui.activities.Home.ProjectSpaceActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 if (loginDeviceId != null && !loginDeviceId.isEmpty() && loginToken != null && !loginToken.isEmpty()) {
                     // If user is logged in, navigate directly to ProjectSpaceActivity
-                    Intent intent = new Intent(SplashScreenActivity.this, ProjectSpaceActivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, NavBarActivity.class);
                     startActivity(intent);
                 } else {
                     // If user is not logged in, navigate to LoginActivity

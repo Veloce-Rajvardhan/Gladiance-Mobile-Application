@@ -1,12 +1,17 @@
 package com.gladiance.ui.fragment.MyProfile;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +48,7 @@ public class MyProfileFragment extends Fragment {
     LinearLayout AboutUs;
     LinearLayout Setting;
     GridLayout gridLayout3;
+    TextView tv_UserName;
 
 
     @Override
@@ -51,8 +57,13 @@ public class MyProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
-
+        tv_UserName = view.findViewById(R.id.tv_UserName);
         tv_view_more = view.findViewById(R.id.tv_view_more);
+
+        SharedPreferences sharedPreferences3 = requireActivity().getSharedPreferences("MyPreferencesDN", Context.MODE_PRIVATE);
+        String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
+        tv_UserName.setText(savedUserDeviceName);
+        Log.e(TAG, "My Profile User Name: "+savedUserDeviceName );
 
         tv_view_more.setOnClickListener(new View.OnClickListener() {
             @Override

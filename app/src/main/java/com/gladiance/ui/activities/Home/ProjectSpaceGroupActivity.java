@@ -84,11 +84,6 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
         String gAAProjectRef = ProjectRef.trim();
         Log.e(TAG, "ProjectSpaceGroupActivity Project Ref : "+gAAProjectRef );
 
-        //projectRefOne,projectNameOne Un Used Shared Preferences
-        //For Single Project
-        SharedPreferences  sharedPreferencesProjectRef =getSharedPreferences("MyPrefsProjectRefOne", MODE_PRIVATE);
-        String projectRefOne = sharedPreferencesProjectRef.getString("projectRefOne", "");
-        Log.e(TAG, "Project Ref One: "+projectRefOne );
 
         SharedPreferences  sharedPreferencesProjectName = getSharedPreferences("MyPrefsProjectNameOne", MODE_PRIVATE);
         String projectNameOne = sharedPreferencesProjectName.getString("projectNameOne", "");
@@ -113,19 +108,25 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
             public void onResponse(Call<ProjectSpaceGroupResModel> call, Response<ProjectSpaceGroupResModel> response) {
                 if(response.isSuccessful()){
                     ProjectSpaceGroupResModel projectSpaceGroupResModel = response.body();
-                    if (projectSpaceGroupResModel != null && projectSpaceGroupResModel.isSuccessful()){
-                       List<ProjectSpaceGroupReqModel.SpaceGroup> spaceGroups = projectSpaceGroupResModel.getData().getSpaceGroups();
+                    if (projectSpaceGroupResModel != null && projectSpaceGroupResModel.isSuccessful()) {
+                        List<ProjectSpaceGroupReqModel.SpaceGroup> spaceGroups = projectSpaceGroupResModel.getData().getSpaceGroups();
 
-                       for(ProjectSpaceGroupReqModel.SpaceGroup spaceGroup1 : spaceGroups){
-                            Log.e(TAG, "onResponse SpaceGroupName: " + spaceGroup1.getGAAProjectSpaceGroupName());
-                            arrayList.add(new SpaceGroup(spaceGroup1.getGAAProjectSpaceGroupRef(),spaceGroup1.getGAAProjectSpaceGroupName(),spaceGroup1.getDisplayOrder()));
+                        if (spaceGroups.size() == 1) {
+                            // If there is only one project, navigate to the next activity directly
+                            navigateToNextActivity(spaceGroups.get(0).getGAAProjectSpaceGroupRef(), spaceGroups.get(0).getGAAProjectSpaceGroupName());
+                        } else {
+
+                            for (ProjectSpaceGroupReqModel.SpaceGroup spaceGroup1 : spaceGroups) {
+                                Log.e(TAG, "onResponse SpaceGroupName: " + spaceGroup1.getGAAProjectSpaceGroupName());
+                                arrayList.add(new SpaceGroup(spaceGroup1.getGAAProjectSpaceGroupRef(), spaceGroup1.getGAAProjectSpaceGroupName(), spaceGroup1.getDisplayOrder()));
+                            }
+
+                            //add arraylist code and create space group class
+                            ProjectSpaceGroupListAdapter projectSpaceGroupListAdapter = new ProjectSpaceGroupListAdapter(arrayList);
+                            rvProjectSpaceGroupList.setAdapter(projectSpaceGroupListAdapter);
+                            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceGroupActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                            rvProjectSpaceGroupList.setLayoutManager(gridLayoutManager1);
                         }
-
-                        //add arraylist code and create space group class
-                        ProjectSpaceGroupListAdapter projectSpaceGroupListAdapter = new ProjectSpaceGroupListAdapter(arrayList);
-                        rvProjectSpaceGroupList.setAdapter(projectSpaceGroupListAdapter);
-                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(ProjectSpaceGroupActivity.this,2, GridLayoutManager.VERTICAL,false);
-                        rvProjectSpaceGroupList.setLayoutManager(gridLayoutManager1);
                     }
                 }
             }
@@ -138,13 +139,28 @@ public class ProjectSpaceGroupActivity extends AppCompatActivity {
 
     }
 
-//    private void saveSpaceGroupName(String spaceGroupName) {
-//        sharedPreferences = getSharedPreferences("MyPreferencesSGN", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("SpaceGroupName", spaceGroupName);
-//        Log.e(TAG, "SpaceGroupName: "+spaceGroupName );
-//        editor.apply();
-//    }
+    private void navigateToNextActivity(String projectRef,String projectName) {
+        storeProjectSpaceGroupRef(projectRef);
+        storeProjectSpaceGroupName(projectName);
+        Intent intent = new Intent(ProjectSpaceGroupActivity.this, ProjectSpaceLandingActivity.class);
+        startActivity(intent);
+        // finish();
+
+    }
+
+    private void storeProjectSpaceGroupRef(String projectRef) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSGR", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("SPACE_GROUP_REF", projectRef);
+        editor.apply();
+    }
+
+    private void storeProjectSpaceGroupName(String projectName) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsProjectSpaceGroupOne", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("projectSpaceGroupOne", projectName);
+        editor.apply();
+    }
 
     @Override
     public void onBackPressed() {

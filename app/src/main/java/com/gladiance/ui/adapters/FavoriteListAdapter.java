@@ -151,6 +151,16 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             }
         });
 
+        if(objectTag.getNodeId().equals("67GzSa3JJk2UyAOL_vc1GQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+        }else if(objectTag.getNodeId().equals("t4pUbUEPikePM0ktp_U2lQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+        }else if(objectTag.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+        }else if(objectTag.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_4);
+        }
+
     }
 
     private void updateUI(FavoriteViewHolder holder, boolean powerState) {
@@ -166,13 +176,14 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     public class FavoriteViewHolder extends RecyclerView.ViewHolder{
 
         TextView FavTextView;
-        ImageView ImageFav;
+        ImageView ImageFav,imageViewDevice;
         LinearLayout llGuestControl;
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
             FavTextView = itemView.findViewById(R.id.btnTitle);
             ImageFav = itemView.findViewById(R.id.fev_image);
             llGuestControl = itemView.findViewById(R.id.llGuestControl);
+            imageViewDevice = itemView.findViewById(R.id.imageViewDevice);
         }
     }
 

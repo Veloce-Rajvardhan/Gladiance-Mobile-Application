@@ -74,7 +74,7 @@ public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.Vi
 
         holder.decrementButton.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.textViewQuantity.getText().toString());
-            if (currentQuantity > 1) {  // Ensuring the quantity doesn't go below 1
+            if (currentQuantity > 0) {  // Ensuring the quantity doesn't go below 1
                 currentQuantity--;
                 holder.textViewQuantity.setText(String.valueOf(currentQuantity));
 
