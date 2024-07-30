@@ -248,7 +248,7 @@ public class DoNotDisturbFragment extends Fragment {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
-                bottomNavigation.show(5, true);
+                bottomNavigation.show(3, true);
                 requireActivity().onBackPressed();
                 return true; // Consumes the back button press event
             }

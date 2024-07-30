@@ -239,9 +239,27 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
         }else if(control.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")){
             holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+        }else if(control.getNodeId().equals("aMMrBGCIA0m59yn3FlwBXg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+        }else if(control.getNodeId().equals("u08RcExKskq9jsIJhB1Kdg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+        }else if(control.getNodeId().equals("GmgTuVtHvEeBy0CXvJpTJg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
         }else if(control.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_4);
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+        }else if(control.getNodeId().equals("h54wL3cTwUOJ5EGYIRx4rQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+        }else if(control.getNodeId().equals("VBRaTWYykEqB7Jj-yuKdCg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+        }else if(control.getNodeId().equals("bQBSuPy7XE6KO2cd7MRVWQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+        }else if(control.getNodeId().equals("DYksB1pG9EqpF5XOITZyHg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+        }else if(control.getNodeId().equals("uXxcNG6HV0avLt3mlg8FNw")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
         }
+
+
 
     }
 

@@ -181,6 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_below="@+id/recycler_view_sceneList_home"
                 tools:listitem="@layout/item_guest_control" />
         </RelativeLayout>

@@ -186,6 +186,7 @@ public class HomeFragment extends Fragment {
 
                         for (ObjectTag objectTag : sceneList) {
                             Log.e(TAG, "onResponse SceneName: " + objectTag.getName());
+                            Log.e(TAG, "Home Fragment Scene Ref: " + objectTag.getRef());
                             arrayList1.add(new ObjectTag(objectTag.getRef(),objectTag.getName(),objectTag.getgAAProjectRef(),objectTag.getCode(),objectTag.getIsSystemDefinedScene(),objectTag.getgAAProjectSpaceTypeRef(),objectTag.getgAAProjectSpaceTypeName(),objectTag.getgAAProjectName(),objectTag.getConfigurations()));
                         }
 

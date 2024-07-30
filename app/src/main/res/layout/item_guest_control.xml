@@ -8,7 +8,7 @@
         android:id="@+id/card_view"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/_17sdp"
         app:cardCornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -58,7 +58,23 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHol
 
         holder.sceneNameTextView.setText(scene.getName());
 
-
+        if (scene.getRef().equals(5000010000024227L)) {
+            holder.iv.setImageResource(R.drawable.lamp_4);
+        }else if (scene.getRef().equals(5000010000024416L)) {
+            holder.iv.setImageResource(R.drawable.all_on);
+        }else if (scene.getRef().equals(5000010000024228L)) {
+            holder.iv.setImageResource(R.drawable.lamp_4);
+        }else if (scene.getRef().equals(5000010000024417L)) {
+            holder.iv.setImageResource(R.drawable.all_on);
+        }else if (scene.getRef().equals(5000010000024235L)) {
+            holder.iv.setImageResource(R.drawable.lamp_4);
+        }else if (scene.getRef().equals(5000010000024419L)) {
+            holder.iv.setImageResource(R.drawable.all_on);
+        }else if (scene.getRef().equals(5000010000024236L)) {
+            holder.iv.setImageResource(R.drawable.lamp_4);
+        }else if (scene.getRef().equals(5000010000024418L)) {
+            holder.iv.setImageResource(R.drawable.all_on);
+        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
