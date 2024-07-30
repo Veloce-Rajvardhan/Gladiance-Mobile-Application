@@ -5,6 +5,7 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +40,7 @@ public class BasicInfoActivity extends AppCompatActivity {
     LinearLayout llLogout;
     LinearLayout editProfile;
 
-    TextView tvMessage;
+    TextView tvMessage,tv_user_name;
 
     Button btnYes, btnNo;
 
@@ -50,6 +51,8 @@ public class BasicInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info);
 
+        tv_user_name = findViewById(R.id.tv_user_name);
+
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
         Log.e(TAG, "BaLoginDeviceId: " + GUID);
@@ -59,6 +62,11 @@ public class BasicInfoActivity extends AppCompatActivity {
         String savedLoginDeviceId = sharedPreferences2.getString("LoginToken", "");
         Log.e(TAG, "Project Space loginToken: " + savedLoginDeviceId);
         String loginToken = savedLoginDeviceId.trim();
+
+        SharedPreferences sharedPreferences3 = getSharedPreferences("MyPreferencesDN", Context.MODE_PRIVATE);
+        String savedUserDeviceName = sharedPreferences3.getString("UserDisplayName", "");
+        tv_user_name.setText(savedUserDeviceName);
+        Log.e(ContentValues.TAG, "My Profile User Name: "+savedUserDeviceName );
 
         llChangePassword = findViewById(R.id.llChangePassword);
         llChangePassword.setOnClickListener(new View.OnClickListener() {

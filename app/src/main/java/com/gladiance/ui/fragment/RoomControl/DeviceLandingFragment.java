@@ -107,7 +107,6 @@ public class DeviceLandingFragment extends Fragment implements ControlAdapter.On
         recyclerView = view.findViewById(R.id.controlTypeRecyclerView);
         guestRecyclerView = view.findViewById(R.id.guestControlTypeRecyclerView);
 
-        List<GuestControls> controlsList = new ArrayList<>();
 
         arrayList = new ArrayList<>();
         arrayListFav = new ArrayList<>();

@@ -48,6 +48,7 @@ import com.gladiance.ui.models.favoritelist.FavoriteListRes;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 
 import com.gladiance.R;
+import com.gladiance.ui.models.guestlandingpage.GuestControls;
 
 import java.util.List;
 
@@ -140,9 +141,35 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             @Override
             public void onClick(View view) {
                 if (control.getInternalDeviceName().equals("Switch 1") ||
+                        control.getInternalDeviceName().equals("Switch 2") ||
+                        control.getInternalDeviceName().equals("Switch 3") ||
+                        control.getInternalDeviceName().equals("Switch 4") ||
+                        control.getInternalDeviceName().equals("Switch 5") ||
+                        control.getInternalDeviceName().equals("Switch 6") ||
+                        control.getInternalDeviceName().equals("Switch 7") ||
+                        control.getInternalDeviceName().equals("Switch 8") ||
+                        control.getInternalDeviceName().equals("Switch 9") ||
+                        control.getInternalDeviceName().equals("Switch 10") ||
+                        control.getInternalDeviceName().equals("Switch 11") ||
+                        control.getInternalDeviceName().equals("Switch 12") ||
                         control.getInternalDeviceName().equals("Light 1") ||
                         control.getInternalDeviceName().equals("Light 2") ||
-                        control.getInternalDeviceName().equals("Power Socket 1")) {
+                        control.getInternalDeviceName().equals("Light 3") ||
+                        control.getInternalDeviceName().equals("Light 4") ||
+                        control.getInternalDeviceName().equals("Light 5") ||
+                        control.getInternalDeviceName().equals("Light 6") ||
+                        control.getInternalDeviceName().equals("Light 7") ||
+                        control.getInternalDeviceName().equals("Light 8") ||
+                        control.getInternalDeviceName().equals("Light 9") ||
+                        control.getInternalDeviceName().equals("Light 10") ||
+                        control.getInternalDeviceName().equals("Light 11") ||
+                        control.getInternalDeviceName().equals("Light 12") ||
+                        control.getInternalDeviceName().equals("Power Socket 1") ||
+                        control.getInternalDeviceName().equals("Power Socket 2") ||
+                        control.getInternalDeviceName().equals("Power Socket 3") ||
+                        control.getInternalDeviceName().equals("Power Socket 4") ||
+                        control.getInternalDeviceName().equals("Power Socket 5") ||
+                        control.getInternalDeviceName().equals("Power Socket 6")) {
                     handleDeviceClick(control, holder);
                 } else {
                     navigateToDeviceCardFragment(view, control);
@@ -154,15 +181,68 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             @Override
             public void onClick(View view) {
                 if (control.getInternalDeviceName().equals("Switch 1") ||
+                        control.getInternalDeviceName().equals("Switch 2") ||
+                        control.getInternalDeviceName().equals("Switch 3") ||
+                        control.getInternalDeviceName().equals("Switch 4") ||
+                        control.getInternalDeviceName().equals("Switch 5") ||
+                        control.getInternalDeviceName().equals("Switch 6") ||
+                        control.getInternalDeviceName().equals("Switch 7") ||
+                        control.getInternalDeviceName().equals("Switch 8") ||
+                        control.getInternalDeviceName().equals("Switch 9") ||
+                        control.getInternalDeviceName().equals("Switch 10") ||
+                        control.getInternalDeviceName().equals("Switch 11") ||
+                        control.getInternalDeviceName().equals("Switch 12") ||
                         control.getInternalDeviceName().equals("Light 1") ||
                         control.getInternalDeviceName().equals("Light 2") ||
-                        control.getInternalDeviceName().equals("Power Socket 1")) {
+                        control.getInternalDeviceName().equals("Light 3") ||
+                        control.getInternalDeviceName().equals("Light 4") ||
+                        control.getInternalDeviceName().equals("Light 5") ||
+                        control.getInternalDeviceName().equals("Light 6") ||
+                        control.getInternalDeviceName().equals("Light 7") ||
+                        control.getInternalDeviceName().equals("Light 8") ||
+                        control.getInternalDeviceName().equals("Light 9") ||
+                        control.getInternalDeviceName().equals("Light 10") ||
+                        control.getInternalDeviceName().equals("Light 11") ||
+                        control.getInternalDeviceName().equals("Light 12") ||
+                        control.getInternalDeviceName().equals("Power Socket 1") ||
+                        control.getInternalDeviceName().equals("Power Socket 2") ||
+                        control.getInternalDeviceName().equals("Power Socket 3") ||
+                        control.getInternalDeviceName().equals("Power Socket 4") ||
+                        control.getInternalDeviceName().equals("Power Socket 5") ||
+                        control.getInternalDeviceName().equals("Power Socket 6")) {
                     handleDeviceClick(control, holder);
                 } else {
                     navigateToDeviceCardFragment(view, control);
                 }
             }
         });
+
+        if(control.getControlTypeName().equals("Fans")){
+            holder.imageViewDevice.setImageResource(R.drawable.fan_white);
+        }else if (control.getControlTypeName().equals("Power Sockets")){
+            holder.imageViewDevice.setImageResource(R.drawable.lighting);
+        }else if (control.getControlTypeName().equals("Lights")){
+            holder.imageViewDevice.setImageResource(R.drawable.lighting);
+        }else if (control.getControlTypeName().equals("Air Conditioners")){
+            holder.imageViewDevice.setImageResource(R.drawable.airconditionwhite);
+        }else if (control.getControlTypeName().equals("Bells")){
+            holder.imageViewDevice.setImageResource(R.drawable.notificationbell);
+        }else if (control.getControlTypeName().equals("Curtains")){
+            holder.imageViewDevice.setImageResource(R.drawable.cutrainwhite);
+        }else{
+            holder.imageViewDevice.setImageResource(R.drawable.lighting);
+        }
+
+        if(control.getNodeId().equals("67GzSa3JJk2UyAOL_vc1GQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+        }else if(control.getNodeId().equals("t4pUbUEPikePM0ktp_U2lQ")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+        }else if(control.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+        }else if(control.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")){
+            holder.imageViewDevice.setImageResource(R.drawable.lamp_4);
+        }
+
     }
 
 
@@ -185,7 +265,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceNameTextView;
         LinearLayout llGuestControl;
-        ImageView fevImage;
+        ImageView fevImage,imageViewDevice;
         CardView cardView;
         //boolean isFavorite = false;
 
@@ -195,6 +275,7 @@ public class DeviceControlAdapter extends RecyclerView.Adapter<DeviceControlAdap
             llGuestControl = itemView.findViewById(R.id.llGuestControl);
             fevImage = itemView.findViewById(R.id.fev_image);
             cardView = itemView.findViewById(R.id.card_view);
+            imageViewDevice = itemView.findViewById(R.id.imageViewDevice);
             deviceNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

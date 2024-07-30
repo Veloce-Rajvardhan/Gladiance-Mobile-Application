@@ -58,33 +58,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHol
 
         holder.sceneNameTextView.setText(scene.getName());
 
-        //int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
-        // Check if it's night mode (dark theme)
-       // boolean isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
-
-        // For Scene card image change on dark/light theme on static ref (HardCoding)
-//        if (isDarkTheme) {
-//            if (scene.getRef() == 5001) {
-//                holder.iv.setImageResource(R.drawable.lightonwhite);
-//            } else if (scene.getRef() == 5002) {
-//                holder.iv.setImageResource(R.drawable.switchoffwhite);
-//            } else if (scene.getRef() == 5003) {
-//                holder.iv.setImageResource(R.drawable.relaxwhite);
-//            } else {
-//                holder.iv.setImageResource(R.drawable.wether);
-//            }
-//        } else{
-//            if (scene.getRef() == 5001) {
-//                holder.iv.setImageResource(R.drawable.lightonblack);
-//            } else if (scene.getRef() == 5002) {
-//                holder.iv.setImageResource(R.drawable.switchoffblack);
-//            } else if (scene.getRef() == 5003) {
-//                holder.iv.setImageResource(R.drawable.relaxblack);
-//            } else {
-//                holder.iv.setImageResource(R.drawable.cloudyblack);
-//            }
-//        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

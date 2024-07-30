@@ -110,32 +110,46 @@ public class RGBLightActivity extends AppCompatActivity {
             private Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    // Send value to server with 1 second delay after user stops touching SeekBar
                     rgbBrightness(progressValue + 1);
                 }
             };
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView1.setText(String.valueOf(progress + 1));
-
-                // Store the current progress value
                 progressValue = progress;
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbBrightness(progress);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Remove any previous callbacks to ensure only the last touch triggers the action
                 handler.removeCallbacks(runnable);
-
-                // Post the runnable with a 1 second delay
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbBrightness(seekBar.getProgress());
+                    }
+                };
                 handler.postDelayed(runnable, 1000);
+
             }
         });
 
@@ -145,12 +159,11 @@ public class RGBLightActivity extends AppCompatActivity {
         int[] colors = {
                 0xFFFF0000, // Red
                 0xFFFF6F00, // Orange
-                0xFFF7FF00, // Yellow
                 0xFF00FF00, // Green
                 0xFF00FFC4, // Cyan
                 0xFF0055FF, // Blue
                 0xFFBB00FF, // Purple
-                0xFFFF0000  // Red (repeated to loop back)
+                0xFFF7FF00, // Yellow
         };
 
         // Create the gradient drawable
@@ -171,37 +184,47 @@ public class RGBLightActivity extends AppCompatActivity {
             private Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    // Send value to server with 1 second delay after user stops touching SeekBar
                     rgbHue(progressValue + 1);
                 }
             };
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView2.setText(String.valueOf(progress + 1));
-
-                // Store the current progress value
                 progressValue = progress;
+
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbHue(progress);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Remove any previous callbacks to ensure only the last touch triggers the action
                 handler.removeCallbacks(runnable);
-
-                // Post the runnable with a 1 second delay
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbHue(seekBar.getProgress());
+                    }
+                };
                 handler.postDelayed(runnable, 1000);
             }
         });
-
-
-
 
 
         //Seek Bar Saturation
@@ -222,24 +245,42 @@ public class RGBLightActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView3.setText(String.valueOf(progress + 1));
-
-                // Store the current progress value
                 progressValue = progress;
+
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbSaturation(progress);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Remove any previous callbacks to ensure only the last touch triggers the action
                 handler.removeCallbacks(runnable);
 
-                // Post the runnable with a 1 second delay
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbSaturation(seekBar.getProgress());
+                    }
+                };
+
                 handler.postDelayed(runnable, 1000);
             }
         });
@@ -263,24 +304,41 @@ public class RGBLightActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView4.setText(String.valueOf(progress + 1));
-
-                // Store the current progress value
                 progressValue = progress;
+
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbCCT(progress);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Remove any previous callbacks to ensure only the last touch triggers the action
                 handler.removeCallbacks(runnable);
 
-                // Post the runnable with a 1 second delay
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbCCT(seekBar.getProgress());
+                    }
+                };
+
                 handler.postDelayed(runnable, 1000);
             }
         });
@@ -303,24 +361,41 @@ public class RGBLightActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Display current progress value
                 textView5.setText(String.valueOf(progress + 1));
-
-                // Store the current progress value
                 progressValue = progress;
+
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbWhiteBrightness(progress);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable);
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // Remove any previous callbacks to ensure only the last touch triggers the action
                 handler.removeCallbacks(runnable);
 
-                // Post the runnable with a 1 second delay
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        rgbWhiteBrightness(seekBar.getProgress());
+                    }
+                };
+
                 handler.postDelayed(runnable, 1000);
             }
         });

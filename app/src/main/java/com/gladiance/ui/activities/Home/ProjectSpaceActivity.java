@@ -223,9 +223,9 @@ public class ProjectSpaceActivity extends AppCompatActivity {
     }
 
     private void storeProjectRef(String projectRef) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsProjectRefOne", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPR", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("projectRefOne", projectRef);
+        editor.putString("ProjectRef", projectRef);
         editor.apply();
     }
 

@@ -261,6 +261,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
     //Login Post Req Method Code
     public void btnLoginRequestClick(String userId, String password,String deviceId) {
         // Create an instance of ApiService
@@ -290,8 +291,125 @@ public class LoginActivity extends AppCompatActivity {
                         String retrievedUserDisplayName = loginResponse.getUserDisplayName();
                         saveUserDisplayName(retrievedUserDisplayName);
 
-                        Intent intent = new Intent(getApplicationContext(), ProjectSpaceActivity.class);
-                        startActivity(intent);
+                        if (userId.equals("t1")) {
+                            String projectSpaceRef = "5000010000024157";
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Project_Space_Ref", projectSpaceRef);
+                            editor.apply();
+
+                            String projectSpaceTypeRef = "5000010000024150";
+                            SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPSTR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                            editor1.putString("Project_Space_Type_Ref", projectSpaceTypeRef);
+                            editor1.apply();
+
+                            String projectSpaceName = "DemoBoard_1";
+                            SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                            editor2.putString("Project_Space_Name", projectSpaceName);
+                            editor2.apply();
+
+                            String projectName = "IHE1";
+                            SharedPreferences sharedPreferences3 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                            editor3.putString("ProjectName", projectName);
+                            editor3.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, NavBarActivity.class);
+                            startActivity(intent);
+                        }
+                        else if (userId.equals("t2"))
+                        {
+                            String projectSpaceRef = "5000010000024158";
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Project_Space_Ref", projectSpaceRef);
+                            editor.apply();
+
+                            String projectSpaceTypeRef = "5000010000024146";
+                            SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPSTR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                            editor1.putString("Project_Space_Type_Ref", projectSpaceTypeRef);
+                            editor1.apply();
+
+                            String projectSpaceName = "DemoBoard_2";
+                            SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                            editor2.putString("Project_Space_Name", projectSpaceName);
+                            editor2.apply();
+
+                            String projectName = "IHE2";
+                            SharedPreferences sharedPreferences3 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                            editor3.putString("ProjectName", projectName);
+                            editor3.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, NavBarActivity.class);
+                            startActivity(intent);
+                        }
+                        else if (userId.equals("t3"))
+                        {
+                            String projectSpaceRef = "5000010000024162";
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Project_Space_Ref", projectSpaceRef);
+                            editor.apply();
+
+                            String projectSpaceTypeRef = "5000010000024143";
+                            SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPSTR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                            editor1.putString("Project_Space_Type_Ref", projectSpaceTypeRef);
+                            editor1.apply();
+
+                            String projectSpaceName = "DemoBoard_3";
+                            SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                            editor2.putString("Project_Space_Name", projectSpaceName);
+                            editor2.apply();
+
+                            String projectName = "IHE3";
+                            SharedPreferences sharedPreferences3 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                            editor3.putString("ProjectName", projectName);
+                            editor3.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, NavBarActivity.class);
+                            startActivity(intent);
+                        }
+                        else if (userId.equals("t4"))
+                        {
+                            String projectSpaceRef = "5000010000024161";
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsPSR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Project_Space_Ref", projectSpaceRef);
+                            editor.apply();
+
+                            String projectSpaceTypeRef = "5000010000024140";
+                            SharedPreferences sharedPreferences1 = getSharedPreferences("MyPrefsPSTR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                            editor1.putString("Project_Space_Type_Ref", projectSpaceTypeRef);
+                            editor1.apply();
+
+                            String projectSpaceName = "DemoBoard_4";
+                            SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                            editor2.putString("Project_Space_Name", projectSpaceName);
+                            editor2.apply();
+
+                            String projectName = "IHE4";
+                            SharedPreferences sharedPreferences3 = getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                            editor3.putString("ProjectName", projectName);
+                            editor3.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, NavBarActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(), ProjectSpaceActivity.class);
+                            startActivity(intent);
+                       }
                     }
                 } else {
                     // Handle unsuccessful response

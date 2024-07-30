@@ -10,7 +10,6 @@
         android:layout_height="@dimen/_120sdp"
         android:layout_margin="16dp"
         app:cardCornerRadius="8dp"
-        android:backgroundTint="@color/grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -31,7 +30,7 @@
 
                 <!-- Image View -->
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageViewDevice"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"

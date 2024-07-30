@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
 
     LinearLayout linearLayout;
 
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -92,6 +93,7 @@ public class HomeFragment extends Fragment {
         arrayList1 = new ArrayList<>();
         arrayListFav = new ArrayList<>();
 
+//        String projectSpaceRefT1 = "5000010000024157";
 
 
         SharedPreferences sharedPreferencesProName = requireActivity().getSharedPreferences("MyPrefsPN", Context.MODE_PRIVATE);
@@ -109,6 +111,10 @@ public class HomeFragment extends Fragment {
         textViewSpaceName.setText(savedUserSpaceName);
         Log.e(TAG, "Home Fragment Space Name: "+savedUserDeviceName );
 
+        SharedPreferences  sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSTR", MODE_PRIVATE);
+        String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
+        Log.e(TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
+        String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
         String GUID = LoginActivity.getUserId(sharedPreferences);
@@ -121,14 +127,11 @@ public class HomeFragment extends Fragment {
         Log.e(TAG, "Project Space loginToken: "+savedLoginDeviceId );
         String loginToken = savedLoginDeviceId.trim();
 
-        SharedPreferences  sharedPreferences4 = requireContext().getSharedPreferences("MyPrefsPSTR", MODE_PRIVATE);
-        String saveProjectSpaceTypeRef = sharedPreferences4.getString("Project_Space_Type_Ref", "");
-        Log.e(TAG, "Project Space Type Ref: "+saveProjectSpaceTypeRef );
-        String gaaProjectSpaceTypeRef = saveProjectSpaceTypeRef.trim();
 
-        SharedPreferences  sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSR", MODE_PRIVATE);
         String saveProjectSpaceRef = sharedPreferences5.getString("Project_Space_Ref", "");
-        Log.e(TAG, "Project Space Ref: "+saveProjectSpaceRef );
+        Log.e(TAG, "Project Space Ref: " + saveProjectSpaceRef);
         String projectSpaceRef = saveProjectSpaceRef.trim();
 
 //        SharedPreferences sharedPreferences5 = requireContext().getSharedPreferences("MyPrefsPSGR", Context.MODE_PRIVATE);
@@ -241,6 +244,23 @@ public class HomeFragment extends Fragment {
         });
     }
 
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        view.setFocusableInTouchMode(true);
+//        view.requestFocus();
+//        view.setOnKeyListener((v, keyCode, event) -> {
+//            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+//                // Handle back button press here
+//                Intent intent = new Intent(requireActivity(), ProjectSpaceLandingActivity.class);
+//                startActivity(intent);
+//                return true; // Consumes the back button press event
+//            }
+//            return false; // Otherwise, let the system handle it
+//        });
+//    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -249,9 +269,8 @@ public class HomeFragment extends Fragment {
         view.requestFocus();
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                // Handle back button press here
-                Intent intent = new Intent(requireActivity(), ProjectSpaceLandingActivity.class);
-                startActivity(intent);
+                // Close the app on back button press
+                requireActivity().finish();
                 return true; // Consumes the back button press event
             }
             return false; // Otherwise, let the system handle it
