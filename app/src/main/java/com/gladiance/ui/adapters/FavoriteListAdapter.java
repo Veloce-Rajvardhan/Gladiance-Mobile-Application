@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -150,33 +151,62 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
             }
         });
+        int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isNightMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
 
-        if(objectTag.getNodeId().equals("67GzSa3JJk2UyAOL_vc1GQ")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
-        }else if(objectTag.getNodeId().equals("t4pUbUEPikePM0ktp_U2lQ")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
-        }else if(objectTag.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
-        }else if(objectTag.getNodeId().equals("aMMrBGCIA0m59yn3FlwBXg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
-        }else if(objectTag.getNodeId().equals("u08RcExKskq9jsIJhB1Kdg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
-        }else if(objectTag.getNodeId().equals("GmgTuVtHvEeBy0CXvJpTJg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
-        }else if(objectTag.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
-        }else if(objectTag.getNodeId().equals("h54wL3cTwUOJ5EGYIRx4rQ")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
-        }else if(objectTag.getNodeId().equals("VBRaTWYykEqB7Jj-yuKdCg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
-        }else if(objectTag.getNodeId().equals("bQBSuPy7XE6KO2cd7MRVWQ")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
-        }else if(objectTag.getNodeId().equals("DYksB1pG9EqpF5XOITZyHg")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
-        }else if(objectTag.getNodeId().equals("uXxcNG6HV0avLt3mlg8FNw")){
-            holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+        if (isNightMode) {
+            if (objectTag.getNodeId().equals("67GzSa3JJk2UyAOL_vc1GQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+            } else if (objectTag.getNodeId().equals("t4pUbUEPikePM0ktp_U2lQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+            } else if (objectTag.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+            } else if (objectTag.getNodeId().equals("aMMrBGCIA0m59yn3FlwBXg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+            } else if (objectTag.getNodeId().equals("u08RcExKskq9jsIJhB1Kdg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+            } else if (objectTag.getNodeId().equals("GmgTuVtHvEeBy0CXvJpTJg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+            } else if (objectTag.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+            } else if (objectTag.getNodeId().equals("h54wL3cTwUOJ5EGYIRx4rQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+            } else if (objectTag.getNodeId().equals("VBRaTWYykEqB7Jj-yuKdCg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+            } else if (objectTag.getNodeId().equals("bQBSuPy7XE6KO2cd7MRVWQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_1);
+            } else if (objectTag.getNodeId().equals("DYksB1pG9EqpF5XOITZyHg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_2);
+            } else if (objectTag.getNodeId().equals("uXxcNG6HV0avLt3mlg8FNw")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_3);
+            }
+        }else{
+            if (objectTag.getNodeId().equals("67GzSa3JJk2UyAOL_vc1GQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lighting_wl_black);
+            } else if (objectTag.getNodeId().equals("t4pUbUEPikePM0ktp_U2lQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_black);
+            } else if (objectTag.getNodeId().equals("muTtA_hbXUeQTnWea0ioHg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.reading_right_black);
+            } else if (objectTag.getNodeId().equals("aMMrBGCIA0m59yn3FlwBXg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lighting_wl_black);
+            } else if (objectTag.getNodeId().equals("u08RcExKskq9jsIJhB1Kdg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_black);
+            } else if (objectTag.getNodeId().equals("GmgTuVtHvEeBy0CXvJpTJg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.reading_right_black);
+            } else if (objectTag.getNodeId().equals("ElmKriPDaEGoXTjkngt89A")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lighting_wl_black);
+            } else if (objectTag.getNodeId().equals("h54wL3cTwUOJ5EGYIRx4rQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_black);
+            } else if (objectTag.getNodeId().equals("VBRaTWYykEqB7Jj-yuKdCg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.reading_right_black);
+            } else if (objectTag.getNodeId().equals("bQBSuPy7XE6KO2cd7MRVWQ")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lighting_wl_black);
+            } else if (objectTag.getNodeId().equals("DYksB1pG9EqpF5XOITZyHg")) {
+                holder.imageViewDevice.setImageResource(R.drawable.lamp_black);
+            } else if (objectTag.getNodeId().equals("uXxcNG6HV0avLt3mlg8FNw")) {
+                holder.imageViewDevice.setImageResource(R.drawable.reading_right_black);
+            }
         }
-
     }
 
     private void updateUI(FavoriteViewHolder holder, boolean powerState) {
