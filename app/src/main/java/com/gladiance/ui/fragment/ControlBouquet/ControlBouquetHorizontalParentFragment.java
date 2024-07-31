@@ -500,7 +500,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
 
                 MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
 
-                bottomNavigation.show(1, true);
+                bottomNavigation.show(3, true);
                 requireActivity().onBackPressed();
                 return true; // Consumes the back button press event
             }
