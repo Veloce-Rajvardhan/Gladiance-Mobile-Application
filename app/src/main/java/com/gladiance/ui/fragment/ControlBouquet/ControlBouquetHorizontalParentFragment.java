@@ -102,6 +102,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
 
         getEmergencyStatus(projectSpaceRef,loginToken,loginDeviceId);
         getSecurityStatus(projectSpaceRef,loginToken,loginDeviceId);
+        getTheme();
 
         CVHouseKipping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,8 +212,23 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
             }
         });
 
-
         return view;
+    }
+
+    private void getTheme() {
+
+        CVHouseKipping.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVRoomService.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVLaundry.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVBillView.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVFeedback.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVHotelInfo.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVPromotion.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVMessaging.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVSurveillance.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVSecurity.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+        CVSafety.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
     }
 
     private void activeEmergency(String gaaProjectSpaceRef, String loginToken, String loginDeviceId) {
@@ -281,6 +297,7 @@ public class ControlBouquetHorizontalParentFragment extends Fragment  {
                     } else {
                         isEmergencyActive = false;
                         CVEmergency.setBackgroundResource(R.drawable.transparent_backgraund_emergency);
+
                     }
                 }
             }

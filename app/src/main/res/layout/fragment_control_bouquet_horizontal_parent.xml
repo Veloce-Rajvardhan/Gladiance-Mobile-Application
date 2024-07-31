@@ -67,7 +67,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Housekeeping"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -102,7 +103,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Room Service"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -136,7 +138,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Laundry"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -170,7 +173,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Bill View"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -204,7 +208,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Feedback"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -238,7 +243,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Hotel Info"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -273,7 +279,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Promotion"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -307,7 +314,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Messaging"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -341,7 +349,7 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Surveillance"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -375,7 +383,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Emergency"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -409,7 +418,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Safety"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -443,7 +453,8 @@
                                     android:layout_height="@dimen/_20sdp"
                                     android:gravity="center"
                                     android:text="Security"
-                                    style="@style/TEXT"
+                                    android:textColor="@color/white"
+
                                     android:textSize="18sp" />
                         </LinearLayout>
                 </androidx.cardview.widget.CardView>

@@ -3,6 +3,7 @@ package com.gladiance.ui.adapters;
 import static android.content.ContentValues.TAG;
 import static com.gladiance.AppConstants.MY_CONSTANT_LIST;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +23,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gladiance.AppConstants;
@@ -30,6 +35,7 @@ import com.gladiance.ui.fragment.MyProfile.ProfileDeviceCardFragment;
 import com.gladiance.ui.fragment.RoomControl.DeviceCardFragment;
 import com.gladiance.ui.models.guestlandingpage.Controls;
 import com.gladiance.ui.models.schedule.Configuration;
+import com.gladiance.ui.viewModels.ScheduleEditDataViewModel;
 
 
 import java.util.ArrayList;
@@ -39,11 +45,16 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
     private List<Controls> ConArrayList;
     private List<Configuration> ConfigArrayList;
     private SharedPreferences prefs;
+    private ScheduleEditDataViewModel scheduleEditDataViewModel;
+    private Context context;
 
 
-    public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList) {
+
+    public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, Context context, ScheduleEditDataViewModel scheduleEditDataViewModel) {
         this.ConArrayList = ConArrayList;
         this.ConfigArrayList = ConfigArrayList;
+        this.context = context;
+        this.scheduleEditDataViewModel = scheduleEditDataViewModel;
     }
 
     @NonNull
@@ -89,6 +100,63 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 control.setChecked(isChecked);
+
+                long abc = control.getgAAProjectSpaceTypePlannedDeviceRef();
+                Log.e(TAG, "GAAProjectSpaceTypePlannedDeviceRef: "+abc);
+                if(control.isChecked() == false) {
+                    // editFragment.abc(abc);
+
+
+//                    ScheduleEditDataViewModel sceneViewModel2 = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
+//                    LiveData<List<com.gladiance.ui.models.scheduleEdit.Configuration>> objectScenesListLiveData2 = sceneViewModel2.getObjectScheduleList();
+//                    objectScenesListLiveData2.observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.scheduleEdit.Configuration>>() {
+//                        @Override
+//                        public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> objectScenesList) {
+//
+//                            if (objectScenesList != null) {
+//                                for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : objectScenesList) {
+//
+//                                    Log.e(ContentValues.TAG, "Edit Schedule Ref Final: "+objectScenes.getRef());
+//
+//
+//                                    objectScenesListLiveData2.removeObserver(this);
+//                                }
+//
+//                            }
+//                        }
+//                    });
+
+
+
+//                    scheduleEditDataViewModel.getObjectScheduleList().observe((LifecycleOwner) context, (Observer<? super List<com.gladiance.ui.models.scheduleEdit.Configuration>>) new Observer<List<com.gladiance.ui.models.sceneEdit.Configuration>>() {
+//                        @Override
+//                        public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> objectScenesList) {
+//                            if (objectScenesList != null) {
+//                                AppConstants.DataEdit = true;
+//
+//
+//                                List<com.gladiance.ui.models.scheduleEdit.Configuration> listCopy = new ArrayList<>(objectScenesList);
+//
+//                                for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : listCopy) {
+//                                    Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
+//
+//                                    if (abc == (objectScenes.getGAAProjectSpaceTypePlannedDeviceRef())) {
+//                                        Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
+//
+//                                        // Remove the object from the original list
+//                                        objectScenesList.remove(objectScenes);
+//                                    } else {
+//                                        // Handle other cases if needed
+//                                    }
+//
+//                                    Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+//                                }
+//                                notifyDataSetChanged(); // Notify the adapter of data changes
+//                            }
+//                        }
+//                    });
+                }
+
 
                 try {
                     if (prefs != null) {

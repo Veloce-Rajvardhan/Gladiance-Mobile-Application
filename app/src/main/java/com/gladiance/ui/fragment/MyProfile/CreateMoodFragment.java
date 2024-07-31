@@ -35,6 +35,7 @@ import com.gladiance.ui.activities.Login.LoginActivity;
 import com.gladiance.ui.activities.MyProfile.AutomationActivity;
 import com.gladiance.ui.activities.MyProfile.SetYourMoodActivity;
 import com.gladiance.ui.adapters.AreaSpinnerAdapter;
+import com.gladiance.ui.adapters.CreateSceneCheckAdapter;
 import com.gladiance.ui.adapters.SceneCheckAdapter;
 import com.gladiance.ui.adapters.SceneCreateAdapter;
 import com.gladiance.ui.models.SceneStoreData.ConfigurationSceneEditData;
@@ -94,7 +95,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
     SetYourMoodActivity setYourMoodActivity;
     private EditSceneFragment editSceneFragment;
 
-    private SceneEditDataViewModel sceneEditDataViewModel;
+    private SceneCreateViewModel sceneCreateViewModel;
     private List<ConfigurationSceneEditData> configurationSceneEditData;
 
     public CreateMoodFragment() {
@@ -273,6 +274,28 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
         int FanSpeed = sharedPreferencesFanSpeed.getInt("FanSpeed", 0);
         Log.e(TAG, "EditSceneFragment FanSpeed onResume : " + FanSpeed);
 
+        SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+        LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
+        objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
+            @Override
+            public void onChanged(List<ObjectSceneCreate> objectScenesList) {
+//                        for(int i = 0; i <ConArrayList.size(); i++) {
+//                            if (ConArrayList.get(i).isChecked() == true) {
+//                                Log.e("ConArrayList", "Selected -- " + ConArrayList.get(i).getGaaProjectSpaceTypePlannedDeviceName());
+                if (objectScenesList != null) {
+                    for (ObjectSceneCreate objectScenes : objectScenesList) {
+
+                    }
+
+                    // Remember to remove the observer if necessary
+                    objectScenesListLiveData.removeObserver(this);
+                }
+                //   }
+                //}
+            }
+        });
+
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -386,7 +409,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                         Long.parseLong(AppConstants.Create_Space_dyn),
                         list);
                 if(list!=null) {
-                    sendSaveSceneRequest(saveScene);
+              //      sendSaveSceneRequest(saveScene);
                 }
                 else{
                     Toast.makeText(requireContext(), "List is Empty", Toast.LENGTH_SHORT).show();
@@ -616,9 +639,9 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        sceneEditDataViewModel = new ViewModelProvider(requireActivity()).get(SceneEditDataViewModel.class);
+                        sceneCreateViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 
-                        SceneCheckAdapter sceneCheckAdapter = new SceneCheckAdapter(ConArrayList,ConfigArrayList, null, requireContext(),editSceneFragment,getViewLifecycleOwner(),sceneEditDataViewModel,configurationSceneEditData,sharedViewModelEditData);
+                        CreateSceneCheckAdapter sceneCheckAdapter = new CreateSceneCheckAdapter(ConArrayList,ConfigArrayList, null, requireContext(),editSceneFragment,getViewLifecycleOwner(),sceneCreateViewModel,configurationSceneEditData,sharedViewModelEditData);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }

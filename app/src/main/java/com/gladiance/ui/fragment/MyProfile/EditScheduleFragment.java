@@ -85,6 +85,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
     EditText projectName;
     private View view;
     boolean SceneApiCall = false;
+    private ScheduleEditDataViewModel scheduleEditDataViewModel;
 
     private ArrayList<Configuration> ConfigArrayList;
 
@@ -701,7 +702,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.toString());
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef());
-                ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList);
+                ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
                 recyclerView.setAdapter(sceneCheckAdapter);
             }
         });
@@ -1005,7 +1006,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList);
+                        ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }
@@ -1391,7 +1392,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                         list, triggerList);
 
                 //uncommit to call api
-                SaveScheduleRequest(saveScene);
+        //        SaveScheduleRequest(saveScene);
 
 //                    }
 //                }
@@ -1623,7 +1624,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
-                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList);
+                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
                             recyclerView.setAdapter(sceneCheckAdapter);
                         }
 

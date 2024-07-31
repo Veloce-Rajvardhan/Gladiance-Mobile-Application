@@ -493,7 +493,6 @@ public class EditSceneFragment extends Fragment implements AreaSpinnerAdapter.On
                         list);
                 // uncomment to hit api
                 sendSaveSceneRequest(saveScene);
-
             }
 
 

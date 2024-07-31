@@ -785,11 +785,11 @@ public void sendFanSpeed(int fanSpeed){
             Log.d("TAG", "PowerState2: " + AppConstants.Create_powerState_Schedule);
             Log.d("TAG", "Power2: " + AppConstants.Create_power_Schedule);
 
-            Log.e("APPCONSTS2 Ref_dyn_Schedule", "" + AppConstants.Create_Ref_dyn_Schedule);
-            Log.e("APPCONSTS2 Name_dyn_Schedule", "" + AppConstants.Create_Name_dyn_Schedule);
-            Log.e("APPCONSTS2 SceneRef_Schedule", "" + AppConstants.Create_ScheduleRef_Schedule);
-            Log.e("APPCONSTS2 Space_dyn_Schedule", "" + AppConstants.Create_Space_dyn_Schedule);
-            Log.e("APPCONSTS2 projectSpaceTypePlannedDeviceName_Schedule", "" + AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
+            Log.e("APPCONSTS3 Ref_dyn_Schedule", "" + AppConstants.Create_Ref_dyn_Schedule);
+            Log.e("APPCONSTS3 Name_dyn_Schedule", "" + AppConstants.Create_Name_dyn_Schedule);
+            Log.e("APPCONSTS3 SceneRef_Schedule", "" + AppConstants.Create_ScheduleRef_Schedule);
+            Log.e("APPCONSTS3 Space_dyn_Schedule", "" + AppConstants.Create_Space_dyn_Schedule);
+            Log.e("APPCONSTS3 projectSpaceTypePlannedDeviceName_Schedule", "" + AppConstants.Create_projectSpaceTypePlannedDeviceName_Schedule);
             Log.e("APPCONSTS2 GaaProjectSpaceTypePlannedDeviceRef_Schedule", "" + AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule);
             Log.e("APPCONSTS2 powerState_Schedule", "" + AppConstants.Create_powerState_Schedule);
             Log.e("APPCONSTS2 power_Schedule", "" + AppConstants.Create_power_Schedule);
