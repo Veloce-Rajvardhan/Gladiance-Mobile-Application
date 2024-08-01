@@ -141,5 +141,6 @@ public class PlaceOrderAdapter extends RecyclerView.Adapter<PlaceOrderAdapter.Vi
         orderList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, orderList.size());
+     //   totalSumListener.onTotalSumUpdated(totalSum);
     }
 }

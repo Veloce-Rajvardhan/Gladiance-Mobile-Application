@@ -304,6 +304,20 @@ public class LoginActivity extends AppCompatActivity {
                             editor1.putString("Project_Space_Type_Ref", projectSpaceTypeRef);
                             editor1.apply();
 
+
+                            //this projectSpaceTypeRef is correct
+
+                            String projectSpaceTypeRef2 = "5000010000024125";
+                            SharedPreferences sharedPreferences5 = getSharedPreferences("MyPrefsPR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor12 = sharedPreferences5.edit();
+                            editor12.putString("ProjectRef", projectSpaceTypeRef2);
+                            editor12.apply();
+
+//                            String ProjectRef = sharedPreferences5.getString("ProjectRef", "");
+//                            String gAAProjectRef = ProjectRef.trim();
+//                            Log.e(TAG, "Project Ref : " + gAAProjectRef);
+                            ////
+
                             String projectSpaceName = "DemoBoard_1";
                             SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefsPSN", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor2 = sharedPreferences2.edit();
