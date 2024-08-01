@@ -47,13 +47,16 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
     private SharedPreferences prefs;
     private ScheduleEditDataViewModel scheduleEditDataViewModel;
     private Context context;
+    private LifecycleOwner lifecycleOwner;
 
 
 
-    public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, Context context, ScheduleEditDataViewModel scheduleEditDataViewModel) {
+
+    public ScheduleCheckAdapter(ArrayList<Controls> ConArrayList, ArrayList<Configuration>ConfigArrayList, Context context,LifecycleOwner lifecycleOwner, ScheduleEditDataViewModel scheduleEditDataViewModel) {
         this.ConArrayList = ConArrayList;
         this.ConfigArrayList = ConfigArrayList;
         this.context = context;
+        this.lifecycleOwner = lifecycleOwner;
         this.scheduleEditDataViewModel = scheduleEditDataViewModel;
     }
 
@@ -77,13 +80,28 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
         // Set checkbox state based on isChecked flag in Controls object
         holder.deviceNameCheckBox.setChecked(control.isChecked());
         // int positions = 0;
-        for (Configuration configuration : ConfigArrayList){
-            if(configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())){
-                Log.e(TAG, "onBindViewHolder: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
-                holder.deviceNameCheckBox.setChecked(true);
-                break; // Exit loop once a match is found
+//        for (Configuration configuration : ConfigArrayList){
+//            if(configuration.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())){
+//                Log.e(TAG, "onBindViewHolder: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef() + " " + control.getgAAProjectSpaceTypePlannedDeviceRef());
+//                holder.deviceNameCheckBox.setChecked(true);
+//                break; // Exit loop once a match is found
+//            }
+//        }
+
+        scheduleEditDataViewModel.getObjectScheduleList().observe(lifecycleOwner, data -> {
+            // Update your UI or process data
+            for (com.gladiance.ui.models.scheduleEdit.Configuration sceneEditDataViewModel : data){
+                Log.e(TAG, "blaaa: "+sceneEditDataViewModel.getGAAProjectSpaceTypePlannedDeviceRef());
+                if (sceneEditDataViewModel.getGAAProjectSpaceTypePlannedDeviceRef().equals(control.getgAAProjectSpaceTypePlannedDeviceRef())) {
+
+                    //  configuration.getRef();
+                    holder.deviceNameCheckBox.setChecked(true);
+
+                }
             }
-        }
+
+        });
+
 //        for (int i=0;i< ConfigArrayList.size(); i++) {
 //
 //            Configuration configuration = ConfigArrayList.get(i);
@@ -128,33 +146,35 @@ public class ScheduleCheckAdapter extends RecyclerView.Adapter<ScheduleCheckAdap
 
 
 
-//                    scheduleEditDataViewModel.getObjectScheduleList().observe((LifecycleOwner) context, (Observer<? super List<com.gladiance.ui.models.scheduleEdit.Configuration>>) new Observer<List<com.gladiance.ui.models.sceneEdit.Configuration>>() {
-//                        @Override
-//                        public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> objectScenesList) {
-//                            if (objectScenesList != null) {
-//                                AppConstants.DataEdit = true;
-//
-//
-//                                List<com.gladiance.ui.models.scheduleEdit.Configuration> listCopy = new ArrayList<>(objectScenesList);
-//
-//                                for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : listCopy) {
-//                                    Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
-//
-//                                    if (abc == (objectScenes.getGAAProjectSpaceTypePlannedDeviceRef())) {
-//                                        Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
-//
-//                                        // Remove the object from the original list
-//                                        objectScenesList.remove(objectScenes);
-//                                    } else {
-//                                        // Handle other cases if needed
-//                                    }
-//
-//                                    Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
-//                                }
-//                                notifyDataSetChanged(); // Notify the adapter of data changes
-//                            }
-//                        }
-//                    });
+                    scheduleEditDataViewModel.getObjectScheduleList().observe((LifecycleOwner) context, (Observer<? super List<com.gladiance.ui.models.scheduleEdit.Configuration>>) new Observer<List<com.gladiance.ui.models.scheduleEdit.Configuration>>() {
+                        @Override
+                        public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> objectScenesList) {
+                            if (objectScenesList != null) {
+                                AppConstants.DataEdit = true;
+
+
+                                List<com.gladiance.ui.models.scheduleEdit.Configuration> listCopy = new ArrayList<>(objectScenesList);
+
+                                for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : listCopy) {
+                                    Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
+
+                                    if (abc == (objectScenes.getGAAProjectSpaceTypePlannedDeviceRef())) {
+                                        Log.e(TAG, abc + " == " + objectScenes.getGAAProjectSpaceTypePlannedDeviceRef());
+
+                                        // Remove the object from the original list
+                                        objectScenesList.remove(objectScenes);
+                                        holder.deviceNameCheckBox.setChecked(false);
+
+                                    } else {
+                                        // Handle other cases if needed
+                                    }
+
+                                    Log.d("ObjectScenes22", String.valueOf(objectScenes.getRef()));
+                                }
+                                notifyDataSetChanged(); // Notify the adapter of data changes
+                            }
+                        }
+                    });
                 }
 
 

@@ -121,6 +121,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
     private List<com.gladiance.ui.models.scheduleStoreData.Trigger> triggersData;
 
     private ConfigurationViewModel viewModel;
+    private List<com.gladiance.ui.models.scheduleEdit.Configuration> sharedViewModelEditData;
 
 
     // edit config
@@ -172,6 +173,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
         ConfigArrayList = new ArrayList<>();
 
         configurationsData = new ArrayList<>();
+        sharedViewModelEditData = new ArrayList<>();
 
 
         datePicker.setEnabled(false);
@@ -702,7 +704,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.toString());
                 Log.d("Schedule ConfigurationFragment", "Configuration: " + configuration.getGAAProjectSpaceTypePlannedDeviceRef());
-                ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
+                ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),getViewLifecycleOwner(),scheduleEditDataViewModel);
                 recyclerView.setAdapter(sceneCheckAdapter);
             }
         });
@@ -818,7 +820,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             }
                         }
 
-                        AppConstants.DataEnterIntoViewModelEditSchedule = false;
+                         AppConstants.DataEnterIntoViewModelEditSchedule = false;
 
                         viewModel = new ViewModelProvider(requireActivity()).get(ConfigurationViewModel.class);
 
@@ -846,6 +848,21 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                                     configuration2.getRef()
                             ));
                         }
+
+                        ScheduleEditDataViewModel sharedViewModelEdit = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
+
+                        sharedViewModelEdit.getObjectScheduleList().observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.scheduleEdit.Configuration>>() {
+                            @Override
+                            public void onChanged(List<com.gladiance.ui.models.scheduleEdit.Configuration> configurations) {
+                                // Use the configurations list here
+                                for (com.gladiance.ui.models.scheduleEdit.Configuration config2 : sharedViewModelEditData) {
+                                    // Process each configuration
+                                    System.out.println("dataaa2: "+config2.getGAAProjectSpaceTypePlannedDeviceRef());
+
+                                }
+                            }
+                        });
+
 
                         //   ObjectTagSchedule scene2 = apiResponse.getObjectTag();
                         List<com.gladiance.ui.models.schedule.Trigger> triggers = scene2.getTriggers();
@@ -1004,9 +1021,13 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                             // Do something with the data
                         }
 
+
+
+                        scheduleEditDataViewModel = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
+
                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(gridLayoutManager1);
-                        ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
+                        ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),getViewLifecycleOwner(),scheduleEditDataViewModel);
                         recyclerView.setAdapter(sceneCheckAdapter);
 
                     }
@@ -1392,7 +1413,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
                         list, triggerList);
 
                 //uncommit to call api
-        //        SaveScheduleRequest(saveScene);
+                SaveScheduleRequest(saveScene);
 
 //                    }
 //                }
@@ -1624,7 +1645,7 @@ public class EditScheduleFragment extends Fragment implements AreaSpinnerAdapter
 
                             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(gridLayoutManager1);
-                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),scheduleEditDataViewModel);
+                            ScheduleCheckAdapter sceneCheckAdapter = new ScheduleCheckAdapter(ConArrayList,ConfigArrayList,requireContext(),getViewLifecycleOwner(),scheduleEditDataViewModel);
                             recyclerView.setAdapter(sceneCheckAdapter);
                         }
 
