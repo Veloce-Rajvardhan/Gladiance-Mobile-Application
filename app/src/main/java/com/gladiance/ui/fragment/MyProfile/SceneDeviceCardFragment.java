@@ -484,7 +484,7 @@ public class SceneDeviceCardFragment extends Fragment {
 
         String commandBody = "{\""+name+"\": {\""+power+"\": " + powerState + "}}";
         String message = powerState ? "on" : "off";
-        Toast.makeText(requireContext(), "Switch is "+message+".Please wait for second for saving data for schedule", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Switch is "+message+".Please wait for second for saving data for scene", Toast.LENGTH_SHORT).show();
         boolean shPowerState = powerState;
         SharedPreferences sharedPreferencesPowerState = requireContext().getSharedPreferences("MyPreferencesPS", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesPowerState.edit();
