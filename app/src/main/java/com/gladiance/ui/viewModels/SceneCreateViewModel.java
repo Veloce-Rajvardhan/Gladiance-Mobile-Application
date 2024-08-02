@@ -30,6 +30,12 @@ public class SceneCreateViewModel extends ViewModel {
         objectScenesListLiveData.setValue(new ArrayList<>());
     }
 
+    // In your ViewModel
+    public int getObjectScenesListSize() {
+        List<ObjectSceneCreate> list = getObjectScenesList().getValue();
+        return (list != null) ? list.size() : 0;
+    }
+
     public void removeObjectSchedule(ObjectSceneCreate objectSchedule) {
         List<ObjectSceneCreate> currentList = objectScenesListLiveData.getValue();
         if (currentList != null) {

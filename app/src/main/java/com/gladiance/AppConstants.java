@@ -423,6 +423,8 @@ public class AppConstants {
     public static String Create_powerState;
     public static String Create_power;
     public static boolean DataCreateScene;
+    public static boolean DataCreateSceneInternal;
+
 
 
 

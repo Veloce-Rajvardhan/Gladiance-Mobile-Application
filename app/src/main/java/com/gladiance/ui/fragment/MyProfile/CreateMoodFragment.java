@@ -274,7 +274,64 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
         int FanSpeed = sharedPreferencesFanSpeed.getInt("FanSpeed", 0);
         Log.e(TAG, "EditSceneFragment FanSpeed onResume : " + FanSpeed);
 
+
         SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+        ///////////////////////////////////////////////
+
+        int size = sceneViewModel.getObjectScenesListSize();
+        if (size == 0) {
+            Log.e(TAG, "list is 0" );
+            AppConstants.DataCreateScene = true;
+            // Handle the case where the list size is 0
+        } else if (size == 1) {
+            Log.e(TAG, "list is 1" );
+
+            // Handle the case where the list size is 1
+        } else {
+            Log.e(TAG, "list is else" );
+
+            // Handle the case where the list size is greater than 1
+        }
+
+
+
+        sceneViewModel.getObjectScenesList().observe(this, new Observer<List<ObjectSceneCreate>>() {
+            @Override
+            public void onChanged(List<ObjectSceneCreate> objectScenesList) {
+                // Check if the list is null
+                if (objectScenesList != null) {
+                    // Check the size of the list
+                    switch (objectScenesList.size()) {
+                        case 0:
+                            // Handle the case where the list size is 0
+                            System.out.println("The list is empty.");
+                            break;
+                        case 1:
+                            // Handle the case where the list size is 1
+                            System.out.println("The list contains one item.");
+                            break;
+                        default:
+                            // Handle the case where the list size is greater than 1
+                            System.out.println("The list contains more than one item.");
+                            break;
+                    }
+                } else {
+                    // Handle the case where the list is null
+                    System.out.println("The list is null.");
+                }
+            }
+        });
+        //////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
         LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
         objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
             @Override
