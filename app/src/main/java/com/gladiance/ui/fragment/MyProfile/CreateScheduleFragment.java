@@ -1038,7 +1038,7 @@ public class CreateScheduleFragment extends Fragment implements AreaSpinnerAdapt
                         Long.parseLong(AppConstants.Create_Space_dyn_Schedule),
                         list, triggerList);
                 // uncomment to call api
-                SaveScheduleRequest(saveScene);
+         //       SaveScheduleRequest(saveScene);
 
 //                    }
 //                }

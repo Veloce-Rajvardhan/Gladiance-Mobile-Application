@@ -205,7 +205,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
             if (sceneRefString != null) {
                 Long sceneRef = Long.parseLong(sceneRefString);
                 Log.e(TAG, "SceneRef: " + sceneRef);
-                getScene(sceneRef, loginToken, loginDeviceId);
+             //   getScene(sceneRef, loginToken, loginDeviceId);
             } else {
                 Log.e(TAG, "SceneRef is null");
                 // Handle null sceneRefString

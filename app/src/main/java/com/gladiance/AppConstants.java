@@ -422,6 +422,8 @@ public class AppConstants {
     public static String Create_GaaProjectSpaceTypePlannedDeviceRef;
     public static String Create_powerState;
     public static String Create_power;
+    public static boolean DataCreateScene;
+
 
 
     public static final ArrayList<String> MY_CONSTANT_LIST = new ArrayList<String>();

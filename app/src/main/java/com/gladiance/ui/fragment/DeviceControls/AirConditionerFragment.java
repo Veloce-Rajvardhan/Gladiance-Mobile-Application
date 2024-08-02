@@ -537,7 +537,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                                 if (objectScenesList != null) {
                                     AppConstants.DataEditSchedule = true;
                                     for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : objectScenesList) {
-                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()
+                                        if(Long.parseLong(AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()
                                                 && AppConstants.Edit_powerState_Schedule.equals(objectScenes.getNodeConfigParamName())){
                                             objectScenes.getRef();
                                             Log.e(ContentValues.TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
@@ -998,7 +998,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                                 if (objectScenesList != null) {
                                     AppConstants.DataEditSchedule = true;
                                     for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : objectScenesList) {
-                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()
+                                        if(Long.parseLong(AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()
                                                 && AppConstants.Edit_powerState_Schedule.equals(objectScenes.getNodeConfigParamName())){
                                             objectScenes.getRef();
                                             Log.e(TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
@@ -1387,7 +1387,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                                         Log.e(TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName()+ " == " +AppConstants.Edit_powerState_Schedule);
                                         Log.e(TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()+ " == " +AppConstants.GaaProjectSpaceTypePlannedDeviceRef);
 
-                                        if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef() && AppConstants.Edit_powerState_Schedule.equals(objectScenes.getNodeConfigParamName())){
+                                        if(Long.parseLong(AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef() && AppConstants.Edit_powerState_Schedule.equals(objectScenes.getNodeConfigParamName())){
                                          //   objectScenes.getRef();
                                             Log.e(TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
                                             Log.e(TAG, "Before Edit power1: "+ objectScenes.getValue());

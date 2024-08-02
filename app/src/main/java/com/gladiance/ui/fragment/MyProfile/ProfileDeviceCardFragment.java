@@ -656,7 +656,7 @@ public class ProfileDeviceCardFragment extends Fragment {
 //            list.size();
 //            Log.e(TAG, "List Size: "+list.size());
 
-            //////////// start here ///////////
+
             ScheduleEditDataViewModel scheduleViewModel1 = new ViewModelProvider(requireActivity()).get(ScheduleEditDataViewModel.class);
             LiveData<List<com.gladiance.ui.models.scheduleEdit.Configuration>> objectScenesListLiveData1 = scheduleViewModel1.getObjectScheduleList();
             objectScenesListLiveData1.observe(getViewLifecycleOwner(), new Observer<List<com.gladiance.ui.models.scheduleEdit.Configuration>>() {
@@ -668,7 +668,7 @@ public class ProfileDeviceCardFragment extends Fragment {
                     if (objectScenesList != null) {
                         AppConstants.DataEditSchedule = true;
                         for (com.gladiance.ui.models.scheduleEdit.Configuration objectScenes : objectScenesList) {
-                            if(Long.parseLong(AppConstants.GaaProjectSpaceTypePlannedDeviceRef) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()){
+                            if(Long.parseLong(AppConstants.Edit_GaaProjectSpaceTypePlannedDeviceRef_Schedule) == objectScenes.getGAAProjectSpaceTypePlannedDeviceRef()){
                                 objectScenes.getRef();
                                 Log.e(TAG, "Before Edit NodeConfigParamName1: "+ objectScenes.getNodeConfigParamName());
                                 Log.e(TAG, "Before Edit power1: "+ objectScenes.getValue());
