@@ -466,7 +466,7 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                         Long.parseLong(AppConstants.Create_Space_dyn),
                         list);
                 if(list!=null) {
-              //      sendSaveSceneRequest(saveScene);
+                    sendSaveSceneRequest(saveScene);
                 }
                 else{
                     Toast.makeText(requireContext(), "List is Empty", Toast.LENGTH_SHORT).show();
@@ -492,39 +492,64 @@ public class CreateMoodFragment extends Fragment implements AreaSpinnerAdapter.O
                             // Handle successful response
                             SceneResModel sceneResModel = response.body();
 
-                            Toast.makeText(getContext().getApplicationContext(), "Scene Created Successfully!", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Done ");
-                            Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
-                            Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
+                            if(sceneResModel.getSuccessful() == true) {
+                                Toast.makeText(getContext().getApplicationContext(), "Scene Created Successfully!", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Done ");
+                                Log.e("Successful", "Success: " + sceneResModel.getSuccessful());
+                                Log.e("Create Schedule", "Message: " + sceneResModel.getMessage());
 
 
-
-
-                            ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null,null,null,null,null,null,null,null,null);
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null, null, null, null, null, null, null, null, null);
 
 
 // Reset the object using one of the methods above
-                            objectSceneCreate.clear(); // Option 1
-                            AppConstants.Create_Ref_dyn = "null";
+                                objectSceneCreate.clear(); // Option 1
+                                AppConstants.Create_Ref_dyn = "null";
 // Or use setters if available
-                            objectSceneCreate.setRef_dyn("");
-                            objectSceneCreate.setName_dyn("");
-                            objectSceneCreate.setSpace_dyn("");
-                            objectSceneCreate.setSceneRef("");
-                            objectSceneCreate.setProjectSpaceTypePlannedDeviceName("");
-                            objectSceneCreate.setGaaProjectSpaceTypePlannedDeviceRef("");
-                            objectSceneCreate.setNodeConfigParamName("");
-                            objectSceneCreate.setValue("");
+                                objectSceneCreate.setRef_dyn("");
+                                objectSceneCreate.setName_dyn("");
+                                objectSceneCreate.setSpace_dyn("");
+                                objectSceneCreate.setSceneRef("");
+                                objectSceneCreate.setProjectSpaceTypePlannedDeviceName("");
+                                objectSceneCreate.setGaaProjectSpaceTypePlannedDeviceRef("");
+                                objectSceneCreate.setNodeConfigParamName("");
+                                objectSceneCreate.setValue("");
 
 // Set other fields as needed
 
 // Add to sharedViewModel
-                            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                            //      sharedViewModel.addObjectSchedule(objectSchedule);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                //      sharedViewModel.addObjectSchedule(objectSchedule);
 
-                            // Example of clearing all ObjectSchedule instances
-                            sharedViewModel.clearObjectCreateScene();
+                                // Example of clearing all ObjectSchedule instances
+                                sharedViewModel.clearObjectCreateScene();
+                            }else {
+                                Toast.makeText(getContext().getApplicationContext(), "Scene Create Failed! Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(null, null, null, null, null, null, null, null, null);
 
+
+// Reset the object using one of the methods above
+                                objectSceneCreate.clear(); // Option 1
+                                AppConstants.Create_Ref_dyn = "null";
+// Or use setters if available
+                                objectSceneCreate.setRef_dyn("");
+                                objectSceneCreate.setName_dyn("");
+                                objectSceneCreate.setSpace_dyn("");
+                                objectSceneCreate.setSceneRef("");
+                                objectSceneCreate.setProjectSpaceTypePlannedDeviceName("");
+                                objectSceneCreate.setGaaProjectSpaceTypePlannedDeviceRef("");
+                                objectSceneCreate.setNodeConfigParamName("");
+                                objectSceneCreate.setValue("");
+
+// Set other fields as needed
+
+// Add to sharedViewModel
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                //      sharedViewModel.addObjectSchedule(objectSchedule);
+
+                                // Example of clearing all ObjectSchedule instances
+                                sharedViewModel.clearObjectCreateScene();
+                            }
                         } else {
                             // Handle unsuccessful response
                         }
