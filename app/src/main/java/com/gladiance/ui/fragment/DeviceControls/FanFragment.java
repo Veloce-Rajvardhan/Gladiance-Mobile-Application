@@ -126,7 +126,7 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
 
         espApp = new EspApplication(requireContext().getApplicationContext());
         networkApiManager = new NetworkApiManager(requireContext().getApplicationContext(), espApp);
-        fanswitch.setOnCheckedChangeListener(null);
+   //     fanswitch.setOnCheckedChangeListener(null);
         disableSeekBars();
 
         //Set a listener on the switch button
@@ -134,11 +134,14 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change
-                sendSwitchState(isChecked);
                 if (isChecked) {
+                    fanswitch.setChecked(isChecked);
                     enableSeekBars();
+                    sendSwitchState(isChecked);
                 } else {
+                    fanswitch.setChecked(isChecked);
                     disableSeekBars();
+                    sendSwitchState(isChecked);
                 }
             }
         });

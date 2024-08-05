@@ -369,10 +369,7 @@ public class DimmerFragment extends Fragment {
         // Create Scene
         try {
             if(AppConstants.Create_Ref_dyn != null) {
-//
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Power";
             AppConstants.Create_power = String.valueOf(powerState);
@@ -395,11 +392,18 @@ public class DimmerFragment extends Fragment {
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -475,8 +479,7 @@ public class DimmerFragment extends Fragment {
                         });
                     }
 
-                }
-            }, 1000);
+
             }
             ////////////
 
@@ -917,9 +920,6 @@ public class DimmerFragment extends Fragment {
 
             if(AppConstants.Create_Ref_dyn != null) {
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
             AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
             AppConstants.Create_powerState = "Intensity";
             AppConstants.Create_power = String.valueOf(progress);
@@ -951,11 +951,18 @@ public class DimmerFragment extends Fragment {
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -1031,8 +1038,6 @@ public class DimmerFragment extends Fragment {
                         });
                     }
 
-                }
-            }, 1000);
             }
             ////////////
 

@@ -411,12 +411,6 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
         // Create Scene
         try {
             if(AppConstants.Create_Ref_dyn != null) {
-
-             //   getRefObjectValue();
-//
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
                     AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
                     AppConstants.Create_powerState = "AC Speed";
                     AppConstants.Create_power = progress1;
@@ -440,11 +434,18 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -520,8 +521,6 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                         });
                     }
 
-                }
-            }, 1000);
             }
             ////////////
 
@@ -958,11 +957,6 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
         try {
             if(AppConstants.Create_Ref_dyn != null) {
 
-       //         getRefObjectValue();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
                     AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
                     AppConstants.Create_powerState = "Set";
                     AppConstants.Create_power = String.valueOf(fanSpeed);
@@ -987,11 +981,18 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -1032,10 +1033,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                                             AppConstants.DataCreateSceneInternal = false;
 
 //                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
-                                        } else {
-
                                         }
-
 //                                        Log.d("ObjectScenes2", objectScenes.getSceneRef());
 //                                        Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
 //                                        Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
@@ -1067,8 +1065,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                         });
                     }
 
-                }
-            }, 1000);
+
         }
         ////////////
 
@@ -1431,11 +1428,6 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
         try {
             if(AppConstants.Create_Ref_dyn != null) {
 
-                //   getRefObjectValue();
-//
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
                     AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
                     AppConstants.Create_powerState = "Power";
                     AppConstants.Create_power = String.valueOf(powerState);
@@ -1459,11 +1451,18 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -1504,10 +1503,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                                             AppConstants.DataCreateSceneInternal = false;
 
 //                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
-                                        } else {
-
                                         }
-
 //                                            Log.d("ObjectScenes2", objectScenes.getSceneRef());
 //                                            Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
 //                                            Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
@@ -1539,8 +1535,7 @@ public class AirConditionerFragment extends Fragment implements CircularSeekBar.
                         });
                     }
 
-                }
-            }, 1000);
+
         }
         ////////////
 
