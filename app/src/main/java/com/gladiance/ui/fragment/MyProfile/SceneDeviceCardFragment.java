@@ -726,8 +726,6 @@ public class SceneDeviceCardFragment extends Fragment {
                                                 AppConstants.DataCreateSceneInternal = false;
 
 //                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
-                                            } else {
-
                                             }
 
 //                                            Log.d("ObjectScenes2", objectScenes.getSceneRef());
