@@ -128,16 +128,16 @@ public class CreateSceneCheckAdapter extends RecyclerView.Adapter<CreateSceneChe
                         @Override
                         public void onChanged(List<ObjectSceneCreate> objectScenesList) {
                             if (objectScenesList != null) {
-                                AppConstants.DataEdit = true;
+                                AppConstants.DataCreateScene = true;
 
 
                                 List<ObjectSceneCreate> listCopy = new ArrayList<>(objectScenesList);
 
                                 for (ObjectSceneCreate objectScenes : listCopy) {
-                                    Log.e(TAG, abc + " == " + objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+                                    Log.e(TAG, abc + " == " + objectScenes.getProjectSpaceTypePlannedDeviceName());
 
-                                    if (abc == (objectScenes.getProjectSpaceTypePlannedDeviceName())) {
-                                        Log.e(TAG, abc + " == " + objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
+                                    if (abc.equals(objectScenes.getProjectSpaceTypePlannedDeviceName())) {
+                                        Log.e(TAG, abc + " == " + objectScenes.getProjectSpaceTypePlannedDeviceName());
 
                                         // Remove the object from the original list
                                         objectScenesList.remove(objectScenes);
