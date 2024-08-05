@@ -95,7 +95,7 @@ public class CreateSceneCheckAdapter extends RecyclerView.Adapter<CreateSceneChe
             // Update your UI or process data
             for (ObjectSceneCreate sceneEditDataViewModel : data){
                 String longAsString = String.valueOf(control.getgAAProjectSpaceTypePlannedDeviceRef());
-                Log.e(TAG, "blaaa: "+sceneEditDataViewModel.getGaaProjectSpaceTypePlannedDeviceRef());
+                Log.e(TAG, "GaaProjectSpaceTypePlannedDeviceRef: "+sceneEditDataViewModel.getGaaProjectSpaceTypePlannedDeviceRef());
                 if (sceneEditDataViewModel.getProjectSpaceTypePlannedDeviceName().equals(longAsString)) {
 
                     //  configuration.getRef();

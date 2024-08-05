@@ -331,9 +331,9 @@ public void sendFanSpeed(int fanSpeed){
 
             //   getRefObjectValue();
 //
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
                     AppConstants.Create_powerState = "Speed";
                     AppConstants.Create_power = String.valueOf(shFanSpeed);
@@ -365,11 +365,18 @@ public void sendFanSpeed(int fanSpeed){
                     if (size == 0) {
                         Log.e(TAG, "list is 0");
                         AppConstants.DataCreateScene = true;
+                        Log.e(EventBus.TAG, "run: "+AppConstants.Create_Ref_Scene );
+                        getRefObjectValue();
 
-                        ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                        SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
-                        sharedViewModel.addObjectScenes(objectSceneCreate);
-                        progressBar.setVisibility(View.GONE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
+                                SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                                sharedViewModel.addObjectScenes(objectSceneCreate);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 1000);
                     }
                     else{
 
@@ -445,8 +452,8 @@ public void sendFanSpeed(int fanSpeed){
                         });
                     }
 
-                }
-            }, 1000);
+//                }
+//            }, 1000);
         }
         ////////////
 
@@ -817,9 +824,9 @@ public void sendFanSpeed(int fanSpeed){
 
                 //   getRefObjectValue();
 //
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
                         AppConstants.Create_projectSpaceTypePlannedDeviceName = name;
                         AppConstants.Create_powerState = "Power";
                         AppConstants.Create_power = String.valueOf(powerState);
@@ -854,11 +861,19 @@ public void sendFanSpeed(int fanSpeed){
                         if (size == 0) {
                             Log.e(TAG, "list is 0");
                             AppConstants.DataCreateScene = true;
+                            Log.e(TAG, "run: "+AppConstants.Create_Ref_Scene );
+                            getRefObjectValue();
 
+//
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
                             SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
                             sharedViewModel.addObjectScenes(objectSceneCreate);
                             progressBar.setVisibility(View.GONE);
+                    }
+                }, 1000);
                         }
                         else{
 
@@ -934,8 +949,8 @@ public void sendFanSpeed(int fanSpeed){
                             });
                         }
 
-                    }
-                }, 1000);
+//                    }
+//                }, 1000);
             }
             ////////////
 
@@ -1203,7 +1218,6 @@ public void sendFanSpeed(int fanSpeed){
 //                            Log.e(EventBus.TAG, "RefValue not found in SharedPreferences");
 //                            // Handle case where RefValue is not found in SharedPreferences
 //                        }
-                        AppConstants.Create_Ref_Schedule = responseModel.getTag();
                         Log.e(EventBus.TAG, "Create Reffff: "+AppConstants.Create_Ref_Schedule);
 
                         Log.d(EventBus.TAG, "Success2: " + success + ", Message2: " + message+ " Tag2: "+AppConstants.Create_Ref_Schedule);

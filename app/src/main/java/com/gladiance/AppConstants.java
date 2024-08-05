@@ -441,6 +441,8 @@ public class AppConstants {
     public static String Create_GaaProjectSpaceTypePlannedDeviceRef_Schedule = "";
     public static String Create_powerState_Schedule = "";
     public static String Create_power_Schedule = "";
+    public static boolean DataCreateScheduleInternal;
+
 
 
     //Edit Schedule
