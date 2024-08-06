@@ -133,15 +133,17 @@ public class FanFragment extends Fragment implements CircularSeekBarFan.OnProgre
         fanswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Handle switch state change
-                if (isChecked) {
-                    fanswitch.setChecked(isChecked);
-                    enableSeekBars();
-                    sendSwitchState(isChecked);
-                } else {
-                    fanswitch.setChecked(isChecked);
-                    disableSeekBars();
-                    sendSwitchState(isChecked);
+                if (buttonView.isPressed()) {
+                    // Handle switch state change
+                    if (isChecked) {
+                        fanswitch.setChecked(isChecked);
+                        enableSeekBars();
+                        sendSwitchState(isChecked);
+                    } else {
+                        fanswitch.setChecked(isChecked);
+                        disableSeekBars();
+                        sendSwitchState(isChecked);
+                    }
                 }
             }
         });
@@ -858,9 +860,9 @@ public void sendFanSpeed(int fanSpeed){
 
 
                         ///////////////////
-                        SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                     //   SceneCreateViewModel sceneViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
 
-                        int size = sceneViewModel.getObjectScenesListSize();
+                        int size = sharedViewModel.getObjectScenesListSize();
                         if (size == 0) {
                             Log.e(TAG, "list is 0");
                             AppConstants.DataCreateScene = true;
@@ -872,7 +874,7 @@ public void sendFanSpeed(int fanSpeed){
                     @Override
                     public void run() {
                             ObjectSceneCreate objectSceneCreate = new ObjectSceneCreate(AppConstants.Create_Ref_dyn, AppConstants.Create_Name_dyn, AppConstants.Create_SceneRef, AppConstants.Create_Space_dyn, AppConstants.Create_projectSpaceTypePlannedDeviceName, AppConstants.Create_GaaProjectSpaceTypePlannedDeviceRef, AppConstants.Create_powerState, AppConstants.Create_power, AppConstants.Create_Ref_Scene);
-                            SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
+                         //   SceneCreateViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SceneCreateViewModel.class);
                             sharedViewModel.addObjectScenes(objectSceneCreate);
                             progressBar.setVisibility(View.GONE);
                     }
@@ -881,7 +883,7 @@ public void sendFanSpeed(int fanSpeed){
                         else{
 
                             ///////////////////
-                            LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sceneViewModel.getObjectScenesList();
+                            LiveData<List<ObjectSceneCreate>> objectScenesListLiveData = sharedViewModel.getObjectScenesList();
                             objectScenesListLiveData.observe(getViewLifecycleOwner(), new Observer<List<ObjectSceneCreate>>() {
                                 @Override
                                 public void onChanged(List<ObjectSceneCreate> objectScenesList) {
@@ -917,10 +919,7 @@ public void sendFanSpeed(int fanSpeed){
                                                 AppConstants.DataCreateSceneInternal = false;
 
 //                                        this.setgAAProjectSpaceTypePlannedDeviceRef(Long.parseLong(AppConstants.projectSpaceTypePlannedDeviceName));
-                                            } else {
-
                                             }
-
 //                                            Log.d("ObjectScenes2", objectScenes.getSceneRef());
 //                                            Log.d("getProjectSpaceTypePlannedDeviceName", objectScenes.getProjectSpaceTypePlannedDeviceName());
 //                                            Log.d("getGaaProjectSpaceTypePlannedDeviceRef", objectScenes.getGaaProjectSpaceTypePlannedDeviceRef());
